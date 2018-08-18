@@ -1,33 +1,68 @@
-*.log
-wp-config.php
-wp-content/advanced-cache.php
-wp-content/backup-db/
-wp-content/backups/
-wp-content/blogs.dir/
-wp-content/cache/
-wp-content/upgrade/
-wp-content/uploads/
-wp-content/mu-plugins/
-wp-content/wp-cache-config.php
-wp-content/plugins/hello.php
+plugin-deploy.sh
+export.sh
+nbproject
+node_modules
+build
+secret.json
+log.txt
 
-/.htaccess
-/license.txt
-/readme.html
-/sitemap.xml
-/sitemap.xml.gz
+# Compiled output #
+###################
+/dist
+/tmp
+/build
 
-# Unit tests config
-phpunit.xml
-.travis.yml
-/bin
-tests/mocks/env/
-
-# Sass cache
-.sass-cache/
-
-# Development files
+# Dependencies #
+###################
 /node_modules
-/assets/vendor/
+/bower_components
+/vendor
 
-.idea/
+# Misc #
+###################
+.idea
+config.codekit
+/.sass-cache
+/connect.lock
+/coverage/*
+/libpeerconnection.log
+npm-debug.log
+testem.log
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
