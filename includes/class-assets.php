@@ -71,12 +71,6 @@ class Assets {
                 'version'   => filemtime( BASEPLUGIN_PATH . '/assets/js/vendor.js' ),
                 'in_footer' => true
             ],
-            // 'baseplugin-frontend' => [
-            //     'src'       => BASEPLUGIN_ASSETS . '/js/frontend.js',
-            //     'deps'      => [ 'jquery', 'baseplugin-vendor' ],
-            //     'version'   => filemtime( BASEPLUGIN_PATH . '/assets/js/frontend.js' ),
-            //     'in_footer' => true
-            // ],
             'baseplugin-admin' => [
                 'src'       => BASEPLUGIN_ASSETS . '/js/admin.js',
                 'deps'      => [ 'jquery', 'baseplugin-vendor' ],
@@ -99,9 +93,6 @@ class Assets {
             'baseplugin-style' => [
                 'src' =>  BASEPLUGIN_ASSETS . '/css/style.css'
             ],
-            // 'baseplugin-frontend' => [
-            //     'src' =>  BASEPLUGIN_ASSETS . '/css/frontend.css'
-            // ],
             'baseplugin-admin' => [
                 'src' =>  BASEPLUGIN_ASSETS . '/css/admin.css'
             ],

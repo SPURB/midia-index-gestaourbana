@@ -1,18 +1,18 @@
 <template>
-    <div class="app-settings">
-        Olar app settings
+    <div class="app-configuracoes">
+        Olar app configuracoes
     </div>
 </template>
 
 <script>
 export default {
 
-    name: 'Settings',
+    name: 'Configuracoes',
 
     data () {
         return {
 
-        };
+        }
     }
 };
 </script>

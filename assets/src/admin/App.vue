@@ -1,14 +1,12 @@
 <template>
-    <div id="vue-backend-app">
-        <h1>Olar admin</h1>
-
-        <router-view />
-    </div>
+	<div id="vue-backend-app">
+		<router-view />
+	</div>
 </template>
 
 <script>
 export default {
-    name: 'App'
+	name: 'App',
 }
 </script>
 

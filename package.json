@@ -1,9 +1,9 @@
 {
-  "name": "vue-wp-starter",
+  "name": "midia-index-gestaourbana",
   "version": "1.0.0",
-  "description": "A WordPress Vue.js starter plugin",
-  "author": "Tareq Hasan <tareq@wedevs.com>",
-  "license": "GPLv2",
+  "description": "Indexador de arquivos do portal gestaourbana.prefeitura.sp.gov.br",
+  "author": "Tareq Hasan <devspurbanismo@spurbanismo.sp.gov.br>",
+  "license": "GPLv3",
   "private": true,
   "scripts": {
     "dev": "cross-env WEBPACK_ENV=development webpack --progress --colors --watch --hide-modules",
