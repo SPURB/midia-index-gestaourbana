@@ -1,0 +1,17 @@
+/*
+	descrição: desabilita um projeto
+	slug:  /projeto/id
+	tipo: put
+*/
+// envia
+{
+	"id": 7,
+	"ativo": 0, 
+	"autor": "devspurbanismo"
+}
+
+// retorna
+{
+	"id":7,
+	"atualizacao":"2018-08-21 17:12:21" // do timestamp
+}

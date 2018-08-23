@@ -1,0 +1,36 @@
+// envia
+{
+	"id": 1, // tabela projetos
+	"arquivos":[
+		{
+			"id":1,// tabela arquivos
+			"nome":"Diagnóstico",
+			"id_etapa": 2,
+			"nome_etapa": "Consulta Pública Inicial",
+			"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+			"fonte": "Gestão Urbana",
+			"autor":"devspurbanismo"
+		},
+		{
+			"id":3,
+			"nome":"Mapas",
+			"id_etapa": 2,
+			"nome_etapa": "Consulta Pública Inicial",
+			"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_ANEXOI_reduzido.pdf",
+			"fonte": "Gestão Urbana",
+			"autor":"devspurbanismo"
+		}
+	]
+}
+
+// retorna 
+[
+	{
+		"id":1,
+		"atualizacao": "2018-08-21 19:11:31"
+	},
+	{
+		"id":3,
+		"atualizacao": "2018-08-21 19:11:31"
+	}
+]

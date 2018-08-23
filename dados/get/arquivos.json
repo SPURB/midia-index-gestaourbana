@@ -1,0 +1,54 @@
+/*
+	descrição: lista global de arquivos
+	slug:  /arquivos
+*/
+[
+	{
+		"nome": "PIU Rio Branco",
+		"ativo": 1,
+		"arquivos":[
+			{
+				"nome": "Diagnóstico",
+				"id": 1,
+				"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+				"autor": "devspurbanismo",
+				"fonte": "Gestão Urbana",
+				"atualizacao": "2018-08-21 18:37:28",
+				"etapa":{
+						"id": 2,
+						"nome": "Consulta Pública Inicial"
+				}
+			},
+			{
+				"nome": "Mapas",
+				"id": 2,
+				"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_ANEXOI_reduzido.pdf",
+				"autor": "devspurbanismo",
+				"fonte": "Gestão Urbana",
+				"atualizacao":"2018-08-21 18:37:50",
+				"etapa":{
+						"id": 2,
+						"nome": "Consulta Pública Inicial"
+				}
+			}
+		]
+	},
+	{
+		"nome": "PIU Anhembi",
+		"ativo": 1,
+		"arquivos":[
+			{
+				"nome": "Ofício",
+				"id": 3,
+				"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
+				"autor": "devspurbanismo",
+				"fonte": "PA",
+				"atualizacao":"2018-08-21 19:11:38",
+				"etapa":{
+					"id_etapa": 1,
+					"nome_etapa": "Consulta Pública Inicial",
+				}
+			}
+		]
+	}
+]
