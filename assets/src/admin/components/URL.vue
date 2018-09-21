@@ -4,7 +4,7 @@
 		<td>
 			<input type="text">
 			<div>
-				<span @click="extensaoBoxShow = !extensaoBoxShow" ref="visorTipoDeArq">KML</span>
+				<span @click="extensaoBoxShow = !extensaoBoxShow">KML</span>
 				<div class="arquivo_extensao-box" :class="{ display: extensaoBoxShow }" ref="extensaoBox">
 					Selecione o tipo de arquivo <i @click="extensaoBoxShow = !extensaoBoxShow">&times;</i>
 					<form name="arquivo" ref="form" @click="alteraTipoDeArq">
@@ -21,22 +21,55 @@
 					</form>
 				</div>
 			</div>
+			<button class="excluirUrl" @click="deletaUrl">&times;</button>
 		</td>
 	</tr>
 </template>
 
 <script>
 	export default {
-		name: 'Arquivo',
+		name: 'URL',
 		data() {
 			return {
 				extensaoBoxShow: false,
 			}
 		},
 		methods: {
-			alteraTipoDeArq() {
-				this.$refs.visorTipoDeArq.innerText = document.querySelector('input[name=arquivo]:checked').value
-			}
+			alteraTipoDeArq(evt) {
+				console.log(this.$el)
+				// this.$refs.visor.innerText = document.querySelector('input[name=arquivo]:checked').value
+			},
+			deletaUrl() { this.$el.remove() }
 		}
 	};
 </script>
+
+<style lang="scss">
+tr.URL {
+	transition: all ease-out .2s;
+
+	td button.excluirUrl {
+		display: none;
+		background-color: #FE4C4C;
+		border: 0;
+		padding: 0;
+		width: 12px;
+		height: 12px;
+		line-height: 0;
+		color: #FFF;
+		border-radius: 100%;
+		cursor: pointer;
+		&:active { color: #FE4C4C; background-color: transparent; }
+	}
+
+	@keyframes abreNovaUrl {
+		from { max-height: 0px; opacity: 0; }
+		to { max-height: 100px; opacity: 1; }
+	}
+
+	&.animate {
+		animation: abreNovaUrl .2s ease-in;
+		td button.excluirUrl { display: block; }
+	}
+}
+</style>

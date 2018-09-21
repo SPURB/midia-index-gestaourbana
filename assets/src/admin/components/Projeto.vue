@@ -20,8 +20,9 @@
 						<button @click="etapaCollapse($event)">&#9650;</button>
 					</div>
 				</div>
-				<div class="arquivo-cont">
+				<div class="arquivo-cont" v-for="n in nArquivos">
 					<Arquivo></Arquivo>
+					<button @click="insereArquivo">Inserir um arquivo aqui</button>
 				</div>
 			</div>
 		</section>
@@ -30,7 +31,6 @@
 
 <script>
 import Arquivo from '../components/Arquivo.vue'
-import URL from '../components/URL.vue'
 
 export default {
 	name: 'Projeto',
@@ -86,12 +86,11 @@ export default {
 					]
 				}
 			],
-			extensaoBoxHidden: true,
+			nArquivos: 1
 		};
 	},
 	components: {
 		Arquivo,
-		URL,
 	},
 	methods: {
 		etapaCollapse(evt) {
@@ -103,7 +102,8 @@ export default {
 				divEtapa.style.maxHeight = '4000px'
 				evt.target.style.transform = 'rotate(0deg)'
 			}
-		}
+		},
+		insereArquivo() { this.nArquivos++ }
 	}
 };
 </script>
@@ -122,6 +122,7 @@ button, input, textarea { margin: 0; font-family: inherit; }
 		padding: 8px 12px 12px 12px;
 		border: 1px solid #DDD;
 		box-shadow: 0 4px 4px rgba(0, 0, 0, .12);
+		max-width: 1200px;
 
 		div.nome {
 			height: 40px;
@@ -152,6 +153,7 @@ button, input, textarea { margin: 0; font-family: inherit; }
 				height: 40px;
 				padding: 8px 12px;
 				box-sizing: border-box;
+				border-bottom: 1px solid #DDD;
 				h3 { display: inline-block; vertical-align: middle; }
 				& > div.shortcode_expand {
 					display: inline-flex;
@@ -173,8 +175,34 @@ button, input, textarea { margin: 0; font-family: inherit; }
 				}
 			}
 
-			div.arquivo-cont:nth-child(even) { background-color: #F9F9F9; }
-			div.arquivo-cont:nth-child(odd) { background-color: #F1F1F1; }
+			@keyframes abreNovoArquivo {
+				from { max-height: 0px; }
+				to { max-height: 600px; }
+			}
+
+			div.arquivo-cont {
+				position: relative;
+				overflow: hidden;
+				animation: abreNovoArquivo .4s ease-in;
+				& > button {
+					position: absolute;
+					margin-left: auto;
+					margin-right: auto;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					background: #0073aa;
+					border: 0;
+					border-radius: 2px 2px 0 0;
+					color: #FFF;
+					font-weight: bold;
+					cursor: pointer;
+					font-size: xx-small;
+					text-transform: uppercase;
+					padding: 0 4px;
+					&:active { color: rgba(255, 255, 255, .4); }
+				}
+			}
 		}
 	}
 }

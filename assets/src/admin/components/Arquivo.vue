@@ -17,6 +17,7 @@
 				</tr>
 				<tbody ref="urls">
 					<URL>URL 1</URL>
+					<URL v-for="url in urls" class="animate" :key="nUrl">{{ url }}</URL>
 				</tbody>
 				<tr>
 					<td colspan="2">
@@ -32,7 +33,6 @@
 				</tr>
 			</table>
 		</div>
-		<button>Incluir um arquivo aqui</button>
 	</div>
 </template>
 
@@ -43,11 +43,12 @@ export default {
 	name: 'Arquivo',
 	data() {
 		return {
-			i: 2,
+			urls: [],
+			nUrl: 2,
 		}
 	},
 	components: {
-		URL,
+		URL
 	},
 	created() {},
 	mounted() {},
@@ -55,11 +56,15 @@ export default {
 	methods: {
 		charCount(txt, dest) { dest.innerText = txt.length },
 		insereUrl() {
-			let base = this.$refs.urls.lastChild
-			let clone = base.cloneNode(true)
-			clone.firstElementChild.innerText = "URL " + this.i
-			this.$refs.urls.appendChild(clone)
-			this.i++
+			// let base = this.$refs.urls.lastChild
+			// let clone = base.cloneNode(true)
+			// clone.style.animation = "abreNovaUrl .2s ease-in"
+			// clone.lastChild.lastElementChild.style.display = "block"
+			// clone.firstElementChild.innerText = "URL " + this.i
+			// this.$refs.urls.appendChild(clone)
+			// this.i++
+			this.urls.push('URL ' + this.nUrl.toString())
+			this.nUrl++
 		}
 	}
 };
@@ -98,25 +103,6 @@ div.Arquivo {
 			font-weight: bold;
 			background-color: #FE4C4C;
 		}
-	}
-
-	& > button {
-		position: absolute;
-		margin-left: auto;
-		margin-right: auto;
-		left: 0;
-		right: 0;
-		bottom: -1px;
-		background: #0073aa;
-		border: 0;
-		border-radius: 2px 2px 0 0;
-		color: #FFF;
-		font-weight: bold;
-		cursor: pointer;
-		font-size: xx-small;
-		text-transform: uppercase;
-		padding: 0 4px;
-		&:active { color: rgba(255, 255, 255, .4); }
 	}
 }
 
@@ -158,6 +144,8 @@ div.informacoes {
 				color: #CCC;
 				background-color: transparent;
 				padding: 4px 8px;
+				cursor: pointer;
+				&:active { background-color: #CCC; color: #FFF; }
 			}
 		}
 		tr td:last-child {
@@ -186,7 +174,7 @@ div.informacoes {
 				div.arquivo_extensao-box {
 					position: absolute;
 					right: 0;
-					top: 30px;
+					top: 0;
 					background-color: #898989;
 					width: intrinsic;
 					width: max-content;
