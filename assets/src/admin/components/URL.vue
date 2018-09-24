@@ -7,18 +7,9 @@
 				<span @click="extensaoBoxShow = !extensaoBoxShow">KML</span>
 				<div class="arquivo_extensao-box" :class="{ display: extensaoBoxShow }" ref="extensaoBox">
 					Selecione o tipo de arquivo <i @click="extensaoBoxShow = !extensaoBoxShow">&times;</i>
-					<form name="arquivo" ref="form" @click="alteraTipoDeArq">
-						<label for="arquivo_kmz" @click="extensaoBoxShow = !extensaoBoxShow">KMZ</label>
-						<input type="radio" name="arquivo" value="KMZ" id="arquivo_kmz">
-						<label for="arquivo_pdf" @click="extensaoBoxShow = !extensaoBoxShow">PDF</label>
-						<input type="radio" name="arquivo" value="PDF" id="arquivo_pdf">
-						<label for="arquivo_kml" @click="extensaoBoxShow = !extensaoBoxShow">KML</label>
-						<input type="radio" name="arquivo" value="KML" id="arquivo_kml" checked>
-						<label for="arquivo_shp" @click="extensaoBoxShow = !extensaoBoxShow">SHP</label>
-						<input type="radio" name="arquivo" value="SHP" id="arquivo_shp">
-						<label for="arquivo_doc" @click="extensaoBoxShow = !extensaoBoxShow">DOC</label>
-						<input type="radio" name="arquivo" value="DOC" id="arquivo_doc">
-					</form>
+					<div class="opcoes">
+						<span v-for="arquivo in tipoDeArquivo" @click="alteraTipoDeArq">{{ arquivo.extensao }}</span>
+					</div>					
 				</div>
 			</div>
 			<button class="excluirUrl" @click="deletaUrl">&times;</button>
@@ -32,14 +23,23 @@
 		data() {
 			return {
 				extensaoBoxShow: false,
+				tipoDeArquivo: [
+					{ index: 0, extensao: 'KML' },
+					{ index: 1, extensao: 'PDF' },
+					{ index: 2, extensao: 'KML' },
+					{ index: 3, extensao: 'SHP' },
+					{ index: 4, extensao: 'DOC' }
+				],
 			}
 		},
 		methods: {
 			alteraTipoDeArq(evt) {
-				console.log(this.$el)
-				// this.$refs.visor.innerText = document.querySelector('input[name=arquivo]:checked').value
+				this.extensaoBoxShow = false
+				evt.target.parentNode.parentNode.parentNode.firstElementChild.innerText = evt.target.innerText
 			},
-			deletaUrl() { this.$el.remove() }
+			deletaUrl() {
+				console.log(this.urlsInput)
+			}
 		}
 	};
 </script>
@@ -47,6 +47,46 @@
 <style lang="scss">
 tr.URL {
 	transition: all ease-out .2s;
+
+	div.arquivo_extensao-box {
+		position: absolute;
+		right: 0;
+		top: 0;
+		background-color: #898989;
+		width: intrinsic;
+		width: max-content;
+		width: -moz-max-content;
+		padding: 8px 12px 12px 12px;
+		color: #FFF;
+		border-radius: 2px;
+		box-shadow: 0 4px 4px rgba(0, 0, 0, .24);
+		transform: scale(0);
+		transform-origin: right top;
+		transition: all ease-in .1s;
+		z-index: 2;
+		& > i {
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			display: inline-block;
+			text-align: center;
+			width: 16px;
+			height: 16px;
+			border-radius: 0 2px 0 0;
+			line-height: 14px;
+			transition: all ease-in .1s;
+			background-color: transparent;
+			cursor: pointer;
+			&:hover { background-color: #FE4C4C; }
+			&:active { background-color: #FFF; color: #FE4C4C; }
+		}
+		& > div.opcoes span {
+			margin: 4px 2px 0 2px;
+			&:first-child { margin-left: 0; }
+			&:last-child { margin-right: 0; }
+		}
+		&.display { transform: scale(1); }
+	}
 
 	td button.excluirUrl {
 		display: none;

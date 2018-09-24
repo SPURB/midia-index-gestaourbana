@@ -16,12 +16,11 @@
 					</td>
 				</tr>
 				<tbody ref="urls">
-					<URL>URL 1</URL>
-					<URL v-for="url in urls" class="animate" :key="nUrl">{{ url }}</URL>
+					<URL v-for="url in urlsInput" class="animate" :key="url.index">URL {{ url.index+1 }}</URL>
 				</tbody>
 				<tr>
 					<td colspan="2">
-						<button @click="insereUrl">Inserir mais uma URL</button>
+						Adicionar URL <button @click="insereUrl">+</button>
 					</td>
 				</tr>
 				<tr>
@@ -43,7 +42,10 @@ export default {
 	name: 'Arquivo',
 	data() {
 		return {
-			urls: [],
+			urlsInput: [
+				{ index: 0, endereco: '', tipo: '' }
+			],
+			idUrl: 0,
 			nUrl: 2,
 		}
 	},
@@ -51,7 +53,9 @@ export default {
 		URL
 	},
 	created() {},
-	mounted() {},
+	mounted() {
+		this.$refs.urls.firstElementChild.classList.remove("animate")
+	},
 	updated() {},
 	methods: {
 		charCount(txt, dest) { dest.innerText = txt.length },
@@ -63,8 +67,8 @@ export default {
 			// clone.firstElementChild.innerText = "URL " + this.i
 			// this.$refs.urls.appendChild(clone)
 			// this.i++
-			this.urls.push('URL ' + this.nUrl.toString())
-			this.nUrl++
+			this.urlsInput.push({ index: this.idUrl+1, endereco: '', tipo: ''})
+			this.idUrl++
 		}
 	}
 };
@@ -134,18 +138,26 @@ div.informacoes {
 		tr td[colspan] {
 			display: table-cell !important;
 			padding-right: 0;
+			font-weight: normal;
+			color: #888;
+
 			button {
-				margin: 0 0 .4rem 0;
-				border: 1px solid #DDD;
-				border-radius: 2px;
-				font-size: smaller;
-				text-transform: uppercase;
-				font-weight: normal;
-				color: #CCC;
-				background-color: transparent;
-				padding: 4px 8px;
+				margin: 0 0 1rem 0;
+				border: 1px solid transparent;
+				border-radius: 100%;
+				font-size: large;
+				font-weight: bold;
+				font-family: inherit;
+				color: #FFF;
+				background-color: #CCC;
+				width: 24px;
+				height: 24px;
 				cursor: pointer;
-				&:active { background-color: #CCC; color: #FFF; }
+				padding: 0 0 2px 0;
+				display: inline-flex;
+				justify-content: center;
+				align-items: center;
+				&:active { background-color: transparent; color: #CCC; border-color: #CCC; }
 			}
 		}
 		tr td:last-child {
@@ -170,54 +182,6 @@ div.informacoes {
 					user-select: none;
 					cursor: pointer;
 					&:active { color: rgba(255, 255, 255, .4); }
-				}
-				div.arquivo_extensao-box {
-					position: absolute;
-					right: 0;
-					top: 0;
-					background-color: #898989;
-					width: intrinsic;
-					width: max-content;
-					width: -moz-max-content;
-					padding: 8px 12px 12px 12px;
-					color: #FFF;
-					border-radius: 2px;
-					box-shadow: 0 4px 4px rgba(0, 0, 0, .24);
-					transform: scale(0);
-					transform-origin: right top;
-					transition: all ease-in .1s;
-					z-index: 2;
-					& > i {
-						position: absolute;
-						top: 0px;
-						right: 0px;
-						display: inline-block;
-						text-align: center;
-						width: 16px;
-						height: 16px;
-						border-radius: 0 2px 0 0;
-						line-height: 14px;
-						transition: all ease-in .1s;
-						background-color: transparent;
-						cursor: pointer;
-						&:hover { background-color: #FE4C4C; }
-						&:active { background-color: #FFF; color: #FE4C4C; }
-					}
-					& > form {
-						margin-top: 8px;
-						input[type=radio] { display: none; }
-						label {
-							display: inline-block;
-							height: 100%;
-							background-color: #BBB;
-							padding: 4px 8px;
-							font-weight: bold;
-							border-radius: 2px;
-							box-shadow: inset 0 -2px 2px rgba(0, 0, 0, .12);
-							&:active { color: rgba(255, 255, 255, .4); background-color: #777; }
-						}
-					}
-					&.display { transform: scale(1); }
 				}
 			}
 		}

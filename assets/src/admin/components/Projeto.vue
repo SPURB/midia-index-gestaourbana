@@ -1,7 +1,7 @@
 <template>
 	<div class="app-projeto">
 		<h1>Arquivos GU</h1>
-		<section>
+		<section class="cabecalho">
 			<p>A partir desta tela, você consegue editar os conteúdos das listas e tabelas de URL.</p>
 			<p>Cada linha corresponde a um link com formatos variados (PDF, DOC, KMZ, SHP etc).</p>
 		</section>
@@ -25,6 +25,10 @@
 					<button @click="insereArquivo">Inserir um arquivo aqui</button>
 				</div>
 			</div>
+		</section>
+		<section class="acoes">
+			<button>Cancelar</button>
+			<button>Salvar</button>
 		</section>
 	</div>
 </template>
@@ -122,7 +126,8 @@ button, input, textarea { margin: 0; font-family: inherit; }
 		padding: 8px 12px 12px 12px;
 		border: 1px solid #DDD;
 		box-shadow: 0 4px 4px rgba(0, 0, 0, .12);
-		max-width: 1200px;
+		box-sizing: border-box;
+		max-width: 1000px;
 
 		div.nome {
 			height: 40px;
@@ -190,7 +195,7 @@ button, input, textarea { margin: 0; font-family: inherit; }
 					margin-right: auto;
 					left: 0;
 					right: 0;
-					bottom: 0;
+					bottom: 2px;
 					background: #0073aa;
 					border: 0;
 					border-radius: 2px 2px 0 0;
@@ -199,10 +204,28 @@ button, input, textarea { margin: 0; font-family: inherit; }
 					cursor: pointer;
 					font-size: xx-small;
 					text-transform: uppercase;
-					padding: 0 4px;
+					padding: 1px 4px 0 4px;
 					&:active { color: rgba(255, 255, 255, .4); }
 				}
 			}
+		}
+	}
+
+	section.acoes {
+		max-width: 1000px;
+		width: 100%;
+		button {
+			margin: 0;
+			font-family: inherit;
+			font-size: large;
+			border: 0;
+			padding: 20px 32px;
+			border-radius: 2px;
+			cursor: pointer;
+			color: #FFF;
+			box-shadow: inset 0 -2px 2px rgba(0, 0, 0, .24);
+			&:first-child { float: left; background-color: #FE4C4C; }
+			&:last-child { float: right; background-color: #219653; }
 		}
 	}
 }
