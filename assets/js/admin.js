@@ -184,7 +184,8 @@ pluginWebpack([0],[
 					}
 				}]
 			}],
-			nArquivos: 1
+			nArquivos: [{ index: 0 }],
+			arqCounter: 1
 		};
 	},
 	components: {
@@ -201,8 +202,9 @@ pluginWebpack([0],[
 				evt.target.style.transform = 'rotate(0deg)';
 			}
 		},
-		insereArquivo() {
-			this.nArquivos++;
+		insereArquivo(evt) {
+			this.nArquivos.push({ index: this.arqCounter });
+			this.arqCounter++;
 		}
 	}
 });
@@ -250,11 +252,14 @@ pluginWebpack([0],[
 //
 //
 //
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	name: 'Arquivo',
+	props: ['index'],
 	data() {
 		return {
 			urlsInput: [{ index: 0, endereco: '', tipo: '' }],
@@ -271,8 +276,28 @@ pluginWebpack([0],[
 	},
 	updated() {},
 	methods: {
+		mover(dir, evt) {
+			// let pai = evt.target.parentNode.parentNode.parentNode.parentNode
+			// let esteFilho = evt.target.parentNode.parentNode.parentNode
+			// let irmaoAnterior = evt.target.parentNode.parentNode.parentNode.previousSibling
+			// let irmaoPosterior = evt.target.parentNode.parentNode.parentNode.nextSibling
+			// console.log([pai, esteFilho, irmaoAnterior, irmaoPosterior])
+			if (dir == 'cima') {
+				// 	pai.insertBefore(esteFilho, irmaoAnterior)
+				console.log(this.$props.index);
+			} else if (dir == 'baixo') {
+				// 	pai.insertBefore(esteFilho, irmaoPosterior)
+			} else {
+				return false;
+			}
+		},
 		charCount(txt, dest) {
-			dest.innerText = txt.length;
+			dest.innerText = txt.length + '/330';
+			if (txt.length > 330) {
+				dest.style.color = '#FE4C4C';
+			} else {
+				dest.style.color = "#BBB";
+			}
 		},
 		insereUrl() {
 			// let base = this.$refs.urls.lastChild
@@ -318,7 +343,8 @@ pluginWebpack([0],[
 	data() {
 		return {
 			extensaoBoxShow: false,
-			tipoDeArquivo: [{ index: 0, extensao: 'KML' }, { index: 1, extensao: 'PDF' }, { index: 2, extensao: 'KML' }, { index: 3, extensao: 'SHP' }, { index: 4, extensao: 'DOC' }]
+			tipoDeArquivo: [{ index: 0, extensao: 'KML' }, { index: 1, extensao: 'PDF' }, { index: 2, extensao: 'KML' }, { index: 3, extensao: 'SHP' }, { index: 4, extensao: 'DOC' }],
+			excluir: false
 		};
 	},
 	methods: {
@@ -326,8 +352,9 @@ pluginWebpack([0],[
 			this.extensaoBoxShow = false;
 			evt.target.parentNode.parentNode.parentNode.firstElementChild.innerText = evt.target.innerText;
 		},
-		deletaUrl() {
-			console.log(this.urlsInput);
+		deletaUrl(evt) {
+			// evt.target.parentNode.parentNode.firstElementChild.innerText.slice(4, this.length)
+			this.excluir = true;
 		}
 	}
 });
@@ -895,7 +922,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("tr", { staticClass: "URL" }, [
+  return _c("tr", { staticClass: "URL", class: { esconde: _vm.excluir } }, [
     _c("td", [_vm._t("default")], 2),
     _vm._v(" "),
     _c("td", [
@@ -950,7 +977,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "button",
-        { staticClass: "excluirUrl", on: { click: _vm.deletaUrl } },
+        {
+          staticClass: "excluirUrl",
+          on: {
+            click: function($event) {
+              _vm.deletaUrl($event)
+            }
+          }
+        },
         [_vm._v("×")]
       )
     ])
@@ -977,7 +1011,37 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "Arquivo" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "acoes" }, [
+      _c("h6", [_vm._v("Mover")]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "mover",
+          on: {
+            click: function($event) {
+              _vm.mover("cima", $event)
+            }
+          }
+        },
+        [_vm._v("↑")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "mover",
+          on: {
+            click: function($event) {
+              _vm.mover("baixo", $event)
+            }
+          }
+        },
+        [_vm._v("↓")]
+      ),
+      _vm._v(" "),
+      _c("button", { staticClass: "excluir" }, [_vm._v("Excluir")])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "informacoes" }, [
       _c("table", [
@@ -995,7 +1059,7 @@ var render = function() {
             }),
             _vm._v(" "),
             _c("span", { ref: "urlCharCount", staticClass: "charCount" }, [
-              _vm._v("0")
+              _vm._v("0/330")
             ])
           ])
         ]),
@@ -1012,8 +1076,10 @@ var render = function() {
         _vm._v(" "),
         _c("tr", [
           _c("td", { attrs: { colspan: "2" } }, [
-            _vm._v("\n\t\t\t\t\tAdicionar URL "),
-            _c("button", { on: { click: _vm.insereUrl } }, [_vm._v("+")])
+            _c("div", { staticClass: "addUrl", on: { click: _vm.insereUrl } }, [
+              _vm._v("\n\t\t\t\t\t\tAdicionar URL "),
+              _c("button", [_vm._v("+")])
+            ])
           ])
         ]),
         _vm._v(" "),
@@ -1036,7 +1102,7 @@ var render = function() {
             _c(
               "span",
               { ref: "descricaoCharCount", staticClass: "charCount" },
-              [_vm._v("0")]
+              [_vm._v("0/330")]
             )
           ])
         ])
@@ -1044,22 +1110,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "acoes" }, [
-      _c("h6", [_vm._v("Mover")]),
-      _vm._v(" "),
-      _c("button", { staticClass: "mover" }, [_vm._v("↑")]),
-      _vm._v(" "),
-      _c("button", { staticClass: "mover" }, [_vm._v("↓")]),
-      _vm._v(" "),
-      _c("button", { staticClass: "excluir" }, [_vm._v("Excluir")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -1080,7 +1131,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "app-projeto" }, [
-    _c("h1", [_vm._v("Arquivos GU")]),
+    _c("h1", { attrs: { contenteditable: "true" } }, [_vm._v("Arquivos GU")]),
     _vm._v(" "),
     _vm._m(0),
     _vm._v(" "),
@@ -1111,20 +1162,35 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _vm._l(_vm.nArquivos, function(n) {
-            return _c(
-              "div",
-              { staticClass: "arquivo-cont" },
-              [
-                _c("Arquivo"),
-                _vm._v(" "),
-                _c("button", { on: { click: _vm.insereArquivo } }, [
-                  _vm._v("Inserir um arquivo aqui")
-                ])
-              ],
-              1
-            )
-          })
+          _vm._l(
+            _vm.nArquivos.sort(function(a, b) {
+              return a.index - b.index
+            }),
+            function(n) {
+              return _c(
+                "div",
+                { staticClass: "arquivo-cont" },
+                [
+                  _c("Arquivo", {
+                    attrs: { index: { nArquivos: _vm.nArquivos } }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      on: {
+                        click: function($event) {
+                          _vm.insereArquivo($event)
+                        }
+                      }
+                    },
+                    [_vm._v("Inserir um arquivo aqui")]
+                  )
+                ],
+                1
+              )
+            }
+          )
         ],
         2
       )

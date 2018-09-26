@@ -1,5 +1,5 @@
 <template>
-	<tr class="URL">
+	<tr class="URL" :class="{ esconde: excluir }">
 		<td><slot></slot></td>
 		<td>
 			<input type="text">
@@ -12,7 +12,7 @@
 					</div>					
 				</div>
 			</div>
-			<button class="excluirUrl" @click="deletaUrl">&times;</button>
+			<button class="excluirUrl" @click="deletaUrl($event)">&times;</button>
 		</td>
 	</tr>
 </template>
@@ -30,6 +30,7 @@
 					{ index: 3, extensao: 'SHP' },
 					{ index: 4, extensao: 'DOC' }
 				],
+				excluir: false
 			}
 		},
 		methods: {
@@ -37,8 +38,9 @@
 				this.extensaoBoxShow = false
 				evt.target.parentNode.parentNode.parentNode.firstElementChild.innerText = evt.target.innerText
 			},
-			deletaUrl() {
-				console.log(this.urlsInput)
+			deletaUrl(evt) {
+				// evt.target.parentNode.parentNode.firstElementChild.innerText.slice(4, this.length)
+				this.excluir = true
 			}
 		}
 	};
@@ -46,12 +48,12 @@
 
 <style lang="scss">
 tr.URL {
-	transition: all ease-out .2s;
+	transition: all ease-in-out .2s;
 
 	div.arquivo_extensao-box {
 		position: absolute;
 		right: 0;
-		top: 0;
+		top: 30px;
 		background-color: #898989;
 		width: intrinsic;
 		width: max-content;
@@ -93,9 +95,9 @@ tr.URL {
 		background-color: #FE4C4C;
 		border: 0;
 		padding: 0;
-		width: 12px;
-		height: 12px;
-		line-height: 0;
+		width: 20px;
+		height: 18px;
+		line-height: 18px;
 		color: #FFF;
 		border-radius: 100%;
 		cursor: pointer;
@@ -110,6 +112,12 @@ tr.URL {
 	&.animate {
 		animation: abreNovaUrl .2s ease-in;
 		td button.excluirUrl { display: block; }
+	}
+
+	&.esconde {
+		transform: translateX(112%);
+		height: 0px;
+		opacity: 0;
 	}
 }
 </style>

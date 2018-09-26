@@ -2,8 +2,8 @@
 	<div class="Arquivo">
 		<div class="acoes">
 			<h6>Mover</h6>
-			<button class="mover">&uarr;</button>
-			<button class="mover">&darr;</button>
+			<button class="mover" @click="mover('cima', $event)">&uarr;</button>
+			<button class="mover" @click="mover('baixo', $event)">&darr;</button>
 			<button class="excluir">Excluir</button>
 		</div>
 		<div class="informacoes">
@@ -12,7 +12,7 @@
 					<td width="10%">Nome público</td>
 					<td width="90%">
 						<input type="text" @keyup="charCount($event.target.value, $refs.urlCharCount)">						
-						<span ref="urlCharCount" class="charCount">0</span>
+						<span ref="urlCharCount" class="charCount">0/330</span>
 					</td>
 				</tr>
 				<tbody ref="urls">
@@ -20,14 +20,16 @@
 				</tbody>
 				<tr>
 					<td colspan="2">
-						Adicionar URL <button @click="insereUrl">+</button>
+						<div class="addUrl" @click="insereUrl">
+							Adicionar URL <button>+</button>
+						</div>
 					</td>
 				</tr>
 				<tr>
 					<td>Descrição</td>
 					<td>
 						<textarea name="descricao" @keyup="charCount($event.target.value, $refs.descricaoCharCount)"></textarea>
-						<span ref="descricaoCharCount" class="charCount">0</span>
+						<span ref="descricaoCharCount" class="charCount">0/330</span>
 					</td>
 				</tr>
 			</table>
@@ -40,6 +42,7 @@ import URL from '../components/URL.vue'
 
 export default {
 	name: 'Arquivo',
+	props: [ 'index' ],
 	data() {
 		return {
 			urlsInput: [
@@ -58,7 +61,24 @@ export default {
 	},
 	updated() {},
 	methods: {
-		charCount(txt, dest) { dest.innerText = txt.length },
+		mover(dir, evt) {
+			// let pai = evt.target.parentNode.parentNode.parentNode.parentNode
+			// let esteFilho = evt.target.parentNode.parentNode.parentNode
+			// let irmaoAnterior = evt.target.parentNode.parentNode.parentNode.previousSibling
+			// let irmaoPosterior = evt.target.parentNode.parentNode.parentNode.nextSibling
+			// console.log([pai, esteFilho, irmaoAnterior, irmaoPosterior])
+			if (dir == 'cima') {
+			// 	pai.insertBefore(esteFilho, irmaoAnterior)
+			console.log(this.$props.index)
+			} else if (dir == 'baixo') {
+			// 	pai.insertBefore(esteFilho, irmaoPosterior)
+			} else { return false }
+		},
+		charCount(txt, dest) {
+			dest.innerText = txt.length + '/330'
+			if (txt.length > 330) { dest.style.color = '#FE4C4C' }
+			else { dest.style.color = "#BBB" }
+		},
 		insereUrl() {
 			// let base = this.$refs.urls.lastChild
 			// let clone = base.cloneNode(true)
@@ -138,26 +158,40 @@ div.informacoes {
 		tr td[colspan] {
 			display: table-cell !important;
 			padding-right: 0;
-			font-weight: normal;
-			color: #888;
 
-			button {
-				margin: 0 0 1rem 0;
-				border: 1px solid transparent;
-				border-radius: 100%;
-				font-size: large;
-				font-weight: bold;
-				font-family: inherit;
-				color: #FFF;
-				background-color: #CCC;
-				width: 24px;
-				height: 24px;
+			div.addUrl {
+				font-weight: normal;
+				color: #888;
+				display: inline-block;
 				cursor: pointer;
-				padding: 0 0 2px 0;
-				display: inline-flex;
-				justify-content: center;
-				align-items: center;
-				&:active { background-color: transparent; color: #CCC; border-color: #CCC; }
+
+				& > button {
+					border: 1px solid transparent;
+					border-radius: 100%;
+					font-size: large;
+					font-weight: bold;
+					font-family: inherit;
+					color: #FFF;
+					background-color: #CCC;
+					width: 24px;
+					height: 24px;
+					padding: 0 0 2px 0;
+					display: inline-flex;
+					justify-content: center;
+					align-items: center;
+					cursor: pointer;
+				}
+
+				&:active {
+					opacity: .4;
+
+					button {
+						background-color: transparent;
+						color: #CCC;
+						border-color: #CCC;
+						opacity: 1;
+					}
+				}
 			}
 		}
 		tr td:last-child {

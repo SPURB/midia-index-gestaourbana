@@ -1,6 +1,6 @@
 <template>
 	<div class="app-projeto">
-		<h1>Arquivos GU</h1>
+		<h1 contenteditable="true">Arquivos GU</h1>
 		<section class="cabecalho">
 			<p>A partir desta tela, você consegue editar os conteúdos das listas e tabelas de URL.</p>
 			<p>Cada linha corresponde a um link com formatos variados (PDF, DOC, KMZ, SHP etc).</p>
@@ -20,9 +20,9 @@
 						<button @click="etapaCollapse($event)">&#9650;</button>
 					</div>
 				</div>
-				<div class="arquivo-cont" v-for="n in nArquivos">
-					<Arquivo></Arquivo>
-					<button @click="insereArquivo">Inserir um arquivo aqui</button>
+				<div class="arquivo-cont" v-for="n in nArquivos.sort(function(a, b) { return a.index - b.index })">
+					<Arquivo :index="{ nArquivos }"></Arquivo>
+					<button @click="insereArquivo($event)">Inserir um arquivo aqui</button>
 				</div>
 			</div>
 		</section>
@@ -90,7 +90,10 @@ export default {
 					]
 				}
 			],
-			nArquivos: 1
+			nArquivos: [
+				{ index: 0 }
+			],
+			arqCounter: 1,
 		};
 	},
 	components: {
@@ -107,7 +110,10 @@ export default {
 				evt.target.style.transform = 'rotate(0deg)'
 			}
 		},
-		insereArquivo() { this.nArquivos++ }
+		insereArquivo(evt) {
+			this.nArquivos.push({ index: this.arqCounter })
+			this.arqCounter++
+		}
 	}
 };
 </script>
