@@ -1,6 +1,6 @@
 <template>
 	<div class="app-projeto">
-		<h1 contenteditable="true">Arquivos GU</h1>
+		<h1>Arquivos GU</h1>
 		<section class="cabecalho">
 			<p>A partir desta tela, você consegue editar os conteúdos das listas e tabelas de URL.</p>
 			<p>Cada linha corresponde a um link com formatos variados (PDF, DOC, KMZ, SHP etc).</p>
@@ -12,113 +12,82 @@
 					<span>Shortcode do projeto <code>[tabel id=1/]</code></span>
 				</div>
 			</div>
-			<div class="etapa">
-				<div class="h-etapa">
-					<h3>Etapa 1</h3>
-					<div class="shortcode_expand">
-						<span>Shortcode da etapa <code>[tabel id=1.1/]</code></span>
-						<button @click="etapaCollapse($event)">&#9650;</button>
-					</div>
-				</div>
-				<div class="arquivo-cont" v-for="n in nArquivos.sort(function(a, b) { return a.index - b.index })">
-					<Arquivo :index="{ nArquivos }"></Arquivo>
-					<button @click="insereArquivo($event)">Inserir um arquivo aqui</button>
-				</div>
-			</div>
+			<Etapa v-for="etapa in etapasInput" :key="etapa.index">Etapa {{ etapa.index+1 }}</Etapa>
+			<button class="adicionarEtapa" @click="insereEtapa">Adicionar etapa</button>
 		</section>
 		<section class="acoes">
 			<button>Cancelar</button>
-			<button>Salvar</button>
+			<button @click="teste($event)">Salvar</button>
 		</section>
+		<div class="luz" :class="{ ativo: apagaLuz }">
+			<div class="modal" :class="{ ativo: apagaLuz }" ref="modal">
+				<div class="svgCont">
+					<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm7 7.457l-9.005 9.565-4.995-5.865.761-.649 4.271 5.016 8.24-8.752.728.685z"/></svg>
+				</div>
+				Alterações realizadas com sucesso
+				<a href="">Projetos criados</a>
+				<a href="">Novo projeto</a>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script>
-import Arquivo from '../components/Arquivo.vue'
+import Etapa from '../components/Etapa.vue'
 
 export default {
 	name: 'Projeto',
 	data() {
 		return {
-			arquivos: [
-				{
-					"nome": "PIU Rio Branco",
-					"ativo": 1,
-					"arquivos":[
-						{
-							"nome": "Diagnóstico",
-							"id": 1,
-							"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-							"autor": "devspurbanismo",
-							"fonte": "Gestão Urbana",
-							"atualizacao": "2018-08-21 18:37:28",
-							"etapa":{
-									"id": 2,
-									"nome": "Consulta Pública Inicial"
-							}
-						},
-						{
-							"nome": "Mapas",
-							"id": 2,
-							"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_ANEXOI_reduzido.pdf",
-							"autor": "devspurbanismo",
-							"fonte": "Gestão Urbana",
-							"atualizacao":"2018-08-21 18:37:50",
-							"etapa":{
-									"id": 2,
-									"nome": "Consulta Pública Inicial"
-							}
-						}
-					]
-				},
-				{
-					"nome": "PIU Anhembi",
-					"ativo": 1,
-					"arquivos":[
-						{
-							"nome": "Ofício",
-							"id": 3,
-							"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
-							"autor": "devspurbanismo",
-							"fonte": "PA",
-							"atualizacao":"2018-08-21 19:11:38",
-							"etapa":{
-								"id_etapa": 1,
-								"nome_etapa": "Consulta Pública Inicial",
-							}
-						}
-					]
-				}
-			],
-			nArquivos: [
+			apagaLuz: false,
+			etapasInput: [
 				{ index: 0 }
 			],
-			arqCounter: 1,
+			etapaCounter: 1,
 		};
 	},
 	components: {
-		Arquivo,
+		Etapa
 	},
 	methods: {
-		etapaCollapse(evt) {
-			let divEtapa = evt.target.parentNode.parentNode.parentNode
-			if (divEtapa.style.maxHeight != '40px') {
-				divEtapa.style.maxHeight = '40px'
-				evt.target.style.transform = 'rotate(180deg)'
-			} else {
-				divEtapa.style.maxHeight = '4000px'
-				evt.target.style.transform = 'rotate(0deg)'
-			}
+		insereEtapa() {
+			this.etapasInput.push({ index: this.etapaCounter })
+			this.etapaCounter++
 		},
-		insereArquivo(evt) {
-			this.nArquivos.push({ index: this.arqCounter })
-			this.arqCounter++
+		teste(evt) {
+			this.apagaLuz = true
+			console.log('apaga')
+			console.log(evt)
+			evt.target.classList.add('clicked')
+		}
+	},
+	updated() {
+		let modal = this.$refs.modal
+		let app = this
+		const f = function(evt) {
+			if (modal.contains(evt.target) == false) {
+				console.log('acende')
+				console.log(evt)
+				app.apagaLuz = false
+			} else { return false }
+		}
+		if (app.apagaLuz == true) {
+			app.$el.addEventListener("click", f, false)
+			// app.$el.addEventListener("keydown", function(evt) {
+			// 	if (evt.code == 27) {
+			// 		// app.apagaLuz = false
+			// 		console.log('esc')
+			// 	} else {
+			// 		return false }
+			// })
+		} else if (app.apagaLuz == false) {
+			app.$el.removeEventListener("click", f, false)
 		}
 	}
-};
+}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 div.app-projeto {
 h1 { font-weight: bold; }
 section:not(.projeto) { margin: 2rem 0; p { color: #898989; } }
@@ -152,6 +121,8 @@ button, input, textarea { margin: 0; font-family: inherit; }
 		}
 
 		div.etapa {
+			display: flex;
+			flex-flow: column nowrap;
 			margin: 12px 0 0 0;
 			border: 1px solid #DDD;
 			border-radius: 2px;
@@ -217,6 +188,25 @@ button, input, textarea { margin: 0; font-family: inherit; }
 		}
 	}
 
+	button.adicionarEtapa {
+		margin: 12px 0 0 0 !important;
+		display: block;
+		width: 100%;
+		padding: 1rem;
+		background: transparent;
+		border: 1px dashed #BBB;
+		border-radius: 12px;
+		color: #BBB;
+		cursor: pointer;
+		transition: all .2s;
+
+		&:hover {
+			border: 1px solid #5b9dd9;
+			color: #5b9dd9;
+			box-shadow: 0 0 2px rgba(30,140,190,.8);
+		}
+	}
+
 	section.acoes {
 		max-width: 1000px;
 		width: 100%;
@@ -230,8 +220,80 @@ button, input, textarea { margin: 0; font-family: inherit; }
 			cursor: pointer;
 			color: #FFF;
 			box-shadow: inset 0 -2px 2px rgba(0, 0, 0, .24);
+			position: relative;
+			overflow: hidden;
+			&::before {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 100%;
+				width: 20px;
+				display: block;
+				background: transparent;
+				content: '';
+				transition: all ease-out .4s;
+			}
 			&:first-child { float: left; background-color: #FE4C4C; }
 			&:last-child { float: right; background-color: #219653; }
+			&.clicked::before {
+				margin-left: 100%;
+				background: rgba(255, 255, 255, .4);
+			}
+			&.disabled {
+				opacity: .4;
+				-moz-user-select: none;
+				user-select: none;
+			}
+		}
+	}
+
+	div.luz {
+		position: absolute;
+		top: 0;
+		left: -20px;
+		width: calc(100% + 20px);
+		height: 100vh;
+		background-color: transparent;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		z-index: -1;
+		transition: all .4s ease-in-out;
+		&.ativo {
+			background-color: rgba(0, 0, 0, .4);
+			z-index: 1;
+		}
+
+		div.modal {
+			font-size: large;
+			color: #219653;
+			line-height: 160%;
+			text-align: center;
+			width: 200px;
+			padding: 24px;
+			background: #fff;
+			border-radius: 2px;
+			box-shadow: 0 2px 2px rgba(0, 0, 0, .24);
+			transform: translateY(100vh);
+			transition-duration: .6s;
+			&.ativo { transform: translateY(0); }
+
+			div.svgCont {
+				svg { fill: #219653; }
+			}
+
+			a {
+				display: block;
+				background: #C4C4C4;
+				color: initial;
+				text-decoration: none;
+				border-radius: 2px;
+				margin: 24px 0 0 0;
+				padding: 12px 16px;
+				transition: all .2s;
+				&:hover { background: #eee; }
+			}
 		}
 	}
 }

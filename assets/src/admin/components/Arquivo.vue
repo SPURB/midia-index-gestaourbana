@@ -1,11 +1,6 @@
 <template>
 	<div class="Arquivo">
-		<div class="acoes">
-			<h6>Mover</h6>
-			<button class="mover" @click="mover('cima', $event)">&uarr;</button>
-			<button class="mover" @click="mover('baixo', $event)">&darr;</button>
-			<button class="excluir">Excluir</button>
-		</div>
+		<slot></slot>
 		<div class="informacoes">
 			<table>
 				<tr>
@@ -42,14 +37,13 @@ import URL from '../components/URL.vue'
 
 export default {
 	name: 'Arquivo',
-	props: [ 'index' ],
+	props: [ 'nArquivos' ],
 	data() {
 		return {
 			urlsInput: [
 				{ index: 0, endereco: '', tipo: '' }
 			],
 			idUrl: 0,
-			nUrl: 2,
 		}
 	},
 	components: {
@@ -59,24 +53,42 @@ export default {
 	mounted() {
 		this.$refs.urls.firstElementChild.classList.remove("animate")
 	},
-	updated() {},
+	updated() {
+	},
 	methods: {
 		mover(dir, evt) {
+			let app = this
 			// let pai = evt.target.parentNode.parentNode.parentNode.parentNode
 			// let esteFilho = evt.target.parentNode.parentNode.parentNode
 			// let irmaoAnterior = evt.target.parentNode.parentNode.parentNode.previousSibling
 			// let irmaoPosterior = evt.target.parentNode.parentNode.parentNode.nextSibling
 			// console.log([pai, esteFilho, irmaoAnterior, irmaoPosterior])
-			if (dir == 'cima') {
+			// if (dir == 'cima') {
 			// 	pai.insertBefore(esteFilho, irmaoAnterior)
-			console.log(this.$props.index)
-			} else if (dir == 'baixo') {
+			// console.log(this.$props.index)
+			// } else if (dir == 'baixo') {
 			// 	pai.insertBefore(esteFilho, irmaoPosterior)
-			} else { return false }
+			// } else { return false }
+			// console.log(this.$props.index[this.$props.index.length-1].pos)
+			// let temp = this.$props.index[this.$props.index.length-2]
+			// this.$props.index[this.$props.index.length-2] = this.$props.index[this.$props.index.length-1]
+			// this.$props.index[this.$props.index.length-1] = temp
+			// if (dir == 'baixo') {
+			// 	let temp = app.$el.parentNode.nextSibling.attributes.pos.value
+			// 	app.$el.parentNode.nextSibling.attributes.pos.value = app.$el.parentNode.attributes.pos.value
+			// 	app.$el.parentNode.attributes.pos.value = temp
+			// } else if (dir == 'cima') {
+			// 	let temp = app.$el.parentNode.previousSibling.attributes.pos.value
+			// 	app.$el.parentNode.previousSibling.attributes.pos.value = app.$el.parentNode.attributes.pos.value
+			// 	app.$el.parentNode.attributes.pos.value = temp
+			// }
+			// this.$el.parentNode.style.order = this.$el.parentNode.attributes.pos.value
+			// this.$el.parentNode.nextSibling.style.order = this.$el.parentNode.nextSibling.attributes.pos.value
+			console.log(this.$props.nArquivos)
 		},
 		charCount(txt, dest) {
 			dest.innerText = txt.length + '/330'
-			if (txt.length > 330) { dest.style.color = '#FE4C4C' }
+			if (txt.length > 330) { dest.parentNode.firstElementChild.style.backgroundColor = '#FE4C4C'; dest.style.color = '#FE4C4C' }
 			else { dest.style.color = "#BBB" }
 		},
 		insereUrl() {
