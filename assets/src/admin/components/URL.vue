@@ -20,6 +20,7 @@
 <script>
 	export default {
 		name: 'URL',
+		props: [ 'props' ],
 		data() {
 			return {
 				extensaoBoxShow: false,

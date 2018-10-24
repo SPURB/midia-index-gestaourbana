@@ -5,14 +5,16 @@
 			<p>A partir desta tela, você consegue editar os conteúdos das listas e tabelas de URL.</p>
 			<p>Cada linha corresponde a um link com formatos variados (PDF, DOC, KMZ, SHP etc).</p>
 		</section>
-		<section class="projeto">
+		<section class="projeto" v-for="projeto in props" v-if="projeto.id == 6">
 			<div class="nome">
-				<h2>Plano Diretor</h2>
+				<h2>{{ projeto.nome }}</h2>
 				<div class="shortcode_expand">
 					<span>Shortcode do projeto <code>[tabel id=1/]</code></span>
 				</div>
 			</div>
-			<Etapa v-for="etapa in etapasInput" :key="etapa.index">Etapa {{ etapa.index+1 }}</Etapa>
+			<Etapa v-for="etapa in projeto.etapas" key="etapa.id" :props="props">
+				<template slot="nomeEtapa">{{ etapa.nome }}</template>
+			</Etapa>
 			<button class="adicionarEtapa" @click="insereEtapa">Adicionar etapa</button>
 		</section>
 		<section class="acoes">
@@ -37,6 +39,7 @@ import Etapa from '../components/Etapa.vue'
 
 export default {
 	name: 'Projeto',
+	props: [ 'props' ],
 	data() {
 		return {
 			apagaLuz: false,
@@ -91,7 +94,7 @@ export default {
 div.app-projeto {
 h1 { font-weight: bold; }
 section:not(.projeto) { margin: 2rem 0; p { color: #898989; } }
-code { color: initial; }
+code { color: initial; background-color: rgba(0, 0, 0, .12); }
 button, input, textarea { margin: 0; font-family: inherit; }
 
 	section.projeto {
@@ -132,17 +135,24 @@ button, input, textarea { margin: 0; font-family: inherit; }
 			transition: all ease-in-out .2s;
 
 			div.h-etapa {
-				height: 40px;
 				padding: 8px 12px;
 				box-sizing: border-box;
 				border-bottom: 1px solid #DDD;
-				h3 { display: inline-block; vertical-align: middle; }
+				background-color: #0073aa;
+				& > span {
+					color: #CCC;
+					margin-right: 4px;
+				}
+				h3 {
+					display: inline-block;
+					color: #FFF;
+				}
 				& > div.shortcode_expand {
 					display: inline-flex;
 					align-items: center;
 					float: right;
 					height: 100%;
-					color: #898989;
+					color: #CCC;
 					button {
 						margin: 0 0 0 12px;
 						padding: 0;
@@ -153,6 +163,42 @@ button, input, textarea { margin: 0; font-family: inherit; }
 						cursor: pointer;
 						transform-origin: center 61%;
 						&:hover { color: initial; }
+					}
+					code { color: #CCC; }
+				}
+			}
+
+			div.arquivosTable {
+				table {
+					width: 100%;
+					border-collapse: collapse;
+					thead th {
+						text-align: left;
+						font-weight: normal;
+						padding: 8px 0 8px 12px;
+						border-bottom: 1px solid #DDD;
+						&:first-child { width: 10%; min-width: 120px; }
+						&:last-child { width: 1px; padding-right: 12px; }
+						color: #898989;
+					}
+					tr td {
+						padding: 8px 0 8px 12px;
+						transition: all .2s;
+						& > * {	user-select: none; -moz-user-select: none; }
+						a {
+							text-decoration: none;
+						}
+					}
+					tr:nth-child(even) td { background: #F8F8F8; }
+					tr:hover td { background: #EEE; }
+					tr:active td {
+						background: #5b9dd9;
+						color: #FFF;
+						a { color: #FFF; }
+					}					
+					& > * {
+						user-select: none;
+						-moz-user-select: none;
 					}
 				}
 			}

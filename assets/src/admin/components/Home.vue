@@ -9,19 +9,19 @@
 		<button>Incluir projeto</button>
 		<table>
 			<thead>
-				<th width="34%">Projeto</th>
+				<th width="35%">Projeto</th>
 				<th width="25%">Autor(a)</th>
 				<th width="25%">Última modificação</th>
-				<th width="16%"></th>
+				<th width="15%"></th>
 			</thead>
-			<tr v-for="projeto in projetos" :class="ocultoClass(projeto.ativo)">
+			<tr v-for="projeto in props" :class="ocultoClass(projeto.status)">
 				<td><a href="#">{{ projeto.nome }}</a></td>
-				<td>{{ projeto.autor }}</td>
-				<td>{{ displayData(projeto.atualizacao) }}</td>
+				<td>{{ projeto.autoria }}</td>
+				<td>{{ displayData(projeto.ultimaMod) }}</td>
 				<td>
-					<div class="switchCont" @click="projeto.ativo = !projeto.ativo">
-						<div :class="{ ativo: projeto.ativo }">
-							<span v-if="projeto.ativo">Disponível</span>
+					<div class="switchCont" @click="switchCont(projeto.status)">
+						<div :class="ocultoClass(projeto.status)">
+							<span v-if="projeto.status == 1">Disponível</span>
 							<span v-else>Oculto</span>
 						</div>
 					</div>
@@ -34,27 +34,9 @@
 <script>
 export default {
 	name: 'Home',
-	props: [ 'arquivos' ],
+	props: [ 'props' ],
 	data() {
-		return {
-			msg: 'Olar Home',
-			projetos: [
-				{
-					"id:": 1,
-					"nome": "PIU Rio Branco",
-					"ativo": true,
-					"autor": "devspurbanismo",
-					"atualizacao":"2018-08-21 17:12:21"
-				},
-				{
-					"id:": 7,
-					"nome": "PIU Anhembi",
-					"ativo": false,
-					"autor": "devspurbanismo",
-					"atualizacao":"2018-08-21 17:18:33"
-				}
-			]
-		}
+		return {}
 	},
 	methods:{
 		displayData(data) {
@@ -65,7 +47,15 @@ export default {
 			return dd+'/'+mm+'/'+aaaa+' ('+h+')'
 		},
 		ocultoClass(par) {
-			if (par == true) { return '' } else if (par == false) { return 'oculto' }
+			if (par == 1) { return '' } else if (par == 0) { return 'oculto' }
+		},
+		switchCont(par) {
+			console.log(par)
+			if (par == 1) {
+				par = 0
+			} else if (par == 0) {
+				par = 1
+			}
 		}
 	}
 };
@@ -164,12 +154,12 @@ table {
 			overflow: hidden;
 			border-radius: 2px;
 			box-shadow: inset 0 2px 2px rgba(0, 0, 0, .12);
-			background: #FE4C4C;
+			background: #0073aa;
 			transition: all .2s ease-out;
 
-			&.ativo {
+			&.oculto {
 				margin-left: 50%;
-				background: #0073aa;
+				background: #FE4C4C;
 			}
 		}
 	}

@@ -18,46 +18,64 @@ pluginWebpack([0],[
 	name: 'App',
 	data() {
 		return {
-			arquivos: [{
+			projetos: [{
+				"id": 21,
 				"nome": "PIU Rio Branco",
-				"ativo": 1,
-				"arquivos": [{
-					"nome": "Diagnóstico",
-					"id": 1,
-					"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-					"autor": "devspurbanismo",
-					"fonte": "Gestão Urbana",
-					"atualizacao": "2018-08-21 18:37:28",
-					"etapa": {
-						"id": 2,
-						"nome": "Consulta Pública Inicial"
-					}
-				}, {
-					"nome": "Mapas",
+				"autoria": "devspurbanismo",
+				"status": 1,
+				"ultimaMod": "2018-08-21 18:37:50",
+				"consultaAtiva": 0,
+				etapas: [{
 					"id": 2,
-					"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_ANEXOI_reduzido.pdf",
-					"autor": "devspurbanismo",
-					"fonte": "Gestão Urbana",
-					"atualizacao": "2018-08-21 18:37:50",
-					"etapa": {
+					"nome": "Consulta Pública Inicial",
+					arquivos: [{
+						"id": 1,
+						"nome": "Diagnóstico",
+						"descricao": "Minuta de consulta pública para Programa de Interesse Público",
+						"autoria": "devspurbanismo",
+						"inclusao": "2018-08-21 18:37:28",
+						destino: [{
+							"urlid": 1,
+							"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+							"extensao": "pdf"
+						}],
+						"index": 1
+					}, {
 						"id": 2,
-						"nome": "Consulta Pública Inicial"
-					}
+						"nome": "Mapas",
+						"descricao": "Mapas do Anexo I da Minuta de consulta pública",
+						"autoria": "devspurbanismo",
+						"inclusao": "2018-08-21 18:37:50",
+						destino: [{
+							"urlid": 1,
+							"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+							"extensao": "pdf"
+						}],
+						"index": 2
+					}]
 				}]
 			}, {
+				"id": 6,
 				"nome": "PIU Anhembi",
-				"ativo": 1,
-				"arquivos": [{
-					"nome": "Ofício",
-					"id": 3,
-					"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
-					"autor": "devspurbanismo",
-					"fonte": "PA",
-					"atualizacao": "2018-08-21 19:11:38",
-					"etapa": {
-						"id": 1,
-						"nome": "Consulta Pública Inicial"
-					}
+				"autoria": "devspurbanismo",
+				"status": 1,
+				"ultimaMod": "2018-08-21 19:11:38",
+				"consultaAtiva": 1,
+				etapas: [{
+					"id": 1,
+					"nome": "Em proposição dos elementos prévios",
+					arquivos: [{
+						"id": 3,
+						"nome": "Ofício",
+						"descricao": "Pedido de instauração de Projeto de Intervenção Urbana (PIU) relativo à área do Complexo Anhembi",
+						"inclusao": "2018-08-21 19:11:38",
+						destino: [{
+							"urlid": 1,
+							"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
+							"extensao": "pdf"
+						}],
+						"index": 1
+					}]
 				}]
 			}]
 		};
@@ -106,24 +124,9 @@ pluginWebpack([0],[
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	name: 'Home',
-	props: ['arquivos'],
+	props: ['props'],
 	data() {
-		return {
-			msg: 'Olar Home',
-			projetos: [{
-				"id:": 1,
-				"nome": "PIU Rio Branco",
-				"ativo": true,
-				"autor": "devspurbanismo",
-				"atualizacao": "2018-08-21 17:12:21"
-			}, {
-				"id:": 7,
-				"nome": "PIU Anhembi",
-				"ativo": false,
-				"autor": "devspurbanismo",
-				"atualizacao": "2018-08-21 17:18:33"
-			}]
-		};
+		return {};
 	},
 	methods: {
 		displayData(data) {
@@ -134,10 +137,18 @@ pluginWebpack([0],[
 			return dd + '/' + mm + '/' + aaaa + ' (' + h + ')';
 		},
 		ocultoClass(par) {
-			if (par == true) {
+			if (par == 1) {
 				return '';
-			} else if (par == false) {
+			} else if (par == 0) {
 				return 'oculto';
+			}
+		},
+		switchCont(par) {
+			console.log(par);
+			if (par == 1) {
+				par = 0;
+			} else if (par == 0) {
+				par = 1;
 			}
 		}
 	}
@@ -183,11 +194,14 @@ pluginWebpack([0],[
 //
 //
 //
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	name: 'Projeto',
+	props: ['props'],
 	data() {
 		return {
 			apagaLuz: false,
@@ -266,12 +280,62 @@ pluginWebpack([0],[
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	name: 'Etapa',
-	props: ['etapaCounter'],
+	props: ['props', 'etapaCounter'],
 	data() {
 		return {
 			nArquivos: [{ pos: 1 }],
@@ -282,7 +346,16 @@ pluginWebpack([0],[
 		Arquivo: __WEBPACK_IMPORTED_MODULE_0__components_Arquivo_vue__["a" /* default */]
 	},
 	created() {},
-	mounted() {},
+	mounted() {
+		let app = this;
+		for (let i = 0; i < this.$props.props.length; i++) {
+			for (let j = 0; j < this.$props.props[i].etapas.length; j++) {
+				for (let k = 0; k < this.$props.props[i].etapas[j].arquivos.length; k++) {
+					this.$props.props[i].etapas[j].arquivos[k].nome;
+				}
+			}
+		}
+	},
 	updated() {},
 	methods: {
 		etapaCollapse(evt) {
@@ -300,7 +373,7 @@ pluginWebpack([0],[
 			this.nArquivos.push({ pos: this.arqCounter });
 		},
 		mover(dir, evt) {
-			console.log(this.nArquivos[this.arqCounter - 1].pos);
+			console.log(this.nArquivos[this.evt.target.parentNode].pos);
 		}
 	}
 });
@@ -406,7 +479,7 @@ if (false) {(function () {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	name: 'Arquivo',
-	props: ['nArquivos'],
+	props: ['props', 'nArquivos'],
 	data() {
 		return {
 			urlsInput: [{ index: 0, endereco: '', tipo: '' }],
@@ -501,6 +574,7 @@ if (false) {(function () {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	name: 'URL',
+	props: ['props'],
 	data() {
 		return {
 			extensaoBoxShow: false,
@@ -759,7 +833,12 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "vue-backend-app" } }, [_c("router-view")], 1)
+  return _c(
+    "div",
+    { attrs: { id: "vue-backend-app" } },
+    [_c("router-view", { attrs: { props: _vm.projetos } })],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -917,15 +996,15 @@ var render = function() {
       [
         _vm._m(1),
         _vm._v(" "),
-        _vm._l(_vm.projetos, function(projeto) {
-          return _c("tr", { class: _vm.ocultoClass(projeto.ativo) }, [
+        _vm._l(_vm.props, function(projeto) {
+          return _c("tr", { class: _vm.ocultoClass(projeto.status) }, [
             _c("td", [
               _c("a", { attrs: { href: "#" } }, [_vm._v(_vm._s(projeto.nome))])
             ]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(projeto.autor))]),
+            _c("td", [_vm._v(_vm._s(projeto.autoria))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(_vm.displayData(projeto.atualizacao)))]),
+            _c("td", [_vm._v(_vm._s(_vm.displayData(projeto.ultimaMod)))]),
             _vm._v(" "),
             _c("td", [
               _c(
@@ -934,13 +1013,13 @@ var render = function() {
                   staticClass: "switchCont",
                   on: {
                     click: function($event) {
-                      projeto.ativo = !projeto.ativo
+                      _vm.switchCont(projeto.status)
                     }
                   }
                 },
                 [
-                  _c("div", { class: { ativo: projeto.ativo } }, [
-                    projeto.ativo
+                  _c("div", { class: _vm.ocultoClass(projeto.status) }, [
+                    projeto.status == 1
                       ? _c("span", [_vm._v("Disponível")])
                       : _c("span", [_vm._v("Oculto")])
                   ])
@@ -986,13 +1065,13 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("th", { attrs: { width: "34%" } }, [_vm._v("Projeto")]),
+      _c("th", { attrs: { width: "35%" } }, [_vm._v("Projeto")]),
       _vm._v(" "),
       _c("th", { attrs: { width: "25%" } }, [_vm._v("Autor(a)")]),
       _vm._v(" "),
       _c("th", { attrs: { width: "25%" } }, [_vm._v("Última modificação")]),
       _vm._v(" "),
-      _c("th", { attrs: { width: "16%" } })
+      _c("th", { attrs: { width: "15%" } })
     ])
   }
 ]
@@ -1309,7 +1388,7 @@ var render = function() {
             _vm._v(" "),
             _c("td", { attrs: { width: "90%" } }, [
               _c("input", {
-                attrs: { type: "text" },
+                attrs: { type: "text", placeholder: "Flávia" },
                 on: {
                   keyup: function($event) {
                     _vm.charCount($event.target.value, _vm.$refs.urlCharCount)
@@ -1327,9 +1406,15 @@ var render = function() {
             "tbody",
             { ref: "urls" },
             _vm._l(_vm.urlsInput, function(url) {
-              return _c("URL", { key: url.index, staticClass: "animate" }, [
-                _vm._v("URL " + _vm._s(url.index + 1))
-              ])
+              return _c(
+                "URL",
+                {
+                  key: url.index,
+                  staticClass: "animate",
+                  attrs: { props: _vm.props }
+                },
+                [_vm._v("URL " + _vm._s(url.index + 1))]
+              )
             })
           ),
           _vm._v(" "),
@@ -1395,98 +1480,31 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "etapa" },
-    [
-      _c("div", { staticClass: "h-etapa" }, [
-        _c("h3", [_vm._t("default")], 2),
-        _vm._v(" "),
-        _c("div", { staticClass: "shortcode_expand" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              on: {
-                click: function($event) {
-                  _vm.etapaCollapse($event)
-                }
-              }
-            },
-            [_vm._v("▲")]
-          )
-        ])
-      ]),
+  return _c("div", { staticClass: "etapa" }, [
+    _c("div", { staticClass: "h-etapa" }, [
+      _c("span", [_vm._v("Etapa")]),
       _vm._v(" "),
-      _vm._l(
-        _vm.nArquivos.slice().sort(function(a, b) {
-          return a.pos - b.pos
-        }),
-        function(n) {
-          return _c(
-            "div",
-            { staticClass: "arquivo-cont" },
-            [
-              _c(
-                "Arquivo",
-                { key: n.pos, attrs: { nArquivos: _vm.nArquivos } },
-                [
-                  _c("div", { staticClass: "acoes" }, [
-                    _c("h6", [_vm._v("Mover")]),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "mover",
-                        on: {
-                          click: function($event) {
-                            _vm.mover("cima", $event)
-                          }
-                        }
-                      },
-                      [_vm._v("↑")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "mover",
-                        on: {
-                          click: function($event) {
-                            _vm.mover("baixo", $event)
-                          }
-                        }
-                      },
-                      [_vm._v("↓")]
-                    ),
-                    _vm._v(" "),
-                    _c("button", { staticClass: "excluir" }, [
-                      _vm._v("Excluir")
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  on: {
-                    click: function($event) {
-                      _vm.insereArquivo($event)
-                    }
-                  }
-                },
-                [_vm._v("Inserir um arquivo aqui")]
-              )
-            ],
-            1
-          )
-        }
-      )
-    ],
-    2
-  )
+      _c("h3", [_vm._t("nomeEtapa")], 2),
+      _vm._v(" "),
+      _c("div", { staticClass: "shortcode_expand" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            on: {
+              click: function($event) {
+                _vm.etapaCollapse($event)
+              }
+            }
+          },
+          [_vm._v("▲")]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _vm._m(1)
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -1496,6 +1514,218 @@ var staticRenderFns = [
     return _c("span", [
       _vm._v("Shortcode da etapa "),
       _c("code", [_vm._v("[tabel id=1.1/]")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "arquivosTable" }, [
+      _c("table", [
+        _c("thead", [
+          _c("th", [_vm._v("Data de inclusão")]),
+          _vm._v(" "),
+          _c("th", [_vm._v("Nome")]),
+          _vm._v(" "),
+          _c("th", [
+            _c("img", {
+              staticStyle: {
+                height: "24px",
+                width: "24px",
+                "vertical-align": "bottom"
+              },
+              attrs: {
+                src: "https://static.thenounproject.com/png/505631-200.png",
+                alt: ""
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("tr", { attrs: { draggable: "true" } }, [
+          _c("td", [_vm._v("34/05/2018 (18:11)")]),
+          _vm._v(" "),
+          _c("td", [
+            _c("a", { attrs: { href: "" } }, [_vm._v("Nome do arquivo")])
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _c("img", {
+              staticStyle: {
+                height: "24px",
+                width: "24px",
+                "vertical-align": "bottom"
+              },
+              attrs: {
+                src:
+                  "https://www.materialui.co/materialIcons/action/reorder_black_192x192.png",
+                alt: ""
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("tr", { attrs: { draggable: "true" } }, [
+          _c("td", [_vm._v("34/05/2018 (18:11)")]),
+          _vm._v(" "),
+          _c("td", [
+            _c("a", { attrs: { href: "" } }, [_vm._v("Nome do arquivo")])
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _c("img", {
+              staticStyle: {
+                height: "24px",
+                width: "24px",
+                "vertical-align": "bottom"
+              },
+              attrs: {
+                src:
+                  "https://www.materialui.co/materialIcons/action/reorder_black_192x192.png",
+                alt: ""
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("tr", { attrs: { draggable: "true" } }, [
+          _c("td", [_vm._v("34/05/2018 (18:11)")]),
+          _vm._v(" "),
+          _c("td", [
+            _c("a", { attrs: { href: "" } }, [_vm._v("Nome do arquivo")])
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _c("img", {
+              staticStyle: {
+                height: "24px",
+                width: "24px",
+                "vertical-align": "bottom"
+              },
+              attrs: {
+                src:
+                  "https://www.materialui.co/materialIcons/action/reorder_black_192x192.png",
+                alt: ""
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("tr", { attrs: { draggable: "true" } }, [
+          _c("td", [_vm._v("34/05/2018 (18:11)")]),
+          _vm._v(" "),
+          _c("td", [
+            _c("a", { attrs: { href: "" } }, [_vm._v("Nome do arquivo")])
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _c("img", {
+              staticStyle: {
+                height: "24px",
+                width: "24px",
+                "vertical-align": "bottom"
+              },
+              attrs: {
+                src:
+                  "https://www.materialui.co/materialIcons/action/reorder_black_192x192.png",
+                alt: ""
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("tr", { attrs: { draggable: "true" } }, [
+          _c("td", [_vm._v("34/05/2018 (18:11)")]),
+          _vm._v(" "),
+          _c("td", [
+            _c("a", { attrs: { href: "" } }, [_vm._v("Nome do arquivo")])
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _c("img", {
+              staticStyle: {
+                height: "24px",
+                width: "24px",
+                "vertical-align": "bottom"
+              },
+              attrs: {
+                src:
+                  "https://www.materialui.co/materialIcons/action/reorder_black_192x192.png",
+                alt: ""
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("tr", { attrs: { draggable: "true" } }, [
+          _c("td", [_vm._v("34/05/2018 (18:11)")]),
+          _vm._v(" "),
+          _c("td", [
+            _c("a", { attrs: { href: "" } }, [_vm._v("Nome do arquivo")])
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _c("img", {
+              staticStyle: {
+                height: "24px",
+                width: "24px",
+                "vertical-align": "bottom"
+              },
+              attrs: {
+                src:
+                  "https://www.materialui.co/materialIcons/action/reorder_black_192x192.png",
+                alt: ""
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("tr", { attrs: { draggable: "true" } }, [
+          _c("td", [_vm._v("34/05/2018 (18:11)")]),
+          _vm._v(" "),
+          _c("td", [
+            _c("a", { attrs: { href: "" } }, [_vm._v("Nome do arquivo")])
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _c("img", {
+              staticStyle: {
+                height: "24px",
+                width: "24px",
+                "vertical-align": "bottom"
+              },
+              attrs: {
+                src:
+                  "https://www.materialui.co/materialIcons/action/reorder_black_192x192.png",
+                alt: ""
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("tr", { attrs: { draggable: "true" } }, [
+          _c("td", [_vm._v("34/05/2018 (18:11)")]),
+          _vm._v(" "),
+          _c("td", [
+            _c("a", { attrs: { href: "" } }, [_vm._v("Nome do arquivo")])
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _c("img", {
+              staticStyle: {
+                height: "24px",
+                width: "24px",
+                "vertical-align": "bottom"
+              },
+              attrs: {
+                src:
+                  "https://www.materialui.co/materialIcons/action/reorder_black_192x192.png",
+                alt: ""
+              }
+            })
+          ])
+        ])
+      ])
     ])
   }
 ]
@@ -1518,83 +1748,110 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "app-projeto" }, [
-    _c("h1", [_vm._v("Arquivos GU")]),
-    _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "section",
-      { staticClass: "projeto" },
-      [
-        _vm._m(1),
-        _vm._v(" "),
-        _vm._l(_vm.etapasInput, function(etapa) {
-          return _c("Etapa", { key: etapa.index }, [
-            _vm._v("Etapa " + _vm._s(etapa.index + 1))
-          ])
-        }),
+  return _c(
+    "div",
+    { staticClass: "app-projeto" },
+    [
+      _c("h1", [_vm._v("Arquivos GU")]),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _vm._l(_vm.props, function(projeto) {
+        return projeto.id == 6
+          ? _c(
+              "section",
+              { staticClass: "projeto" },
+              [
+                _c("div", { staticClass: "nome" }, [
+                  _c("h2", [_vm._v(_vm._s(projeto.nome))]),
+                  _vm._v(" "),
+                  _vm._m(1, true)
+                ]),
+                _vm._v(" "),
+                _vm._l(projeto.etapas, function(etapa) {
+                  return _c(
+                    "Etapa",
+                    { key: "etapa.id", attrs: { props: _vm.props } },
+                    [
+                      _c("template", { slot: "nomeEtapa" }, [
+                        _vm._v(_vm._s(etapa.nome))
+                      ])
+                    ],
+                    2
+                  )
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "adicionarEtapa",
+                    on: { click: _vm.insereEtapa }
+                  },
+                  [_vm._v("Adicionar etapa")]
+                )
+              ],
+              2
+            )
+          : _vm._e()
+      }),
+      _vm._v(" "),
+      _c("section", { staticClass: "acoes" }, [
+        _c("button", [_vm._v("Cancelar")]),
         _vm._v(" "),
         _c(
           "button",
-          { staticClass: "adicionarEtapa", on: { click: _vm.insereEtapa } },
-          [_vm._v("Adicionar etapa")]
-        )
-      ],
-      2
-    ),
-    _vm._v(" "),
-    _c("section", { staticClass: "acoes" }, [
-      _c("button", [_vm._v("Cancelar")]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          on: {
-            click: function($event) {
-              _vm.teste($event)
+          {
+            on: {
+              click: function($event) {
+                _vm.teste($event)
+              }
             }
-          }
-        },
-        [_vm._v("Salvar")]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "luz", class: { ativo: _vm.apagaLuz } }, [
-      _c(
-        "div",
-        { ref: "modal", staticClass: "modal", class: { ativo: _vm.apagaLuz } },
-        [
-          _c("div", { staticClass: "svgCont" }, [
-            _c(
-              "svg",
-              {
-                attrs: {
-                  width: "24",
-                  height: "24",
-                  xmlns: "http://www.w3.org/2000/svg",
-                  "fill-rule": "evenodd",
-                  "clip-rule": "evenodd"
-                }
-              },
-              [
-                _c("path", {
+          },
+          [_vm._v("Salvar")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "luz", class: { ativo: _vm.apagaLuz } }, [
+        _c(
+          "div",
+          {
+            ref: "modal",
+            staticClass: "modal",
+            class: { ativo: _vm.apagaLuz }
+          },
+          [
+            _c("div", { staticClass: "svgCont" }, [
+              _c(
+                "svg",
+                {
                   attrs: {
-                    d:
-                      "M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm7 7.457l-9.005 9.565-4.995-5.865.761-.649 4.271 5.016 8.24-8.752.728.685z"
+                    width: "24",
+                    height: "24",
+                    xmlns: "http://www.w3.org/2000/svg",
+                    "fill-rule": "evenodd",
+                    "clip-rule": "evenodd"
                   }
-                })
-              ]
-            )
-          ]),
-          _vm._v("\n\t\t\tAlterações realizadas com sucesso\n\t\t\t"),
-          _c("a", { attrs: { href: "" } }, [_vm._v("Projetos criados")]),
-          _vm._v(" "),
-          _c("a", { attrs: { href: "" } }, [_vm._v("Novo projeto")])
-        ]
-      )
-    ])
-  ])
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      d:
+                        "M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm7 7.457l-9.005 9.565-4.995-5.865.761-.649 4.271 5.016 8.24-8.752.728.685z"
+                    }
+                  })
+                ]
+              )
+            ]),
+            _vm._v("\n\t\t\tAlterações realizadas com sucesso\n\t\t\t"),
+            _c("a", { attrs: { href: "" } }, [_vm._v("Projetos criados")]),
+            _vm._v(" "),
+            _c("a", { attrs: { href: "" } }, [_vm._v("Novo projeto")])
+          ]
+        )
+      ])
+    ],
+    2
+  )
 }
 var staticRenderFns = [
   function() {
@@ -1619,14 +1876,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "nome" }, [
-      _c("h2", [_vm._v("Plano Diretor")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "shortcode_expand" }, [
-        _c("span", [
-          _vm._v("Shortcode do projeto "),
-          _c("code", [_vm._v("[tabel id=1/]")])
-        ])
+    return _c("div", { staticClass: "shortcode_expand" }, [
+      _c("span", [
+        _vm._v("Shortcode do projeto "),
+        _c("code", [_vm._v("[tabel id=1/]")])
       ])
     ])
   }

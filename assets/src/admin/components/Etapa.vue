@@ -1,14 +1,64 @@
 <template>
 	<div class="etapa">
 		<div class="h-etapa">
-			<h3><slot></slot></h3>
+			<span>Etapa</span>
+			<h3><slot name="nomeEtapa"></slot></h3>
 			<div class="shortcode_expand">
 				<span>Shortcode da etapa <code>[tabel id=1.1/]</code></span>
 				<button @click="etapaCollapse($event)">&#9650;</button>
 			</div>
 		</div>
-		<div class="arquivo-cont" v-for="n in nArquivos.slice().sort(function(a, b) { return a.pos - b.pos })">
-			<Arquivo :nArquivos="nArquivos" :key="n.pos">				
+		<div class="arquivosTable">
+			<table>
+				<thead>
+					<th>Data de inclusão</th>
+					<th>Nome</th>
+					<th><img src="https://static.thenounproject.com/png/505631-200.png" style="height: 24px; width: 24px; vertical-align: bottom;" alt=""></th>
+				</thead>
+				<tr draggable="true">
+					<td>34/05/2018 (18:11)</td>
+					<td><a href="">Nome do arquivo</a></td>
+					<td><img src="https://www.materialui.co/materialIcons/action/reorder_black_192x192.png" style="height: 24px; width: 24px; vertical-align: bottom;" alt=""></td>
+				</tr>
+				<tr draggable="true">
+					<td>34/05/2018 (18:11)</td>
+					<td><a href="">Nome do arquivo</a></td>
+					<td><img src="https://www.materialui.co/materialIcons/action/reorder_black_192x192.png" style="height: 24px; width: 24px; vertical-align: bottom;" alt=""></td>
+				</tr>
+				<tr draggable="true">
+					<td>34/05/2018 (18:11)</td>
+					<td><a href="">Nome do arquivo</a></td>
+					<td><img src="https://www.materialui.co/materialIcons/action/reorder_black_192x192.png" style="height: 24px; width: 24px; vertical-align: bottom;" alt=""></td>
+				</tr>
+				<tr draggable="true">
+					<td>34/05/2018 (18:11)</td>
+					<td><a href="">Nome do arquivo</a></td>
+					<td><img src="https://www.materialui.co/materialIcons/action/reorder_black_192x192.png" style="height: 24px; width: 24px; vertical-align: bottom;" alt=""></td>
+				</tr>
+				<tr draggable="true">
+					<td>34/05/2018 (18:11)</td>
+					<td><a href="">Nome do arquivo</a></td>
+					<td><img src="https://www.materialui.co/materialIcons/action/reorder_black_192x192.png" style="height: 24px; width: 24px; vertical-align: bottom;" alt=""></td>
+				</tr>
+				<tr draggable="true">
+					<td>34/05/2018 (18:11)</td>
+					<td><a href="">Nome do arquivo</a></td>
+					<td><img src="https://www.materialui.co/materialIcons/action/reorder_black_192x192.png" style="height: 24px; width: 24px; vertical-align: bottom;" alt=""></td>
+				</tr>
+				<tr draggable="true">
+					<td>34/05/2018 (18:11)</td>
+					<td><a href="">Nome do arquivo</a></td>
+					<td><img src="https://www.materialui.co/materialIcons/action/reorder_black_192x192.png" style="height: 24px; width: 24px; vertical-align: bottom;" alt=""></td>
+				</tr>
+				<tr draggable="true">
+					<td>34/05/2018 (18:11)</td>
+					<td><a href="">Nome do arquivo</a></td>
+					<td><img src="https://www.materialui.co/materialIcons/action/reorder_black_192x192.png" style="height: 24px; width: 24px; vertical-align: bottom;" alt=""></td>
+				</tr>
+			</table>
+		</div>
+		<!-- <div class="arquivo-cont" v-for="n in nArquivos.slice().sort(function(a, b) { return a.pos - b.pos })">
+			<Arquivo :nArquivos="nArquivos" :key="n.pos" :props="props">
 				<div class="acoes">
 					<h6>Mover</h6>
 					<button class="mover" @click="mover('cima', $event)">&uarr;</button>
@@ -17,7 +67,7 @@
 				</div>
 			</Arquivo>
 			<button @click="insereArquivo($event)">Inserir um arquivo aqui</button>
-		</div>
+		</div> -->
 	</div>
 </template>
 
@@ -26,7 +76,7 @@ import Arquivo from '../components/Arquivo.vue'
 
 export default {
 	name: 'Etapa',
-	props: [ 'etapaCounter' ],
+	props: [ 'props', 'etapaCounter' ],
 	data() {
 		return {
 			nArquivos: [ { pos: 1 } ],
@@ -37,7 +87,16 @@ export default {
 		Arquivo
 	},
 	created() {},
-	mounted() {},
+	mounted() {
+		let app = this
+		for (let i = 0; i < this.$props.props.length; i++) {
+			for (let j = 0; j < this.$props.props[i].etapas.length; j++) {
+				for (let k = 0; k < this.$props.props[i].etapas[j].arquivos.length; k++) {
+					this.$props.props[i].etapas[j].arquivos[k].nome
+				}
+			}
+		}
+	},
 	updated() {},
 	methods: {
 		etapaCollapse(evt) {
@@ -55,7 +114,7 @@ export default {
 			this.nArquivos.push({ pos: this.arqCounter })
 		},
 		mover(dir, evt) {
-			console.log(this.nArquivos[this.arqCounter-1].pos)
+			console.log(this.nArquivos[this.evt.target.parentNode].pos)
 		}
 	}
 };

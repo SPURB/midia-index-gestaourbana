@@ -6,12 +6,12 @@
 				<tr>
 					<td width="10%">Nome público</td>
 					<td width="90%">
-						<input type="text" @keyup="charCount($event.target.value, $refs.urlCharCount)">						
+						<input type="text" @keyup="charCount($event.target.value, $refs.urlCharCount)" placeholder="Flávia">						
 						<span ref="urlCharCount" class="charCount">0/330</span>
 					</td>
 				</tr>
 				<tbody ref="urls">
-					<URL v-for="url in urlsInput" class="animate" :key="url.index">URL {{ url.index+1 }}</URL>
+					<URL v-for="url in urlsInput" class="animate" :key="url.index" :props="props">URL {{ url.index+1 }}</URL>
 				</tbody>
 				<tr>
 					<td colspan="2">
@@ -37,7 +37,7 @@ import URL from '../components/URL.vue'
 
 export default {
 	name: 'Arquivo',
-	props: [ 'nArquivos' ],
+	props: [ 'props', 'nArquivos' ],
 	data() {
 		return {
 			urlsInput: [
