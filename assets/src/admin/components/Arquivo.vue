@@ -2,32 +2,34 @@
 	<div class="Arquivo">
 		<slot></slot>
 		<div class="informacoes">
-			<table>
-				<tr>
-					<td width="10%">Nome público</td>
-					<td width="90%">
-						<input type="text" @keyup="charCount($event.target.value, $refs.urlCharCount)" placeholder="Flávia">						
-						<span ref="urlCharCount" class="charCount">0/330</span>
-					</td>
-				</tr>
-				<tbody ref="urls">
-					<URL v-for="url in urlsInput" class="animate" :key="url.index" :props="props">URL {{ url.index+1 }}</URL>
-				</tbody>
-				<tr>
-					<td colspan="2">
-						<div class="addUrl" @click="insereUrl">
-							Adicionar URL <button>+</button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>Descrição</td>
-					<td>
-						<textarea name="descricao" @keyup="charCount($event.target.value, $refs.descricaoCharCount)"></textarea>
-						<span ref="descricaoCharCount" class="charCount">0/330</span>
-					</td>
-				</tr>
-			</table>
+			<form action="">
+				<table>
+					<tr>
+						<td width="10%">Nome público</td>
+						<td width="90%">
+							<input type="text">
+							<span ref="urlCharCount" class="charCount">0/330</span>
+						</td>
+					</tr>
+					<tbody ref="urls">
+						<URL class="animate">URL {{ url.index+1 }}</URL>
+					</tbody>
+					<tr>
+						<td colspan="2">
+							<div class="addUrl" @click="insereUrl">
+								Adicionar URL <button>+</button>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>Descrição</td>
+						<td>
+							<textarea name="descricao" @keyup="charCount($event.target.value, $refs.descricaoCharCount)"></textarea>
+							<span ref="descricaoCharCount" class="charCount">0/330</span>
+						</td>
+					</tr>
+				</table>
+			</form>
 		</div>
 	</div>
 </template>

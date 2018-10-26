@@ -6,7 +6,7 @@
 			<div>
 				<span @click="extensaoBoxShow = !extensaoBoxShow">KML</span>
 				<div class="arquivo_extensao-box" :class="{ display: extensaoBoxShow }" ref="extensaoBox">
-					Selecione o tipo de arquivo <i @click="extensaoBoxShow = !extensaoBoxShow">&times;</i>
+					Selecione a extensão do arquivo <i @click="extensaoBoxShow = !extensaoBoxShow">&times;</i>
 					<div class="opcoes">
 						<span v-for="arquivo in tipoDeArquivo" @click="alteraTipoDeArq">{{ arquivo.extensao }}</span>
 					</div>					
@@ -25,8 +25,8 @@
 			return {
 				extensaoBoxShow: false,
 				tipoDeArquivo: [
-					{ index: 0, extensao: 'KML' },
-					{ index: 1, extensao: 'PDF' },
+					{ index: 0, extensao: 'PDF' },
+					{ index: 1, extensao: 'KMZ' },
 					{ index: 2, extensao: 'KML' },
 					{ index: 3, extensao: 'SHP' },
 					{ index: 4, extensao: 'DOC' }
@@ -50,6 +50,21 @@
 <style lang="scss">
 tr.URL {
 	transition: all ease-in-out .2s;
+	position: relative;
+
+	td div span {
+		display: inline-block;
+		background-color: #BBB;
+		padding: 4px 8px;
+		margin-left: 8px;
+		font-weight: bold;
+		color: #FFF;
+		border-radius: 2px;
+		box-shadow: inset 0 -2px 2px rgba(0, 0, 0, .12);
+		user-select: none;
+		cursor: pointer;
+		&:active { color: rgba(255, 255, 255, .4); }
+	}
 
 	div.arquivo_extensao-box {
 		position: absolute;
@@ -80,6 +95,7 @@ tr.URL {
 			transition: all ease-in .1s;
 			background-color: transparent;
 			cursor: pointer;
+			font-style: normal;
 			&:hover { background-color: #FE4C4C; }
 			&:active { background-color: #FFF; color: #FE4C4C; }
 		}
@@ -108,17 +124,6 @@ tr.URL {
 	@keyframes abreNovaUrl {
 		from { max-height: 0px; opacity: 0; }
 		to { max-height: 100px; opacity: 1; }
-	}
-
-	&.animate {
-		animation: abreNovaUrl .2s ease-in;
-		td button.excluirUrl { display: block; }
-	}
-
-	&.esconde {
-		transform: translateX(112%);
-		height: 0px;
-		opacity: 0;
 	}
 }
 </style>

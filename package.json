@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "vue": "^2.5.17",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuedraggable": "^2.16.0"
   },
   "devDependencies": {
     "assets-webpack-plugin": "^3.9.5",

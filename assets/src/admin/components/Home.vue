@@ -32,8 +32,10 @@
 </template>
 
 <script>
+
 export default {
 	name: 'Home',
+	components: {},
 	props: [ 'props' ],
 	data() {
 		return {}

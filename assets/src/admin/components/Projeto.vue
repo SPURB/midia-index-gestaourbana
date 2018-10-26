@@ -2,8 +2,8 @@
 	<div class="app-projeto">
 		<h1>Arquivos GU</h1>
 		<section class="cabecalho">
-			<p>A partir desta tela, você consegue editar os conteúdos das listas e tabelas de URL.</p>
-			<p>Cada linha corresponde a um link com formatos variados (PDF, DOC, KMZ, SHP etc).</p>
+			<p>A partir desta tela, você consegue acessar e editar as informações dos arquivos de cada projeto.</p>
+			<p>Cada linha corresponde a um arquivo com formatos variados (PDF, DOC, KMZ...).</p>
 		</section>
 		<section class="projeto" v-for="projeto in props" v-if="projeto.id == 6">
 			<div class="nome">
@@ -12,24 +12,17 @@
 					<span>Shortcode do projeto <code>[tabel id=1/]</code></span>
 				</div>
 			</div>
-			<Etapa v-for="etapa in projeto.etapas" key="etapa.id" :props="props">
+			<input type="text" class="busca-arquivos" placeholder="Pesquisar arquivos">
+			<Etapa v-for="etapa in etapasInput" key="etapa.id" :props="props">
 				<template slot="nomeEtapa">{{ etapa.nome }}</template>
 			</Etapa>
-			<button class="adicionarEtapa" @click="insereEtapa">Adicionar etapa</button>
+			<button class="adicionarEtapa" @click="insereEtapa">+ Adicionar etapa</button>
 		</section>
 		<section class="acoes">
 			<button>Cancelar</button>
 			<button @click="teste($event)">Salvar</button>
 		</section>
-		<div class="luz" :class="{ ativo: apagaLuz }">
-			<div class="modal" :class="{ ativo: apagaLuz }" ref="modal">
-				<div class="svgCont">
-					<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm7 7.457l-9.005 9.565-4.995-5.865.761-.649 4.271 5.016 8.24-8.752.728.685z"/></svg>
-				</div>
-				Alterações realizadas com sucesso
-				<a href="">Projetos criados</a>
-				<a href="">Novo projeto</a>
-			</div>
+		<div class="luz" :class="{ apagada: apagaLuz }">
 		</div>
 	</div>
 </template>
@@ -56,12 +49,6 @@ export default {
 		insereEtapa() {
 			this.etapasInput.push({ index: this.etapaCounter })
 			this.etapaCounter++
-		},
-		teste(evt) {
-			this.apagaLuz = true
-			console.log('apaga')
-			console.log(evt)
-			evt.target.classList.add('clicked')
 		}
 	},
 	updated() {
@@ -75,14 +62,13 @@ export default {
 			} else { return false }
 		}
 		if (app.apagaLuz == true) {
-			app.$el.addEventListener("click", f, false)
-			// app.$el.addEventListener("keydown", function(evt) {
-			// 	if (evt.code == 27) {
-			// 		// app.apagaLuz = false
-			// 		console.log('esc')
-			// 	} else {
-			// 		return false }
-			// })
+			// app.$el.addEventListener("click", f, false)
+			app.$el.addEventListener("keydown", function(evt) {
+				if (evt.code === 27) {
+					// app.apagaLuz = false
+					console.log('esc')
+				} else { return false }
+			})
 		} else if (app.apagaLuz == false) {
 			app.$el.removeEventListener("click", f, false)
 		}
@@ -123,114 +109,14 @@ button, input, textarea { margin: 0; font-family: inherit; }
 			}
 		}
 
-		div.etapa {
-			display: flex;
-			flex-flow: column nowrap;
-			margin: 12px 0 0 0;
+		input.busca-arquivos {
+			margin: 8px 0 0 0;
+			padding: 0 12px 1px 12px;
+			width: 100%;
+			height: 36px;
+			border-radius: 18px;
+			box-shadow: none;
 			border: 1px solid #DDD;
-			border-radius: 2px;
-			min-height: 40px;
-			max-height: unset;
-			overflow: hidden;
-			transition: all ease-in-out .2s;
-
-			div.h-etapa {
-				padding: 8px 12px;
-				box-sizing: border-box;
-				border-bottom: 1px solid #DDD;
-				background-color: #0073aa;
-				& > span {
-					color: #CCC;
-					margin-right: 4px;
-				}
-				h3 {
-					display: inline-block;
-					color: #FFF;
-				}
-				& > div.shortcode_expand {
-					display: inline-flex;
-					align-items: center;
-					float: right;
-					height: 100%;
-					color: #CCC;
-					button {
-						margin: 0 0 0 12px;
-						padding: 0;
-						border: 0;
-						background-color: transparent;
-						color: #CCC;
-						transition: all ease-out .2s;
-						cursor: pointer;
-						transform-origin: center 61%;
-						&:hover { color: initial; }
-					}
-					code { color: #CCC; }
-				}
-			}
-
-			div.arquivosTable {
-				table {
-					width: 100%;
-					border-collapse: collapse;
-					thead th {
-						text-align: left;
-						font-weight: normal;
-						padding: 8px 0 8px 12px;
-						border-bottom: 1px solid #DDD;
-						&:first-child { width: 10%; min-width: 120px; }
-						&:last-child { width: 1px; padding-right: 12px; }
-						color: #898989;
-					}
-					tr td {
-						padding: 8px 0 8px 12px;
-						transition: all .2s;
-						& > * {	user-select: none; -moz-user-select: none; }
-						a {
-							text-decoration: none;
-						}
-					}
-					tr:nth-child(even) td { background: #F8F8F8; }
-					tr:hover td { background: #EEE; }
-					tr:active td {
-						background: #5b9dd9;
-						color: #FFF;
-						a { color: #FFF; }
-					}					
-					& > * {
-						user-select: none;
-						-moz-user-select: none;
-					}
-				}
-			}
-
-			@keyframes abreNovoArquivo {
-				from { max-height: 0px; }
-				to { max-height: 600px; }
-			}
-
-			div.arquivo-cont {
-				position: relative;
-				overflow: hidden;
-				animation: abreNovoArquivo .4s ease-in;
-				& > button {
-					position: absolute;
-					margin-left: auto;
-					margin-right: auto;
-					left: 0;
-					right: 0;
-					bottom: 2px;
-					background: #0073aa;
-					border: 0;
-					border-radius: 2px 2px 0 0;
-					color: #FFF;
-					font-weight: bold;
-					cursor: pointer;
-					font-size: xx-small;
-					text-transform: uppercase;
-					padding: 1px 4px 0 4px;
-					&:active { color: rgba(255, 255, 255, .4); }
-				}
-			}
 		}
 	}
 
@@ -238,10 +124,11 @@ button, input, textarea { margin: 0; font-family: inherit; }
 		margin: 12px 0 0 0 !important;
 		display: block;
 		width: 100%;
-		padding: 1rem;
+		padding: 0 1rem;
+		height: 40px;
 		background: transparent;
 		border: 1px dashed #BBB;
-		border-radius: 12px;
+		border-radius: 20px;
 		color: #BBB;
 		cursor: pointer;
 		transition: all .2s;
@@ -306,39 +193,43 @@ button, input, textarea { margin: 0; font-family: inherit; }
 		overflow: hidden;
 		z-index: -1;
 		transition: all .4s ease-in-out;
-		&.ativo {
+		&.apagada {
 			background-color: rgba(0, 0, 0, .4);
 			z-index: 1;
 		}
 
 		div.modal {
-			font-size: large;
-			color: #219653;
 			line-height: 160%;
-			text-align: center;
-			width: 200px;
-			padding: 24px;
 			background: #fff;
 			border-radius: 2px;
 			box-shadow: 0 2px 2px rgba(0, 0, 0, .24);
 			transform: translateY(100vh);
 			transition-duration: .6s;
+
 			&.ativo { transform: translateY(0); }
 
-			div.svgCont {
-				svg { fill: #219653; }
-			}
+			&.sucesso {
+				color: #219653;
+				text-align: center;
+				width: 200px;
+				font-size: large;
+				padding: 24px;
 
-			a {
-				display: block;
-				background: #C4C4C4;
-				color: initial;
-				text-decoration: none;
-				border-radius: 2px;
-				margin: 24px 0 0 0;
-				padding: 12px 16px;
-				transition: all .2s;
-				&:hover { background: #eee; }
+				div.svgCont {
+					svg { fill: #219653; }
+				}
+
+				a {
+					display: block;
+					background: #C4C4C4;
+					color: initial;
+					text-decoration: none;
+					border-radius: 2px;
+					margin: 24px 0 0 0;
+					padding: 12px 16px;
+					transition: all .2s;
+					&:hover { background: #eee; }
+				}
 			}
 		}
 	}
