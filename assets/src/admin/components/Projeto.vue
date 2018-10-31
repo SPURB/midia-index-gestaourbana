@@ -5,7 +5,7 @@
 			<p>A partir desta tela, você consegue acessar e editar as informações dos arquivos de cada projeto.</p>
 			<p>Cada linha corresponde a um arquivo com formatos variados (PDF, DOC, KMZ...).</p>
 		</section>
-		<section class="projeto" v-for="projeto in props" v-if="projeto.id == 6">
+		<section v-for="projeto in props.projetos" v-if="projeto.id == 6" class="projeto">
 			<div class="nome">
 				<h2>{{ projeto.nome }}</h2>
 				<div class="shortcode_expand">
@@ -19,7 +19,7 @@
 			<button class="adicionarEtapa" @click="insereEtapa">+ Adicionar etapa</button>
 		</section>
 		<section class="acoes">
-			<button>Cancelar</button>
+			<button @click="luzToggle()">Cancelar</button>
 			<button @click="teste($event)">Salvar</button>
 		</section>
 		<div class="luz" :class="{ apagada: apagaLuz }">
@@ -40,16 +40,15 @@ export default {
 				{ index: 0 }
 			],
 			etapaCounter: 1,
+			etapas: [],
+			nProjetos: []
 		};
 	},
 	components: {
 		Etapa
 	},
-	methods: {
-		insereEtapa() {
-			this.etapasInput.push({ index: this.etapaCounter })
-			this.etapaCounter++
-		}
+	mounted() {
+		console.log(this.$props)
 	},
 	updated() {
 		let modal = this.$refs.modal
@@ -71,6 +70,15 @@ export default {
 			})
 		} else if (app.apagaLuz == false) {
 			app.$el.removeEventListener("click", f, false)
+		}
+	},
+	methods: {
+		insereEtapa() {
+			this.etapasInput.push({ index: this.etapaCounter })
+			this.etapaCounter++
+		},
+		luzToggle() {
+			this.$store.store.apagaLuz = !this.$store.apagaLuz
 		}
 	}
 }

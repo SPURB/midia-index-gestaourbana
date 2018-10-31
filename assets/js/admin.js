@@ -3,7 +3,8 @@ pluginWebpack([0],[
 /* 1 */,
 /* 2 */,
 /* 3 */,
-/* 4 */
+/* 4 */,
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18,76 +19,153 @@ pluginWebpack([0],[
 	name: 'App',
 	data() {
 		return {
-			projetos: [{
-				"id": 21,
-				"nome": "PIU Rio Branco",
+			arquivos: [{
+				"id": 1,
+				"nome": "Diagnóstico",
+				"descricao": "Minuta de consulta pública para Programa de Interesse Público",
 				"autoria": "devspurbanismo",
-				"status": 1,
-				"ultimaMod": "2018-08-21 18:37:50",
-				"consultaAtiva": 0,
-				etapas: [{
-					"id": 2,
-					"nome": "Consulta Pública Inicial",
-					arquivos: [{
-						"id": 1,
-						"nome": "Diagnóstico",
-						"descricao": "Minuta de consulta pública para Programa de Interesse Público",
-						"autoria": "devspurbanismo",
-						"inclusao": "2018-08-21 18:37:28",
-						destino: [{
-							"urlid": 1,
-							"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-							"extensao": "pdf"
-						}],
-						"index": 1
-					}, {
-						"id": 2,
-						"nome": "Mapas",
-						"descricao": "Mapas do Anexo I da Minuta de consulta pública",
-						"autoria": "devspurbanismo",
-						"inclusao": "2018-08-21 18:37:50",
-						destino: [{
-							"urlid": 1,
-							"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-							"extensao": "pdf"
-						}],
-						"index": 2
-					}]
+				"inclusao": "2018-08-21 18:37:28",
+				"projetoId": 21,
+				"projetoEtapa": 2,
+				"etapaIndex": 1,
+				destino: [{
+					"urlid": 1,
+					"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+					"extensao": "pdf"
 				}]
 			}, {
-				"id": 6,
-				"nome": "PIU Anhembi",
+				"id": 2,
+				"nome": "Mapas",
+				"descricao": "Mapas do Anexo I da Minuta de consulta pública",
 				"autoria": "devspurbanismo",
-				"status": 1,
-				"ultimaMod": "2018-08-21 19:11:38",
-				"consultaAtiva": 1,
-				etapas: [{
-					"id": 1,
-					"nome": "Em proposição dos elementos prévios",
-					arquivos: [{
-						"id": 3,
-						"nome": "Ofício",
-						"descricao": "Pedido de instauração de Projeto de Intervenção Urbana (PIU) relativo à área do Complexo Anhembi",
-						"inclusao": "2018-08-21 19:11:38",
-						destino: [{
-							"urlid": 1,
-							"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
-							"extensao": "pdf"
-						}],
-						"index": 1
-					}]
+				"inclusao": "2018-08-21 18:37:50",
+				"projetoId": 21,
+				"projetoEtapa": 2,
+				"etapaIndex": 2,
+				destino: [{
+					"urlid": 1,
+					"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+					"extensao": "pdf"
 				}]
+			}, {
+				"id": 3,
+				"nome": "Ofício",
+				"descricao": "Pedido de instauração de Projeto de Intervenção Urbana (PIU) relativo à área do Complexo Anhembi",
+				"inclusao": "2018-08-21 19:11:38",
+				"projetoId": 6,
+				"projetoEtapa": 1,
+				"etapaIndex": 1,
+				destino: [{
+					"urlid": 1,
+					"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
+					"extensao": "pdf"
+				}]
+			}],
+			projetos: [{
+				'id': 6,
+				'nome': 'PIU Anhembi',
+				'ultimaMod': '2018-08-21 19:11:38',
+				'autoria': 'devspurbanismo',
+				'status': 1,
+				etapas: [{ 'id': 1, 'nome': 'Em proposição dos elementos prévios' }]
+			}, {
+				'id': 21,
+				'nome': 'PIU Rio Branco',
+				'ultimaMod': '2018-08-21 18:37:50',
+				'autoria': 'devspurbanismo',
+				'status': 1,
+				etapas: [{ 'id': 1, 'nome': 'Em proposição dos elementos prévios' }, { 'id': 2, 'nome': 'Consulta pública inicial' }]
 			}]
+			// projetos: [
+			// 	{
+			// 		"id": 21,
+			// 		"nome": "PIU Rio Branco",
+			// 		"autoria": "devspurbanismo",
+			// 		"status": 1,
+			// 		"ultimaMod": "2018-08-21 18:37:50",
+			// 		"consultaAtiva": 0,
+			// 		etapas: [
+			// 			{				
+			// 				"id": 2,
+			// 				"nome": "Consulta Pública Inicial",
+			// 				arquivos: [
+			// 					{
+			// 						"id": 1,
+			// 						"nome": "Diagnóstico",
+			// 						"descricao": "Minuta de consulta pública para Programa de Interesse Público",
+			// 						"autoria": "devspurbanismo",
+			// 						"inclusao": "2018-08-21 18:37:28",
+			// 						destino: [
+			// 							{
+			// 								"urlid": 1,
+			// 								"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+			// 								"extensao": "pdf"
+			// 							}
+			// 						],
+			// 						"index": 1,
+			// 					},
+			// 					{
+			// 						"id": 2,
+			// 						"nome": "Mapas",
+			// 						"descricao": "Mapas do Anexo I da Minuta de consulta pública",
+			// 						"autoria": "devspurbanismo",
+			// 						"inclusao": "2018-08-21 18:37:50",
+			// 						destino: [
+			// 							{
+			// 								"urlid": 1,
+			// 								"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+			// 								"extensao": "pdf"
+			// 							}
+			// 						],
+			// 						"index": 2,
+			// 					},
+			// 				],
+			// 			}
+			// 		]
+			// 	},
+			// 	{
+			// 		"id": 6,
+			// 		"nome": "PIU Anhembi",
+			// 		"autoria": "devspurbanismo",
+			// 		"status": 1,
+			// 		"ultimaMod": "2018-08-21 19:11:38",
+			// 		"consultaAtiva": 1,
+			// 		etapas: [
+			// 			{
+			// 				"id": 1,
+			// 				"nome": "Em proposição dos elementos prévios",
+			// 				arquivos: [
+			// 					{
+			// 						"id": 3,
+			// 						"nome": "Ofício",
+			// 						"descricao": "Pedido de instauração de Projeto de Intervenção Urbana (PIU) relativo à área do Complexo Anhembi",
+			// 						"inclusao": "2018-08-21 19:11:38",
+			// 						destino: [
+			// 							{
+			// 								"urlid": 1,
+			// 								"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
+			// 								"extensao": "pdf"
+			// 							}
+			// 						],
+			// 						"index": 1,
+			// 					}
+			// 				]
+			// 			}
+			// 		]
+			// 	}
+			// ]
 		};
 	}
 });
 
 /***/ }),
-/* 5 */,
-/* 6 */
+/* 6 */,
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
+//
 //
 //
 //
@@ -128,9 +206,29 @@ pluginWebpack([0],[
 	components: {},
 	props: ['props'],
 	data() {
-		return {};
+		return {
+			nProjetos: []
+		};
+	},
+	beforeMount() {
+		this.montaProjetos();
+	},
+	mounted() {},
+	computed: {
+		teste() {
+			return this.$store.state.arquivos;
+		}
 	},
 	methods: {
+		montaProjetos() {
+			let projetosTemp = new Set();
+			this.$props.props.arquivos.map(function (index) {
+				projetosTemp.add(index.projetoId);
+			});
+			this.nProjetos = Array.from(projetosTemp).sort(function (a, b) {
+				return a - b;
+			});
+		},
 		displayData(data) {
 			let aaaa = data.slice(0, 4);
 			let mm = data.slice(5, 7);
@@ -146,7 +244,6 @@ pluginWebpack([0],[
 			}
 		},
 		switchCont(par) {
-			console.log(par);
 			if (par == 1) {
 				par = 0;
 			} else if (par == 0) {
@@ -157,11 +254,11 @@ pluginWebpack([0],[
 });
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Etapa_vue__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Etapa_vue__ = __webpack_require__(29);
 //
 //
 //
@@ -201,17 +298,16 @@ pluginWebpack([0],[
 		return {
 			apagaLuz: false,
 			etapasInput: [{ index: 0 }],
-			etapaCounter: 1
+			etapaCounter: 1,
+			etapas: [],
+			nProjetos: []
 		};
 	},
 	components: {
 		Etapa: __WEBPACK_IMPORTED_MODULE_0__components_Etapa_vue__["a" /* default */]
 	},
-	methods: {
-		insereEtapa() {
-			this.etapasInput.push({ index: this.etapaCounter });
-			this.etapaCounter++;
-		}
+	mounted() {
+		console.log(this.$props);
 	},
 	updated() {
 		let modal = this.$refs.modal;
@@ -238,16 +334,25 @@ pluginWebpack([0],[
 		} else if (app.apagaLuz == false) {
 			app.$el.removeEventListener("click", f, false);
 		}
+	},
+	methods: {
+		insereEtapa() {
+			this.etapasInput.push({ index: this.etapaCounter });
+			this.etapaCounter++;
+		},
+		luzToggle() {
+			this.$store.store.apagaLuz = !this.$store.apagaLuz;
+		}
 	}
 });
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Arquivo_vue__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Arquivo_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuedraggable__);
 //
 //
@@ -369,17 +474,17 @@ pluginWebpack([0],[
 });
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Arquivo_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Arquivo_vue__ = __webpack_require__(11);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_15b454f2_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Arquivo_vue__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_15b454f2_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Arquivo_vue__ = __webpack_require__(35);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(32)
+  __webpack_require__(31)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -425,11 +530,11 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_URL_vue__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_URL_vue__ = __webpack_require__(32);
 //
 //
 //
@@ -540,7 +645,7 @@ if (false) {(function () {
 });
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -587,13 +692,12 @@ if (false) {(function () {
 });
 
 /***/ }),
-/* 12 */,
 /* 13 */,
 /* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Arquivo_vue__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Arquivo_vue__ = __webpack_require__(10);
 //
 //
 //
@@ -715,23 +819,27 @@ if (false) {(function () {
 "use strict";
 
 
-var _vue = __webpack_require__(2);
+var _vue = __webpack_require__(1);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _vuex = __webpack_require__(19);
+var _vuex = __webpack_require__(4);
 
 var _vuex2 = _interopRequireDefault(_vuex);
 
-var _App = __webpack_require__(20);
+var _App = __webpack_require__(19);
 
 var _App2 = _interopRequireDefault(_App);
 
-var _router = __webpack_require__(24);
+var _router = __webpack_require__(23);
 
 var _router2 = _interopRequireDefault(_router);
 
-var _adminMenuFix = __webpack_require__(49);
+var _store = __webpack_require__(45);
+
+var _store2 = _interopRequireDefault(_store);
+
+var _adminMenuFix = __webpack_require__(46);
 
 var _adminMenuFix2 = _interopRequireDefault(_adminMenuFix);
 
@@ -754,19 +862,18 @@ new _vue2.default({
 /***/ }),
 /* 17 */,
 /* 18 */,
-/* 19 */,
-/* 20 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue__ = __webpack_require__(5);
 /* empty harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_200a6b1e_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_200a6b1e_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__ = __webpack_require__(22);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(21)
+  __webpack_require__(20)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -812,14 +919,14 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 22 */,
-/* 23 */
+/* 21 */,
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -830,7 +937,11 @@ var render = function() {
   return _c(
     "div",
     { attrs: { id: "vue-backend-app" } },
-    [_c("router-view", { attrs: { props: _vm.projetos } })],
+    [
+      _c("router-view", {
+        attrs: { props: { arquivos: _vm.arquivos, projetos: _vm.projetos } }
+      })
+    ],
     1
   )
 }
@@ -846,7 +957,7 @@ if (false) {
 }
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -856,27 +967,27 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _vue = __webpack_require__(2);
+var _vue = __webpack_require__(1);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _vueRouter = __webpack_require__(5);
+var _vueRouter = __webpack_require__(6);
 
 var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
-var _Home = __webpack_require__(25);
+var _Home = __webpack_require__(24);
 
 var _Home2 = _interopRequireDefault(_Home);
 
-var _Projeto = __webpack_require__(28);
+var _Projeto = __webpack_require__(27);
 
 var _Projeto2 = _interopRequireDefault(_Projeto);
 
-var _AdicionarProjeto = __webpack_require__(43);
+var _AdicionarProjeto = __webpack_require__(39);
 
 var _AdicionarProjeto2 = _interopRequireDefault(_AdicionarProjeto);
 
-var _Configuracoes = __webpack_require__(46);
+var _Configuracoes = __webpack_require__(42);
 
 var _Configuracoes2 = _interopRequireDefault(_Configuracoes);
 
@@ -905,18 +1016,18 @@ exports.default = new _vueRouter2.default({
 });
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Home_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Home_vue__ = __webpack_require__(7);
 /* empty harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_45e83875_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Home_vue__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_45e83875_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Home_vue__ = __webpack_require__(26);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(26)
+  __webpack_require__(25)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -962,13 +1073,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -990,37 +1101,45 @@ var render = function() {
       [
         _vm._m(1),
         _vm._v(" "),
-        _vm._l(_vm.props, function(projeto) {
-          return _c("tr", { class: _vm.ocultoClass(projeto.status) }, [
-            _c("td", [
-              _c("a", { attrs: { href: "#" } }, [_vm._v(_vm._s(projeto.nome))])
-            ]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(projeto.autoria))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(_vm.displayData(projeto.ultimaMod)))]),
-            _vm._v(" "),
-            _c("td", [
-              _c(
-                "div",
-                {
-                  staticClass: "switchCont",
-                  on: {
-                    click: function($event) {
-                      _vm.switchCont(projeto.status)
-                    }
-                  }
-                },
-                [
-                  _c("div", { class: _vm.ocultoClass(projeto.status) }, [
-                    projeto.status == 1
-                      ? _c("span", [_vm._v("Disponível")])
-                      : _c("span", [_vm._v("Oculto")])
+        _vm._l(_vm.props.projetos, function(projeto) {
+          return _vm._l(_vm.nProjetos, function(projetoId) {
+            return projetoId == projeto.id
+              ? _c("tr", { class: _vm.ocultoClass(projeto.status) }, [
+                  _c("td", [
+                    _c("a", { attrs: { href: "#" } }, [
+                      _vm._v(_vm._s(projeto.nome))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(projeto.autoria))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(_vm._s(_vm.displayData(projeto.ultimaMod)))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "switchCont",
+                        on: {
+                          click: function($event) {
+                            _vm.switchCont(projeto.status)
+                          }
+                        }
+                      },
+                      [
+                        _c("div", { class: _vm.ocultoClass(projeto.status) }, [
+                          projeto.status == 1
+                            ? _c("span", [_vm._v("Disponível")])
+                            : _c("span", [_vm._v("Oculto")])
+                        ])
+                      ]
+                    )
                   ])
-                ]
-              )
-            ])
-          ])
+                ])
+              : _vm._e()
+          })
         })
       ],
       2
@@ -1080,18 +1199,18 @@ if (false) {
 }
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Projeto_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Projeto_vue__ = __webpack_require__(8);
 /* empty harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3853e4fd_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Projeto_vue__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3853e4fd_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Projeto_vue__ = __webpack_require__(38);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(29)
+  __webpack_require__(28)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -1137,23 +1256,23 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Etapa_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Etapa_vue__ = __webpack_require__(9);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5c5feb5d_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Etapa_vue__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5c5feb5d_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Etapa_vue__ = __webpack_require__(37);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(31)
+  __webpack_require__(30)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -1199,6 +1318,12 @@ if (false) {(function () {
 
 
 /***/ }),
+/* 30 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
 /* 31 */
 /***/ (function(module, exports) {
 
@@ -1206,22 +1331,16 @@ if (false) {(function () {
 
 /***/ }),
 /* 32 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_URL_vue__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_URL_vue__ = __webpack_require__(12);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1b740449_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_URL_vue__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1b740449_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_URL_vue__ = __webpack_require__(34);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(34)
+  __webpack_require__(33)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -1267,13 +1386,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1361,7 +1480,7 @@ if (false) {
 }
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1456,8 +1575,8 @@ if (false) {
 }
 
 /***/ }),
-/* 37 */,
-/* 38 */
+/* 36 */,
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1599,10 +1718,7 @@ if (false) {
 }
 
 /***/ }),
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */
+/* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1618,7 +1734,7 @@ var render = function() {
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
-      _vm._l(_vm.props, function(projeto) {
+      _vm._l(_vm.props.projetos, function(projeto) {
         return projeto.id == 6
           ? _c(
               "section",
@@ -1663,7 +1779,17 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("section", { staticClass: "acoes" }, [
-        _c("button", [_vm._v("Cancelar")]),
+        _c(
+          "button",
+          {
+            on: {
+              click: function($event) {
+                _vm.luzToggle()
+              }
+            }
+          },
+          [_vm._v("Cancelar")]
+        ),
         _vm._v(" "),
         _c(
           "button",
@@ -1725,18 +1851,18 @@ if (false) {
 }
 
 /***/ }),
-/* 43 */
+/* 39 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdicionarProjeto_vue__ = __webpack_require__(14);
 /* empty harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_68ef0786_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdicionarProjeto_vue__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_68ef0786_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdicionarProjeto_vue__ = __webpack_require__(41);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(44)
+  __webpack_require__(40)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -1782,13 +1908,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 44 */
+/* 40 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 45 */
+/* 41 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1859,18 +1985,18 @@ if (false) {
 }
 
 /***/ }),
-/* 46 */
+/* 42 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Configuracoes_vue__ = __webpack_require__(15);
 /* empty harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_26eeb9d6_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Configuracoes_vue__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_26eeb9d6_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Configuracoes_vue__ = __webpack_require__(44);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(47)
+  __webpack_require__(43)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -1916,13 +2042,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 47 */
+/* 43 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 48 */
+/* 44 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1946,7 +2072,87 @@ if (false) {
 }
 
 /***/ }),
-/* 49 */
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.store = undefined;
+
+var _vue = __webpack_require__(1);
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _vuex = __webpack_require__(4);
+
+var _vuex2 = _interopRequireDefault(_vuex);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_vue2.default.use(_vuex2.default);
+
+var store = exports.store = new _vuex2.default.Store({
+	state: {
+		arquivos: [{
+			"id": 1,
+			"nome": "Diagnóstico",
+			"descricao": "Minuta de consulta pública para Programa de Interesse Público",
+			"autoria": "devspurbanismo",
+			"inclusao": "2018-08-21 18:37:28",
+			"projetoId": 21,
+			"projetoEtapa": 2,
+			"etapaIndex": 1,
+			destino: [{
+				"urlid": 1,
+				"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+				"extensao": "pdf"
+			}]
+		}, {
+			"id": 2,
+			"nome": "Mapas",
+			"descricao": "Mapas do Anexo I da Minuta de consulta pública",
+			"autoria": "devspurbanismo",
+			"inclusao": "2018-08-21 18:37:50",
+			"projetoId": 21,
+			"projetoEtapa": 2,
+			"etapaIndex": 2,
+			destino: [{
+				"urlid": 1,
+				"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+				"extensao": "pdf"
+			}]
+		}, {
+			"id": 3,
+			"nome": "Ofício",
+			"descricao": "Pedido de instauração de Projeto de Intervenção Urbana (PIU) relativo à área do Complexo Anhembi",
+			"inclusao": "2018-08-21 19:11:38",
+			"projetoId": 6,
+			"projetoEtapa": 1,
+			"etapaIndex": 1,
+			destino: [{
+				"urlid": 1,
+				"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
+				"extensao": "pdf"
+			}]
+		}],
+		projetos: [{ 'id': 6, 'nome': 'PIU Anhembi', 'ultimaMod': '2018-08-21 19:11:38', 'autoria': 'devspurbanismo', 'status': 1 }, { 'id': 21, 'nome': 'PIU Rio Branco', 'ultimaMod': '2018-08-21 18:37:50', 'autoria': 'devspurbanismo', 'status': 1 }],
+		apagaLuz: false
+	},
+	getters: {},
+	mutations: {
+		luzToggle: function luzToggle(state) {
+			state.apagaLuz = !state.apagaLuz;
+		}
+	},
+	actions: {}
+});
+
+/***/ }),
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

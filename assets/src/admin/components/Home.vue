@@ -14,19 +14,21 @@
 				<th width="25%">Última modificação</th>
 				<th width="15%"></th>
 			</thead>
-			<tr v-for="projeto in props" :class="ocultoClass(projeto.status)">
-				<td><a href="#">{{ projeto.nome }}</a></td>
-				<td>{{ projeto.autoria }}</td>
-				<td>{{ displayData(projeto.ultimaMod) }}</td>
-				<td>
-					<div class="switchCont" @click="switchCont(projeto.status)">
-						<div :class="ocultoClass(projeto.status)">
-							<span v-if="projeto.status == 1">Disponível</span>
-							<span v-else>Oculto</span>
+			<template v-for="projeto in props.projetos">
+				<tr v-for="projetoId in nProjetos" v-if="projetoId == projeto.id" :class="ocultoClass(projeto.status)">
+					<td><a href="#">{{ projeto.nome }}</a></td>
+					<td>{{ projeto.autoria }}</td>
+					<td>{{ displayData(projeto.ultimaMod) }}</td>
+					<td>
+						<div class="switchCont" @click="switchCont(projeto.status)">
+							<div :class="ocultoClass(projeto.status)">
+								<span v-if="projeto.status == 1">Disponível</span>
+								<span v-else>Oculto</span>
+							</div>
 						</div>
-					</div>
-				</td>
-			</tr>
+					</td>
+				</tr>
+			</template>
 		</table>
 	</div>
 </template>
@@ -38,9 +40,27 @@ export default {
 	components: {},
 	props: [ 'props' ],
 	data() {
-		return {}
+		return {
+			nProjetos: [],
+		}
+	},
+	beforeMount() {
+		this.montaProjetos()
+	},
+	mounted() {},
+	computed: {
+		teste() {
+			return this.$store.state.arquivos
+		}
 	},
 	methods:{
+		montaProjetos() {
+			let projetosTemp = new Set()
+			this.$props.props.arquivos.map(function(index) {
+				projetosTemp.add(index.projetoId)
+			})
+			this.nProjetos = Array.from(projetosTemp).sort(function(a, b) { return a - b })
+		},
 		displayData(data) {
 			let aaaa = data.slice(0,4)
 			let mm = data.slice(5,7)
@@ -52,7 +72,6 @@ export default {
 			if (par == 1) { return '' } else if (par == 0) { return 'oculto' }
 		},
 		switchCont(par) {
-			console.log(par)
 			if (par == 1) {
 				par = 0
 			} else if (par == 0) {
