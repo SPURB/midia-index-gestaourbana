@@ -3,63 +3,72 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export const store = new Vuex.Store({
+const store = new Vuex.Store({
 	state: {
 		arquivos: [
 			{
-				"id": 1,
 				"nome": "Diagnóstico",
+				"id": 1,
+				"id_etapa": 2,
+				"atualizacao": "2018-08-21 18:37:28",
+				"autor": "devspurbanismo",
 				"descricao": "Minuta de consulta pública para Programa de Interesse Público",
-				"autoria": "devspurbanismo",
-				"inclusao": "2018-08-21 18:37:28",
-				"projetoId": 21,
-				"projetoEtapa": 2,
-				"etapaIndex": 1,
-				destino: [
-					{
-						"urlid": 1,
-						"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-						"extensao": "pdf"
-					}
-				]
+				"posicao": 1,
+			},
+			{
+				"nome": "Mapas",
+				"id": 2,
+				"id_etapa": 2,
+				"atualizacao": "2018-08-21 18:37:50",
+				"autor": "devspurbanismo",
+				"descricao": "Mapas do Anexo I da Minuta de consulta pública",
+				"posicao": 2,
+			},
+			{
+				"nome": "Ofício",
+				"id": 3,
+				"id_etapa": 1,
+				"atualizacao": "2018-08-21 19:11:38",
+				"autor": "devspurbanismo",
+				"descricao": "Pedido de instauração de Projeto de Intervenção Urbana (PIU) relativo à área do Complexo Anhembi",
+				"posicao": 1,
+			}
+		],
+		urls: [
+			{
+				"id": 1,
+				"id_arquivo": 1,
+				"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+				"extensao": "pdf"
 			},
 			{
 				"id": 2,
-				"nome": "Mapas",
-				"descricao": "Mapas do Anexo I da Minuta de consulta pública",
-				"autoria": "devspurbanismo",
-				"inclusao": "2018-08-21 18:37:50",
-				"projetoId": 21,
-				"projetoEtapa": 2,
-				"etapaIndex": 2,
-				destino: [
-					{
-						"urlid": 1,
-						"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-						"extensao": "pdf"
-					}
-				]
+				"id_arquivo": 2,
+				"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+				"extensao": "pdf"
 			},
 			{
 				"id": 3,
-				"nome": "Ofício",
-				"descricao": "Pedido de instauração de Projeto de Intervenção Urbana (PIU) relativo à área do Complexo Anhembi",
-				"inclusao": "2018-08-21 19:11:38",
-				"projetoId": 6,
-				"projetoEtapa": 1,
-				"etapaIndex": 1,
-				destino: [
-					{
-						"urlid": 1,
-						"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
-						"extensao": "pdf"
-					}
-				]
-			}
+				"id_arquivo": 3,
+				"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
+				"extensao": "pdf"
+			},
 		],
 		projetos: [
-			{ 'id': 6, 'nome': 'PIU Anhembi', 'ultimaMod': '2018-08-21 19:11:38', 'autoria': 'devspurbanismo', 'status': 1 },
-			{ 'id': 21, 'nome': 'PIU Rio Branco', 'ultimaMod': '2018-08-21 18:37:50', 'autoria': 'devspurbanismo', 'status': 1 }
+			{
+				'nome': 'PIU Anhembi',
+				'id': 6,
+				'ativo': 1,
+				'autor': 'devspurbanismo',
+				'atualizacao': '2018-08-21 19:11:38'
+			},
+			{
+				'nome': 'PIU Rio Branco',
+				'id': 21,
+				'ativo': 1,
+				'autor': 'devspurbanismo',
+				'atualizacao': '2018-08-21 18:37:50'
+			}
 		],
 		apagaLuz: false,
 	},
@@ -71,3 +80,5 @@ export const store = new Vuex.Store({
 	},
 	actions: {}
 })
+
+export default store

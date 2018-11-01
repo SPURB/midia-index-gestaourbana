@@ -49,8 +49,8 @@ export default {
 	},
 	mounted() {},
 	computed: {
-		teste() {
-			return this.$store.state.arquivos
+		aluz() {
+			return this.$store.state.num
 		}
 	},
 	methods:{

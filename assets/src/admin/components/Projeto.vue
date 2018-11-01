@@ -47,9 +47,7 @@ export default {
 	components: {
 		Etapa
 	},
-	mounted() {
-		console.log(this.$props)
-	},
+	mounted() {},
 	updated() {
 		let modal = this.$refs.modal
 		let app = this
@@ -76,9 +74,6 @@ export default {
 		insereEtapa() {
 			this.etapasInput.push({ index: this.etapaCounter })
 			this.etapaCounter++
-		},
-		luzToggle() {
-			this.$store.store.apagaLuz = !this.$store.apagaLuz
 		}
 	}
 }

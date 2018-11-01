@@ -9,9 +9,10 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
-    el: '#gu-index-admin',
-    router,
-    render: h => h(App)
+	el: '#gu-index-admin',
+	router,
+	store,
+	render: h => h(App)
 });
 
 

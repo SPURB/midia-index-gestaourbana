@@ -31,6 +31,7 @@
 <script>
 import Arquivo from '../components/Arquivo.vue'
 import draggable from 'vuedraggable'
+import AdicionarArquivo from '../components/AdicionarArquivo.vue'
 
 export default {
 	name: 'Etapa',
@@ -92,7 +93,7 @@ export default {
 		}
 	},
 	components: {
-		Arquivo, draggable
+		AdicionarArquivo, Arquivo, draggable
 	},
 	created() {},
 	mounted() {
