@@ -23,8 +23,9 @@
 					</tr>
 				</draggable>
 			</table>
-			<button class="adicionar-arquivo">+ Adicionar arquivo</button>
+			<button class="adicionar-arquivo" @click="novoArquivo()">+ Adicionar arquivo</button>
 		</div>
+		<AdicionarArquivo v-if="abreNovoArquivo"></AdicionarArquivo>
 	</div>
 </template>
 
@@ -89,23 +90,15 @@ export default {
 						}
 					]
 				}
-			]
+			],
+			abreNovoArquivo: false,
 		}
 	},
 	components: {
 		AdicionarArquivo, Arquivo, draggable
 	},
 	created() {},
-	mounted() {
-		let app = this
-		for (let i = 0; i < this.$props.props.length; i++) {
-			for (let j = 0; j < this.$props.props[i].etapas.length; j++) {
-				for (let k = 0; k < this.$props.props[i].etapas[j].arquivos.length; k++) {
-					this.$props.props[i].etapas[j].arquivos[k].nome
-				}
-			}
-		}
-	},
+	mounted() {},
 	updated() {},
 	methods: {
 		etapaCollapse(evt) {
@@ -114,7 +107,7 @@ export default {
 				divEtapa.style.maxHeight = '40px'
 				evt.target.style.transform = 'rotate(180deg)'
 			} else {
-				divEtapa.style.maxHeight = '4000px'
+				divEtapa.style.maxHeight = '600px'
 				evt.target.style.transform = 'rotate(0deg)'
 			}
 		},
@@ -124,6 +117,13 @@ export default {
 			let dd = data.slice(8,10)
 			let h = data.slice(11,16)
 			return dd+'/'+mm+'/'+aaaa+' ('+h+')'
+		},
+		luzToggle() {
+			this.$store.commit('luzToggle')
+		},
+		novoArquivo() {
+			this.luzToggle()
+			this.abreNovoArquivo = !this.abreNovoArquivo
 		}
 	}
 };
@@ -202,7 +202,7 @@ div.Etapa {
 				& > * {	user-select: none; -moz-user-select: none; }
 				a { text-decoration: none; }
 			}
-			tr:nth-child(even) td { background: #F8F8F8; }
+			tr:nth-child(even) td { background: #F9F9F9; }
 			tr:hover td { background: #EEE; }
 			tr:active td, tr.slot-vazio td {
 				background: #5b9dd9;

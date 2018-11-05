@@ -71,11 +71,16 @@ const store = new Vuex.Store({
 			}
 		],
 		apagaLuz: false,
+		adicionarArquivoBox: false,
 	},
-	getters: {},
+	getters: {
+	},
 	mutations: {
 		luzToggle(state) {
 			state.apagaLuz = !state.apagaLuz
+		},
+		abreAdicionarArquivoBox(state) {
+			state.adicionarArquivoBox = !state.adicionarArquivoBox
 		}
 	},
 	actions: {}

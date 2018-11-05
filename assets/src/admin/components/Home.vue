@@ -1,6 +1,6 @@
 <template>
 	<div class="home">
-		<h1>Arquivos GU</h1>
+		<h1 @click="luzToggle()">Arquivos GU</h1>
 		<section>
 			<p>Esta é a lista de arquivos por projeto e etapa. Clique no nome do projeto para editar sua lista.</p>
 			<p>Para inserir os links em um post, copie o shortcode <code>[tabel id=&lt;<span style="color: #0073aa;">número da ID</span>&gt;/]</code> e cole no lugar desejado. Cada lista/tabela tem um único shortcode.</p>
@@ -15,7 +15,7 @@
 				<th width="15%"></th>
 			</thead>
 			<template v-for="projeto in props.projetos">
-				<tr v-for="projetoId in nProjetos" v-if="projetoId == projeto.id" :class="ocultoClass(projeto.status)">
+				<tr v-for="projetoId in nProjetos" v-if="projetoId == projeto.id" :class="ocultoClass(projeto.status)"> <!-- fk -->
 					<td><a href="#">{{ projeto.nome }}</a></td>
 					<td>{{ projeto.autoria }}</td>
 					<td>{{ displayData(projeto.ultimaMod) }}</td>
@@ -48,11 +48,7 @@ export default {
 		this.montaProjetos()
 	},
 	mounted() {},
-	computed: {
-		aluz() {
-			return this.$store.state.num
-		}
-	},
+	computed: {},
 	methods:{
 		montaProjetos() {
 			let projetosTemp = new Set()
@@ -77,6 +73,9 @@ export default {
 			} else if (par == 0) {
 				par = 1
 			}
+		},
+		luzToggle() {
+			this.$store.commit('luzToggle')
 		}
 	}
 };

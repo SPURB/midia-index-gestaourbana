@@ -1,5 +1,5 @@
 <template>
-	<tr class="URL" :class="{ esconde: excluir }">
+	<tr class="URL">
 		<td><slot></slot></td>
 		<td>
 			<input type="text">
@@ -30,18 +30,13 @@
 					{ index: 2, extensao: 'KML' },
 					{ index: 3, extensao: 'SHP' },
 					{ index: 4, extensao: 'DOC' }
-				],
-				excluir: false
+				]
 			}
 		},
 		methods: {
 			alteraTipoDeArq(evt) {
 				this.extensaoBoxShow = false
 				evt.target.parentNode.parentNode.parentNode.firstElementChild.innerText = evt.target.innerText
-			},
-			deletaUrl(evt) {
-				// evt.target.parentNode.parentNode.firstElementChild.innerText.slice(4, this.length)
-				this.excluir = true
 			}
 		}
 	};
@@ -49,7 +44,6 @@
 
 <style lang="scss">
 tr.URL {
-	transition: all ease-in-out .2s;
 	position: relative;
 
 	td div span {
@@ -119,11 +113,6 @@ tr.URL {
 		border-radius: 100%;
 		cursor: pointer;
 		&:active { color: #FE4C4C; background-color: transparent; }
-	}
-
-	@keyframes abreNovaUrl {
-		from { max-height: 0px; opacity: 0; }
-		to { max-height: 100px; opacity: 1; }
 	}
 }
 </style>

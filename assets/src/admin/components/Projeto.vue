@@ -13,29 +13,32 @@
 				</div>
 			</div>
 			<input type="text" class="busca-arquivos" placeholder="Pesquisar arquivos">
-			<Etapa v-for="etapa in etapasInput" key="etapa.id" :props="props">
+			<Etapa v-for="etapa in etapasInput" :key="etapa.id" :props="props">
 				<template slot="nomeEtapa">{{ etapa.nome }}</template>
 			</Etapa>
 			<button class="adicionarEtapa" @click="insereEtapa">+ Adicionar etapa</button>
 		</section>
 		<section class="acoes">
-			<button @click="luzToggle()">Cancelar</button>
-			<button @click="teste($event)">Salvar</button>
+			<button>Cancelar</button>
+			<button>Salvar</button>
 		</section>
-		<div class="luz" :class="{ apagada: apagaLuz }">
-		</div>
+		<div class="luz" :class="{ apagada: apagaLuz }"></div>
+		<!-- <Modal class="atencao">
+			<template slot="header">Campos não preenchidos</template>
+			<template slot="msg">Por favor, preencha todos os campos.</template>
+		</Modal> -->
 	</div>
 </template>
 
 <script>
 import Etapa from '../components/Etapa.vue'
+import Modal from '../components/Modal.vue'
 
 export default {
 	name: 'Projeto',
 	props: [ 'props' ],
 	data() {
 		return {
-			apagaLuz: false,
 			etapasInput: [
 				{ index: 0 }
 			],
@@ -44,36 +47,23 @@ export default {
 			nProjetos: []
 		};
 	},
+	computed: {
+		apagaLuz() {
+			return this.$store.state.apagaLuz
+		}
+	},
 	components: {
-		Etapa
+		Etapa, Modal
 	},
 	mounted() {},
-	updated() {
-		let modal = this.$refs.modal
-		let app = this
-		const f = function(evt) {
-			if (modal.contains(evt.target) == false) {
-				console.log('acende')
-				console.log(evt)
-				app.apagaLuz = false
-			} else { return false }
-		}
-		if (app.apagaLuz == true) {
-			// app.$el.addEventListener("click", f, false)
-			app.$el.addEventListener("keydown", function(evt) {
-				if (evt.code === 27) {
-					// app.apagaLuz = false
-					console.log('esc')
-				} else { return false }
-			})
-		} else if (app.apagaLuz == false) {
-			app.$el.removeEventListener("click", f, false)
-		}
-	},
+	updated() {},
 	methods: {
 		insereEtapa() {
 			this.etapasInput.push({ index: this.etapaCounter })
 			this.etapaCounter++
+		},
+		luzToggle() {
+			this.$store.commit('luzToggle')
 		}
 	}
 }
@@ -81,6 +71,7 @@ export default {
 
 <style lang="scss">
 div.app-projeto {
+overflow: hidden;
 h1 { font-weight: bold; }
 section:not(.projeto) { margin: 2rem 0; p { color: #898989; } }
 code { color: initial; background-color: rgba(0, 0, 0, .12); }
@@ -179,6 +170,7 @@ button, input, textarea { margin: 0; font-family: inherit; }
 				opacity: .4;
 				-moz-user-select: none;
 				user-select: none;
+				cursor: not-allowed;
 			}
 		}
 	}
@@ -190,50 +182,12 @@ button, input, textarea { margin: 0; font-family: inherit; }
 		width: calc(100% + 20px);
 		height: 100vh;
 		background-color: transparent;
-		display: flex;
-		align-items: center;
-		justify-content: center;
 		overflow: hidden;
 		z-index: -1;
 		transition: all .4s ease-in-out;
 		&.apagada {
-			background-color: rgba(0, 0, 0, .4);
+			background-color: rgba(0, 0, 0, .8);
 			z-index: 1;
-		}
-
-		div.modal {
-			line-height: 160%;
-			background: #fff;
-			border-radius: 2px;
-			box-shadow: 0 2px 2px rgba(0, 0, 0, .24);
-			transform: translateY(100vh);
-			transition-duration: .6s;
-
-			&.ativo { transform: translateY(0); }
-
-			&.sucesso {
-				color: #219653;
-				text-align: center;
-				width: 200px;
-				font-size: large;
-				padding: 24px;
-
-				div.svgCont {
-					svg { fill: #219653; }
-				}
-
-				a {
-					display: block;
-					background: #C4C4C4;
-					color: initial;
-					text-decoration: none;
-					border-radius: 2px;
-					margin: 24px 0 0 0;
-					padding: 12px 16px;
-					transition: all .2s;
-					&:hover { background: #eee; }
-				}
-			}
 		}
 	}
 }
