@@ -17,7 +17,7 @@
 				</thead>
 				<draggable v-model="arquivos" element="tbody" :options="{ draggable: '.tablerow', ghostClass: 'slot-vazio', animation: 50, scroll: true, scrollSensitivity: 80, scrollSpeed: 8 }">
 					<tr v-for="arquivo in arquivos" class="tablerow">
-						<td>{{ displayData(arquivo.inclusao) }}</td>
+						<td>{{ displayData(arquivo.atualizacao) }}</td>
 						<td><a href="">{{ arquivo.nome }}</a></td>
 						<td><img src="https://www.materialui.co/materialIcons/action/reorder_black_192x192.png" style="height: 24px; width: 24px; vertical-align: bottom;" alt=""></td>
 					</tr>
@@ -36,66 +36,21 @@ import AdicionarArquivo from '../components/AdicionarArquivo.vue'
 
 export default {
 	name: 'Etapa',
-	props: [ 'props', 'etapaCounter' ],
+	props: [ 'props' ],
 	data() {
-		return {
-			arquivos: [
-				{
-					"id": 1,
-					"nome": "Diagnóstico",
-					"descricao": "Minuta de consulta pública para Programa de Interesse Público",
-					"autoria": "devspurbanismo",
-					"inclusao": "2018-08-21 18:37:28",
-					"projetoId": 21,
-					"projetoEtapa": 2,
-					"etapaIndex": 1,
-					destino: [
-						{
-							"urlid": 1,
-							"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-							"extensao": "pdf"
-						}
-					]
-				},
-				{
-					"id": 2,
-					"nome": "Mapas",
-					"descricao": "Mapas do Anexo I da Minuta de consulta pública",
-					"autoria": "devspurbanismo",
-					"inclusao": "2018-08-21 18:37:50",
-					"projetoId": 21,
-					"projetoEtapa": 2,
-					"etapaIndex": 2,
-					destino: [
-						{
-							"urlid": 1,
-							"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-							"extensao": "pdf"
-						}
-					]
-				},
-				{
-					"id": 3,
-					"nome": "Ofício",
-					"descricao": "Pedido de instauração de Projeto de Intervenção Urbana (PIU) relativo à área do Complexo Anhembi",
-					"inclusao": "2018-08-21 19:11:38",
-					"projetoId": 6,
-					"projetoEtapa": 1,
-					"etapaIndex": 1,
-					destino: [
-						{
-							"urlid": 1,
-							"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
-							"extensao": "pdf"
-						}
-					]
-				}
-			],
-			abreNovoArquivo: false,
-		}
+		return {}
 	},
 	components: {
 		AdicionarArquivo, Arquivo, draggable
+	},
+	computed: {
+		arquivos() {
+			let arr = Array.from(this.$store.state.arquivos)
+			return arr
+		},
+		abreNovoArquivo() {
+			return this.$store.state.adicionarArquivoBox
+		}
 	},
 	created() {},
 	mounted() {},
@@ -118,12 +73,9 @@ export default {
 			let h = data.slice(11,16)
 			return dd+'/'+mm+'/'+aaaa+' ('+h+')'
 		},
-		luzToggle() {
-			this.$store.commit('luzToggle')
-		},
 		novoArquivo() {
-			this.luzToggle()
-			this.abreNovoArquivo = !this.abreNovoArquivo
+			this.$store.commit('luzToggle')
+			this.$store.commit('abreAdicionarArquivoBox')
 		}
 	}
 };

@@ -72,6 +72,7 @@ const store = new Vuex.Store({
 		],
 		apagaLuz: false,
 		adicionarArquivoBox: false,
+		addEtapaBox: false,
 	},
 	getters: {
 	},
@@ -81,9 +82,19 @@ const store = new Vuex.Store({
 		},
 		abreAdicionarArquivoBox(state) {
 			state.adicionarArquivoBox = !state.adicionarArquivoBox
+		},
+		abreAdicionarEtapaBox(state) {
+			state.addEtapaBox = !state.addEtapaBox
+		},
+		arquivosArr: state => {
+			return state.arquivos
 		}
 	},
-	actions: {}
+	actions: {
+		listaArquivos: state => {
+			state.commit('arquivosArr')
+		}
+	}
 })
 
 export default store

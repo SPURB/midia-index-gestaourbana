@@ -41,14 +41,8 @@ div.Modal {
 	align-items: flex-end;
 	padding: 40px;
 	overflow: hidden;
-	animation: modal ease-in .4s;
 
-	@keyframes modal {
-		from { transform: translateY(-100vh); }
-		to { transform: translateY(0); }
-	}
-
-	&.fechado { display: none; }
+	&.fechado > div.modal-cont { transform: translateY(200px); }
 
 	div.modal-cont {
 		display: flex;
@@ -60,6 +54,15 @@ div.Modal {
 		border-top-style: solid;
 		box-shadow: 0 4px 4px rgba(0, 0, 0, .12);
 		z-index: 2;
+		transition: transform ease-out .4s;
+		animation: modal ease-in .8s;
+
+		@keyframes modal {
+			0% { transform: translateY(200px); background-color: #FFF; }
+			49% { transform: translateY(0); background-color: #FFF; }
+			50% { transform: translateY(0); background-color: #898989; }
+			80% { transform: translateY(0); background-color: #FFF; }
+		}
 
 		div.modal-txt {
 			padding: 12px 16px;

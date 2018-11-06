@@ -16,22 +16,24 @@
 			<Etapa v-for="etapa in etapasInput" :key="etapa.id" :props="props">
 				<template slot="nomeEtapa">{{ etapa.nome }}</template>
 			</Etapa>
-			<button class="adicionarEtapa" @click="insereEtapa">+ Adicionar etapa</button>
+			<button class="adicionarEtapa" @click="insereEtapa()">+ Adicionar etapa</button>
 		</section>
 		<section class="acoes">
 			<button>Cancelar</button>
 			<button>Salvar</button>
 		</section>
 		<div class="luz" :class="{ apagada: apagaLuz }"></div>
-		<!-- <Modal class="atencao">
+		<!-- <Modal class="erro">
 			<template slot="header">Campos não preenchidos</template>
 			<template slot="msg">Por favor, preencha todos os campos.</template>
 		</Modal> -->
+		<AdicionarEtapa v-if="abreAdicionarEtapa"></AdicionarEtapa>
 	</div>
 </template>
 
 <script>
 import Etapa from '../components/Etapa.vue'
+import AdicionarEtapa from '../components/AdicionarEtapa.vue'
 import Modal from '../components/Modal.vue'
 
 export default {
@@ -50,19 +52,23 @@ export default {
 	computed: {
 		apagaLuz() {
 			return this.$store.state.apagaLuz
+		},
+		abreAdicionarEtapa() {
+			return this.$store.state.addEtapaBox
 		}
 	},
 	components: {
-		Etapa, Modal
+		Etapa, AdicionarEtapa, Modal
 	},
-	mounted() {},
+	mounted() {
+		this.$store.dispatch('listaArquivos')
+	},
 	updated() {},
 	methods: {
 		insereEtapa() {
-			this.etapasInput.push({ index: this.etapaCounter })
-			this.etapaCounter++
-		},
-		luzToggle() {
+			// this.etapasInput.push({ index: this.etapaCounter })
+			// this.etapaCounter++
+			this.$store.commit('abreAdicionarEtapaBox')
 			this.$store.commit('luzToggle')
 		}
 	}
@@ -117,20 +123,25 @@ button, input, textarea { margin: 0; font-family: inherit; }
 	button.adicionarEtapa {
 		margin: 12px 0 0 0 !important;
 		display: block;
-		width: 100%;
 		padding: 0 1rem;
 		height: 40px;
-		background: transparent;
-		border: 1px dashed #BBB;
+		background: #0073aa;
 		border-radius: 20px;
-		color: #BBB;
+		border-width: 0;
+		color: #FFF;
 		cursor: pointer;
-		transition: all .2s;
+		position: relative;
 
-		&:hover {
-			border: 1px solid #5b9dd9;
-			color: #5b9dd9;
-			box-shadow: 0 0 2px rgba(30,140,190,.8);
+		&:active::after {
+			content: '';
+			display: inline-block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			border-radius: 20px;
+			background: rgba(0, 0, 0, .4);
 		}
 	}
 
@@ -149,23 +160,10 @@ button, input, textarea { margin: 0; font-family: inherit; }
 			box-shadow: inset 0 -2px 2px rgba(0, 0, 0, .24);
 			position: relative;
 			overflow: hidden;
-			&::before {
-				position: absolute;
-				top: 0;
-				left: 0;
-				height: 100%;
-				width: 20px;
-				display: block;
-				background: transparent;
-				content: '';
-				transition: all ease-out .4s;
-			}
+
 			&:first-child { float: left; background-color: #FE4C4C; }
 			&:last-child { float: right; background-color: #219653; }
-			&.clicked::before {
-				margin-left: 100%;
-				background: rgba(255, 255, 255, .4);
-			}
+
 			&.disabled {
 				opacity: .4;
 				-moz-user-select: none;
@@ -185,6 +183,7 @@ button, input, textarea { margin: 0; font-family: inherit; }
 		overflow: hidden;
 		z-index: -1;
 		transition: all .4s ease-in-out;
+		
 		&.apagada {
 			background-color: rgba(0, 0, 0, .8);
 			z-index: 1;

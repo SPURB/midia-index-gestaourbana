@@ -7,98 +7,26 @@
 		</section>
 		<section class="form">			
 			<form>
-				<input type="text" id="nome" placeholder="Digite o nome do projeto">
+				<fieldset>
+					<input type="text" id="nome" placeholder="Digite o nome do projeto">
+				</fieldset>
 			</form>
 		</section>
 		<section class="acoes">
 			<button>Cancelar</button>
-			<button>Salvar</button>
+			<button>Adicionar</button>
 		</section>
 	</div>
 </template>
 
 <script>
-import Arquivo from '../components/Arquivo.vue'
-
 export default {
 	name: 'Projeto',
 	data() {
-		return {
-			arquivos: [
-				{
-					"nome": "PIU Rio Branco",
-					"ativo": 1,
-					"arquivos":[
-						{
-							"nome": "Diagnóstico",
-							"id": 1,
-							"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-							"autor": "devspurbanismo",
-							"fonte": "Gestão Urbana",
-							"atualizacao": "2018-08-21 18:37:28",
-							"etapa":{
-									"id": 2,
-									"nome": "Consulta Pública Inicial"
-							}
-						},
-						{
-							"nome": "Mapas",
-							"id": 2,
-							"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_ANEXOI_reduzido.pdf",
-							"autor": "devspurbanismo",
-							"fonte": "Gestão Urbana",
-							"atualizacao":"2018-08-21 18:37:50",
-							"etapa":{
-									"id": 2,
-									"nome": "Consulta Pública Inicial"
-							}
-						}
-					]
-				},
-				{
-					"nome": "PIU Anhembi",
-					"ativo": 1,
-					"arquivos":[
-						{
-							"nome": "Ofício",
-							"id": 3,
-							"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
-							"autor": "devspurbanismo",
-							"fonte": "PA",
-							"atualizacao":"2018-08-21 19:11:38",
-							"etapa":{
-								"id_etapa": 1,
-								"nome_etapa": "Consulta Pública Inicial",
-							}
-						}
-					]
-				}
-			],
-			nArquivos: [
-				{ index: 0 }
-			],
-			arqCounter: 1,
-		};
+		return {};
 	},
-	components: {
-		Arquivo,
-	},
-	methods: {
-		etapaCollapse(evt) {
-			let divEtapa = evt.target.parentNode.parentNode.parentNode
-			if (divEtapa.style.maxHeight != '40px') {
-				divEtapa.style.maxHeight = '40px'
-				evt.target.style.transform = 'rotate(180deg)'
-			} else {
-				divEtapa.style.maxHeight = '4000px'
-				evt.target.style.transform = 'rotate(0deg)'
-			}
-		},
-		insereArquivo(evt) {
-			this.nArquivos.push({ index: this.arqCounter })
-			this.arqCounter++
-		}
-	}
+	components: {},
+	methods: {}
 };
 </script>
 
@@ -112,7 +40,7 @@ button, input, textarea { margin: 0; font-family: inherit; }
 	section.form {
 		form {
 			margin: 0;
-			input {
+			input[type=text] {
 				display: block;
 				width: 100%;
 				max-width: 1000px;

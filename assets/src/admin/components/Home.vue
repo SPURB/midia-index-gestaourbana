@@ -14,21 +14,19 @@
 				<th width="25%">Última modificação</th>
 				<th width="15%"></th>
 			</thead>
-			<template v-for="projeto in props.projetos">
-				<tr v-for="projetoId in nProjetos" v-if="projetoId == projeto.id" :class="ocultoClass(projeto.status)"> <!-- fk -->
-					<td><a href="#">{{ projeto.nome }}</a></td>
-					<td>{{ projeto.autoria }}</td>
-					<td>{{ displayData(projeto.ultimaMod) }}</td>
-					<td>
-						<div class="switchCont" @click="switchCont(projeto.status)">
-							<div :class="ocultoClass(projeto.status)">
-								<span v-if="projeto.status == 1">Disponível</span>
-								<span v-else>Oculto</span>
-							</div>
+			<tr v-for="projeto in projetos" :class="ocultoClass(projeto.status)">
+				<td><a href="#">{{ projeto.nome }}</a></td>
+				<td>{{ projeto.autor }}</td>
+				<td>{{ displayData(projeto.atualizacao) }}</td>
+				<td>
+					<div class="switchCont" @click="switchCont(projeto.status)">
+						<div :class="ocultoClass(projeto.status)">
+							<span v-if="projeto.status == 1">Disponível</span>
+							<span v-else>Oculto</span>
 						</div>
-					</td>
-				</tr>
-			</template>
+					</div>
+				</td>
+			</tr>
 		</table>
 	</div>
 </template>
@@ -40,23 +38,15 @@ export default {
 	components: {},
 	props: [ 'props' ],
 	data() {
-		return {
-			nProjetos: [],
-		}
-	},
-	beforeMount() {
-		this.montaProjetos()
+		return {}
 	},
 	mounted() {},
-	computed: {},
+	computed: {
+		projetos() {
+			return this.$store.state.projetos
+		}
+	},
 	methods:{
-		montaProjetos() {
-			let projetosTemp = new Set()
-			this.$props.props.arquivos.map(function(index) {
-				projetosTemp.add(index.projetoId)
-			})
-			this.nProjetos = Array.from(projetosTemp).sort(function(a, b) { return a - b })
-		},
 		displayData(data) {
 			let aaaa = data.slice(0,4)
 			let mm = data.slice(5,7)
@@ -96,7 +86,6 @@ input[type=text] {
 	width: 50%;
 	padding: 0 40px 0 12px;
 	background-color: #FFF;
-	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAQAAABIkb+zAAADf0lEQVR4AeyaA/DdThDHt3YHf7M2kttv7fZ1WNsd1e0YtUe13THrdlTbtm3bTK295+TyUz47etrL97KX27d7FBAQEBAQEBAQkCxl/+M+mIwF2Myn+QU/wVnehAWYzH2sfyh1YymM4ANwoth+jABTasSuzrvhxGe8265OqYlyhbEUToK2VBWgVEEWjMArOIkbv8AIykIpC/7i7XCSN96Ovyjl4Cq4A8el3eEqlDKgPV7D8cBeoz35j6oaJfLv8BSuV76s+rtgzoI58ZdVRoUwme9F/P4rVZX8xS4Y6XJ4BZoiG4UB2dCUV0T41b3yhcg/kC3CdrUqdjyjBlaFlXBAyjYIxoaN5FYUJ6pz2PAbR/5gVeJ3egjY1SgBUEMPQX5nVSIfyMTHtLl7YBejBLGL4YEm4RhlItOoxvrMqfpJeaqv30nVmEzDGzQBA5P2NVD6wnrT8V9cG3IfuQB7NX8lySQ8Wg7oLhGwq2n+RpNJcE0Mt4xcwsuEx6tkjvIl5HzZdcglqOtjEHF3MdRdDx57mbSMtpc5ATPFUHPIAzBXeJ1hTsBGMZQnabBqJ1bBRnMCLohtp5YnAmqJablIppD5i1XcyN5yl0wht/4S+cgDSuQTIfSWTCGT4DJ5yQPK5JWJeVoPoYdkClwUi7g2eYCqLQRcNidgvYjWDt5UN4TXDeYEzBBzNdfIRjbXv1TijgelwSy4K+5AVzIFSmr/oELkEhWSPq0yZA6+ZTqdxjUyCY/REupq7qqr0h9PIYnZIMJeV/72aQJAZuG1moT+lCTor13+VjINN/KsrBIKUyBrSMbJhCNeFLa4qF7YwhbyA1R2X1q0q4UrLTLIHzAuXHE3/sSCO4RrjfBU8osy2bEfThhbyVXiaMeG7xGcKZrf18ZqMg0OuwnWwQlrz1DS98Z29BaTCpUva/3zb66COdXf5cuqEE8RkoUAP54/YSPZa+Oh5B92NQ/arA/5rXinH/mH9Q9vdXX5F63iaAonBSVQFjWcXyTZH56BX+kDcFJWAqkCSRz2WMlF6QtwUkaCfCrtj3uhblPt6AfgpJAECRgjYxx4OswDUYQEPCylJciF3QeTMf/TkbMnX7apLTxatVR/k8R/Cabg9+3PMREAIADDQDShjBH5jBXAQrmPgjzC7wQEhLkQEBAQ7kMIoJOQ/UpC9nsJe3QVQu1+CO/vS5IkSQd2zX60cmQg4gAAAABJRU5ErkJggg=='); /* ICONE LUPA */
 	background-size: 18px;
 	background-repeat: no-repeat;
 	background-position: calc(100% - 12px);

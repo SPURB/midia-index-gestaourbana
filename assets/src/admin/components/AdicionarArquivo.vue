@@ -1,5 +1,5 @@
 <template>
-	<div class="AdicionarArquivo">
+	<div class="AdicionarArquivo" :class="{ fechado: !fechaBox }" ref="div">
 		<div class="cont">
 			<div class="title">
 				<h3>Adicionar arquivo</h3>
@@ -55,6 +55,11 @@ export default {
 	components: {
 		URL,
 	},
+	computed: {
+		fechaBox() {
+			return this.$store.state.adicionarArquivoBox
+		}
+	},
 	created() {},
 	mounted() {},
 	updated() {},
@@ -74,12 +79,9 @@ export default {
 		addUrl() {
 			this.nUrl.push({ 'index': this.nUrl.length+1, 'url': '', 'extensao': '' })
 		},
-		luzToggle() {
-			this.$store.commit('luzToggle')
-		},
 		cancelar() {
-			this.luzToggle()
-			this.$el.style.transform = 'translateY(-100vh)'
+			this.$store.commit('luzToggle')
+			this.$store.commit('abreAdicionarArquivoBox')
 		}
 	}
 };
@@ -95,16 +97,26 @@ div.AdicionarArquivo {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	z-index: 2;
-	transform: translateY(0);
+	overflow: hidden;
+	transition: height ease-out .4s;
+
+	&.fechado {
+		height: 0;
+
+		& > div.cont {
+			transform: translateY(-80vh);
+		}
+	}
 
 	div.cont {
 		width: 720px;
 		background-color: #FFF;
 		border-radius: 4px;
 		box-shadow: 0 4px 4px rgba(0, 0, 0, .48);
-		transition: max-height .1s;
+		z-index: 2;
+		transform: translateY(0);
 		animation: addArq ease-in .4s;
+		transition: transform ease-out .4s;
 
 		@keyframes addArq {
 			from { transform: translateY(-80vh); }
