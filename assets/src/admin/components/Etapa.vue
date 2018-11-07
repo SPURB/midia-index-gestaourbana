@@ -4,14 +4,14 @@
 			<span>Etapa</span>
 			<h3><slot name="nomeEtapa"></slot></h3>
 			<div class="shortcode_expand">
-				<span>Shortcode da etapa <code>[tabel id=1.1/]</code></span>
+				<span>Shortcode da etapa <code @click="copiaSlug($event)">[tabel id=1.1/]</code></span>
 				<button @click="etapaCollapse($event)">&#9650;</button>
 			</div>
 		</div>
 		<div class="arquivosTable">			
 			<table>
 				<thead>
-					<th>Data de inclusão</th>
+					<th>Última modificação</th>
 					<th>Nome</th>
 					<th><img src="https://static.thenounproject.com/png/505631-200.png" style="height: 24px; width: 24px; vertical-align: bottom;" alt=""></th>
 				</thead>
@@ -76,6 +76,9 @@ export default {
 		novoArquivo() {
 			this.$store.commit('luzToggle')
 			this.$store.commit('abreAdicionarArquivoBox')
+		},
+		copiaSlug(evt) {
+			navigator.clipboard.writeText(evt.target.innerText)
 		}
 	}
 };

@@ -18,143 +18,7 @@ pluginWebpack([0],[
 /* harmony default export */ __webpack_exports__["a"] = ({
 	name: 'App',
 	data() {
-		return {
-			arquivos: [{
-				"id": 1,
-				"nome": "Diagnóstico",
-				"descricao": "Minuta de consulta pública para Programa de Interesse Público",
-				"autoria": "devspurbanismo",
-				"inclusao": "2018-08-21 18:37:28",
-				"projetoId": 21,
-				"projetoEtapa": 2,
-				"etapaIndex": 1,
-				destino: [{
-					"urlid": 1,
-					"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-					"extensao": "pdf"
-				}]
-			}, {
-				"id": 2,
-				"nome": "Mapas",
-				"descricao": "Mapas do Anexo I da Minuta de consulta pública",
-				"autoria": "devspurbanismo",
-				"inclusao": "2018-08-21 18:37:50",
-				"projetoId": 21,
-				"projetoEtapa": 2,
-				"etapaIndex": 2,
-				destino: [{
-					"urlid": 1,
-					"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-					"extensao": "pdf"
-				}]
-			}, {
-				"id": 3,
-				"nome": "Ofício",
-				"descricao": "Pedido de instauração de Projeto de Intervenção Urbana (PIU) relativo à área do Complexo Anhembi",
-				"inclusao": "2018-08-21 19:11:38",
-				"projetoId": 6,
-				"projetoEtapa": 1,
-				"etapaIndex": 1,
-				destino: [{
-					"urlid": 1,
-					"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
-					"extensao": "pdf"
-				}]
-			}],
-			projetos: [{
-				'id': 6,
-				'nome': 'PIU Anhembi',
-				'ultimaMod': '2018-08-21 19:11:38',
-				'autoria': 'devspurbanismo',
-				'status': 1,
-				etapas: [{ 'id': 1, 'nome': 'Em proposição dos elementos prévios' }]
-			}, {
-				'id': 21,
-				'nome': 'PIU Rio Branco',
-				'ultimaMod': '2018-08-21 18:37:50',
-				'autoria': 'devspurbanismo',
-				'status': 1,
-				etapas: [{ 'id': 1, 'nome': 'Em proposição dos elementos prévios' }, { 'id': 2, 'nome': 'Consulta pública inicial' }]
-			}]
-			// projetos: [
-			// 	{
-			// 		"id": 21,
-			// 		"nome": "PIU Rio Branco",
-			// 		"autoria": "devspurbanismo",
-			// 		"status": 1,
-			// 		"ultimaMod": "2018-08-21 18:37:50",
-			// 		"consultaAtiva": 0,
-			// 		etapas: [
-			// 			{				
-			// 				"id": 2,
-			// 				"nome": "Consulta Pública Inicial",
-			// 				arquivos: [
-			// 					{
-			// 						"id": 1,
-			// 						"nome": "Diagnóstico",
-			// 						"descricao": "Minuta de consulta pública para Programa de Interesse Público",
-			// 						"autoria": "devspurbanismo",
-			// 						"inclusao": "2018-08-21 18:37:28",
-			// 						destino: [
-			// 							{
-			// 								"urlid": 1,
-			// 								"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-			// 								"extensao": "pdf"
-			// 							}
-			// 						],
-			// 						"index": 1,
-			// 					},
-			// 					{
-			// 						"id": 2,
-			// 						"nome": "Mapas",
-			// 						"descricao": "Mapas do Anexo I da Minuta de consulta pública",
-			// 						"autoria": "devspurbanismo",
-			// 						"inclusao": "2018-08-21 18:37:50",
-			// 						destino: [
-			// 							{
-			// 								"urlid": 1,
-			// 								"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-			// 								"extensao": "pdf"
-			// 							}
-			// 						],
-			// 						"index": 2,
-			// 					},
-			// 				],
-			// 			}
-			// 		]
-			// 	},
-			// 	{
-			// 		"id": 6,
-			// 		"nome": "PIU Anhembi",
-			// 		"autoria": "devspurbanismo",
-			// 		"status": 1,
-			// 		"ultimaMod": "2018-08-21 19:11:38",
-			// 		"consultaAtiva": 1,
-			// 		etapas: [
-			// 			{
-			// 				"id": 1,
-			// 				"nome": "Em proposição dos elementos prévios",
-			// 				arquivos: [
-			// 					{
-			// 						"id": 3,
-			// 						"nome": "Ofício",
-			// 						"descricao": "Pedido de instauração de Projeto de Intervenção Urbana (PIU) relativo à área do Complexo Anhembi",
-			// 						"inclusao": "2018-08-21 19:11:38",
-			// 						destino: [
-			// 							{
-			// 								"urlid": 1,
-			// 								"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
-			// 								"extensao": "pdf"
-			// 							}
-			// 						],
-			// 						"index": 1,
-			// 					}
-			// 				]
-			// 			}
-			// 		]
-			// 	}
-			// ]
-		};
+		return {};
 	}
 });
 
@@ -164,6 +28,7 @@ pluginWebpack([0],[
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_AdicionarProjeto_vue__ = __webpack_require__(51);
 //
 //
 //
@@ -197,11 +62,17 @@ pluginWebpack([0],[
 //
 //
 //
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	name: 'Home',
-	components: {},
+	components: {
+		AdicionarProjeto: __WEBPACK_IMPORTED_MODULE_0__components_AdicionarProjeto_vue__["default"]
+	},
 	props: ['props'],
 	data() {
 		return {};
@@ -210,6 +81,9 @@ pluginWebpack([0],[
 	computed: {
 		projetos() {
 			return this.$store.state.projetos;
+		},
+		abreAddProjetoBox() {
+			return this.$store.state.addProjetoBox;
 		}
 	},
 	methods: {
@@ -236,6 +110,16 @@ pluginWebpack([0],[
 		},
 		luzToggle() {
 			this.$store.commit('luzToggle');
+		},
+		copiaSlug(evt) {
+			navigator.clipboard.writeText(evt.target.innerText);
+		},
+		ativoToggle(incomeId) {
+			this.$store.commit('ativoToggle', incomeId);
+		},
+		abreNovoProjeto() {
+			this.$store.commit('abreAdicionarProjetoBox');
+			this.$store.commit('luzToggle');
 		}
 	}
 });
@@ -246,8 +130,8 @@ pluginWebpack([0],[
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Etapa_vue__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_AdicionarEtapa_vue__ = __webpack_require__(69);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Modal_vue__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_AdicionarEtapa_vue__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Modal_vue__ = __webpack_require__(47);
 //
 //
 //
@@ -288,7 +172,6 @@ pluginWebpack([0],[
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	name: 'Projeto',
-	props: ['props'],
 	data() {
 		return {
 			etapasInput: [{ index: 0 }],
@@ -298,6 +181,9 @@ pluginWebpack([0],[
 		};
 	},
 	computed: {
+		projetos() {
+			return this.$store.state.projetos;
+		},
 		apagaLuz() {
 			return this.$store.state.apagaLuz;
 		},
@@ -318,6 +204,9 @@ pluginWebpack([0],[
 			// this.etapaCounter++
 			this.$store.commit('abreAdicionarEtapaBox');
 			this.$store.commit('luzToggle');
+		},
+		copiaSlug(evt) {
+			navigator.clipboard.writeText(evt.target.innerText);
 		}
 	}
 });
@@ -327,10 +216,10 @@ pluginWebpack([0],[
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Arquivo_vue__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Arquivo_vue__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuedraggable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_AdicionarArquivo_vue__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_AdicionarArquivo_vue__ = __webpack_require__(40);
 //
 //
 //
@@ -409,6 +298,9 @@ pluginWebpack([0],[
 		novoArquivo() {
 			this.$store.commit('luzToggle');
 			this.$store.commit('abreAdicionarArquivoBox');
+		},
+		copiaSlug(evt) {
+			navigator.clipboard.writeText(evt.target.innerText);
 		}
 	}
 });
@@ -418,63 +310,7 @@ pluginWebpack([0],[
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Arquivo_vue__ = __webpack_require__(11);
-/* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_15b454f2_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Arquivo_vue__ = __webpack_require__(37);
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(34)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-
-/* template */
-
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Arquivo_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_15b454f2_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Arquivo_vue__["a" /* default */],
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "assets\\src\\admin\\components\\Arquivo.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-15b454f2", Component.options)
-  } else {
-    hotAPI.reload("data-v-15b454f2", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_URL_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_URL_vue__ = __webpack_require__(11);
 //
 //
 //
@@ -585,17 +421,17 @@ if (false) {(function () {
 });
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_URL_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_URL_vue__ = __webpack_require__(12);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1b740449_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_URL_vue__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1b740449_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_URL_vue__ = __webpack_require__(37);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(35)
+  __webpack_require__(36)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -641,7 +477,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -683,12 +519,12 @@ if (false) {(function () {
 });
 
 /***/ }),
-/* 14 */,
-/* 15 */
+/* 13 */,
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_URL_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_URL_vue__ = __webpack_require__(11);
 //
 //
 //
@@ -776,6 +612,59 @@ if (false) {(function () {
 });
 
 /***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	name: 'AdicionarEtapa',
+	data() {
+		return {};
+	},
+	components: {},
+	computed: {
+		fechaBox() {
+			return this.$store.state.addEtapaBox;
+		}
+	},
+	created() {},
+	methods: {
+		cancelar() {
+			this.$store.commit('luzToggle');
+			this.$store.commit('abreAdicionarEtapaBox');
+		}
+	}
+});
+
+/***/ }),
 /* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -835,6 +724,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	name: 'Projeto',
@@ -842,7 +733,15 @@ if (false) {(function () {
 		return {};
 	},
 	components: {},
-	methods: {}
+	methods: {
+		fechaNovoProjetoBox() {
+			this.$store.commit('abreAdicionarProjetoBox');
+			this.$store.commit('luzToggle');
+		},
+		copiaSlug(evt) {
+			navigator.clipboard.writeText(evt.target.innerText);
+		}
+	}
 });
 
 /***/ }),
@@ -889,11 +788,11 @@ var _router = __webpack_require__(26);
 
 var _router2 = _interopRequireDefault(_router);
 
-var _store = __webpack_require__(53);
+var _store = __webpack_require__(57);
 
 var _store2 = _interopRequireDefault(_store);
 
-var _adminMenuFix = __webpack_require__(54);
+var _adminMenuFix = __webpack_require__(58);
 
 var _adminMenuFix2 = _interopRequireDefault(_adminMenuFix);
 
@@ -989,16 +888,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { attrs: { id: "vue-backend-app" } },
-    [
-      _c("router-view", {
-        attrs: { props: { arquivos: _vm.arquivos, projetos: _vm.projetos } }
-      })
-    ],
-    1
-  )
+  return _c("div", { attrs: { id: "vue-backend-app" } }, [_c("router-view")], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -1038,11 +928,11 @@ var _Projeto = __webpack_require__(30);
 
 var _Projeto2 = _interopRequireDefault(_Projeto);
 
-var _AdicionarProjeto = __webpack_require__(47);
+var _AdicionarProjeto = __webpack_require__(51);
 
 var _AdicionarProjeto2 = _interopRequireDefault(_AdicionarProjeto);
 
-var _Configuracoes = __webpack_require__(50);
+var _Configuracoes = __webpack_require__(54);
 
 var _Configuracoes2 = _interopRequireDefault(_Configuracoes);
 
@@ -1059,10 +949,6 @@ exports.default = new _vueRouter2.default({
 		path: '/projeto',
 		name: 'Projeto',
 		component: _Projeto2.default
-	}, {
-		path: '/adicionar-projeto',
-		name: 'AdicionarProjeto',
-		component: _AdicionarProjeto2.default
 	}, {
 		path: '/configuracoes',
 		name: 'Configuracoes',
@@ -1142,94 +1028,109 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "home" }, [
-    _c(
-      "h1",
-      {
-        on: {
-          click: function($event) {
-            _vm.luzToggle()
-          }
-        }
-      },
-      [_vm._v("Arquivos GU")]
-    ),
-    _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _c("input", { attrs: { type: "text", placeholder: "Pesquisar..." } }),
-    _vm._v(" "),
-    _c("button", [_vm._v("Incluir projeto")]),
-    _vm._v(" "),
-    _c(
-      "table",
-      [
-        _vm._m(1),
+  return _c(
+    "div",
+    { staticClass: "home" },
+    [
+      _c("h1", [_vm._v("Arquivos GU")]),
+      _vm._v(" "),
+      _c("section", [
+        _c("p", [
+          _vm._v(
+            "Esta é a lista de arquivos por projeto e etapa. Clique no nome do projeto para editar sua lista."
+          )
+        ]),
         _vm._v(" "),
-        _vm._l(_vm.projetos, function(projeto) {
-          return _c("tr", { class: _vm.ocultoClass(projeto.status) }, [
-            _c("td", [
-              _c("a", { attrs: { href: "#" } }, [_vm._v(_vm._s(projeto.nome))])
-            ]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(projeto.autor))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(_vm.displayData(projeto.atualizacao)))]),
-            _vm._v(" "),
-            _c("td", [
-              _c(
-                "div",
-                {
-                  staticClass: "switchCont",
-                  on: {
-                    click: function($event) {
-                      _vm.switchCont(projeto.status)
-                    }
-                  }
-                },
-                [
-                  _c("div", { class: _vm.ocultoClass(projeto.status) }, [
-                    projeto.status == 1
-                      ? _c("span", [_vm._v("Disponível")])
-                      : _c("span", [_vm._v("Oculto")])
-                  ])
-                ]
-              )
-            ])
-          ])
-        })
-      ],
-      2
-    )
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("section", [
-      _c("p", [
-        _vm._v(
-          "Esta é a lista de arquivos por projeto e etapa. Clique no nome do projeto para editar sua lista."
+        _c("p", [
+          _vm._v("Para inserir os links em um post, copie o shortcode "),
+          _c(
+            "code",
+            {
+              on: {
+                click: function($event) {
+                  _vm.copiaSlug($event)
+                }
+              }
+            },
+            [
+              _vm._v("[tabel id=<"),
+              _c("span", { staticStyle: { color: "#0073aa" } }, [
+                _vm._v("número da ID")
+              ]),
+              _vm._v(">/]")
+            ]
+          ),
+          _vm._v(
+            " e cole no lugar desejado. Cada lista/tabela tem um único shortcode."
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("section", { staticClass: "buscaprojeto" }, [
+        _c("input", { attrs: { type: "text", placeholder: "Pesquisar..." } }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            on: {
+              click: function($event) {
+                _vm.abreNovoProjeto()
+              }
+            }
+          },
+          [_vm._v("+ Adicionar projeto")]
         )
       ]),
       _vm._v(" "),
-      _c("p", [
-        _vm._v("Para inserir os links em um post, copie o shortcode "),
-        _c("code", [
-          _vm._v("[tabel id=<"),
-          _c("span", { staticStyle: { color: "#0073aa" } }, [
-            _vm._v("número da ID")
-          ]),
-          _vm._v(">/]")
-        ]),
-        _vm._v(
-          " e cole no lugar desejado. Cada lista/tabela tem um único shortcode."
-        )
-      ])
-    ])
-  },
+      _c(
+        "table",
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _vm._l(_vm.projetos, function(projeto) {
+            return _c("tr", { class: _vm.ocultoClass(projeto.ativo) }, [
+              _c("td", [
+                _c("a", { attrs: { href: "#" } }, [
+                  _vm._v(_vm._s(projeto.nome))
+                ])
+              ]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(projeto.autor))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(_vm.displayData(projeto.atualizacao)))]),
+              _vm._v(" "),
+              _c("td", [
+                _c(
+                  "div",
+                  {
+                    staticClass: "switchCont",
+                    on: {
+                      click: function($event) {
+                        _vm.ativoToggle(projeto.id)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { class: _vm.ocultoClass(projeto.ativo) }, [
+                      projeto.ativo == 1
+                        ? _c("span", [_vm._v("Disponível")])
+                        : _c("span", [_vm._v("Oculto")])
+                    ])
+                  ]
+                )
+              ])
+            ])
+          })
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _vm.abreAddProjetoBox ? _c("AdicionarProjeto") : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -1263,7 +1164,7 @@ if (false) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Projeto_vue__ = __webpack_require__(8);
 /* empty harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3853e4fd_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Projeto_vue__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3853e4fd_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Projeto_vue__ = __webpack_require__(50);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -1325,7 +1226,7 @@ if (false) {(function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Etapa_vue__ = __webpack_require__(9);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5c5feb5d_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Etapa_vue__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5c5feb5d_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Etapa_vue__ = __webpack_require__(43);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -1382,9 +1283,59 @@ if (false) {(function () {
 
 /***/ }),
 /* 34 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Arquivo_vue__ = __webpack_require__(10);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_15b454f2_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Arquivo_vue__ = __webpack_require__(38);
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(35)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Arquivo_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_15b454f2_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Arquivo_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "assets\\src\\admin\\components\\Arquivo.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-15b454f2", Component.options)
+  } else {
+    hotAPI.reload("data-v-15b454f2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
 
 /***/ }),
 /* 35 */
@@ -1394,6 +1345,12 @@ if (false) {(function () {
 
 /***/ }),
 /* 36 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1481,7 +1438,7 @@ if (false) {
 }
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1576,18 +1533,18 @@ if (false) {
 }
 
 /***/ }),
-/* 38 */,
-/* 39 */
+/* 39 */,
+/* 40 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdicionarArquivo_vue__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdicionarArquivo_vue__ = __webpack_require__(14);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ef4b2672_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdicionarArquivo_vue__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ef4b2672_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdicionarArquivo_vue__ = __webpack_require__(42);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(40)
+  __webpack_require__(41)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -1633,13 +1590,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1778,7 +1735,7 @@ if (false) {
 }
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1796,7 +1753,20 @@ var render = function() {
         _c("h3", [_vm._t("nomeEtapa")], 2),
         _vm._v(" "),
         _c("div", { staticClass: "shortcode_expand" }, [
-          _vm._m(0),
+          _c("span", [
+            _vm._v("Shortcode da etapa "),
+            _c(
+              "code",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.copiaSlug($event)
+                  }
+                }
+              },
+              [_vm._v("[tabel id=1.1/]")]
+            )
+          ]),
           _vm._v(" "),
           _c(
             "button",
@@ -1816,7 +1786,7 @@ var render = function() {
         _c(
           "table",
           [
-            _vm._m(1),
+            _vm._m(0),
             _vm._v(" "),
             _c(
               "draggable",
@@ -1897,17 +1867,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", [
-      _vm._v("Shortcode da etapa "),
-      _c("code", [_vm._v("[tabel id=1.1/]")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("th", [_vm._v("Data de inclusão")]),
+      _c("th", [_vm._v("Última modificação")]),
       _vm._v(" "),
       _c("th", [_vm._v("Nome")]),
       _vm._v(" "),
@@ -1938,698 +1899,17 @@ if (false) {
 }
 
 /***/ }),
-/* 43 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Modal_vue__ = __webpack_require__(16);
-/* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7cd28607_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Modal_vue__ = __webpack_require__(45);
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(44)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-
-/* template */
-
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Modal_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7cd28607_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Modal_vue__["a" /* default */],
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "assets\\src\\admin\\components\\Modal.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7cd28607", Component.options)
-  } else {
-    hotAPI.reload("data-v-7cd28607", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
 /* 44 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "Modal", class: { fechado: _vm.fechaModal } },
-    [
-      _c("div", { staticClass: "modal-cont" }, [
-        _c(
-          "div",
-          { staticClass: "modal-txt" },
-          [_c("h4", [_vm._t("header")], 2), _vm._v(" "), _vm._t("msg")],
-          2
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "modal-ok" }, [
-          _c(
-            "button",
-            {
-              on: {
-                click: function($event) {
-                  _vm.fechaModal = !_vm.fechaModal
-                }
-              }
-            },
-            [_vm._v("OK")]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._t("componente")
-    ],
-    2
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7cd28607", esExports)
-  }
-}
-
-/***/ }),
-/* 46 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "app-projeto" },
-    [
-      _c("h1", [_vm._v("Arquivos GU")]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _vm._l(_vm.props.projetos, function(projeto) {
-        return projeto.id == 6
-          ? _c(
-              "section",
-              { staticClass: "projeto" },
-              [
-                _c("div", { staticClass: "nome" }, [
-                  _c("h2", [_vm._v(_vm._s(projeto.nome))]),
-                  _vm._v(" "),
-                  _vm._m(1, true)
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  staticClass: "busca-arquivos",
-                  attrs: { type: "text", placeholder: "Pesquisar arquivos" }
-                }),
-                _vm._v(" "),
-                _vm._l(_vm.etapasInput, function(etapa) {
-                  return _c(
-                    "Etapa",
-                    { key: etapa.id, attrs: { props: _vm.props } },
-                    [
-                      _c("template", { slot: "nomeEtapa" }, [
-                        _vm._v(_vm._s(etapa.nome))
-                      ])
-                    ],
-                    2
-                  )
-                }),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "adicionarEtapa",
-                    on: {
-                      click: function($event) {
-                        _vm.insereEtapa()
-                      }
-                    }
-                  },
-                  [_vm._v("+ Adicionar etapa")]
-                )
-              ],
-              2
-            )
-          : _vm._e()
-      }),
-      _vm._v(" "),
-      _vm._m(2),
-      _vm._v(" "),
-      _c("div", { staticClass: "luz", class: { apagada: _vm.apagaLuz } }),
-      _vm._v(" "),
-      _vm.abreAdicionarEtapa ? _c("AdicionarEtapa") : _vm._e()
-    ],
-    2
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("section", { staticClass: "cabecalho" }, [
-      _c("p", [
-        _vm._v(
-          "A partir desta tela, você consegue acessar e editar as informações dos arquivos de cada projeto."
-        )
-      ]),
-      _vm._v(" "),
-      _c("p", [
-        _vm._v(
-          "Cada linha corresponde a um arquivo com formatos variados (PDF, DOC, KMZ...)."
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "shortcode_expand" }, [
-      _c("span", [
-        _vm._v("Shortcode do projeto "),
-        _c("code", [_vm._v("[tabel id=1/]")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("section", { staticClass: "acoes" }, [
-      _c("button", [_vm._v("Cancelar")]),
-      _vm._v(" "),
-      _c("button", [_vm._v("Salvar")])
-    ])
-  }
-]
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-3853e4fd", esExports)
-  }
-}
-
-/***/ }),
-/* 47 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdicionarProjeto_vue__ = __webpack_require__(17);
-/* empty harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_68ef0786_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdicionarProjeto_vue__ = __webpack_require__(49);
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(48)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-
-/* template */
-
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-68ef0786"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdicionarProjeto_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_68ef0786_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdicionarProjeto_vue__["a" /* default */],
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "assets\\src\\admin\\components\\AdicionarProjeto.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-68ef0786", Component.options)
-  } else {
-    hotAPI.reload("data-v-68ef0786", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
-
-
-/***/ }),
-/* 48 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 49 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "app-projeto" }, [
-      _c("h1", [_vm._v("Adicionar Projeto")]),
-      _vm._v(" "),
-      _c("section", { staticClass: "cabecalho" }, [
-        _c("p", [
-          _vm._v(
-            "Criação de um projeto e suas etapas. Ao criar as etapas, elas serão numeradas em ordem crescente."
-          )
-        ]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v("Para inserir os links em um post, copie o Shortcode "),
-          _c("code", [
-            _vm._v("[tabel id=<"),
-            _c("span", { staticStyle: { color: "#0073aa" } }, [
-              _vm._v("número da ID")
-            ]),
-            _vm._v(">/]")
-          ]),
-          _vm._v(
-            " e cole no lugar desejado. Cada lista/tabela tem um único Shortcode."
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("section", { staticClass: "form" }, [
-        _c("form", [
-          _c("fieldset", [
-            _c("input", {
-              attrs: {
-                type: "text",
-                id: "nome",
-                placeholder: "Digite o nome do projeto"
-              }
-            })
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("section", { staticClass: "acoes" }, [
-        _c("button", [_vm._v("Cancelar")]),
-        _vm._v(" "),
-        _c("button", [_vm._v("Adicionar")])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-68ef0786", esExports)
-  }
-}
-
-/***/ }),
-/* 50 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Configuracoes_vue__ = __webpack_require__(18);
-/* empty harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_26eeb9d6_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Configuracoes_vue__ = __webpack_require__(52);
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(51)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-
-/* template */
-
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-26eeb9d6"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Configuracoes_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_26eeb9d6_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Configuracoes_vue__["a" /* default */],
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "assets\\src\\admin\\components\\Configuracoes.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-26eeb9d6", Component.options)
-  } else {
-    hotAPI.reload("data-v-26eeb9d6", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
-
-
-/***/ }),
-/* 51 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 52 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "app-configuracoes" }, [
-    _vm._v("\n    Olar app configuracoes\n")
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-26eeb9d6", esExports)
-  }
-}
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _vue = __webpack_require__(1);
-
-var _vue2 = _interopRequireDefault(_vue);
-
-var _vuex = __webpack_require__(4);
-
-var _vuex2 = _interopRequireDefault(_vuex);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_vue2.default.use(_vuex2.default);
-
-var store = new _vuex2.default.Store({
-	state: {
-		arquivos: [{
-			"nome": "Diagnóstico",
-			"id": 1,
-			"id_etapa": 2,
-			"atualizacao": "2018-08-21 18:37:28",
-			"autor": "devspurbanismo",
-			"descricao": "Minuta de consulta pública para Programa de Interesse Público",
-			"posicao": 1
-		}, {
-			"nome": "Mapas",
-			"id": 2,
-			"id_etapa": 2,
-			"atualizacao": "2018-08-21 18:37:50",
-			"autor": "devspurbanismo",
-			"descricao": "Mapas do Anexo I da Minuta de consulta pública",
-			"posicao": 2
-		}, {
-			"nome": "Ofício",
-			"id": 3,
-			"id_etapa": 1,
-			"atualizacao": "2018-08-21 19:11:38",
-			"autor": "devspurbanismo",
-			"descricao": "Pedido de instauração de Projeto de Intervenção Urbana (PIU) relativo à área do Complexo Anhembi",
-			"posicao": 1
-		}],
-		urls: [{
-			"id": 1,
-			"id_arquivo": 1,
-			"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-			"extensao": "pdf"
-		}, {
-			"id": 2,
-			"id_arquivo": 2,
-			"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-			"extensao": "pdf"
-		}, {
-			"id": 3,
-			"id_arquivo": 3,
-			"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
-			"extensao": "pdf"
-		}],
-		projetos: [{
-			'nome': 'PIU Anhembi',
-			'id': 6,
-			'ativo': 1,
-			'autor': 'devspurbanismo',
-			'atualizacao': '2018-08-21 19:11:38'
-		}, {
-			'nome': 'PIU Rio Branco',
-			'id': 21,
-			'ativo': 1,
-			'autor': 'devspurbanismo',
-			'atualizacao': '2018-08-21 18:37:50'
-		}],
-		apagaLuz: false,
-		adicionarArquivoBox: false,
-		addEtapaBox: false
-	},
-	getters: {},
-	mutations: {
-		luzToggle: function luzToggle(state) {
-			state.apagaLuz = !state.apagaLuz;
-		},
-		abreAdicionarArquivoBox: function abreAdicionarArquivoBox(state) {
-			state.adicionarArquivoBox = !state.adicionarArquivoBox;
-		},
-		abreAdicionarEtapaBox: function abreAdicionarEtapaBox(state) {
-			state.addEtapaBox = !state.addEtapaBox;
-		},
-
-		arquivosArr: function arquivosArr(state) {
-			return state.arquivos;
-		}
-	},
-	actions: {
-		listaArquivos: function listaArquivos(state) {
-			state.commit('arquivosArr');
-		}
-	}
-});
-
-exports.default = store;
-
-/***/ }),
-/* 54 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-/**
- * As we are using hash based navigation, hack fix
- * to highlight the current selected menu
- *
- * Requires jQuery
- */
-function menuFix(slug) {
-    var $ = jQuery;
-
-    var menuRoot = $('#toplevel_page_' + slug);
-    var currentUrl = window.location.href;
-    var currentPath = currentUrl.substr(currentUrl.indexOf('admin.php'));
-
-    menuRoot.on('click', 'a', function () {
-        var self = $(this);
-
-        $('ul.wp-submenu li', menuRoot).removeClass('current');
-
-        if (self.hasClass('wp-has-submenu')) {
-            $('li.wp-first-item', menuRoot).addClass('current');
-        } else {
-            self.parents('li').addClass('current');
-        }
-    });
-
-    $('ul.wp-submenu a', menuRoot).each(function (index, el) {
-        if ($(el).attr('href') === currentPath) {
-            $(el).parent().addClass('current');
-            return;
-        }
-    });
-}
-
-exports.default = menuFix;
-
-/***/ }),
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	name: 'AdicionarEtapa',
-	data() {
-		return {};
-	},
-	components: {},
-	computed: {
-		fechaBox() {
-			return this.$store.state.addEtapaBox;
-		}
-	},
-	created() {},
-	methods: {
-		cancelar() {
-			this.$store.commit('luzToggle');
-			this.$store.commit('abreAdicionarEtapaBox');
-		}
-	}
-});
-
-/***/ }),
-/* 69 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdicionarEtapa_vue__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdicionarEtapa_vue__ = __webpack_require__(15);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b35d5ac6_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdicionarEtapa_vue__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b35d5ac6_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdicionarEtapa_vue__ = __webpack_require__(46);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(70)
+  __webpack_require__(45)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -2675,13 +1955,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 70 */
+/* 45 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 71 */
+/* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2764,6 +2044,673 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-b35d5ac6", esExports)
   }
 }
+
+/***/ }),
+/* 47 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Modal_vue__ = __webpack_require__(16);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7cd28607_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Modal_vue__ = __webpack_require__(49);
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(48)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Modal_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7cd28607_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Modal_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "assets\\src\\admin\\components\\Modal.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7cd28607", Component.options)
+  } else {
+    hotAPI.reload("data-v-7cd28607", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "Modal", class: { fechado: _vm.fechaModal } },
+    [
+      _c("div", { staticClass: "modal-cont" }, [
+        _c(
+          "div",
+          { staticClass: "modal-txt" },
+          [_c("h4", [_vm._t("header")], 2), _vm._v(" "), _vm._t("msg")],
+          2
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "modal-ok" }, [
+          _c(
+            "button",
+            {
+              on: {
+                click: function($event) {
+                  _vm.fechaModal = !_vm.fechaModal
+                }
+              }
+            },
+            [_vm._v("OK")]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._t("componente")
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7cd28607", esExports)
+  }
+}
+
+/***/ }),
+/* 50 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "app-projeto" },
+    [
+      _c("h1", [_vm._v("Arquivos GU")]),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _vm._l(_vm.projetos, function(projeto) {
+        return projeto.id == 6
+          ? _c(
+              "section",
+              { staticClass: "projeto" },
+              [
+                _c("div", { staticClass: "nome" }, [
+                  _c("h2", [_vm._v(_vm._s(projeto.nome))]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "shortcode_expand" }, [
+                    _c("span", [
+                      _vm._v("Shortcode do projeto "),
+                      _c(
+                        "code",
+                        {
+                          on: {
+                            click: function($event) {
+                              _vm.copiaSlug($event)
+                            }
+                          }
+                        },
+                        [_vm._v("[tabel id=1/]")]
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "busca-arquivos",
+                  attrs: { type: "text", placeholder: "Pesquisar arquivos..." }
+                }),
+                _vm._v(" "),
+                _vm._l(_vm.etapasInput, function(etapa) {
+                  return _c(
+                    "Etapa",
+                    { key: etapa.id },
+                    [
+                      _c("template", { slot: "nomeEtapa" }, [
+                        _vm._v("(Nome da etapa aqui)")
+                      ])
+                    ],
+                    2
+                  )
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "adicionarEtapa",
+                    on: {
+                      click: function($event) {
+                        _vm.insereEtapa()
+                      }
+                    }
+                  },
+                  [_vm._v("+ Adicionar etapa")]
+                )
+              ],
+              2
+            )
+          : _vm._e()
+      }),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _c("div", { staticClass: "luz", class: { apagada: _vm.apagaLuz } }),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        { staticClass: "erro" },
+        [
+          _c("template", { slot: "header" }, [
+            _vm._v("Campos não preenchidos")
+          ]),
+          _vm._v(" "),
+          _c("template", { slot: "msg" }, [
+            _vm._v("Por favor, preencha todos os campos.")
+          ])
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _vm.abreAdicionarEtapa ? _c("AdicionarEtapa") : _vm._e()
+    ],
+    2
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("section", { staticClass: "cabecalho" }, [
+      _c("p", [
+        _vm._v(
+          "A partir desta tela, você consegue acessar e editar as informações dos arquivos de cada projeto."
+        )
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "Cada linha corresponde a um arquivo com formatos variados (PDF, DOC, KMZ...)."
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("section", { staticClass: "acoes" }, [
+      _c("button", [_vm._v("Cancelar")]),
+      _vm._v(" "),
+      _c("button", [_vm._v("Salvar")])
+    ])
+  }
+]
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3853e4fd", esExports)
+  }
+}
+
+/***/ }),
+/* 51 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdicionarProjeto_vue__ = __webpack_require__(17);
+/* empty harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_68ef0786_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdicionarProjeto_vue__ = __webpack_require__(53);
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(52)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-68ef0786"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdicionarProjeto_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_68ef0786_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdicionarProjeto_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "assets\\src\\admin\\components\\AdicionarProjeto.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-68ef0786", Component.options)
+  } else {
+    hotAPI.reload("data-v-68ef0786", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 53 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "app-projeto" }, [
+    _c("div", { staticClass: "cont" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "conteudo" }, [
+        _c("p", [
+          _vm._v(
+            "Criação de um projeto e suas etapas. Ao criar as etapas, elas serão numeradas em ordem crescente."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v("Para inserir os links em um post, copie o Shortcode "),
+          _c(
+            "code",
+            {
+              on: {
+                click: function($event) {
+                  _vm.copiaSlug($event)
+                }
+              }
+            },
+            [
+              _vm._v("[tabel id=<"),
+              _c("span", { staticStyle: { color: "#0073aa" } }, [
+                _vm._v("número da ID")
+              ]),
+              _vm._v(">/]")
+            ]
+          ),
+          _vm._v(
+            " e cole no lugar desejado. Cada lista/tabela tem um único Shortcode."
+          )
+        ]),
+        _vm._v(" "),
+        _vm._m(1)
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "actions" }, [
+        _c(
+          "button",
+          { staticClass: "cancelar", on: { click: _vm.fechaNovoProjetoBox } },
+          [_vm._v("Cancelar")]
+        ),
+        _vm._v(" "),
+        _c("button", { staticClass: "adicionar" }, [_vm._v("Adicionar")])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "title" }, [
+      _c("h3", [_vm._v("Adicionar projeto")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("form", [
+      _c("fieldset", [
+        _c("input", {
+          attrs: {
+            type: "text",
+            id: "nome",
+            placeholder: "Digite o nome do projeto"
+          }
+        })
+      ])
+    ])
+  }
+]
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-68ef0786", esExports)
+  }
+}
+
+/***/ }),
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Configuracoes_vue__ = __webpack_require__(18);
+/* empty harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_26eeb9d6_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Configuracoes_vue__ = __webpack_require__(56);
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(55)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-26eeb9d6"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Configuracoes_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_26eeb9d6_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Configuracoes_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "assets\\src\\admin\\components\\Configuracoes.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-26eeb9d6", Component.options)
+  } else {
+    hotAPI.reload("data-v-26eeb9d6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 56 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "app-configuracoes" }, [
+    _vm._v("\n    Olar app configuracoes\n")
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-26eeb9d6", esExports)
+  }
+}
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _vue = __webpack_require__(1);
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _vuex = __webpack_require__(4);
+
+var _vuex2 = _interopRequireDefault(_vuex);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_vue2.default.use(_vuex2.default);
+
+var store = new _vuex2.default.Store({
+	state: {
+		arquivos: [{
+			"nome": "Diagnóstico",
+			"id": 1,
+			"id_etapa": 2,
+			"atualizacao": "2018-08-21 18:37:28",
+			"autor": "devspurbanismo",
+			"descricao": "Minuta de consulta pública para Programa de Interesse Público",
+			"posicao": 1
+		}, {
+			"nome": "Mapas",
+			"id": 2,
+			"id_etapa": 2,
+			"atualizacao": "2018-08-21 18:37:50",
+			"autor": "devspurbanismo",
+			"descricao": "Mapas do Anexo I da Minuta de consulta pública",
+			"posicao": 2
+		}, {
+			"nome": "Ofício",
+			"id": 3,
+			"id_etapa": 1,
+			"atualizacao": "2018-08-21 19:11:38",
+			"autor": "devspurbanismo",
+			"descricao": "Pedido de instauração de Projeto de Intervenção Urbana (PIU) relativo à área do Complexo Anhembi",
+			"posicao": 1
+		}],
+		urls: [{
+			"id": 1,
+			"id_arquivo": 1,
+			"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+			"extensao": "pdf"
+		}, {
+			"id": 2,
+			"id_arquivo": 2,
+			"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+			"extensao": "pdf"
+		}, {
+			"id": 3,
+			"id_arquivo": 3,
+			"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
+			"extensao": "pdf"
+		}],
+		projetos: [{
+			'nome': 'PIU Anhembi',
+			'id': 6,
+			'ativo': 1,
+			'autor': 'devspurbanismo',
+			'atualizacao': '2018-08-21 19:11:38'
+		}, {
+			'nome': 'PIU Rio Branco',
+			'id': 21,
+			'ativo': 1,
+			'autor': 'devspurbanismo',
+			'atualizacao': '2018-08-21 18:37:50'
+		}],
+		apagaLuz: false,
+		adicionarArquivoBox: false,
+		addEtapaBox: false,
+		addProjetoBox: false
+	},
+	getters: {},
+	mutations: {
+		luzToggle: function luzToggle(state) {
+			state.apagaLuz = !state.apagaLuz;
+		},
+		abreAdicionarArquivoBox: function abreAdicionarArquivoBox(state) {
+			state.adicionarArquivoBox = !state.adicionarArquivoBox;
+		},
+		abreAdicionarEtapaBox: function abreAdicionarEtapaBox(state) {
+			state.addEtapaBox = !state.addEtapaBox;
+		},
+		abreAdicionarProjetoBox: function abreAdicionarProjetoBox(state) {
+			state.addProjetoBox = !state.addProjetoBox;
+		},
+
+		arquivosArr: function arquivosArr(state) {
+			return state.arquivos;
+		},
+		ativoToggle: function ativoToggle(state, incomeId) {
+			state.projetos.map(function (index) {
+				if (index.id === incomeId) {
+					index.ativo = Math.abs(index.ativo - 1);
+				}
+			});
+		}
+	},
+	actions: {
+		listaArquivos: function listaArquivos(state) {
+			state.commit('arquivosArr');
+		}
+	}
+});
+
+exports.default = store;
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+/**
+ * As we are using hash based navigation, hack fix
+ * to highlight the current selected menu
+ *
+ * Requires jQuery
+ */
+function menuFix(slug) {
+    var $ = jQuery;
+
+    var menuRoot = $('#toplevel_page_' + slug);
+    var currentUrl = window.location.href;
+    var currentPath = currentUrl.substr(currentUrl.indexOf('admin.php'));
+
+    menuRoot.on('click', 'a', function () {
+        var self = $(this);
+
+        $('ul.wp-submenu li', menuRoot).removeClass('current');
+
+        if (self.hasClass('wp-has-submenu')) {
+            $('li.wp-first-item', menuRoot).addClass('current');
+        } else {
+            self.parents('li').addClass('current');
+        }
+    });
+
+    $('ul.wp-submenu a', menuRoot).each(function (index, el) {
+        if ($(el).attr('href') === currentPath) {
+            $(el).parent().addClass('current');
+            return;
+        }
+    });
+}
+
+exports.default = menuFix;
 
 /***/ })
 ],[19]);

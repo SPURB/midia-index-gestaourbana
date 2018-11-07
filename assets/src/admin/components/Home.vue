@@ -1,12 +1,14 @@
 <template>
 	<div class="home">
-		<h1 @click="luzToggle()">Arquivos GU</h1>
+		<h1>Arquivos GU</h1>
 		<section>
 			<p>Esta é a lista de arquivos por projeto e etapa. Clique no nome do projeto para editar sua lista.</p>
-			<p>Para inserir os links em um post, copie o shortcode <code>[tabel id=&lt;<span style="color: #0073aa;">número da ID</span>&gt;/]</code> e cole no lugar desejado. Cada lista/tabela tem um único shortcode.</p>
+			<p>Para inserir os links em um post, copie o shortcode <code @click="copiaSlug($event)">[tabel id=&lt;<span style="color: #0073aa;">número da ID</span>&gt;/]</code> e cole no lugar desejado. Cada lista/tabela tem um único shortcode.</p>
 		</section>
-		<input type="text" placeholder="Pesquisar...">
-		<button>Incluir projeto</button>
+		<section class="buscaprojeto">
+			<input type="text" placeholder="Pesquisar...">
+			<button @click="abreNovoProjeto()">+ Adicionar projeto</button>
+		</section>
 		<table>
 			<thead>
 				<th width="35%">Projeto</th>
@@ -14,28 +16,32 @@
 				<th width="25%">Última modificação</th>
 				<th width="15%"></th>
 			</thead>
-			<tr v-for="projeto in projetos" :class="ocultoClass(projeto.status)">
+			<tr v-for="projeto in projetos" :class="ocultoClass(projeto.ativo)">
 				<td><a href="#">{{ projeto.nome }}</a></td>
 				<td>{{ projeto.autor }}</td>
 				<td>{{ displayData(projeto.atualizacao) }}</td>
 				<td>
-					<div class="switchCont" @click="switchCont(projeto.status)">
-						<div :class="ocultoClass(projeto.status)">
-							<span v-if="projeto.status == 1">Disponível</span>
+					<div class="switchCont" @click="ativoToggle(projeto.id)">
+						<div :class="ocultoClass(projeto.ativo)">
+							<span v-if="projeto.ativo == 1">Disponível</span>
 							<span v-else>Oculto</span>
 						</div>
 					</div>
 				</td>
 			</tr>
 		</table>
+		<AdicionarProjeto v-if="abreAddProjetoBox"></AdicionarProjeto>
 	</div>
 </template>
 
 <script>
+import AdicionarProjeto from '../components/AdicionarProjeto.vue'
 
 export default {
 	name: 'Home',
-	components: {},
+	components: {
+		AdicionarProjeto,
+	},
 	props: [ 'props' ],
 	data() {
 		return {}
@@ -44,6 +50,9 @@ export default {
 	computed: {
 		projetos() {
 			return this.$store.state.projetos
+		},
+		abreAddProjetoBox() {
+			return this.$store.state.addProjetoBox
 		}
 	},
 	methods:{
@@ -66,6 +75,16 @@ export default {
 		},
 		luzToggle() {
 			this.$store.commit('luzToggle')
+		},
+		copiaSlug(evt) {
+			navigator.clipboard.writeText(evt.target.innerText)
+		},
+		ativoToggle(incomeId) {
+			this.$store.commit('ativoToggle', incomeId)
+		},
+		abreNovoProjeto() {
+			this.$store.commit('abreAdicionarProjetoBox')
+			this.$store.commit('luzToggle')
 		}
 	}
 };
@@ -74,47 +93,86 @@ export default {
 <style lang="scss" scoped>
 h1 { font-weight: bold; }
 section { margin: 2rem 0; p { color: #898989; } }
-code { color: initial; }
+code {
+	color: initial;
+	position: relative;
+	transition: all ease-in-out .2s;
 
-input[type=text], button {
-	height: 40px;
-	box-sizing: border-box;
-	vertical-align: middle;
-}
+	&::after {
+		content: "Copiar";
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		background-color: rgba(0, 0, 0, .8);
+		color: #FFF;
+		text-transform: uppercase;
+		font-size: smaller;
+		opacity: 0;
+		transition: all ease-in-out .2s;
+	}
 
-input[type=text] {
-	width: 50%;
-	padding: 0 40px 0 12px;
-	background-color: #FFF;
-	background-size: 18px;
-	background-repeat: no-repeat;
-	background-position: calc(100% - 12px);
-	border: 1px solid #DDD;
-	margin: 0;
-	&:focus {
-		border-color: #0073aa;
-		box-shadow: 0 0 2px #0073aa;
+	&:hover {
+		cursor: pointer;
+		&::after { opacity: 1; }
+	}
+
+	&:active::after {
+		content: 'Copiado!';
+		background-color: #FFF;
+		color: initial;
+		transition: none;
 	}
 }
 
-button {
-	background: #0073aa;
-	border: 2px solid rgba(0, 0, 0, .2);
-	border-radius: 2px;
-	color: #FFF;
-	font-weight: bold;
-	cursor: pointer;
-	margin: 0;
-	position: relative;
-	&:hover::after {
-		content: '';
-		position: absolute;
-		background: #FFF;
-		top: 0;
-		left: 0;
+section.buscaprojeto {
+	display: flex;
+	align-items: stretch;
+	justify-content: space-between;
+	width: 100%;
+	max-width: 1000px;
+
+	input[type=text], button {
+		height: 40px;
+		border-radius: 20px;
+		box-sizing: border-box;
+	}
+
+	input[type=text] {
 		width: 100%;
-		height: 100%;
-		opacity: .2;
+		padding: 0 16px;
+		background-color: #FFF;
+		border: 1px solid #DDD;
+		margin: 0 120px 0 0;
+		&:focus {
+			border-color: #0073aa;
+			box-shadow: 0 0 2px #0073aa;
+		}
+	}
+
+	button {
+		width: 240px;
+		border: 0;
+		background: #0073aa;
+		color: #FFF;
+		font-weight: bold;
+		cursor: pointer;
+		margin: 0;
+		position: relative;
+		&:hover::after {
+			content: '';
+			position: absolute;
+			background: #FFF;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			opacity: .2;
+		}
 	}
 }
 
@@ -151,6 +209,8 @@ table {
 		margin: 0;
 		padding: 0;
 		cursor: pointer;
+		user-select: none;
+		-moz-user-select: none;
 
 		& > div {
 			margin: 0;

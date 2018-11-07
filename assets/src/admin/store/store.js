@@ -73,9 +73,9 @@ const store = new Vuex.Store({
 		apagaLuz: false,
 		adicionarArquivoBox: false,
 		addEtapaBox: false,
+		addProjetoBox: false,
 	},
-	getters: {
-	},
+	getters: {},
 	mutations: {
 		luzToggle(state) {
 			state.apagaLuz = !state.apagaLuz
@@ -86,8 +86,18 @@ const store = new Vuex.Store({
 		abreAdicionarEtapaBox(state) {
 			state.addEtapaBox = !state.addEtapaBox
 		},
+		abreAdicionarProjetoBox(state) {
+			state.addProjetoBox = !state.addProjetoBox
+		},
 		arquivosArr: state => {
 			return state.arquivos
+		},
+		ativoToggle(state, incomeId) {
+			state.projetos.map(function(index) {
+				if (index.id === incomeId) {
+					index.ativo = Math.abs(index.ativo - 1)
+				}
+			})
 		}
 	},
 	actions: {

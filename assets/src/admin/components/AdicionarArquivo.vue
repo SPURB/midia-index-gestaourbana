@@ -154,6 +154,8 @@ div.AdicionarArquivo {
 
 					&:nth-child(2) {
 						display: inline-flex;
+						justify-content: space-between;
+						width: 100%;
 
 						input[type=text], textarea {
 							width: 520px;
@@ -167,6 +169,7 @@ div.AdicionarArquivo {
 								width: 50px;
 								display: inline-flex;
 								align-items: flex-end;
+								justify-content: flex-end;
 								color: #898989;
 							}
 						}

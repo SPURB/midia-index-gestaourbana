@@ -5,16 +5,16 @@
 			<p>A partir desta tela, você consegue acessar e editar as informações dos arquivos de cada projeto.</p>
 			<p>Cada linha corresponde a um arquivo com formatos variados (PDF, DOC, KMZ...).</p>
 		</section>
-		<section v-for="projeto in props.projetos" v-if="projeto.id == 6" class="projeto">
+		<section v-for="projeto in projetos" v-if="projeto.id == 6" class="projeto">
 			<div class="nome">
 				<h2>{{ projeto.nome }}</h2>
 				<div class="shortcode_expand">
-					<span>Shortcode do projeto <code>[tabel id=1/]</code></span>
+					<span>Shortcode do projeto <code @click="copiaSlug($event)">[tabel id=1/]</code></span>
 				</div>
 			</div>
-			<input type="text" class="busca-arquivos" placeholder="Pesquisar arquivos">
-			<Etapa v-for="etapa in etapasInput" :key="etapa.id" :props="props">
-				<template slot="nomeEtapa">{{ etapa.nome }}</template>
+			<input type="text" class="busca-arquivos" placeholder="Pesquisar arquivos...">
+			<Etapa v-for="etapa in etapasInput" :key="etapa.id">
+				<template slot="nomeEtapa">(Nome da etapa aqui)</template>
 			</Etapa>
 			<button class="adicionarEtapa" @click="insereEtapa()">+ Adicionar etapa</button>
 		</section>
@@ -23,10 +23,10 @@
 			<button>Salvar</button>
 		</section>
 		<div class="luz" :class="{ apagada: apagaLuz }"></div>
-		<!-- <Modal class="erro">
+		<Modal class="erro">
 			<template slot="header">Campos não preenchidos</template>
 			<template slot="msg">Por favor, preencha todos os campos.</template>
-		</Modal> -->
+		</Modal>
 		<AdicionarEtapa v-if="abreAdicionarEtapa"></AdicionarEtapa>
 	</div>
 </template>
@@ -38,7 +38,6 @@ import Modal from '../components/Modal.vue'
 
 export default {
 	name: 'Projeto',
-	props: [ 'props' ],
 	data() {
 		return {
 			etapasInput: [
@@ -50,6 +49,9 @@ export default {
 		};
 	},
 	computed: {
+		projetos() {
+			return this.$store.state.projetos
+		},
 		apagaLuz() {
 			return this.$store.state.apagaLuz
 		},
@@ -70,6 +72,9 @@ export default {
 			// this.etapaCounter++
 			this.$store.commit('abreAdicionarEtapaBox')
 			this.$store.commit('luzToggle')
+		},
+		copiaSlug(evt) {
+			navigator.clipboard.writeText(evt.target.innerText)
 		}
 	}
 }
@@ -80,7 +85,41 @@ div.app-projeto {
 overflow: hidden;
 h1 { font-weight: bold; }
 section:not(.projeto) { margin: 2rem 0; p { color: #898989; } }
-code { color: initial; background-color: rgba(0, 0, 0, .12); }
+code {
+	color: initial;
+	position: relative;
+	transition: all ease-in-out .2s;
+
+	&::after {
+		content: "Copiar";
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		background-color: rgba(0, 0, 0, .8);
+		color: #FFF;
+		text-transform: uppercase;
+		font-size: smaller;
+		opacity: 0;
+		transition: all ease-in-out .2s;
+	}
+
+	&:hover {
+		cursor: pointer;
+		&::after { opacity: 1; }
+	}
+
+	&:active::after {
+		content: 'Copiado!';
+		background-color: #FFF;
+		color: initial;
+		transition: none;
+	}
+}
 button, input, textarea { margin: 0; font-family: inherit; }
 
 	section.projeto {
@@ -123,7 +162,7 @@ button, input, textarea { margin: 0; font-family: inherit; }
 	button.adicionarEtapa {
 		margin: 12px 0 0 0 !important;
 		display: block;
-		padding: 0 1rem;
+		padding: 0 4rem;
 		height: 40px;
 		background: #0073aa;
 		border-radius: 20px;

@@ -20,11 +20,6 @@ export default new Router({
 			component: Projeto
 		},
 		{
-			path: '/adicionar-projeto',
-			name: 'AdicionarProjeto',
-			component: AdicionarProjeto
-		},
-		{
 			path: '/configuracoes',
 			name: 'Configuracoes',
 			component: Configuracoes

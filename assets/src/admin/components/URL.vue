@@ -47,23 +47,28 @@ tr.URL {
 	position: relative;
 
 	td div span {
-		display: inline-block;
-		background-color: #BBB;
+		display: inline-flex;
+		background-color: #bbb;
 		padding: 4px 8px;
 		margin-left: 8px;
-		font-weight: bold;
-		color: #FFF;
+		font-weight: 700;
+		color: #fff;
 		border-radius: 2px;
-		box-shadow: inset 0 -2px 2px rgba(0, 0, 0, .12);
+		box-shadow: inset 0 -2px 2px rgba(0,0,0,.12);
 		user-select: none;
+		-moz-user-select: none;
 		cursor: pointer;
+		height: 100%;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
 		&:active { color: rgba(255, 255, 255, .4); }
 	}
 
 	div.arquivo_extensao-box {
 		position: absolute;
 		right: 0;
-		top: 30px;
+		top: 0;
 		background-color: #898989;
 		width: intrinsic;
 		width: max-content;

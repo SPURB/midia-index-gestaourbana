@@ -37,12 +37,12 @@ div.Modal {
 	width: 100%;
 	height: calc(100vh - 32px);
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: flex-end;
-	padding: 40px;
+	padding: 40px 20px;
 	overflow: hidden;
 
-	&.fechado > div.modal-cont { transform: translateY(200px); }
+	&.fechado { display: none; }
 
 	div.modal-cont {
 		display: flex;
@@ -54,7 +54,7 @@ div.Modal {
 		border-top-style: solid;
 		box-shadow: 0 4px 4px rgba(0, 0, 0, .12);
 		z-index: 2;
-		transition: transform ease-out .4s;
+		transition: transform ease-out .4s, background-color ease-in .1s;
 		animation: modal ease-in .8s;
 
 		@keyframes modal {
@@ -95,5 +95,7 @@ div.Modal {
 		align-items: center;
 		div.modal-cont { display: none; }
 	}
+
+	&:active > div.modal-cont { background-color: #898989; }
 }
 </style>
