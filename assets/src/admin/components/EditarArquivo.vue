@@ -1,8 +1,8 @@
 <template>
-	<div class="AdicionarArquivo" :class="{ fechado: !fechaBox }" ref="div">
+	<div class="EditarArquivo" :class="{ fechado: !fechaBox }" ref="div">
 		<div class="cont">
 			<div class="title">
-				<h3>Adicionar arquivo</h3>
+				<h3>Editar arquivo</h3>
 			</div>
 			<form action="">
 				<table>
@@ -11,7 +11,7 @@
 							<label for="">Nome público</label>
 						</td>
 						<td>
-							<input type="text" @keyup="charCount($event)">
+							<input type="text" @keyup="charCount($event)" ref="nome">
 							<span class="charCounter">0/330</span>
 						</td>
 					</tr>
@@ -26,7 +26,7 @@
 							<label for="">Descrição</label>
 						</td>
 						<td>
-							<textarea name="" id="" @keyup="charCount($event)"></textarea>
+							<textarea name="" id="" @keyup="charCount($event)" ref="descricao"></textarea>
 							<span class="charCounter">0/330</span>
 						</td>
 					</tr>
@@ -44,7 +44,7 @@
 import URL from '../components/URL.vue'
 
 export default {
-	name: 'AdicionarArquivo',
+	name: 'EditarArquivo',
 	data() {
 		return {
 			urls: [
@@ -55,14 +55,19 @@ export default {
 	components: {
 		URL,
 	},
+	props: [ 'pass' ],
 	computed: {
 		fechaBox() {
-			return this.$store.state.adicionarArquivoBox
+			return this.$store.state.editArquivoBox
 		}
 	},
 	created() {},
-	mounted() {},
-	updated() {},
+	mounted() {
+		this.$refs.nome.value = this.$props.pass.nome
+		this.$refs.descricao.value = this.$props.pass.descricao
+	},
+	updated() {		
+	},
 	methods: {
 		charCount(evt) {
 			let txt = evt.target.value
@@ -81,14 +86,14 @@ export default {
 		},
 		cancelar() {
 			this.$store.commit('luzToggle')
-			this.$store.commit('abreAdicionarArquivoBox')
+			this.$store.commit('abreEditarArquivoBox')
 		}
 	}
 };
 </script>
 
 <style lang="scss">
-div.AdicionarArquivo {
+div.EditarArquivo {
 	position: absolute;
 	top: 0;
 	left: -20px;

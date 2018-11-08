@@ -46,7 +46,6 @@ export default {
 	data() {
 		return {}
 	},
-	mounted() {},
 	computed: {
 		projetos() {
 			return this.$store.state.projetos
@@ -66,21 +65,11 @@ export default {
 		ocultoClass(par) {
 			if (par == 1) { return '' } else if (par == 0) { return 'oculto' }
 		},
-		switchCont(par) {
-			if (par == 1) {
-				par = 0
-			} else if (par == 0) {
-				par = 1
-			}
-		},
-		luzToggle() {
-			this.$store.commit('luzToggle')
+		ativoToggle(incomeId) {
+			this.$store.commit('ativoToggle', incomeId)
 		},
 		copiaSlug(evt) {
 			navigator.clipboard.writeText(evt.target.innerText)
-		},
-		ativoToggle(incomeId) {
-			this.$store.commit('ativoToggle', incomeId)
 		},
 		abreNovoProjeto() {
 			this.$store.commit('abreAdicionarProjetoBox')
@@ -91,50 +80,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-h1 { font-weight: bold; }
 section { margin: 2rem 0; p { color: #898989; } }
-code {
-	color: initial;
-	position: relative;
-	transition: all ease-in-out .2s;
-
-	&::after {
-		content: "Copiar";
-		position: absolute;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		top: 0;
-		left: 0;
-		height: 100%;
-		width: 100%;
-		background-color: rgba(0, 0, 0, .8);
-		color: #FFF;
-		text-transform: uppercase;
-		font-size: smaller;
-		opacity: 0;
-		transition: all ease-in-out .2s;
-	}
-
-	&:hover {
-		cursor: pointer;
-		&::after { opacity: 1; }
-	}
-
-	&:active::after {
-		content: 'Copiado!';
-		background-color: #FFF;
-		color: initial;
-		transition: none;
-	}
-}
 
 section.buscaprojeto {
 	display: flex;
 	align-items: stretch;
 	justify-content: space-between;
 	width: 100%;
-	max-width: 1000px;
 
 	input[type=text], button {
 		height: 40px;
@@ -147,7 +99,7 @@ section.buscaprojeto {
 		padding: 0 16px;
 		background-color: #FFF;
 		border: 1px solid #DDD;
-		margin: 0 120px 0 0;
+		margin: 0 120px 0 0 !important;
 		&:focus {
 			border-color: #0073aa;
 			box-shadow: 0 0 2px #0073aa;
@@ -178,7 +130,6 @@ section.buscaprojeto {
 
 table {
 	width: 100%;
-	max-width: 1000px;
 	text-align: left;
 	background: #FFF;
 	border: 1px solid #DDD;

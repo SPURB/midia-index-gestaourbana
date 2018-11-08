@@ -22,11 +22,10 @@
 			<button>Cancelar</button>
 			<button>Salvar</button>
 		</section>
-		<div class="luz" :class="{ apagada: apagaLuz }"></div>
-		<Modal class="erro">
+		<!-- <Modal class="erro">
 			<template slot="header">Campos não preenchidos</template>
 			<template slot="msg">Por favor, preencha todos os campos.</template>
-		</Modal>
+		</Modal> -->
 		<AdicionarEtapa v-if="abreAdicionarEtapa"></AdicionarEtapa>
 	</div>
 </template>
@@ -52,9 +51,6 @@ export default {
 		projetos() {
 			return this.$store.state.projetos
 		},
-		apagaLuz() {
-			return this.$store.state.apagaLuz
-		},
 		abreAdicionarEtapa() {
 			return this.$store.state.addEtapaBox
 		}
@@ -68,59 +64,21 @@ export default {
 	updated() {},
 	methods: {
 		insereEtapa() {
-			// this.etapasInput.push({ index: this.etapaCounter })
-			// this.etapaCounter++
 			this.$store.commit('abreAdicionarEtapaBox')
 			this.$store.commit('luzToggle')
 		},
 		copiaSlug(evt) {
 			navigator.clipboard.writeText(evt.target.innerText)
-		}
+		},
 	}
 }
 </script>
 
 <style lang="scss">
 div.app-projeto {
-overflow: hidden;
-h1 { font-weight: bold; }
-section:not(.projeto) { margin: 2rem 0; p { color: #898989; } }
-code {
-	color: initial;
-	position: relative;
-	transition: all ease-in-out .2s;
+	overflow: hidden;
 
-	&::after {
-		content: "Copiar";
-		position: absolute;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		top: 0;
-		left: 0;
-		height: 100%;
-		width: 100%;
-		background-color: rgba(0, 0, 0, .8);
-		color: #FFF;
-		text-transform: uppercase;
-		font-size: smaller;
-		opacity: 0;
-		transition: all ease-in-out .2s;
-	}
-
-	&:hover {
-		cursor: pointer;
-		&::after { opacity: 1; }
-	}
-
-	&:active::after {
-		content: 'Copiado!';
-		background-color: #FFF;
-		color: initial;
-		transition: none;
-	}
-}
-button, input, textarea { margin: 0; font-family: inherit; }
+	section:not(.projeto) { margin: 2rem 0; p { color: #898989; } }
 
 	section.projeto {
 		h2, h3, h4, h5, h6 { margin: 0; }
@@ -130,7 +88,6 @@ button, input, textarea { margin: 0; font-family: inherit; }
 		border: 1px solid #DDD;
 		box-shadow: 0 4px 4px rgba(0, 0, 0, .12);
 		box-sizing: border-box;
-		max-width: 1000px;
 
 		div.nome {
 			height: 40px;
@@ -149,7 +106,7 @@ button, input, textarea { margin: 0; font-family: inherit; }
 		}
 
 		input.busca-arquivos {
-			margin: 8px 0 0 0;
+			margin: 8px 0 0 0 !important;
 			padding: 0 12px 1px 12px;
 			width: 100%;
 			height: 36px;
@@ -185,7 +142,6 @@ button, input, textarea { margin: 0; font-family: inherit; }
 	}
 
 	section.acoes {
-		max-width: 1000px;
 		width: 100%;
 		button {
 			margin: 0;
@@ -209,23 +165,6 @@ button, input, textarea { margin: 0; font-family: inherit; }
 				user-select: none;
 				cursor: not-allowed;
 			}
-		}
-	}
-
-	div.luz {
-		position: absolute;
-		top: 0;
-		left: -20px;
-		width: calc(100% + 20px);
-		height: 100vh;
-		background-color: transparent;
-		overflow: hidden;
-		z-index: -1;
-		transition: all .4s ease-in-out;
-		
-		&.apagada {
-			background-color: rgba(0, 0, 0, .8);
-			z-index: 1;
 		}
 	}
 }

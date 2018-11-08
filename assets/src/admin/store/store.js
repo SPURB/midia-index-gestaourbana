@@ -70,7 +70,15 @@ const store = new Vuex.Store({
 				'atualizacao': '2018-08-21 18:37:50'
 			}
 		],
+		tiposDeArquivo: [
+			{ 'index': 0, 'extensao': 'PDF' },
+			{ 'index': 1, 'extensao': 'KMZ' },
+			{ 'index': 2, 'extensao': 'KML' },
+			{ 'index': 3, 'extensao': 'SHP' },
+			{ 'index': 4, 'extensao': 'DOC' },
+		],
 		apagaLuz: false,
+		editArquivoBox: false,
 		adicionarArquivoBox: false,
 		addEtapaBox: false,
 		addProjetoBox: false,
@@ -79,6 +87,9 @@ const store = new Vuex.Store({
 	mutations: {
 		luzToggle(state) {
 			state.apagaLuz = !state.apagaLuz
+		},
+		abreEditarArquivoBox(state) {
+			state.editArquivoBox = !state.editArquivoBox
 		},
 		abreAdicionarArquivoBox(state) {
 			state.adicionarArquivoBox = !state.adicionarArquivoBox

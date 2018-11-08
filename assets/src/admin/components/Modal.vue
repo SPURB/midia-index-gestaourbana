@@ -66,6 +66,7 @@ div.Modal {
 
 		div.modal-txt {
 			padding: 12px 16px;
+
 			h4 {
 				margin: 0;
 				padding: 0;

@@ -24,13 +24,11 @@
 		data() {
 			return {
 				extensaoBoxShow: false,
-				tipoDeArquivo: [
-					{ index: 0, extensao: 'PDF' },
-					{ index: 1, extensao: 'KMZ' },
-					{ index: 2, extensao: 'KML' },
-					{ index: 3, extensao: 'SHP' },
-					{ index: 4, extensao: 'DOC' }
-				]
+			}
+		},
+		computed: {
+			tipoDeArquivo() {
+				return this.$store.state.tiposDeArquivo
 			}
 		},
 		methods: {

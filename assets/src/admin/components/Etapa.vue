@@ -18,35 +18,44 @@
 				<draggable v-model="arquivos" element="tbody" :options="{ draggable: '.tablerow', ghostClass: 'slot-vazio', animation: 50, scroll: true, scrollSensitivity: 80, scrollSpeed: 8 }">
 					<tr v-for="arquivo in arquivos" class="tablerow">
 						<td>{{ displayData(arquivo.atualizacao) }}</td>
-						<td><a href="">{{ arquivo.nome }}</a></td>
+						<td><a @click="abreEditArquivoBox($event)" :id="arquivo.id">{{ arquivo.nome }}</a></td>
 						<td><img src="https://www.materialui.co/materialIcons/action/reorder_black_192x192.png" style="height: 24px; width: 24px; vertical-align: bottom;" alt=""></td>
 					</tr>
 				</draggable>
 			</table>
 			<button class="adicionar-arquivo" @click="novoArquivo()">+ Adicionar arquivo</button>
 		</div>
+		<EditarArquivo v-if="editarArquivo" :pass="arquivoInfo"></EditarArquivo>
 		<AdicionarArquivo v-if="abreNovoArquivo"></AdicionarArquivo>
 	</div>
 </template>
 
 <script>
-import Arquivo from '../components/Arquivo.vue'
 import draggable from 'vuedraggable'
 import AdicionarArquivo from '../components/AdicionarArquivo.vue'
+import EditarArquivo from '../components/EditarArquivo.vue'
 
 export default {
 	name: 'Etapa',
 	props: [ 'props' ],
 	data() {
-		return {}
+		return {
+			arquivoInfo: {
+				"nome": "",
+				"descricao": "",
+			},
+		}
 	},
 	components: {
-		AdicionarArquivo, Arquivo, draggable
+		EditarArquivo, AdicionarArquivo, draggable
 	},
 	computed: {
 		arquivos() {
 			let arr = Array.from(this.$store.state.arquivos)
 			return arr
+		},
+		editarArquivo() {
+			return this.$store.state.editArquivoBox
 		},
 		abreNovoArquivo() {
 			return this.$store.state.adicionarArquivoBox
@@ -62,7 +71,7 @@ export default {
 				divEtapa.style.maxHeight = '40px'
 				evt.target.style.transform = 'rotate(180deg)'
 			} else {
-				divEtapa.style.maxHeight = '600px'
+				divEtapa.style.maxHeight = '1000px'
 				evt.target.style.transform = 'rotate(0deg)'
 			}
 		},
@@ -79,6 +88,17 @@ export default {
 		},
 		copiaSlug(evt) {
 			navigator.clipboard.writeText(evt.target.innerText)
+		},
+		abreEditArquivoBox(evt) {
+			let app = this
+			this.$store.commit('luzToggle')
+			this.$store.commit('abreEditarArquivoBox')
+			this.$store.state.arquivos.map(function(index) {
+				if (index.id == evt.target.attributes.id.value) {
+					app.arquivoInfo.nome = index.nome
+					app.arquivoInfo.descricao = index.descricao
+				}
+			})
 		}
 	}
 };
@@ -101,22 +121,26 @@ div.Etapa {
 		box-sizing: border-box;
 		border-bottom: 1px solid #DDD;
 		background-color: #0073aa;
+
 		& > span {
 			color: rgba(255, 255, 255, .4);
 			margin-right: 4px;
 		}
+
 		h3 {
 			display: inline-block;
 			color: #FFF;
 		}
+
 		& > div.shortcode_expand {
 			display: inline-flex;
 			align-items: center;
 			float: right;
 			height: 100%;
 			color: rgba(255, 255, 255, .4);
+
 			button {
-				margin: 0 0 0 12px;
+				margin: 0 0 0 12px !important;
 				padding: 0;
 				border: 0;
 				background-color: transparent;
@@ -124,18 +148,23 @@ div.Etapa {
 				transition: all ease-out .2s;
 				cursor: pointer;
 				transform-origin: center 61%;
+
 				&:hover { color: initial; }
 			}
+
 			code { color: #FFF; }
 		}
 	}
 
 	div.arquivosTable {
 		position: relative;
+
 		table {
 			width: 100%;
 			border-collapse: collapse;
+
 			thead { box-shadow: 0 2px 2px rgba(0, 0, 0, .12); }
+
 			thead th {
 				text-align: left;
 				font-weight: normal;
@@ -145,30 +174,58 @@ div.Etapa {
 				&:last-child { width: 1px; padding-right: 12px; }
 				color: #898989;
 			}
+
 			tbody tr.tablerow td {
 				padding: 8px 0 8px 12px;
 				transition: all .2s;
+
 				&:first-child { width: 10%; min-width: 120px; }
+
 				&:last-child {
 					width: 1px;
 					padding-right: 12px;
+
 					i, img { cursor: move; }
 				}
+
 				& > * {	user-select: none; -moz-user-select: none; }
-				a { text-decoration: none; }
+
+				a {
+					text-decoration: none;
+					cursor: pointer;
+
+					&::after {
+						content: 'Editar';
+						font-size: 10px;
+						text-transform: uppercase;
+						vertical-align: top;
+						background-color: rgba(0, 0, 0, .4);
+						color: #FFF;
+						padding: 0 4px;
+						border-radius: 2px;
+						margin-left: 8px;
+						display: none;
+					}
+
+					&:hover::after { display: inline-block; }
+				}
 			}
+
 			tr:nth-child(even) td { background: #F9F9F9; }
 			tr:hover td { background: #EEE; }
+
 			tr:active td, tr.slot-vazio td {
 				background: #5b9dd9;
 				color: #FFF;
 				a { color: #FFF; }
 			}
+
 			& > * {
 				user-select: none;
 				-moz-user-select: none;
 			}
 		}
+
 		button.adicionar-arquivo {
 			position: absolute;
 			right: 20px;
@@ -182,10 +239,12 @@ div.Etapa {
 			box-shadow: 0 4px 4px rgba(0, 0, 0, .24);
 			cursor: pointer;
 			transition: all ease-in-out .2s;
+
 			&:hover {
 				box-shadow: 0 8px 8px rgba(0, 0, 0, .24);
 				transform: translateY(-4px);
 			}
+
 			&:active {
 				background-color: #FFF;
 				color: #fe4c4c;
