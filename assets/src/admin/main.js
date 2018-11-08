@@ -16,5 +16,5 @@ new Vue({
 });
 
 
-// fix the admin menu for the slug "vue-app"
+// fix the admin menu for the slug "gu-index-admin"
 menuFix('gu-index-admin');

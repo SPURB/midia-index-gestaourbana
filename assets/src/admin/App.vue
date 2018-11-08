@@ -15,6 +15,9 @@ export default {
 		luzToggle() {
 			return this.$store.state.apagaLuz
 		}
+	},
+	mounted(){
+		this.$store.dispatch('FETCH_PROJETOS')
 	}
 };
 </script>

@@ -58,9 +58,9 @@ export default {
 	components: {
 		Etapa, AdicionarEtapa, Modal
 	},
-	mounted() {
-		this.$store.dispatch('listaArquivos')
-	},
+	// mounted() {
+	// 	this.$store.dispatch('listaArquivos')
+	// },
 	updated() {},
 	methods: {
 		insereEtapa() {

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import api from '../utils/api'
 
 Vue.use(Vuex)
 
@@ -54,22 +55,24 @@ const store = new Vuex.Store({
 				"extensao": "pdf"
 			},
 		],
-		projetos: [
-			{
-				'nome': 'PIU Anhembi',
-				'id': 6,
-				'ativo': 1,
-				'autor': 'devspurbanismo',
-				'atualizacao': '2018-08-21 19:11:38'
-			},
-			{
-				'nome': 'PIU Rio Branco',
-				'id': 21,
-				'ativo': 1,
-				'autor': 'devspurbanismo',
-				'atualizacao': '2018-08-21 18:37:50'
-			}
-		],
+		projetos: []
+		// [
+		// 	{
+		// 		'nome': 'PIU Anhembi',
+		// 		'id': 6,
+		// 		'ativo': 1,
+		// 		'autor': 'devspurbanismo',
+		// 		'atualizacao': '2018-08-21 19:11:38'
+		// 	},
+		// 	{
+		// 		'nome': 'PIU Rio Branco',
+		// 		'id': 21,
+		// 		'ativo': 1,
+		// 		'autor': 'devspurbanismo',
+		// 		'atualizacao': '2018-08-21 18:37:50'
+		// 	}
+		// ]
+		,
 		tiposDeArquivo: [
 			{ 'index': 0, 'extensao': 'PDF' },
 			{ 'index': 1, 'extensao': 'KMZ' },
@@ -83,37 +86,36 @@ const store = new Vuex.Store({
 		addEtapaBox: false,
 		addProjetoBox: false,
 	},
-	getters: {},
+	getters: {
+		wordpressUserSettings() {return userSettings}
+	},
 	mutations: {
-		luzToggle(state) {
-			state.apagaLuz = !state.apagaLuz
-		},
-		abreEditarArquivoBox(state) {
-			state.editArquivoBox = !state.editArquivoBox
-		},
-		abreAdicionarArquivoBox(state) {
-			state.adicionarArquivoBox = !state.adicionarArquivoBox
-		},
-		abreAdicionarEtapaBox(state) {
-			state.addEtapaBox = !state.addEtapaBox
-		},
-		abreAdicionarProjetoBox(state) {
-			state.addProjetoBox = !state.addProjetoBox
-		},
-		arquivosArr: state => {
-			return state.arquivos
-		},
+		luzToggle(state) { state.apagaLuz = !state.apagaLuz },
+		abreEditarArquivoBox(state) { state.editArquivoBox = !state.editArquivoBox },
+		abreAdicionarArquivoBox(state) { state.adicionarArquivoBox = !state.adicionarArquivoBox },
+		abreAdicionarEtapaBox(state) { state.addEtapaBox = !state.addEtapaBox },
+		abreAdicionarProjetoBox(state) { state.addProjetoBox = !state.addProjetoBox },
+		// arquivosArr: state => state.arquivos,
 		ativoToggle(state, incomeId) {
 			state.projetos.map(function(index) {
 				if (index.id === incomeId) {
 					index.ativo = Math.abs(index.ativo - 1)
 				}
 			})
+		},
+		SET_PROJETOS: (state, response) => {
+			state.projetos = response.data
 		}
 	},
 	actions: {
-		listaArquivos: state => {
-			state.commit('arquivosArr')
+		// listaArquivos: state => {
+		// 	state.commit('arquivosArr')
+		// },
+		FETCH_PROJETOS: state =>{
+			api.get('projetos')
+				.then(response => {
+					state.commit('SET_PROJETOS', response)
+				})
 		}
 	}
 })
