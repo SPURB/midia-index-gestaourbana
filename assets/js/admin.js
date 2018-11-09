@@ -78,6 +78,8 @@ pluginWebpack([0],[
 //
 //
 //
+//
+//
 
 
 
@@ -86,12 +88,7 @@ pluginWebpack([0],[
 	components: {
 		AdicionarProjeto: __WEBPACK_IMPORTED_MODULE_0__components_AdicionarProjeto_vue__["default"]
 	},
-	// props: [ 'props' ],
-	data() {
-		return {
-			id: undefined
-		};
-	},
+	// data() { return { } },
 	computed: {
 		projetos() {
 			return this.$store.state.projetos;
@@ -101,8 +98,8 @@ pluginWebpack([0],[
 		}
 	},
 	methods: {
-		setIdProjeto(id) {
-			this.id = id;
+		goToProjeto(pathId) {
+			return '/projeto/' + pathId;
 		},
 		displayData(data) {
 			let aaaa = data.slice(0, 4);
@@ -290,6 +287,9 @@ if (false) {(function () {
 		};
 	},
 	computed: {
+		idDesteProjeto() {
+			return this.$route.params.id;
+		},
 		projetos() {
 			return this.$store.state.projetos;
 		},
@@ -840,7 +840,7 @@ var _store = __webpack_require__(61);
 
 var _store2 = _interopRequireDefault(_store);
 
-var _adminMenuFix = __webpack_require__(81);
+var _adminMenuFix = __webpack_require__(82);
 
 var _adminMenuFix2 = _interopRequireDefault(_adminMenuFix);
 
@@ -999,7 +999,7 @@ exports.default = new _vueRouter2.default({
 		name: 'Home',
 		component: _Home2.default
 	}, {
-		path: '/projeto',
+		path: '/projeto/:id',
 		name: 'Projeto',
 		component: _Projeto2.default
 	}]
@@ -1244,14 +1244,7 @@ var render = function() {
                 [
                   _c(
                     "router-link",
-                    {
-                      attrs: { to: "/projeto", tag: "a" },
-                      on: {
-                        click: function($event) {
-                          _vm.setIdProjeto(projeto.id)
-                        }
-                      }
-                    },
+                    { attrs: { to: _vm.goToProjeto(projeto.id), tag: "a" } },
                     [_vm._v(_vm._s(projeto.nome))]
                   )
                 ],
@@ -2578,25 +2571,8 @@ var store = new _vuex2.default.Store({
 			"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
 			"extensao": "pdf"
 		}],
-		projetos: []
-		// [
-		// 	{
-		// 		'nome': 'PIU Anhembi',
-		// 		'id': 6,
-		// 		'ativo': 1,
-		// 		'autor': 'devspurbanismo',
-		// 		'atualizacao': '2018-08-21 19:11:38'
-		// 	},
-		// 	{
-		// 		'nome': 'PIU Rio Branco',
-		// 		'id': 21,
-		// 		'ativo': 1,
-		// 		'autor': 'devspurbanismo',
-		// 		'atualizacao': '2018-08-21 18:37:50'
-		// 	}
-		// ]
-
-		, tiposDeArquivo: [{ 'index': 0, 'extensao': 'PDF' }, { 'index': 1, 'extensao': 'KMZ' }, { 'index': 2, 'extensao': 'KML' }, { 'index': 3, 'extensao': 'SHP' }, { 'index': 4, 'extensao': 'DOC' }],
+		projetos: [],
+		tiposDeArquivo: [{ 'index': 0, 'extensao': 'PDF' }, { 'index': 1, 'extensao': 'KMZ' }, { 'index': 2, 'extensao': 'KML' }, { 'index': 3, 'extensao': 'SHP' }, { 'index': 4, 'extensao': 'DOC' }],
 		apagaLuz: false,
 		editArquivoBox: false,
 		adicionarArquivoBox: false,
@@ -2663,6 +2639,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _apiconfig = __webpack_require__(63);
+
 var _axios = __webpack_require__(21);
 
 var _axios2 = _interopRequireDefault(_axios);
@@ -2670,16 +2648,21 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = _axios2.default.create({
-  baseURL: 'http://spurbsp163:7080/apiconsultas/',
-  // timeout: 5000,
+  baseURL: _apiconfig.baseURL,
+  timeout: 5000,
   headers: {
-    'X-Auth-Token': 'w3rkbv68sgtfjmrg8bocsj5x814wmo04m5a1udg1',
+    'token': _apiconfig.token,
     'Content-Type': 'application/json'
   }
 });
 
 /***/ }),
-/* 63 */,
+/* 63 */
+/***/ (function(module, exports) {
+
+module.exports = {"baseURL":"http://spurbcp13343:7080/consultas-publicas-backend/","token":"59095394d3501cd705419e06e8913165"}
+
+/***/ }),
 /* 64 */,
 /* 65 */,
 /* 66 */,
@@ -2697,7 +2680,8 @@ exports.default = _axios2.default.create({
 /* 78 */,
 /* 79 */,
 /* 80 */,
-/* 81 */
+/* 81 */,
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

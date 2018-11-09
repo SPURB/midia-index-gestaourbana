@@ -1,7 +1,7 @@
-import { baseURL, token } from '../../../../apiconfig'
+import { token } from '../../../../apiconfig'
 import axios from 'axios'
 export default axios.create({
-  baseURL: baseURL,
+  baseURL: "http://spurbcp13343:7080/fake/",
   timeout: 5000,
   headers: {
 	'token': token,

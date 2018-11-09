@@ -18,7 +18,9 @@
 			</thead>
 			<tr v-for="projeto in projetos" :class="ocultoClass(projeto.ativo)">
 				<!-- <td><a href="./projeto" @click="setIdProjeto(projeto.id)">{{ projeto.nome }}</a></td> -->
-				<td><router-link to="/projeto" tag="a" @click="setIdProjeto(projeto.id)">{{ projeto.nome }}</router-link></td>
+				<td><router-link 
+						:to="goToProjeto(projeto.id)"
+						tag="a">{{ projeto.nome }}</router-link></td>
 
 				<td>{{ projeto.autor_wp_admin_id }}</td> <!-- esta id é a id da tabela wp_users, precisamos incluir a coluna user_login -->
 				<td>{{ displayData(projeto.atualizacao) }}</td>
@@ -44,12 +46,7 @@ export default {
 	components: {
 		AdicionarProjeto,
 	},
-	// props: [ 'props' ],
-	data() {
-		return {
-			id: undefined
-		}
-	},
+	// data() { return { } },
 	computed: {
 		projetos() {
 			return this.$store.state.projetos
@@ -59,7 +56,7 @@ export default {
 		}
 	},
 	methods:{
-		setIdProjeto(id){ this.id = id },
+		goToProjeto(pathId){ return '/projeto/' + pathId },
 		displayData(data) {
 			let aaaa = data.slice(0,4)
 			let mm = data.slice(5,7)

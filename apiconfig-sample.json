@@ -1,0 +1,4 @@
+{
+	"baseURL": "http://localhost/consultas-publicas-backend/",
+	"token": "token-para-posts-configurado-no-consultas-publicas-backend"
+}

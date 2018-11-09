@@ -55,24 +55,7 @@ const store = new Vuex.Store({
 				"extensao": "pdf"
 			},
 		],
-		projetos: []
-		// [
-		// 	{
-		// 		'nome': 'PIU Anhembi',
-		// 		'id': 6,
-		// 		'ativo': 1,
-		// 		'autor': 'devspurbanismo',
-		// 		'atualizacao': '2018-08-21 19:11:38'
-		// 	},
-		// 	{
-		// 		'nome': 'PIU Rio Branco',
-		// 		'id': 21,
-		// 		'ativo': 1,
-		// 		'autor': 'devspurbanismo',
-		// 		'atualizacao': '2018-08-21 18:37:50'
-		// 	}
-		// ]
-		,
+		projetos: [],
 		tiposDeArquivo: [
 			{ 'index': 0, 'extensao': 'PDF' },
 			{ 'index': 1, 'extensao': 'KMZ' },

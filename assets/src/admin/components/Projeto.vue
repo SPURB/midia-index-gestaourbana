@@ -48,6 +48,7 @@ export default {
 		};
 	},
 	computed: {
+		idDesteProjeto(){ return this.$route.params.id },
 		projetos() {
 			return this.$store.state.projetos
 		},
