@@ -1,26 +1,32 @@
 <template>
-	<div class="app-projeto">
+	<div class="Projeto">
 		<h1>Arquivos GU</h1>
 		<section class="cabecalho">
 			<p>A partir desta tela, você consegue acessar e editar as informações dos arquivos de cada projeto.</p>
 			<p>Cada linha corresponde a um arquivo com formatos variados (PDF, DOC, KMZ...).</p>
 		</section>
-		<section v-for="projeto in projetos" v-if="projeto.id == 6" class="projeto">
+		<section class="projeto">
 			<div class="nome">
 				<h2>{{ projeto.nome }}</h2>
 				<div class="shortcode_expand">
-					<span>Shortcode do projeto <code @click="copiaSlug($event)">[tabel id=1/]</code></span>
+					<span>Shortcode do projeto <code @click="copiaSlug($event)">[arquivos-gu-{{projeto.id}}]</code></span>
 				</div>
 			</div>
 			<input type="text" class="busca-arquivos" placeholder="Pesquisar arquivos...">
-			<Etapa v-for="etapa in etapasInput" :key="etapa.id">
-				<template slot="nomeEtapa">(Nome da etapa aqui)</template>
-			</Etapa>
+			<template v-for="etapa in projeto.etapas" >
+				<Etapa 
+					:id="etapa.id" 
+					:arquivos="etapa.arquivos" 
+					:idProjeto="projeto.id"
+					>
+					<template slot="nomeEtapa">{{etapa.nome}}</template>
+				</Etapa>
+			</template>
 			<button class="adicionarEtapa" @click="insereEtapa()">+ Adicionar etapa</button>
 		</section>
 		<section class="acoes">
-			<button>Cancelar</button>
-			<button>Salvar</button>
+			<router-link to='/' tag='a'>Cancelar</router-link>
+			<a>Salvar</a>
 		</section>
 		<!-- <Modal class="erro">
 			<template slot="header">Campos não preenchidos</template>
@@ -34,9 +40,11 @@
 import Etapa from '../components/Etapa.vue'
 import AdicionarEtapa from '../components/AdicionarEtapa.vue'
 import Modal from '../components/Modal.vue'
+import projetoEtapa from '../mixins/projetoEtapa'
 
 export default {
 	name: 'Projeto',
+	mixins:[ projetoEtapa ],
 	data() {
 		return {
 			etapasInput: [
@@ -48,35 +56,25 @@ export default {
 		};
 	},
 	computed: {
-		idDesteProjeto(){ return this.$route.params.id },
-		projetos() {
-			return this.$store.state.projetos
-		},
-		abreAdicionarEtapa() {
-			return this.$store.state.addEtapaBox
-		}
+		projeto(){ return this.$store.state.projeto },
+		abreAdicionarEtapa() { return this.$store.state.addEtapaBox }
 	},
 	components: {
-		Etapa, AdicionarEtapa, Modal
+		Etapa,
+		AdicionarEtapa,
+		Modal
 	},
-	// mounted() {
-	// 	this.$store.dispatch('listaArquivos')
-	// },
-	updated() {},
 	methods: {
 		insereEtapa() {
 			this.$store.commit('abreAdicionarEtapaBox')
 			this.$store.commit('luzToggle')
-		},
-		copiaSlug(evt) {
-			navigator.clipboard.writeText(evt.target.innerText)
-		},
+		}
 	}
 }
 </script>
 
-<style lang="scss">
-div.app-projeto {
+<style lang="scss" scoped>
+div.Projeto {
 	overflow: hidden;
 
 	section:not(.projeto) { margin: 2rem 0; p { color: #898989; } }
@@ -144,7 +142,8 @@ div.app-projeto {
 
 	section.acoes {
 		width: 100%;
-		button {
+		a {
+			text-decoration: none;
 			margin: 0;
 			font-family: inherit;
 			font-size: large;
@@ -156,7 +155,6 @@ div.app-projeto {
 			box-shadow: inset 0 -2px 2px rgba(0, 0, 0, .24);
 			position: relative;
 			overflow: hidden;
-
 			&:first-child { float: left; background-color: #FE4C4C; }
 			&:last-child { float: right; background-color: #219653; }
 

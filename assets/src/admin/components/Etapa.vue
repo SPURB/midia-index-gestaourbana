@@ -4,29 +4,48 @@
 			<span>Etapa</span>
 			<h3><slot name="nomeEtapa"></slot></h3>
 			<div class="shortcode_expand">
-				<span>Shortcode da etapa <code @click="copiaSlug($event)">[tabel id=1.1/]</code></span>
+				<span>Shortcode da etapa <code @click="copiaSlug($event)">[arquivos-gu-{{ idProjeto }}.{{ id }}]</code></span>
 				<button @click="etapaCollapse($event)">&#9650;</button>
 			</div>
 		</div>
-		<div class="arquivosTable">			
+		<div class="arquivosTable">
 			<table>
 				<thead>
 					<th>Última modificação</th>
 					<th>Nome</th>
-					<th><img src="https://static.thenounproject.com/png/505631-200.png" style="height: 24px; width: 24px; vertical-align: bottom;" alt=""></th>
+					<th><img 
+						src="https://static.thenounproject.com/png/505631-200.png" 
+						style="height: 24px; width: 24px; vertical-align: bottom;" 
+						alt=""></th>
 				</thead>
-				<draggable v-model="arquivos" element="tbody" :options="{ draggable: '.tablerow', ghostClass: 'slot-vazio', animation: 50, scroll: true, scrollSensitivity: 80, scrollSpeed: 8 }">
+				<draggable 
+					v-model="arquivos" 
+					element="tbody" 
+					:options="{ 
+						draggable: '.tablerow', 
+						ghostClass: 'slot-vazio', 
+						animation: 50, 
+						scroll: true, 
+						scrollSensitivity: 80, 
+						scrollSpeed: 8 
+					}">
 					<tr v-for="arquivo in arquivos" class="tablerow">
 						<td>{{ displayData(arquivo.atualizacao) }}</td>
-						<td><a @click="abreEditArquivoBox($event)" :id="arquivo.id">{{ arquivo.nome }}</a></td>
+						<td><a 
+								@click="abreEditArquivoBox($event, arquivo.id)" 
+								:id="arquivo.id">{{ arquivo.nome }}</a></td>
 						<td><img src="https://www.materialui.co/materialIcons/action/reorder_black_192x192.png" style="height: 24px; width: 24px; vertical-align: bottom;" alt=""></td>
 					</tr>
 				</draggable>
 			</table>
 			<button class="adicionar-arquivo" @click="novoArquivo()">+ Adicionar arquivo</button>
 		</div>
-		<EditarArquivo v-if="editarArquivo" :pass="arquivoInfo"></EditarArquivo>
-		<AdicionarArquivo v-if="abreNovoArquivo"></AdicionarArquivo>
+
+		<EditarArquivo 
+			 v-if="editarArquivo" 
+			:arquivoInfo="arquivoInfo"></EditarArquivo>
+		<AdicionarArquivo 
+			v-if="abreNovoArquivo"></AdicionarArquivo>
 	</div>
 </template>
 
@@ -34,26 +53,37 @@
 import draggable from 'vuedraggable'
 import AdicionarArquivo from '../components/AdicionarArquivo.vue'
 import EditarArquivo from '../components/EditarArquivo.vue'
+import projetoEtapa from '../mixins/projetoEtapa'
 
 export default {
 	name: 'Etapa',
-	props: [ 'props' ],
+	mixins:[ projetoEtapa ],
+	props: { 
+		id: {
+			type: Number,
+			required: true
+		}, 
+		idProjeto: {
+			type: Number,
+			required: true
+		},
+		arquivos: {
+			type: Array,
+			required: true
+		}
+	},
 	data() {
 		return {
-			arquivoInfo: {
-				"nome": "",
-				"descricao": "",
-			},
+			arquivoInfo: {},
+			etapa: undefined
 		}
 	},
 	components: {
-		EditarArquivo, AdicionarArquivo, draggable
+		EditarArquivo, 
+		AdicionarArquivo, 
+		draggable
 	},
 	computed: {
-		arquivos() {
-			let arr = Array.from(this.$store.state.arquivos)
-			return arr
-		},
 		editarArquivo() {
 			return this.$store.state.editArquivoBox
 		},
@@ -86,19 +116,12 @@ export default {
 			this.$store.commit('luzToggle')
 			this.$store.commit('abreAdicionarArquivoBox')
 		},
-		copiaSlug(evt) {
-			navigator.clipboard.writeText(evt.target.innerText)
-		},
-		abreEditArquivoBox(evt) {
+		abreEditArquivoBox(evt, idArquivo) {
 			let app = this
 			this.$store.commit('luzToggle')
 			this.$store.commit('abreEditarArquivoBox')
-			this.$store.state.arquivos.map(function(index) {
-				if (index.id == evt.target.attributes.id.value) {
-					app.arquivoInfo.nome = index.nome
-					app.arquivoInfo.descricao = index.descricao
-				}
-			})
+
+			console.log(idArquivo)
 		}
 	}
 };
@@ -130,6 +153,7 @@ div.Etapa {
 		h3 {
 			display: inline-block;
 			color: #FFF;
+			margin:0
 		}
 
 		& > div.shortcode_expand {

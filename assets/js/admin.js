@@ -20,9 +20,6 @@ pluginWebpack([0],[
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	name: 'App',
-	data() {
-		return {};
-	},
 	computed: {
 		luzToggle() {
 			return this.$store.state.apagaLuz;
@@ -30,6 +27,11 @@ pluginWebpack([0],[
 	},
 	mounted() {
 		this.$store.dispatch('FETCH_PROJETOS');
+	},
+	watch: {
+		'$route'(to) {
+			this.$store.dispatch('FETCH_INFO_PROJETO', to.params.id);
+		}
 	}
 });
 
@@ -239,6 +241,8 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Etapa_vue__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_AdicionarEtapa_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Modal_vue__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_projetoEtapa__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_projetoEtapa___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__mixins_projetoEtapa__);
 //
 //
 //
@@ -271,6 +275,13 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -278,6 +289,7 @@ if (false) {(function () {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	name: 'Projeto',
+	mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_projetoEtapa___default.a],
 	data() {
 		return {
 			etapasInput: [{ index: 0 }],
@@ -287,30 +299,22 @@ if (false) {(function () {
 		};
 	},
 	computed: {
-		idDesteProjeto() {
-			return this.$route.params.id;
-		},
-		projetos() {
-			return this.$store.state.projetos;
+		projeto() {
+			return this.$store.state.projeto;
 		},
 		abreAdicionarEtapa() {
 			return this.$store.state.addEtapaBox;
 		}
 	},
 	components: {
-		Etapa: __WEBPACK_IMPORTED_MODULE_0__components_Etapa_vue__["a" /* default */], AdicionarEtapa: __WEBPACK_IMPORTED_MODULE_1__components_AdicionarEtapa_vue__["a" /* default */], Modal: __WEBPACK_IMPORTED_MODULE_2__components_Modal_vue__["a" /* default */]
+		Etapa: __WEBPACK_IMPORTED_MODULE_0__components_Etapa_vue__["a" /* default */],
+		AdicionarEtapa: __WEBPACK_IMPORTED_MODULE_1__components_AdicionarEtapa_vue__["a" /* default */],
+		Modal: __WEBPACK_IMPORTED_MODULE_2__components_Modal_vue__["a" /* default */]
 	},
-	// mounted() {
-	// 	this.$store.dispatch('listaArquivos')
-	// },
-	updated() {},
 	methods: {
 		insereEtapa() {
 			this.$store.commit('abreAdicionarEtapaBox');
 			this.$store.commit('luzToggle');
-		},
-		copiaSlug(evt) {
-			navigator.clipboard.writeText(evt.target.innerText);
 		}
 	}
 });
@@ -324,6 +328,8 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuedraggable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_AdicionarArquivo_vue__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_EditarArquivo_vue__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_projetoEtapa__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_projetoEtapa___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__mixins_projetoEtapa__);
 //
 //
 //
@@ -356,6 +362,26 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -363,23 +389,33 @@ if (false) {(function () {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	name: 'Etapa',
-	props: ['props'],
+	mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_projetoEtapa___default.a],
+	props: {
+		id: {
+			type: Number,
+			required: true
+		},
+		idProjeto: {
+			type: Number,
+			required: true
+		},
+		arquivos: {
+			type: Array,
+			required: true
+		}
+	},
 	data() {
 		return {
-			arquivoInfo: {
-				"nome": "",
-				"descricao": ""
-			}
+			arquivoInfo: {},
+			etapa: undefined
 		};
 	},
 	components: {
-		EditarArquivo: __WEBPACK_IMPORTED_MODULE_2__components_EditarArquivo_vue__["a" /* default */], AdicionarArquivo: __WEBPACK_IMPORTED_MODULE_1__components_AdicionarArquivo_vue__["a" /* default */], draggable: __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default.a
+		EditarArquivo: __WEBPACK_IMPORTED_MODULE_2__components_EditarArquivo_vue__["a" /* default */],
+		AdicionarArquivo: __WEBPACK_IMPORTED_MODULE_1__components_AdicionarArquivo_vue__["a" /* default */],
+		draggable: __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default.a
 	},
 	computed: {
-		arquivos() {
-			let arr = Array.from(this.$store.state.arquivos);
-			return arr;
-		},
 		editarArquivo() {
 			return this.$store.state.editArquivoBox;
 		},
@@ -412,19 +448,12 @@ if (false) {(function () {
 			this.$store.commit('luzToggle');
 			this.$store.commit('abreAdicionarArquivoBox');
 		},
-		copiaSlug(evt) {
-			navigator.clipboard.writeText(evt.target.innerText);
-		},
-		abreEditArquivoBox(evt) {
+		abreEditArquivoBox(evt, idArquivo) {
 			let app = this;
 			this.$store.commit('luzToggle');
 			this.$store.commit('abreEditarArquivoBox');
-			this.$store.state.arquivos.map(function (index) {
-				if (index.id == evt.target.attributes.id.value) {
-					app.arquivoInfo.nome = index.nome;
-					app.arquivoInfo.descricao = index.descricao;
-				}
-			});
+
+			console.log(idArquivo);
 		}
 	}
 });
@@ -685,7 +714,13 @@ if (false) {(function () {
 	components: {
 		URL: __WEBPACK_IMPORTED_MODULE_0__components_URL_vue__["a" /* default */]
 	},
-	props: ['pass'],
+	props: {
+		arquivoInfo: {
+			type: Object,
+			required: true
+		}
+	},
+
 	computed: {
 		fechaBox() {
 			return this.$store.state.editArquivoBox;
@@ -693,8 +728,8 @@ if (false) {(function () {
 	},
 	created() {},
 	mounted() {
-		this.$refs.nome.value = this.$props.pass.nome;
-		this.$refs.descricao.value = this.$props.pass.descricao;
+		// this.$refs.nome.value = this.$props.pass.nome
+		// this.$refs.descricao.value = this.$props.pass.descricao
 	},
 	updated() {},
 	methods: {
@@ -836,7 +871,7 @@ var _router = __webpack_require__(34);
 
 var _router2 = _interopRequireDefault(_router);
 
-var _store = __webpack_require__(61);
+var _store = __webpack_require__(62);
 
 var _store2 = _interopRequireDefault(_store);
 
@@ -993,7 +1028,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _vue2.default.use(_vueRouter2.default);
 
-exports.default = new _vueRouter2.default({
+var router = new _vueRouter2.default({
 	routes: [{
 		path: '/',
 		name: 'Home',
@@ -1004,6 +1039,8 @@ exports.default = new _vueRouter2.default({
 		component: _Projeto2.default
 	}]
 });
+
+exports.default = router;
 
 /***/ }),
 /* 35 */
@@ -1251,7 +1288,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(projeto.autor_wp_admin_id))]),
+              _c("td", [_vm._v(_vm._s(projeto.id_wordpress))]),
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(_vm.displayData(projeto.atualizacao)))]),
               _vm._v(" "),
@@ -1320,7 +1357,7 @@ if (false) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Projeto_vue__ = __webpack_require__(12);
 /* empty harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3853e4fd_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Projeto_vue__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3853e4fd_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Projeto_vue__ = __webpack_require__(61);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -1337,12 +1374,12 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-3853e4fd"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Projeto_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3853e4fd_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Projeto_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3853e4fd_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Projeto_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -1815,7 +1852,7 @@ var render = function() {
       _c("div", { staticClass: "cont" }, [
         _vm._m(0),
         _vm._v(" "),
-        _c("form", { attrs: { action: "" } }, [
+        _c("form", [
           _c(
             "table",
             [
@@ -1966,7 +2003,15 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("[tabel id=1.1/]")]
+              [
+                _vm._v(
+                  "[arquivos-gu-" +
+                    _vm._s(_vm.idProjeto) +
+                    "." +
+                    _vm._s(_vm.id) +
+                    "]"
+                )
+              ]
             )
           ]),
           _vm._v(" "),
@@ -2025,7 +2070,7 @@ var render = function() {
                         attrs: { id: arquivo.id },
                         on: {
                           click: function($event) {
-                            _vm.abreEditArquivoBox($event)
+                            _vm.abreEditArquivoBox($event, arquivo.id)
                           }
                         }
                       },
@@ -2069,7 +2114,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm.editarArquivo
-        ? _c("EditarArquivo", { attrs: { pass: _vm.arquivoInfo } })
+        ? _c("EditarArquivo", { attrs: { arquivoInfo: _vm.arquivoInfo } })
         : _vm._e(),
       _vm._v(" "),
       _vm.abreNovoArquivo ? _c("AdicionarArquivo") : _vm._e()
@@ -2376,6 +2421,49 @@ if (false) {
 
 /***/ }),
 /* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = {
+	methods: {
+		copiaSlug: function copiaSlug(evt) {
+			var text = evt.target.innerText;
+			if (!navigator.clipboard) {
+				this.copiaSlugFallback(text);
+				return;
+			}
+			navigator.clipboard.writeText(text).then(function () {
+				console.log("Async: Copying to clipboard was successful!");
+			}, function (err) {
+				console.error("Async: Could not copy text: ", err);
+			});
+		},
+		copiaSlugFallback: function copiaSlugFallback(text) {
+			var textArea = document.createElement("textarea");
+			textArea.value = text;
+			document.body.appendChild(textArea);
+			textArea.focus();
+			textArea.select();
+
+			try {
+				var successful = document.execCommand("copy");
+				var msg = successful ? "successful" : "unsuccessful";
+				console.log("Fallback: Copying text command was " + msg);
+			} catch (err) {
+				console.error("Fallback: Oops, unable to copy", err);
+			}
+			document.body.removeChild(textArea);
+		}
+	}
+};
+
+/***/ }),
+/* 61 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2385,80 +2473,95 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "app-projeto" },
+    { staticClass: "Projeto" },
     [
       _c("h1", [_vm._v("Arquivos GU")]),
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
-      _vm._l(_vm.projetos, function(projeto) {
-        return projeto.id == 6
-          ? _c(
-              "section",
-              { staticClass: "projeto" },
-              [
-                _c("div", { staticClass: "nome" }, [
-                  _c("h2", [_vm._v(_vm._s(projeto.nome))]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "shortcode_expand" }, [
-                    _c("span", [
-                      _vm._v("Shortcode do projeto "),
-                      _c(
-                        "code",
-                        {
-                          on: {
-                            click: function($event) {
-                              _vm.copiaSlug($event)
-                            }
-                          }
-                        },
-                        [_vm._v("[tabel id=1/]")]
-                      )
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  staticClass: "busca-arquivos",
-                  attrs: { type: "text", placeholder: "Pesquisar arquivos..." }
-                }),
-                _vm._v(" "),
-                _vm._l(_vm.etapasInput, function(etapa) {
-                  return _c(
-                    "Etapa",
-                    { key: etapa.id },
-                    [
-                      _c("template", { slot: "nomeEtapa" }, [
-                        _vm._v("(Nome da etapa aqui)")
-                      ])
-                    ],
-                    2
-                  )
-                }),
-                _vm._v(" "),
+      _c(
+        "section",
+        { staticClass: "projeto" },
+        [
+          _c("div", { staticClass: "nome" }, [
+            _c("h2", [_vm._v(_vm._s(_vm.projeto.nome))]),
+            _vm._v(" "),
+            _c("div", { staticClass: "shortcode_expand" }, [
+              _c("span", [
+                _vm._v("Shortcode do projeto "),
                 _c(
-                  "button",
+                  "code",
                   {
-                    staticClass: "adicionarEtapa",
                     on: {
                       click: function($event) {
-                        _vm.insereEtapa()
+                        _vm.copiaSlug($event)
                       }
                     }
                   },
-                  [_vm._v("+ Adicionar etapa")]
+                  [_vm._v("[arquivos-gu-" + _vm._s(_vm.projeto.id) + "]")]
                 )
-              ],
-              2
-            )
-          : _vm._e()
-      }),
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "busca-arquivos",
+            attrs: { type: "text", placeholder: "Pesquisar arquivos..." }
+          }),
+          _vm._v(" "),
+          _vm._l(_vm.projeto.etapas, function(etapa) {
+            return [
+              _c(
+                "Etapa",
+                {
+                  attrs: {
+                    id: etapa.id,
+                    arquivos: etapa.arquivos,
+                    idProjeto: _vm.projeto.id
+                  }
+                },
+                [
+                  _c("template", { slot: "nomeEtapa" }, [
+                    _vm._v(_vm._s(etapa.nome))
+                  ])
+                ],
+                2
+              )
+            ]
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "adicionarEtapa",
+              on: {
+                click: function($event) {
+                  _vm.insereEtapa()
+                }
+              }
+            },
+            [_vm._v("+ Adicionar etapa")]
+          )
+        ],
+        2
+      ),
       _vm._v(" "),
-      _vm._m(1),
+      _c(
+        "section",
+        { staticClass: "acoes" },
+        [
+          _c("router-link", { attrs: { to: "/", tag: "a" } }, [
+            _vm._v("Cancelar")
+          ]),
+          _vm._v(" "),
+          _c("a", [_vm._v("Salvar")])
+        ],
+        1
+      ),
       _vm._v(" "),
       _vm.abreAdicionarEtapa ? _c("AdicionarEtapa") : _vm._e()
     ],
-    2
+    1
   )
 }
 var staticRenderFns = [
@@ -2479,16 +2582,6 @@ var staticRenderFns = [
         )
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("section", { staticClass: "acoes" }, [
-      _c("button", [_vm._v("Cancelar")]),
-      _vm._v(" "),
-      _c("button", [_vm._v("Salvar")])
-    ])
   }
 ]
 render._withStripped = true
@@ -2502,7 +2595,7 @@ if (false) {
 }
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2520,41 +2613,19 @@ var _vuex = __webpack_require__(6);
 
 var _vuex2 = _interopRequireDefault(_vuex);
 
-var _api = __webpack_require__(62);
+var _apiFake = __webpack_require__(63);
 
-var _api2 = _interopRequireDefault(_api);
+var _apiFake2 = _interopRequireDefault(_apiFake);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _vue2.default.use(_vuex2.default);
+// import api from '../utils/api'
+
 
 var store = new _vuex2.default.Store({
 	state: {
-		arquivos: [{
-			"nome": "Diagnóstico",
-			"id": 1,
-			"id_etapa": 2,
-			"atualizacao": "2018-08-21 18:37:28",
-			"autor": "devspurbanismo",
-			"descricao": "Minuta de consulta pública para Programa de Interesse Público",
-			"posicao": 1
-		}, {
-			"nome": "Mapas",
-			"id": 2,
-			"id_etapa": 2,
-			"atualizacao": "2018-08-21 18:37:50",
-			"autor": "devspurbanismo",
-			"descricao": "Mapas do Anexo I da Minuta de consulta pública",
-			"posicao": 2
-		}, {
-			"nome": "Ofício",
-			"id": 3,
-			"id_etapa": 1,
-			"atualizacao": "2018-08-21 19:11:38",
-			"autor": "devspurbanismo",
-			"descricao": "Pedido de instauração de Projeto de Intervenção Urbana (PIU) relativo à área do Complexo Anhembi",
-			"posicao": 1
-		}],
+		projeto: {},
 		urls: [{
 			"id": 1,
 			"id_arquivo": 1,
@@ -2579,11 +2650,13 @@ var store = new _vuex2.default.Store({
 		addEtapaBox: false,
 		addProjetoBox: false
 	},
+
 	getters: {
 		wordpressUserSettings: function wordpressUserSettings() {
 			return userSettings;
 		}
 	},
+
 	mutations: {
 		luzToggle: function luzToggle(state) {
 			state.apagaLuz = !state.apagaLuz;
@@ -2600,8 +2673,6 @@ var store = new _vuex2.default.Store({
 		abreAdicionarProjetoBox: function abreAdicionarProjetoBox(state) {
 			state.addProjetoBox = !state.addProjetoBox;
 		},
-
-		// arquivosArr: state => state.arquivos,
 		ativoToggle: function ativoToggle(state, incomeId) {
 			state.projetos.map(function (index) {
 				if (index.id === incomeId) {
@@ -2612,15 +2683,23 @@ var store = new _vuex2.default.Store({
 
 		SET_PROJETOS: function SET_PROJETOS(state, response) {
 			state.projetos = response.data;
+		},
+		SET_INFO_PROJETO: function SET_INFO_PROJETO(state, response) {
+			state.projeto = response.data;
 		}
+
 	},
 	actions: {
-		// listaArquivos: state => {
-		// 	state.commit('arquivosArr')
-		// },
 		FETCH_PROJETOS: function FETCH_PROJETOS(state) {
-			_api2.default.get('projetos').then(function (response) {
+			//			api.get('projetos')
+			_apiFake2.default.get('?data=projetos').then(function (response) {
 				state.commit('SET_PROJETOS', response);
+			});
+		},
+		FETCH_INFO_PROJETO: function FETCH_INFO_PROJETO(state, id) {
+			//			api.get('projeto/'+id)
+			_apiFake2.default.get('?data=projeto/' + id).then(function (response) {
+				state.commit('SET_INFO_PROJETO', response);
 			});
 		}
 	}
@@ -2629,7 +2708,7 @@ var store = new _vuex2.default.Store({
 exports.default = store;
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2639,8 +2718,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _apiconfig = __webpack_require__(63);
-
 var _axios = __webpack_require__(21);
 
 var _axios2 = _interopRequireDefault(_axios);
@@ -2648,19 +2725,12 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = _axios2.default.create({
-  baseURL: _apiconfig.baseURL,
+  baseURL: "http://spurbcp13343:7080/fake/",
   timeout: 5000,
   headers: {
-    'token': _apiconfig.token,
     'Content-Type': 'application/json'
   }
 });
-
-/***/ }),
-/* 63 */
-/***/ (function(module, exports) {
-
-module.exports = {"baseURL":"http://spurbcp13343:7080/consultas-publicas-backend/","token":"59095394d3501cd705419e06e8913165"}
 
 /***/ }),
 /* 64 */,

@@ -6,7 +6,7 @@ import AdicionarProjeto from 'admin/components/AdicionarProjeto.vue'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
 	routes: [
 		{
 			path: '/',
@@ -17,6 +17,8 @@ export default new Router({
 			path: '/projeto/:id',
 			name: 'Projeto',
 			component: Projeto
-		}
+		},
 	]
 })
+
+export default router

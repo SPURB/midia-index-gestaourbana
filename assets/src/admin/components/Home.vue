@@ -22,7 +22,7 @@
 						:to="goToProjeto(projeto.id)"
 						tag="a">{{ projeto.nome }}</router-link></td>
 
-				<td>{{ projeto.autor_wp_admin_id }}</td> <!-- esta id é a id da tabela wp_users, precisamos incluir a coluna user_login -->
+				<td>{{ projeto.id_wordpress }}</td> <!-- esta id é a id da tabela wp_users, precisamos incluir a coluna user_login -->
 				<td>{{ displayData(projeto.atualizacao) }}</td>
 				<td>
 					<div class="switchCont" @click="ativoToggle(projeto.id)">

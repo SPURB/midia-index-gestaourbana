@@ -4,7 +4,7 @@
 			<div class="title">
 				<h3>Editar arquivo</h3>
 			</div>
-			<form action="">
+			<form>
 				<table>
 					<tr>
 						<td>
@@ -53,9 +53,15 @@ export default {
 		}
 	},
 	components: {
-		URL,
+		URL
 	},
-	props: [ 'pass' ],
+	props: {
+		arquivoInfo: {
+			type: Object,
+			required: true
+		}
+	}
+	,
 	computed: {
 		fechaBox() {
 			return this.$store.state.editArquivoBox
@@ -63,8 +69,8 @@ export default {
 	},
 	created() {},
 	mounted() {
-		this.$refs.nome.value = this.$props.pass.nome
-		this.$refs.descricao.value = this.$props.pass.descricao
+		// this.$refs.nome.value = this.$props.pass.nome
+		// this.$refs.descricao.value = this.$props.pass.descricao
 	},
 	updated() {		
 	},

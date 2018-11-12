@@ -8,9 +8,6 @@
 <script>
 export default {
 	name: 'App',
-	data() {
-		return {}
-	},
 	computed: {
 		luzToggle() {
 			return this.$store.state.apagaLuz
@@ -18,6 +15,11 @@ export default {
 	},
 	mounted(){
 		this.$store.dispatch('FETCH_PROJETOS')
+	},
+	watch:{
+		'$route'(to){
+			this.$store.dispatch('FETCH_INFO_PROJETO', to.params.id)
+		}
 	}
 };
 </script>
