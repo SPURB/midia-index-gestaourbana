@@ -1,0 +1,115 @@
+{
+	"_comment": {
+		"descricao": "lista todos os dados referentes a um projeto",
+		"slug":  "/projetos/id"
+	},
+	"id": 1,
+	"nome": "Projeto 1",
+	"ativo": 1,
+	"autor": "devspurbanismo",
+	"atualizacao":"2018-08-21 17:18:33",
+	"consultas": [
+		{
+			"url": "http://participe.gestaourbana.prefeitura.sp.gov.br/#/anhembi2",
+			"id": 8, 
+			"nContribuicoes": 6,
+			"ativo":0
+		},
+		{
+			"url": "http://minuta.gestaourbana.prefeitura.sp.gov.br/piu-anhembi-1/",
+			"id": 6,
+			"nContribuicoes": 13,
+			"ativo":0
+		}
+	],
+	"etapas": [
+		{
+			"id": 1,
+			"nome": "Etapa 1-1",
+			"arquivos":[
+				{
+					"nome": "Diagnóstico",
+					"id": 1,
+					"autor": "devspurbanismo",
+					"fonte": "Gestão Urbana",
+					"atualizacao": "2018-08-21 18:37:28",
+					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+					"ordem": 0,
+					"urls":	[
+						{
+							"id":"1",
+							"url":"http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+							"extensao": false
+						},
+						{
+							"id":"2",
+							"url":"http://placehold.it/200x200.zip",
+							"extensao": "SHP"
+						},
+						{
+							"id":"3",
+							"url":"http://placekitten.com/200/300.jpg",
+							"extensao": false
+						}
+					]
+				},
+				{
+					"nome": "Mapas",
+					"id": 2,
+					"autor": "devspurbanismo",
+					"fonte": "Gestão Urbana",
+					"atualizacao":"2018-08-21 18:37:50",
+					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+					"ordem": 1,
+					"urls":[
+						{
+							"id":"3",
+							"url":"http://placekitten.com/200/300",
+							"extensao": false
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": 2,
+			"nome": "Etapa 1-2",
+			"arquivos":[
+				{
+					"nome": "Diagnóstico",
+					"id": 3,
+					"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+					"autor": "devspurbanismo",
+					"fonte": "Gestão Urbana",
+					"atualizacao": "2018-08-21 18:37:28",
+					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+					"ordem": 0,
+					"urls":[
+						{
+							"id":"4",
+							"url":"http://placekitten.com/200/300",
+							"extensao": false
+						}
+					]
+				},
+				{
+					"nome": "Mapas",
+					"id": 4,
+					"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_ANEXOI_reduzido.pdf",
+					"autor": "devspurbanismo",
+					"fonte": "Gestão Urbana",
+					"atualizacao":"2018-08-21 18:37:50",
+					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+					"ordem": 1,
+					"urls":[
+						{
+							"id":"5",
+							"url":"http://placekitten.com/200/300",
+							"extensao": false
+						}
+					]
+				}
+			]
+		}
+	]
+}

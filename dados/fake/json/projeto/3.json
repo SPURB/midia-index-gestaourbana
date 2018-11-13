@@ -1,0 +1,95 @@
+{
+	"_comment": {
+		"descricao": "lista todos os dados referentes a um projeto",
+		"slug":  "/projetos/id"
+	},
+	"id": 3,
+	"nome": "Projeto 3",
+	"ativo": 1,
+	"autor": "devspurbanismo",
+	"atualizacao":"2018-08-21 17:18:33",
+	"consultas": [
+		{
+			"url": "http://participe.gestaourbana.prefeitura.sp.gov.br/#/anhembi2",
+			"id": 8, 
+			"nContribuicoes": 6,
+			"ativo": 0
+		},
+		{
+			"url": "http://minuta.gestaourbana.prefeitura.sp.gov.br/piu-anhembi-1/",
+			"id": 6,
+			"nContribuicoes": 13,
+			"ativo": 0
+		}
+	],
+	"etapas": [
+		{
+			"id": 6,
+			"nome": "Etapa 3-1",
+			"arquivos":[
+				{
+					"nome": "Diagnóstico",
+					"id": 9,
+					"autor": "devspurbanismo",
+					"fonte": "Gestão Urbana",
+					"atualizacao": "2018-08-21 18:37:28",
+					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+					"ordem": 0,
+					"urls":[
+						{
+							"id": 12,
+							"url":"http://placekitten.com/200/300.zip",
+							"extensao": "DOC"
+						},
+						{
+							"id": 13,
+							"url":"http://placehold.it/200/300.png"
+						}
+					]
+				},
+				{
+					"nome": "Mapas",
+					"id": 10,
+					"autor": "devspurbanismo",
+					"fonte": "Gestão Urbana",
+					"atualizacao":"2018-08-21 18:37:50",
+					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+					"ordem": 1,
+					"urls":[
+						{
+							"id": 14,
+							"url":"http://placekitten.com/200/300.zip",
+							"extensao": "DOC"
+						},
+						{
+							"id": 15,
+							"url":"http://placehold.it/200/300.png",
+							"extensao": false
+						}
+					]
+				},
+				{
+					"nome": "Quadros",
+					"id": 11,
+					"autor": "devspurbanismo",
+					"fonte": "Gestão Urbana",
+					"atualizacao":"2018-08-21 18:37:50",
+					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+					"ordem": 2,
+					"urls":[
+						{
+							"id": 16,
+							"url":"http://placekitten.com/200/300.zip",
+							"extensao": "DOC"
+						},
+						{
+							"id": 17,
+							"url":"http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_ANEXOI_reduzido.pdf",
+							"extensao": false
+						}
+					]
+				}
+			]
+		}
+	]
+}
