@@ -1,16 +1,22 @@
 <template>
 	<tr class="URL">
-		<td><slot></slot></td>
+		<td>URL</td>
 		<td>
-			<input type="text">
-			<div>
+			<input type="text" name="url" v-model="urlsArquivoClicado.url">
+			<div v-if="urlsArquivoClicado.extensao">
 				<span @click="extensaoBoxShow = !extensaoBoxShow">KML</span>
-				<div class="arquivo_extensao-box" :class="{ display: extensaoBoxShow }" ref="extensaoBox">
+				<div 
+					class="arquivo_extensao-box" 
+					:class="{ display: extensaoBoxShow }" 
+					ref="extensaoBox">
 					Selecione a extensão do arquivo <i @click="extensaoBoxShow = !extensaoBoxShow">&times;</i>
 					<div class="opcoes">
 						<span v-for="arquivo in tipoDeArquivo" @click="alteraTipoDeArq">{{ arquivo.extensao }}</span>
 					</div>					
 				</div>
+			</div>
+			<div v-else>
+				<span class="extensao_fixa">{{ extensao(urlsArquivoClicado.url) }}</span>
 			</div>
 			<button class="excluirUrl" @click="deletaUrl($event)">&times;</button>
 		</td>
@@ -20,27 +26,53 @@
 <script>
 	export default {
 		name: 'URL',
-		props: [ 'props' ],
+		props:{
+			idArquivo: {
+				required: true
+			}
+		},
 		data() {
 			return {
 				extensaoBoxShow: false,
 			}
 		},
 		computed: {
-			tipoDeArquivo() {
-				return this.$store.state.tiposDeArquivo
+			tipoDeArquivo() { return this.$store.state.tiposDeArquivo },
+			urlsArquivoClicado: {
+				get(){ 
+					const urls = this.$store.state.arquivoClicado.urls;
+					return urls[this.getIndex(urls, this.idArquivo)]
+				}
+				// set(id){ ... }
 			}
 		},
 		methods: {
+			extensao(url){
+				const regexPattern = /\.([0-9a-z]+)(?:[\?#]|$)/i
+				const ext = (url).match(regexPattern)
+				let extensao
+
+				if (ext != null){
+					extensao = (url).match(regexPattern)[1]
+				}
+				else{
+					extensao = 'URL'
+				}
+
+				return extensao.toUpperCase()
+			},
+			getIndex(arr, index){
+				return arr.findIndex(item => parseInt(item.id) === parseInt(index))
+			},
 			alteraTipoDeArq(evt) {
 				this.extensaoBoxShow = false
 				evt.target.parentNode.parentNode.parentNode.firstElementChild.innerText = evt.target.innerText
-			}
+			},
 		}
 	};
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 tr.URL {
 	position: relative;
 
@@ -61,6 +93,10 @@ tr.URL {
 		justify-content: center;
 		box-sizing: border-box;
 		&:active { color: rgba(255, 255, 255, .4); }
+		&.extensao_fixa{
+			background-color: #219653;
+			cursor: unset;
+		}
 	}
 
 	div.arquivo_extensao-box {

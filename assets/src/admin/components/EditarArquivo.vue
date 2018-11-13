@@ -8,14 +8,16 @@
 				<table>
 					<tr>
 						<td>
-							<label for="">Nome público</label>
+							<label for="nome">Nome público</label>
 						</td>
 						<td>
-							<input type="text" @keyup="charCount($event)" ref="nome">
+							<input type="text" @keyup="charCount($event)" ref="nome" v-model="arquivoClicado.nome">
 							<span class="charCounter">0/330</span>
 						</td>
 					</tr>
-						<URL v-for="url in urls">URL ({{ url.index }})</URL>
+						<template v-for="url in arquivoClicado.urls">
+							<URL :idArquivo='url.id'></URL>
+						</template>
 					<tr>
 						<td colspan="2">
 							<div class="addUrl" @click="addUrl()">+ Adicionar URL</div>
@@ -23,10 +25,10 @@
 					</tr>
 					<tr>
 						<td>
-							<label for="">Descrição</label>
+							<label for="descricao">Descrição</label>
 						</td>
 						<td>
-							<textarea name="" id="" @keyup="charCount($event)" ref="descricao"></textarea>
+							<textarea @keyup="charCount($event)" ref="descricao" v-model="arquivoClicado.descricao"></textarea>
 							<span class="charCounter">0/330</span>
 						</td>
 					</tr>
@@ -55,26 +57,17 @@ export default {
 	components: {
 		URL
 	},
-	props: {
-		arquivoInfo: {
-			type: Object,
-			required: true
-		}
-	}
-	,
 	computed: {
+		arquivoClicado:{ 
+			get(){ return this.$store.state.arquivoClicado },
+			set(id){ console.log(id) }
+		},
 		fechaBox() {
 			return this.$store.state.editArquivoBox
 		}
 	},
-	created() {},
-	mounted() {
-		// this.$refs.nome.value = this.$props.pass.nome
-		// this.$refs.descricao.value = this.$props.pass.descricao
-	},
-	updated() {		
-	},
 	methods: {
+		// urlId(obj){ return obj.id },
 		charCount(evt) {
 			let txt = evt.target.value
 			let counter = evt.target.parentNode.lastElementChild

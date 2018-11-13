@@ -46,10 +46,10 @@ export default {
 	components: {
 		AdicionarProjeto,
 	},
-	// data() { return { } },
 	computed: {
-		projetos() {
-			return this.$store.state.projetos
+		projetos: {
+			get(){ return this.$store.state.projetos }
+			// set(){ this.$store.... }
 		},
 		abreAddProjetoBox() {
 			return this.$store.state.addProjetoBox

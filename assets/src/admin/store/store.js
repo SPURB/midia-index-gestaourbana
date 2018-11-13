@@ -8,6 +8,7 @@ Vue.use(Vuex)
 let store = new Vuex.Store({
 	state: {
 		projeto: {},
+		arquivoClicado: undefined,
 		urls: [
 			{
 				"id": 1,
@@ -44,7 +45,7 @@ let store = new Vuex.Store({
 	},
 
 	getters: {
-		wordpressUserSettings() { return userSettings }
+		wordpressUserSettings() { return userSettings },
 	},
 
 	mutations: {
@@ -60,13 +61,14 @@ let store = new Vuex.Store({
 				}
 			})
 		},
-		SET_PROJETOS: (state, response) => {
-			state.projetos = response.data
-		},
-		SET_INFO_PROJETO: (state, response) => {
-			state.projeto = response.data
+		SET_PROJETOS: (state, response) => { state.projetos = response.data },
+		SET_INFO_PROJETO: (state, response) => { state.projeto = response.data },
+		SET_ARQUIVO: (state, objDefineArquivo) => { 
+			const etapas = state.projeto.etapas;
+			const indexEtapas = etapas.findIndex(i => i.id === objDefineArquivo.idEtapa);
+			const indexArquivos = etapas[indexEtapas].arquivos.findIndex(i => i.id === objDefineArquivo.idArquivo);
+			state.arquivoClicado = etapas[indexEtapas].arquivos[indexArquivos]
 		}
-
 	},
 	actions: {
 		FETCH_PROJETOS: state =>{

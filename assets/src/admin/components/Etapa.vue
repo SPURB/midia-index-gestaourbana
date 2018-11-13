@@ -32,18 +32,22 @@
 					<tr v-for="arquivo in arquivos" class="tablerow">
 						<td>{{ displayData(arquivo.atualizacao) }}</td>
 						<td><a 
-								@click="abreEditArquivoBox($event, arquivo.id)" 
+								@click="abreEditArquivoBox(arquivo.id)" 
 								:id="arquivo.id">{{ arquivo.nome }}</a></td>
-						<td><img src="https://www.materialui.co/materialIcons/action/reorder_black_192x192.png" style="height: 24px; width: 24px; vertical-align: bottom;" alt=""></td>
+						<td><img 
+							src="https://www.materialui.co/materialIcons/action/reorder_black_192x192.png" 
+							style="height: 24px; width: 24px; vertical-align: bottom;" 
+							></td>
 					</tr>
 				</draggable>
 			</table>
 			<button class="adicionar-arquivo" @click="novoArquivo()">+ Adicionar arquivo</button>
 		</div>
 
+		<!-- :arquivoInfo="arquivoInfo" -->
 		<EditarArquivo 
-			 v-if="editarArquivo" 
-			:arquivoInfo="arquivoInfo"></EditarArquivo>
+			v-if="editarArquivo"
+		></EditarArquivo>
 		<AdicionarArquivo 
 			v-if="abreNovoArquivo"></AdicionarArquivo>
 	</div>
@@ -74,8 +78,8 @@ export default {
 	},
 	data() {
 		return {
-			arquivoInfo: {},
-			etapa: undefined
+			// idArquivo: undefined,
+			// etapa: undefined
 		}
 	},
 	components: {
@@ -91,9 +95,6 @@ export default {
 			return this.$store.state.adicionarArquivoBox
 		}
 	},
-	created() {},
-	mounted() {},
-	updated() {},
 	methods: {
 		etapaCollapse(evt) {
 			let divEtapa = evt.target.parentNode.parentNode.parentNode
@@ -116,12 +117,13 @@ export default {
 			this.$store.commit('luzToggle')
 			this.$store.commit('abreAdicionarArquivoBox')
 		},
-		abreEditArquivoBox(evt, idArquivo) {
-			let app = this
+		abreEditArquivoBox(idArquivo) {
 			this.$store.commit('luzToggle')
 			this.$store.commit('abreEditarArquivoBox')
-
-			console.log(idArquivo)
+			this.$store.commit('SET_ARQUIVO', {
+				idEtapa: this.id,
+				idArquivo: idArquivo
+			})
 		}
 	}
 };
