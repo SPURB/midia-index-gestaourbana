@@ -6,7 +6,7 @@
 	"id": 2,
 	"nome": "Projeto 2",
 	"ativo": 1,
-	"autor": "devspurbanismo",
+	"id_wordpress": 1,
 	"atualizacao":"2018-08-21 17:18:33",
 	"consultas": [
 		{
@@ -30,7 +30,7 @@
 				{
 					"nome": "Diagnóstico",
 					"id": 5,
-					"autor": "devspurbanismo",
+					"id_wordpress": 2,
 					"fonte": "Gestão Urbana",
 					"atualizacao": "2018-08-21 18:37:28",
 					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
@@ -46,7 +46,7 @@
 				{
 					"nome": "Mapas",
 					"id": 6,
-					"autor": "devspurbanismo",
+					"id_wordpress": 2,
 					"fonte": "Gestão Urbana",
 					"atualizacao":"2018-08-21 18:37:50",
 					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
@@ -68,7 +68,7 @@
 				{
 					"nome": "Diagnóstico",
 					"id": 7,
-					"autor": "devspurbanismo",
+					"id_wordpress": 2,
 					"fonte": "Gestão Urbana",
 					"atualizacao": "2018-08-21 18:37:28",
 					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
@@ -84,7 +84,7 @@
 				{
 					"nome": "Olar alor 8",
 					"id": 8,
-					"autor": "devspurbanismo",
+					"id_wordpress": 2,
 					"fonte": "Gestão Urbana",
 					"atualizacao":"2018-08-21 18:37:50",
 					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
@@ -106,7 +106,7 @@
 				{
 					"nome": "Olar alor 9",
 					"id": 9,
-					"autor": "devspurbanismo",
+					"id_wordpress": 2,
 					"fonte": "Gestão Urbana",
 					"atualizacao": "2018-08-21 18:37:28",
 					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
@@ -122,7 +122,7 @@
 				{
 					"nome": "Olar alor 10",
 					"id": 10,
-					"autor": "devspurbanismo",
+					"id_wordpress": 2,
 					"fonte": "Gestão Urbana",
 					"atualizacao":"2018-08-21 18:37:50",
 					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",

@@ -9,33 +9,13 @@ let store = new Vuex.Store({
 	state: {
 		projeto: {},
 		arquivoClicado: undefined,
-		urls: [
-			{
-				"id": 1,
-				"id_arquivo": 1,
-				"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-				"extensao": "pdf"
-			},
-			{
-				"id": 2,
-				"id_arquivo": 2,
-				"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-				"extensao": "pdf"
-			},
-			{
-				"id": 3,
-				"id_arquivo": 3,
-				"url": "http://gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/piu-monitoramento/ANH1_Oficio.pdf",
-				"extensao": "pdf"
-			},
-		],
 		projetos: [],
 		tiposDeArquivo: [
-			{ 'index': 0, 'extensao': 'PDF' },
-			{ 'index': 1, 'extensao': 'KMZ' },
-			{ 'index': 2, 'extensao': 'KML' },
-			{ 'index': 3, 'extensao': 'SHP' },
-			{ 'index': 4, 'extensao': 'DOC' }
+			'PDF', 
+			'KML',
+			'SHP',
+			'DOC',
+			'XLS'
 		],
 		apagaLuz: false,
 		editArquivoBox: false,
@@ -45,7 +25,7 @@ let store = new Vuex.Store({
 	},
 
 	getters: {
-		wordpressUserSettings() { return userSettings },
+		wordpressUserSettings() { return userSettings }
 	},
 
 	mutations: {
@@ -63,11 +43,15 @@ let store = new Vuex.Store({
 		},
 		SET_PROJETOS: (state, response) => { state.projetos = response.data },
 		SET_INFO_PROJETO: (state, response) => { state.projeto = response.data },
-		SET_ARQUIVO: (state, objDefineArquivo) => { 
+		SET_ARQUIVO: (state, arquivo) => { 
 			const etapas = state.projeto.etapas;
-			const indexEtapas = etapas.findIndex(i => i.id === objDefineArquivo.idEtapa);
-			const indexArquivos = etapas[indexEtapas].arquivos.findIndex(i => i.id === objDefineArquivo.idArquivo);
+			const indexEtapas = etapas.findIndex(i => i.id === arquivo.idEtapa);
+			const indexArquivos = etapas[indexEtapas].arquivos.findIndex(i => i.id === arquivo.idArquivo);
 			state.arquivoClicado = etapas[indexEtapas].arquivos[indexArquivos]
+		},
+		REORDER_ARQUIVOS: (state, obj) => {
+			const indexEtapa = state.projeto.etapas.findIndex(i => i.id === obj.idEtapa )
+			state.projeto.etapas[indexEtapa].arquivos = obj.arquivos
 		}
 	},
 	actions: {

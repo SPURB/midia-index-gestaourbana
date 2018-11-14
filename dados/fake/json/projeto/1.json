@@ -6,7 +6,7 @@
 	"id": 1,
 	"nome": "Projeto 1",
 	"ativo": 1,
-	"autor": "devspurbanismo",
+	"id_wordpress": 1,
 	"atualizacao":"2018-08-21 17:18:33",
 	"consultas": [
 		{
@@ -28,9 +28,9 @@
 			"nome": "Etapa 1-1",
 			"arquivos":[
 				{
-					"nome": "Diagnóstico",
+					"nome": "0-Diagnóstico",
 					"id": 1,
-					"autor": "devspurbanismo",
+					"id_wordpress": 1,
 					"fonte": "Gestão Urbana",
 					"atualizacao": "2018-08-21 18:37:28",
 					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
@@ -38,7 +38,7 @@
 					"urls":	[
 						{
 							"id":"1",
-							"url":"http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
+							"url":"http://miasdas.com/arquivo.pdf",
 							"extensao": false
 						},
 						{
@@ -48,24 +48,40 @@
 						},
 						{
 							"id":"3",
-							"url":"http://placekitten.com/200/300.jpg",
+							"url":"http://placekitten.com/200/300.rar",
 							"extensao": false
 						}
 					]
 				},
 				{
-					"nome": "Mapas",
+					"nome": "2-Mapas",
 					"id": 2,
-					"autor": "devspurbanismo",
+					"id_wordpress": 1,
+					"fonte": "Gestão Urbana",
+					"atualizacao":"2018-08-21 18:37:50",
+					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+					"ordem": 2,
+					"urls":[
+						{
+							"id":"3",
+							"url":"http://placekitten.com/200/300",
+							"extensao": false
+						}
+					]
+				},
+				{
+					"nome": "1-Quadros",
+					"id": 22,
+					"id_wordpress": 1,
 					"fonte": "Gestão Urbana",
 					"atualizacao":"2018-08-21 18:37:50",
 					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
 					"ordem": 1,
 					"urls":[
 						{
-							"id":"3",
-							"url":"http://placekitten.com/200/300",
-							"extensao": false
+							"id":"33",
+							"url":"http://placekitten.com/200/300.rar",
+							"extensao": "XLS"
 						}
 					]
 				}
@@ -79,7 +95,7 @@
 					"nome": "Diagnóstico",
 					"id": 3,
 					"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_V03.pdf",
-					"autor": "devspurbanismo",
+					"id_wordpress": 1,
 					"fonte": "Gestão Urbana",
 					"atualizacao": "2018-08-21 18:37:28",
 					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
@@ -96,7 +112,7 @@
 					"nome": "Mapas",
 					"id": 4,
 					"url": "http://minutapiuriobranco.gestaourbana.prefeitura.sp.gov.br/wp-content/uploads/2016/04/PIU_RioBranco_ConsultaPublica_ANEXOI_reduzido.pdf",
-					"autor": "devspurbanismo",
+					"id_wordpress": 1,
 					"fonte": "Gestão Urbana",
 					"atualizacao":"2018-08-21 18:37:50",
 					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",

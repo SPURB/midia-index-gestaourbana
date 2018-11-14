@@ -13,10 +13,10 @@
 				</div>
 			</div>
 			<input type="text" class="busca-arquivos" placeholder="Pesquisar arquivos...">
-			<template v-for="etapa in projeto.etapas" >
+			<template v-for="etapa in projeto.etapas">
+				<!-- :arquivos="etapa.arquivos" -->
 				<Etapa 
-					:id="etapa.id" 
-					:arquivos="etapa.arquivos" 
+					:idEtapa="etapa.id" 
 					:idProjeto="projeto.id"
 					>
 					<template slot="nomeEtapa">{{etapa.nome}}</template>
@@ -40,11 +40,11 @@
 import Etapa from '../components/Etapa.vue'
 import AdicionarEtapa from '../components/AdicionarEtapa.vue'
 import Modal from '../components/Modal.vue'
-import projetoEtapa from '../mixins/projetoEtapa'
+import trataSlug from '../mixins/trataSlug'
 
 export default {
 	name: 'Projeto',
-	mixins:[ projetoEtapa ],
+	mixins:[ trataSlug ],
 	data() {
 		return {
 			etapasInput: [

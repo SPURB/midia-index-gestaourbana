@@ -22,8 +22,11 @@
 </template>
 
 <script>
+import trataSlug from '../mixins/trataSlug'
+
 export default {
 	name: 'Projeto',
+	mixins: [ trataSlug ],
 	data() {
 		return {};
 	},
@@ -32,10 +35,7 @@ export default {
 		fechaNovoProjetoBox() {
 			this.$store.commit('abreAdicionarProjetoBox')
 			this.$store.commit('luzToggle')
-		},
-		copiaSlug(evt) {
-			navigator.clipboard.writeText(evt.target.innerText)
-		},
+		}
 	}
 };
 </script>

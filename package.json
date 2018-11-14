@@ -2,7 +2,7 @@
   "name": "midia-index-gestaourbana",
   "version": "1.0.0",
   "description": "Indexador de arquivos do portal gestaourbana.prefeitura.sp.gov.br",
-  "author": "Tareq Hasan <devspurbanismo@spurbanismo.sp.gov.br>",
+  "author": "devspurbanismo <devspurbanismo@spurbanismo.sp.gov.br>",
   "license": "GPLv3",
   "private": true,
   "scripts": {

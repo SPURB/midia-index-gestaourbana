@@ -1,3 +1,5 @@
 {
-	"proxyURL": "http://spurbcp13343:7080/wp_teste_plugins/wp-admin/admin.php?page=indexador-gestao-urbana"
+	"proxyURL": "http://spurbcp13343:7080/wp_teste_plugins/wp-admin/admin.php?page=indexador-gestao-urbana",
+	"baseURL": "http://spurbcp13343:7080/consultas-publicas-backend/",
+	"token": "59095394d3501cd705419e06e8913165"
 }

@@ -2,21 +2,21 @@
 	<tr class="URL">
 		<td>URL</td>
 		<td>
-			<input type="text" name="url" v-model="urlsArquivoClicado.url">
-			<div v-if="urlsArquivoClicado.extensao">
-				<span @click="extensaoBoxShow = !extensaoBoxShow">KML</span>
+			<input type="text" name="url" v-model="urlArquivoClicado.url">
+			<div v-if="displayExtensao()">
+				<span @click="extensaoBoxShow.state = !extensaoBoxShow.state">{{ extensaoBoxShow.text }}</span>
 				<div 
 					class="arquivo_extensao-box" 
-					:class="{ display: extensaoBoxShow }" 
+					:class="{ display: extensaoBoxShow.state }" 
 					ref="extensaoBox">
-					Selecione a extensão do arquivo <i @click="extensaoBoxShow = !extensaoBoxShow">&times;</i>
+					Selecione a extensão do arquivo <i @click="extensaoBoxShow.state = !extensaoBoxShow.state">&times;</i>
 					<div class="opcoes">
-						<span v-for="arquivo in tipoDeArquivo" @click="alteraTipoDeArq">{{ arquivo.extensao }}</span>
+						<span v-for="tipo in tiposDeArquivo" @click="alteraTipoDeArq">{{ tipo }}</span>
 					</div>					
 				</div>
 			</div>
 			<div v-else>
-				<span class="extensao_fixa">{{ extensao(urlsArquivoClicado.url) }}</span>
+				<span class="extensao_fixa">{{ extensao(urlArquivoClicado.url) }}</span>
 			</div>
 			<button class="excluirUrl" @click="deletaUrl($event)">&times;</button>
 		</td>
@@ -33,12 +33,16 @@
 		},
 		data() {
 			return {
-				extensaoBoxShow: false,
+				extensaoBoxShow: { 
+					state: false,
+					text: '...' 
+				}
+				
 			}
 		},
 		computed: {
-			tipoDeArquivo() { return this.$store.state.tiposDeArquivo },
-			urlsArquivoClicado: {
+			tiposDeArquivo() { return this.$store.state.tiposDeArquivo },
+			urlArquivoClicado: {
 				get(){ 
 					const urls = this.$store.state.arquivoClicado.urls;
 					return urls[this.getIndex(urls, this.idArquivo)]
@@ -47,25 +51,40 @@
 			}
 		},
 		methods: {
+			displayExtensao(){
+				const extensaoFromUrl = this.extensao(this.urlArquivoClicado.url)
+				const extensaoState = this.urlArquivoClicado.extensao
+
+				if(extensaoFromUrl === 'ZIP' || extensaoFromUrl === 'RAR') { 
+					if(extensaoState != false){
+						this.extensaoBoxShow.text = extensaoState
+					}
+					return true
+				}
+				else { return false }
+			}, 
 			extensao(url){
 				const regexPattern = /\.([0-9a-z]+)(?:[\?#]|$)/i
 				const ext = (url).match(regexPattern)
 				let extensao
 
 				if (ext != null){
-					extensao = (url).match(regexPattern)[1]
+					extensao = (url).match(regexPattern)[1].toUpperCase()
+					if(extensao === 'ZIP' || extensao === 'RAR'){
+						// set this.urlArquivoClicado.urls
+					}
 				}
 				else{
 					extensao = 'URL'
 				}
 
-				return extensao.toUpperCase()
+				return extensao
 			},
 			getIndex(arr, index){
 				return arr.findIndex(item => parseInt(item.id) === parseInt(index))
 			},
 			alteraTipoDeArq(evt) {
-				this.extensaoBoxShow = false
+				this.extensaoBoxShow.state = false
 				evt.target.parentNode.parentNode.parentNode.firstElementChild.innerText = evt.target.innerText
 			},
 		}

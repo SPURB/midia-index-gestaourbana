@@ -26,7 +26,7 @@ export default {
 
 <style lang="scss">
 div#vue-backend-app {
-	max-width: 1000px;
+	// max-width: 1000px;
 	
 	*[class] h1 { font-weight: bold; }
 

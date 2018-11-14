@@ -4,7 +4,7 @@
 			<span>Etapa</span>
 			<h3><slot name="nomeEtapa"></slot></h3>
 			<div class="shortcode_expand">
-				<span>Shortcode da etapa <code @click="copiaSlug($event)">[arquivos-gu-{{ idProjeto }}.{{ id }}]</code></span>
+				<span>Shortcode da etapa <code @click="copiaSlug($event)">[arquivos-gu-{{ idProjeto }}.{{ idEtapa }}]</code></span>
 				<button @click="etapaCollapse($event)">&#9650;</button>
 			</div>
 		</div>
@@ -16,10 +16,10 @@
 					<th><img 
 						src="https://static.thenounproject.com/png/505631-200.png" 
 						style="height: 24px; width: 24px; vertical-align: bottom;" 
-						alt=""></th>
+						alt="files"></th>
 				</thead>
 				<draggable 
-					v-model="arquivos" 
+					v-model="arquivos"
 					element="tbody" 
 					:options="{ 
 						draggable: '.tablerow', 
@@ -37,6 +37,7 @@
 						<td><img 
 							src="https://www.materialui.co/materialIcons/action/reorder_black_192x192.png" 
 							style="height: 24px; width: 24px; vertical-align: bottom;" 
+							alt="reorder"
 							></td>
 					</tr>
 				</draggable>
@@ -44,12 +45,8 @@
 			<button class="adicionar-arquivo" @click="novoArquivo()">+ Adicionar arquivo</button>
 		</div>
 
-		<!-- :arquivoInfo="arquivoInfo" -->
-		<EditarArquivo 
-			v-if="editarArquivo"
-		></EditarArquivo>
-		<AdicionarArquivo 
-			v-if="abreNovoArquivo"></AdicionarArquivo>
+		<EditarArquivo v-if="editarArquivo" ></EditarArquivo>
+		<AdicionarArquivo v-if="abreNovoArquivo"></AdicionarArquivo>
 	</div>
 </template>
 
@@ -57,29 +54,19 @@
 import draggable from 'vuedraggable'
 import AdicionarArquivo from '../components/AdicionarArquivo.vue'
 import EditarArquivo from '../components/EditarArquivo.vue'
-import projetoEtapa from '../mixins/projetoEtapa'
+import trataSlug from '../mixins/trataSlug'
 
 export default {
 	name: 'Etapa',
-	mixins:[ projetoEtapa ],
+	mixins:[ trataSlug ],
 	props: { 
-		id: {
+		idEtapa: {
 			type: Number,
 			required: true
 		}, 
 		idProjeto: {
 			type: Number,
 			required: true
-		},
-		arquivos: {
-			type: Array,
-			required: true
-		}
-	},
-	data() {
-		return {
-			// idArquivo: undefined,
-			// etapa: undefined
 		}
 	},
 	components: {
@@ -88,12 +75,21 @@ export default {
 		draggable
 	},
 	computed: {
-		editarArquivo() {
-			return this.$store.state.editArquivoBox
-		},
-		abreNovoArquivo() {
-			return this.$store.state.adicionarArquivoBox
+		editarArquivo() { return this.$store.state.editArquivoBox },
+		abreNovoArquivo() { return this.$store.state.adicionarArquivoBox },
+		arquivos:{
+			get(){  
+				const indexEtapas = this.$store.state.projeto.etapas.findIndex(i => i.id === this.idEtapa);
+				return  this.$store.state.projeto.etapas[indexEtapas].arquivos
+			},
+			set(value){
+				this.$store.commit('REORDER_ARQUIVOS', {
+					arquivos: value, 
+					idEtapa: this.idEtapa
+				})
+			}
 		}
+
 	},
 	methods: {
 		etapaCollapse(evt) {
@@ -117,19 +113,19 @@ export default {
 			this.$store.commit('luzToggle')
 			this.$store.commit('abreAdicionarArquivoBox')
 		},
-		abreEditArquivoBox(idArquivo) {
+		abreEditArquivoBox(idArquivoFromLoop) {
 			this.$store.commit('luzToggle')
 			this.$store.commit('abreEditarArquivoBox')
 			this.$store.commit('SET_ARQUIVO', {
-				idEtapa: this.id,
-				idArquivo: idArquivo
+				idEtapa: this.idEtapa,
+				idArquivo: idArquivoFromLoop
 			})
 		}
 	}
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 div.Etapa {
 	display: flex;
 	flex-flow: column nowrap;
@@ -254,7 +250,7 @@ div.Etapa {
 
 		button.adicionar-arquivo {
 			position: absolute;
-			right: 20px;
+			right: 40px;
 			bottom: 20px;
 			height: 40px;
 			border-radius: 20px;

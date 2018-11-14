@@ -1,6 +1,6 @@
 # Compiled output #
 ###################
-apiconfig.json
+config.json
 plugin-deploy.sh
 export.sh
 nbproject

@@ -225,4 +225,13 @@ div.EditarArquivo {
 		}
 	}
 }
+
+@media (max-width: 720px) {
+	div.EditarArquivo {
+		div.cont {
+			width: 100%
+		}
+	}
+}
+
 </style>

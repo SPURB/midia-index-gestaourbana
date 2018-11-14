@@ -1,4 +1,4 @@
-import { baseURL, token } from '../../../../apiconfig'
+import { baseURL, token } from '../../../../config'
 import axios from 'axios'
 export default axios.create({
   baseURL: baseURL,

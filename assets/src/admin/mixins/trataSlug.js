@@ -8,10 +8,10 @@ export default {
 			}
 			navigator.clipboard.writeText(text).then(
 				function() {
-					console.log("Async: Copying to clipboard was successful!");
+					console.log("Async: Cópia para o clipboard realizada com sucesso");					
 				},
 				function(err) {
-					console.error("Async: Could not copy text: ", err);
+					console.error("Async: Não foi possível copiar o texto: ", err);
 				}
 			)
 		},
@@ -24,10 +24,10 @@ export default {
 	
 			try {
 				let successful = document.execCommand("copy");
-				let msg = successful ? "successful" : "unsuccessful";
-				console.log("Fallback: Copying text command was " + msg);
+				let msg = successful ? "sucesso" : "erro";
+				console.log("Fallback: Cópia do texto realizado com " + msg);
 			} catch (err) {
-				console.error("Fallback: Oops, unable to copy", err);
+				console.error("Fallback: Oops, não foi possível copiar", err);
 			}
 			document.body.removeChild(textArea);
 		}
