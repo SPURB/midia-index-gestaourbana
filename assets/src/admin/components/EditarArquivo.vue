@@ -16,11 +16,14 @@
 						</td>
 					</tr>
 						<template v-for="url in arquivoClicado.urls">
-							<URL :idArquivo='url.id'></URL>
+							<URL 
+								:idUrl='parseInt(url.id)'
+								:idEtapa="idEtapa"
+							></URL>
 						</template>
 					<tr>
 						<td colspan="2">
-							<div class="addUrl" @click="addUrl()">+ Adicionar URL</div>
+							<div class="addUrl" @click="addUrl">+ Adicionar URL</div>
 						</td>
 					</tr>
 					<tr>
@@ -36,7 +39,7 @@
 			</form>
 			<div class="actions">
 				<button class="cancelar" @click="cancelar()">Cancelar</button>
-				<button class="adicionar">Adicionar</button>
+				<button class="adicionar">Salvar</button>
 			</div>
 		</div>
 	</div>
@@ -49,10 +52,16 @@ export default {
 	name: 'EditarArquivo',
 	data() {
 		return {
-			urls: [
-				{ 'index': 1, 'url': '', 'extensao': '' }
-			]
+			// urls: [
+			// 	{ 'index': 1, 'url': '', 'extensao': '' }
+			// ]
 		}
+	},
+	props:{
+		idEtapa: {
+			type: Number,
+			required: true
+		} 
 	},
 	components: {
 		URL
@@ -60,7 +69,7 @@ export default {
 	computed: {
 		arquivoClicado:{ 
 			get(){ return this.$store.state.arquivoClicado },
-			set(id){ console.log(id) }
+			// set(id){ console.log(id) }
 		},
 		fechaBox() {
 			return this.$store.state.editArquivoBox
@@ -81,7 +90,8 @@ export default {
 			}
 		},
 		addUrl() {
-			this.urls.push({ 'index': this.urls.length+1, 'url': '', 'extensao': '' })
+			// this.urls.push({ 'index': this.urls.length+1, 'url': '', 'extensao': '' })
+			console.log('addUrl')
 		},
 		cancelar() {
 			this.$store.commit('luzToggle')

@@ -11,7 +11,7 @@
 					ref="extensaoBox">
 					Selecione a extensão do arquivo <i @click="extensaoBoxShow.state = !extensaoBoxShow.state">&times;</i>
 					<div class="opcoes">
-						<span v-for="tipo in tiposDeArquivo" @click="alteraTipoDeArq">{{ tipo }}</span>
+						<span v-for="extensao in tiposDeArquivo" @click="alteraTipoDeArq(extensao)">{{ extensao }}</span>
 					</div>					
 				</div>
 			</div>
@@ -27,9 +27,14 @@
 	export default {
 		name: 'URL',
 		props:{
-			idArquivo: {
+			idUrl: {
+				type: Number,
 				required: true
-			}
+			},
+			idEtapa: {
+				type: Number,
+				required: true
+			},
 		},
 		data() {
 			return {
@@ -37,17 +42,15 @@
 					state: false,
 					text: '...' 
 				}
-				
 			}
 		},
 		computed: {
 			tiposDeArquivo() { return this.$store.state.tiposDeArquivo },
 			urlArquivoClicado: {
 				get(){ 
-					const urls = this.$store.state.arquivoClicado.urls;
-					return urls[this.getIndex(urls, this.idArquivo)]
+					const urls = this.$store.state.arquivoClicado.urls
+					return urls[this.getIndex(urls, this.idUrl)]
 				}
-				// set(id){ ... }
 			}
 		},
 		methods: {
@@ -80,12 +83,18 @@
 
 				return extensao
 			},
-			getIndex(arr, index){
-				return arr.findIndex(item => parseInt(item.id) === parseInt(index))
+			getIndex(arr, fileId){
+				return arr.findIndex(item => parseInt(item.id) === fileId)
 			},
-			alteraTipoDeArq(evt) {
+			alteraTipoDeArq(ext) {
+				console.log(ext)
 				this.extensaoBoxShow.state = false
-				evt.target.parentNode.parentNode.parentNode.firstElementChild.innerText = evt.target.innerText
+				this.extensaoBoxShow.text = ext
+
+				this.$store.commit('SET_ARQUIVO_EXTENSION', {
+					idUrl: this.idUrl,
+					extensao: ext
+				})
 			},
 		}
 	};

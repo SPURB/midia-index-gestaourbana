@@ -44,7 +44,10 @@
 			</table>
 			<button class="adicionar-arquivo" @click="novoArquivo()">+ Adicionar arquivo</button>
 		</div>
-		<EditarArquivo v-if="editarArquivo" ></EditarArquivo>
+		<EditarArquivo 
+			v-if="editarArquivo" 
+			:idEtapa="idEtapa"
+		></EditarArquivo>
 		<AdicionarArquivo v-if="abreNovoArquivo"></AdicionarArquivo>
 	</div>
 </template>

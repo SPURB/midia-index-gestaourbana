@@ -447,6 +447,9 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
 
 
 
@@ -718,7 +721,12 @@ if (false) {(function () {
 /* harmony default export */ __webpack_exports__["a"] = ({
 	name: 'URL',
 	props: {
-		idArquivo: {
+		idUrl: {
+			type: Number,
+			required: true
+		},
+		idEtapa: {
+			type: Number,
 			required: true
 		}
 	},
@@ -728,7 +736,6 @@ if (false) {(function () {
 				state: false,
 				text: '...'
 			}
-
 		};
 	},
 	computed: {
@@ -738,9 +745,8 @@ if (false) {(function () {
 		urlArquivoClicado: {
 			get() {
 				const urls = this.$store.state.arquivoClicado.urls;
-				return urls[this.getIndex(urls, this.idArquivo)];
+				return urls[this.getIndex(urls, this.idUrl)];
 			}
-			// set(id){ ... }
 		}
 	},
 	methods: {
@@ -773,12 +779,18 @@ if (false) {(function () {
 
 			return extensao;
 		},
-		getIndex(arr, index) {
-			return arr.findIndex(item => parseInt(item.id) === parseInt(index));
+		getIndex(arr, fileId) {
+			return arr.findIndex(item => parseInt(item.id) === fileId);
 		},
-		alteraTipoDeArq(evt) {
+		alteraTipoDeArq(ext) {
+			console.log(ext);
 			this.extensaoBoxShow.state = false;
-			evt.target.parentNode.parentNode.parentNode.firstElementChild.innerText = evt.target.innerText;
+			this.extensaoBoxShow.text = ext;
+
+			this.$store.commit('SET_ARQUIVO_EXTENSION', {
+				idUrl: this.idUrl,
+				extensao: ext
+			});
 		}
 	}
 });
@@ -833,6 +845,9 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
 
 
 
@@ -840,8 +855,16 @@ if (false) {(function () {
 	name: 'EditarArquivo',
 	data() {
 		return {
-			urls: [{ 'index': 1, 'url': '', 'extensao': '' }]
+			// urls: [
+			// 	{ 'index': 1, 'url': '', 'extensao': '' }
+			// ]
 		};
+	},
+	props: {
+		idEtapa: {
+			type: Number,
+			required: true
+		}
 	},
 	components: {
 		URL: __WEBPACK_IMPORTED_MODULE_0__components_URL_vue__["a" /* default */]
@@ -850,9 +873,6 @@ if (false) {(function () {
 		arquivoClicado: {
 			get() {
 				return this.$store.state.arquivoClicado;
-			},
-			set(id) {
-				console.log(id);
 			}
 		},
 		fechaBox() {
@@ -874,7 +894,8 @@ if (false) {(function () {
 			}
 		},
 		addUrl() {
-			this.urls.push({ 'index': this.urls.length + 1, 'url': '', 'extensao': '' });
+			// this.urls.push({ 'index': this.urls.length+1, 'url': '', 'extensao': '' })
+			console.log('addUrl');
 		},
 		cancelar() {
 			this.$store.commit('luzToggle');
@@ -1762,10 +1783,18 @@ var render = function() {
                 _c(
                   "div",
                   { staticClass: "opcoes" },
-                  _vm._l(_vm.tiposDeArquivo, function(tipo) {
-                    return _c("span", { on: { click: _vm.alteraTipoDeArq } }, [
-                      _vm._v(_vm._s(tipo))
-                    ])
+                  _vm._l(_vm.tiposDeArquivo, function(extensao) {
+                    return _c(
+                      "span",
+                      {
+                        on: {
+                          click: function($event) {
+                            _vm.alteraTipoDeArq(extensao)
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(extensao))]
+                    )
                   })
                 )
               ]
@@ -2066,21 +2095,18 @@ var render = function() {
               ]),
               _vm._v(" "),
               _vm._l(_vm.arquivoClicado.urls, function(url) {
-                return [_c("URL", { attrs: { idArquivo: url.id } })]
+                return [
+                  _c("URL", {
+                    attrs: { idUrl: parseInt(url.id), idEtapa: _vm.idEtapa }
+                  })
+                ]
               }),
               _vm._v(" "),
               _c("tr", [
                 _c("td", { attrs: { colspan: "2" } }, [
                   _c(
                     "div",
-                    {
-                      staticClass: "addUrl",
-                      on: {
-                        click: function($event) {
-                          _vm.addUrl()
-                        }
-                      }
-                    },
+                    { staticClass: "addUrl", on: { click: _vm.addUrl } },
                     [_vm._v("+ Adicionar URL")]
                   )
                 ])
@@ -2140,7 +2166,7 @@ var render = function() {
             [_vm._v("Cancelar")]
           ),
           _vm._v(" "),
-          _c("button", { staticClass: "adicionar" }, [_vm._v("Adicionar")])
+          _c("button", { staticClass: "adicionar" }, [_vm._v("Salvar")])
         ])
       ])
     ]
@@ -2323,7 +2349,9 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm.editarArquivo ? _c("EditarArquivo") : _vm._e(),
+          _vm.editarArquivo
+            ? _c("EditarArquivo", { attrs: { idEtapa: _vm.idEtapa } })
+            : _vm._e(),
           _vm._v(" "),
           _vm.abreNovoArquivo ? _c("AdicionarArquivo") : _vm._e()
         ],
@@ -2870,6 +2898,12 @@ var store = new _vuex2.default.Store({
 				return i.id === obj.idEtapa;
 			});
 			state.projeto.etapas[indexEtapa].arquivos = obj.arquivos;
+		},
+		SET_ARQUIVO_EXTENSION: function SET_ARQUIVO_EXTENSION(state, obj) {
+			var indexUrl = state.arquivoClicado.urls.findIndex(function (i) {
+				return parseInt(i.id) === parseInt(obj.idUrl);
+			});
+			state.arquivoClicado.urls[indexUrl].extensao = obj.extensao;
 		}
 	},
 	actions: {

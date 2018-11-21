@@ -52,6 +52,10 @@ let store = new Vuex.Store({
 		REORDER_ARQUIVOS: (state, obj) => {
 			const indexEtapa = state.projeto.etapas.findIndex(i => i.id === obj.idEtapa )
 			state.projeto.etapas[indexEtapa].arquivos = obj.arquivos
+		},
+		SET_ARQUIVO_EXTENSION: (state, obj) =>{
+			const indexUrl = state.arquivoClicado.urls.findIndex(i => parseInt(i.id) === parseInt(obj.idUrl) )
+			state.arquivoClicado.urls[indexUrl].extensao = obj.extensao
 		}
 	},
 	actions: {
