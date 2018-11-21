@@ -1,5 +1,5 @@
 <template>
-	<div class="Etapa">
+	<div class="Etapa" v-if="arquivosFiltrados.length > 0">
 		<div class="h-etapa">
 			<span>Etapa</span>
 			<h3><slot name="nomeEtapa"></slot></h3>
@@ -29,7 +29,7 @@
 						scrollSensitivity: 80, 
 						scrollSpeed: 8 
 					}">
-					<tr v-for="arquivo in arquivos" class="tablerow">
+					<tr v-for="arquivo in arquivosFiltrados" class="tablerow">
 						<td>{{ displayData(arquivo.atualizacao) }}</td>
 						<td><a 
 								@click="abreEditArquivoBox(arquivo.id)" 
@@ -44,7 +44,6 @@
 			</table>
 			<button class="adicionar-arquivo" @click="novoArquivo()">+ Adicionar arquivo</button>
 		</div>
-
 		<EditarArquivo v-if="editarArquivo" ></EditarArquivo>
 		<AdicionarArquivo v-if="abreNovoArquivo"></AdicionarArquivo>
 	</div>
@@ -67,6 +66,11 @@ export default {
 		idProjeto: {
 			type: Number,
 			required: true
+		}, 
+		busca:{
+			type: String,
+			required: true,
+			default: ''
 		}
 	},
 	components: {
@@ -88,8 +92,13 @@ export default {
 					idEtapa: this.idEtapa
 				})
 			}
+		},
+		arquivosFiltrados(){
+			const app = this
+			return this.arquivos.filter(function(arquivo) {
+				return arquivo.nome.toLowerCase().indexOf(app.busca.toLowerCase()) >= 0;
+			})
 		}
-
 	},
 	methods: {
 		etapaCollapse(evt) {

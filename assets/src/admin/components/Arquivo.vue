@@ -58,8 +58,8 @@ export default {
 	updated() {
 	},
 	methods: {
-		mover(dir, evt) {
-			let app = this
+		// mover(dir, evt) {
+		// 	let app = this
 			// let pai = evt.target.parentNode.parentNode.parentNode.parentNode
 			// let esteFilho = evt.target.parentNode.parentNode.parentNode
 			// let irmaoAnterior = evt.target.parentNode.parentNode.parentNode.previousSibling
@@ -86,8 +86,8 @@ export default {
 			// }
 			// this.$el.parentNode.style.order = this.$el.parentNode.attributes.pos.value
 			// this.$el.parentNode.nextSibling.style.order = this.$el.parentNode.nextSibling.attributes.pos.value
-			console.log(this.$props.nArquivos)
-		},
+			// console.log(this.$props.nArquivos)
+		// },
 		charCount(txt, dest) {
 			dest.innerText = txt.length + '/330'
 			if (txt.length > 330) { dest.parentNode.firstElementChild.style.backgroundColor = '#FE4C4C'; dest.style.color = '#FE4C4C' }

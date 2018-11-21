@@ -3,8 +3,7 @@ pluginWebpack([0],[
 /* 1 */,
 /* 2 */,
 /* 3 */,
-/* 4 */,
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47,6 +46,7 @@ exports.default = {
 };
 
 /***/ }),
+/* 5 */,
 /* 6 */,
 /* 7 */,
 /* 8 */
@@ -85,6 +85,8 @@ exports.default = {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_AdicionarProjeto_vue__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_trataSlug__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_trataSlug___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__mixins_trataSlug__);
 //
 //
 //
@@ -125,6 +127,9 @@ exports.default = {
 //
 //
 //
+//
+//
+
 
 
 
@@ -132,6 +137,12 @@ exports.default = {
 	name: 'Home',
 	components: {
 		AdicionarProjeto: __WEBPACK_IMPORTED_MODULE_0__components_AdicionarProjeto_vue__["default"]
+	},
+	mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_trataSlug___default.a],
+	data() {
+		return {
+			busca: ''
+		};
 	},
 	computed: {
 		projetos: {
@@ -142,6 +153,12 @@ exports.default = {
 		},
 		abreAddProjetoBox() {
 			return this.$store.state.addProjetoBox;
+		},
+		projetosFiltrado: function () {
+			const app = this;
+			return this.projetos.filter(function (projeto) {
+				return projeto.nome.toLowerCase().indexOf(app.busca.toLowerCase()) >= 0;
+			});
 		}
 	},
 	methods: {
@@ -164,9 +181,6 @@ exports.default = {
 		},
 		ativoToggle(incomeId) {
 			this.$store.commit('ativoToggle', incomeId);
-		},
-		copiaSlug(evt) {
-			navigator.clipboard.writeText(evt.target.innerText);
 		},
 		abreNovoProjeto() {
 			this.$store.commit('abreAdicionarProjetoBox');
@@ -237,7 +251,7 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_trataSlug__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_trataSlug__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_trataSlug___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__mixins_trataSlug__);
 //
 //
@@ -288,7 +302,7 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Etapa_vue__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_AdicionarEtapa_vue__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Modal_vue__ = __webpack_require__(58);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_trataSlug__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_trataSlug__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_trataSlug___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__mixins_trataSlug__);
 //
 //
@@ -339,19 +353,24 @@ if (false) {(function () {
 	mixins: [__WEBPACK_IMPORTED_MODULE_3__mixins_trataSlug___default.a],
 	data() {
 		return {
-			etapasInput: [{ index: 0 }],
-			etapaCounter: 1,
-			etapas: [],
-			nProjetos: []
+			busca: ''
+			// etapasInput: [ { index: 0 } ],
+			// etapaCounter: 1,
+			// etapas: [],
+			// nProjetos: []
 		};
 	},
 	computed: {
-		projeto() {
-			return this.$store.state.projeto;
+		projeto: {
+			get() {
+				return this.$store.state.projeto;
+			}
+			// , set(){ ... }
 		},
 		abreAdicionarEtapa() {
 			return this.$store.state.addEtapaBox;
 		}
+
 	},
 	components: {
 		Etapa: __WEBPACK_IMPORTED_MODULE_0__components_Etapa_vue__["a" /* default */],
@@ -375,9 +394,8 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuedraggable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_AdicionarArquivo_vue__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_EditarArquivo_vue__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_trataSlug__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_trataSlug__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_trataSlug___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__mixins_trataSlug__);
-//
 //
 //
 //
@@ -446,6 +464,11 @@ if (false) {(function () {
 		idProjeto: {
 			type: Number,
 			required: true
+		},
+		busca: {
+			type: String,
+			required: true,
+			default: ''
 		}
 	},
 	components: {
@@ -471,8 +494,13 @@ if (false) {(function () {
 					idEtapa: this.idEtapa
 				});
 			}
+		},
+		arquivosFiltrados() {
+			const app = this;
+			return this.arquivos.filter(function (arquivo) {
+				return arquivo.nome.toLowerCase().indexOf(app.busca.toLowerCase()) >= 0;
+			});
 		}
-
 	},
 	methods: {
 		etapaCollapse(evt) {
@@ -1354,7 +1382,26 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("section", { staticClass: "buscaprojeto" }, [
-        _c("input", { attrs: { type: "text", placeholder: "Pesquisar..." } }),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.busca,
+              expression: "busca"
+            }
+          ],
+          attrs: { type: "text", placeholder: "Pesquisar..." },
+          domProps: { value: _vm.busca },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.busca = $event.target.value
+            }
+          }
+        }),
         _vm._v(" "),
         _c(
           "button",
@@ -1374,7 +1421,7 @@ var render = function() {
         [
           _vm._m(0),
           _vm._v(" "),
-          _vm._l(_vm.projetos, function(projeto) {
+          _vm._l(_vm.projetosFiltrado, function(projeto) {
             return _c("tr", { class: _vm.ocultoClass(projeto.ativo) }, [
               _c(
                 "td",
@@ -1382,7 +1429,7 @@ var render = function() {
                   _c(
                     "router-link",
                     { attrs: { to: _vm.goToProjeto(projeto.id), tag: "a" } },
-                    [_vm._v(_vm._s(projeto.nome))]
+                    [_vm._v(_vm._s(projeto.nome) + "\n\t\t\t\t")]
                   )
                 ],
                 1
@@ -1519,11 +1566,11 @@ if (false) {(function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Etapa_vue__ = __webpack_require__(14);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5c5feb5d_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Etapa_vue__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5c5feb5d_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Etapa_vue__ = __webpack_require__(54);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(96)
+  __webpack_require__(44)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -1569,7 +1616,12 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 44 */,
+/* 44 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
 /* 45 */,
 /* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -2131,7 +2183,191 @@ if (false) {
 }
 
 /***/ }),
-/* 54 */,
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.arquivosFiltrados.length > 0
+    ? _c(
+        "div",
+        { staticClass: "Etapa" },
+        [
+          _c("div", { staticClass: "h-etapa" }, [
+            _c("span", [_vm._v("Etapa")]),
+            _vm._v(" "),
+            _c("h3", [_vm._t("nomeEtapa")], 2),
+            _vm._v(" "),
+            _c("div", { staticClass: "shortcode_expand" }, [
+              _c("span", [
+                _vm._v("Shortcode da etapa "),
+                _c(
+                  "code",
+                  {
+                    on: {
+                      click: function($event) {
+                        _vm.copiaSlug($event)
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "[arquivos-gu-" +
+                        _vm._s(_vm.idProjeto) +
+                        "." +
+                        _vm._s(_vm.idEtapa) +
+                        "]"
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  on: {
+                    click: function($event) {
+                      _vm.etapaCollapse($event)
+                    }
+                  }
+                },
+                [_vm._v("▲")]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "arquivosTable" }, [
+            _c(
+              "table",
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "draggable",
+                  {
+                    attrs: {
+                      element: "tbody",
+                      options: {
+                        draggable: ".tablerow",
+                        ghostClass: "slot-vazio",
+                        animation: 50,
+                        scroll: true,
+                        scrollSensitivity: 80,
+                        scrollSpeed: 8
+                      }
+                    },
+                    model: {
+                      value: _vm.arquivos,
+                      callback: function($$v) {
+                        _vm.arquivos = $$v
+                      },
+                      expression: "arquivos"
+                    }
+                  },
+                  _vm._l(_vm.arquivosFiltrados, function(arquivo) {
+                    return _c("tr", { staticClass: "tablerow" }, [
+                      _c("td", [
+                        _vm._v(_vm._s(_vm.displayData(arquivo.atualizacao)))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "a",
+                          {
+                            attrs: { id: arquivo.id },
+                            on: {
+                              click: function($event) {
+                                _vm.abreEditArquivoBox(arquivo.id)
+                              }
+                            }
+                          },
+                          [_vm._v(_vm._s(arquivo.nome))]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("img", {
+                          staticStyle: {
+                            height: "24px",
+                            width: "24px",
+                            "vertical-align": "bottom"
+                          },
+                          attrs: {
+                            src:
+                              "https://www.materialui.co/materialIcons/action/reorder_black_192x192.png",
+                            alt: "reorder"
+                          }
+                        })
+                      ])
+                    ])
+                  })
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "adicionar-arquivo",
+                on: {
+                  click: function($event) {
+                    _vm.novoArquivo()
+                  }
+                }
+              },
+              [_vm._v("+ Adicionar arquivo")]
+            )
+          ]),
+          _vm._v(" "),
+          _vm.editarArquivo ? _c("EditarArquivo") : _vm._e(),
+          _vm._v(" "),
+          _vm.abreNovoArquivo ? _c("AdicionarArquivo") : _vm._e()
+        ],
+        1
+      )
+    : _vm._e()
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("th", [_vm._v("Última modificação")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Nome")]),
+      _vm._v(" "),
+      _c("th", [
+        _c("img", {
+          staticStyle: {
+            height: "24px",
+            width: "24px",
+            "vertical-align": "bottom"
+          },
+          attrs: {
+            src: "https://static.thenounproject.com/png/505631-200.png",
+            alt: "files"
+          }
+        })
+      ])
+    ])
+  }
+]
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5c5feb5d", esExports)
+  }
+}
+
+/***/ }),
 /* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2435,15 +2671,38 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.busca,
+                expression: "busca"
+              }
+            ],
             staticClass: "busca-arquivos",
-            attrs: { type: "text", placeholder: "Pesquisar arquivos..." }
+            attrs: { type: "text", placeholder: "Pesquisar arquivos..." },
+            domProps: { value: _vm.busca },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.busca = $event.target.value
+              }
+            }
           }),
           _vm._v(" "),
           _vm._l(_vm.projeto.etapas, function(etapa) {
             return [
               _c(
                 "Etapa",
-                { attrs: { idEtapa: etapa.id, idProjeto: _vm.projeto.id } },
+                {
+                  attrs: {
+                    idEtapa: etapa.id,
+                    idProjeto: _vm.projeto.id,
+                    busca: _vm.busca
+                  }
+                },
                 [
                   _c("template", { slot: "nomeEtapa" }, [
                     _vm._v(_vm._s(etapa.nome))
@@ -2718,208 +2977,6 @@ function menuFix(slug) {
 }
 
 exports.default = menuFix;
-
-/***/ }),
-/* 83 */,
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 97 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "Etapa" },
-    [
-      _c("div", { staticClass: "h-etapa" }, [
-        _c("span", [_vm._v("Etapa")]),
-        _vm._v(" "),
-        _c("h3", [_vm._t("nomeEtapa")], 2),
-        _vm._v(" "),
-        _c("div", { staticClass: "shortcode_expand" }, [
-          _c("span", [
-            _vm._v("Shortcode da etapa "),
-            _c(
-              "code",
-              {
-                on: {
-                  click: function($event) {
-                    _vm.copiaSlug($event)
-                  }
-                }
-              },
-              [
-                _vm._v(
-                  "[arquivos-gu-" +
-                    _vm._s(_vm.idProjeto) +
-                    "." +
-                    _vm._s(_vm.idEtapa) +
-                    "]"
-                )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              on: {
-                click: function($event) {
-                  _vm.etapaCollapse($event)
-                }
-              }
-            },
-            [_vm._v("▲")]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "arquivosTable" }, [
-        _c(
-          "table",
-          [
-            _vm._m(0),
-            _vm._v(" "),
-            _c(
-              "draggable",
-              {
-                attrs: {
-                  element: "tbody",
-                  options: {
-                    draggable: ".tablerow",
-                    ghostClass: "slot-vazio",
-                    animation: 50,
-                    scroll: true,
-                    scrollSensitivity: 80,
-                    scrollSpeed: 8
-                  }
-                },
-                model: {
-                  value: _vm.arquivos,
-                  callback: function($$v) {
-                    _vm.arquivos = $$v
-                  },
-                  expression: "arquivos"
-                }
-              },
-              _vm._l(_vm.arquivos, function(arquivo) {
-                return _c("tr", { staticClass: "tablerow" }, [
-                  _c("td", [
-                    _vm._v(_vm._s(_vm.displayData(arquivo.atualizacao)))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "a",
-                      {
-                        attrs: { id: arquivo.id },
-                        on: {
-                          click: function($event) {
-                            _vm.abreEditArquivoBox(arquivo.id)
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(arquivo.nome))]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("img", {
-                      staticStyle: {
-                        height: "24px",
-                        width: "24px",
-                        "vertical-align": "bottom"
-                      },
-                      attrs: {
-                        src:
-                          "https://www.materialui.co/materialIcons/action/reorder_black_192x192.png",
-                        alt: "reorder"
-                      }
-                    })
-                  ])
-                ])
-              })
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "adicionar-arquivo",
-            on: {
-              click: function($event) {
-                _vm.novoArquivo()
-              }
-            }
-          },
-          [_vm._v("+ Adicionar arquivo")]
-        )
-      ]),
-      _vm._v(" "),
-      _vm.editarArquivo ? _c("EditarArquivo") : _vm._e(),
-      _vm._v(" "),
-      _vm.abreNovoArquivo ? _c("AdicionarArquivo") : _vm._e()
-    ],
-    1
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("th", [_vm._v("Última modificação")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Nome")]),
-      _vm._v(" "),
-      _c("th", [
-        _c("img", {
-          staticStyle: {
-            height: "24px",
-            width: "24px",
-            "vertical-align": "bottom"
-          },
-          attrs: {
-            src: "https://static.thenounproject.com/png/505631-200.png",
-            alt: "files"
-          }
-        })
-      ])
-    ])
-  }
-]
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-5c5feb5d", esExports)
-  }
-}
 
 /***/ })
 ],[28]);

@@ -21,11 +21,11 @@ class Admin {
 
 		$hook = add_menu_page( __( 'Arquivos GU', 'textdomain' ), __( 'Arquivos GU', 'textdomain' ), $capability, $slug, [ $this, 'plugin_page' ], 'dashicons-text' );
 
-		if ( current_user_can( $capability ) ) {
+		// if ( current_user_can( $capability ) ) {
 			// $submenu[ $slug ][] = array( __( 'Home', 'textdomain' ), $capability, 'admin.php?page=' . $slug . '#/' );
 			// $submenu[ $slug ][] = array( __( 'Projeto', 'textdomain' ), $capability, 'admin.php?page=' . $slug . '#/projeto' );
 		    // $submenu[ $slug ][] = array( __( 'Configurações', 'textdomain' ), $capability, 'admin.php?page=' . $slug . '#/configuracoes' );
-		}
+		// }
 
 		add_action( 'load-' . $hook, [ $this, 'init_hooks'] );
 	}

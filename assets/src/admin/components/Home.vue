@@ -6,7 +6,7 @@
 			<p>Para inserir os links em um post, copie o shortcode <code @click="copiaSlug($event)">[tabel id=&lt;<span style="color: #0073aa;">número da ID</span>&gt;/]</code> e cole no lugar desejado. Cada lista/tabela tem um único shortcode.</p>
 		</section>
 		<section class="buscaprojeto">
-			<input type="text" placeholder="Pesquisar...">
+			<input type="text" placeholder="Pesquisar..." v-model="busca">
 			<button @click="abreNovoProjeto()">+ Adicionar projeto</button>
 		</section>
 		<table>
@@ -16,13 +16,15 @@
 				<th width="25%">Última modificação</th>
 				<th width="15%"></th>
 			</thead>
-			<tr v-for="projeto in projetos" :class="ocultoClass(projeto.ativo)">
-				<!-- <td><a href="./projeto" @click="setIdProjeto(projeto.id)">{{ projeto.nome }}</a></td> -->
-				<td><router-link 
+			<tr v-for="projeto in projetosFiltrado" :class="ocultoClass(projeto.ativo)">
+				<td>
+					<router-link 
 						:to="goToProjeto(projeto.id)"
-						tag="a">{{ projeto.nome }}</router-link></td>
+						tag="a">{{ projeto.nome }}
+					</router-link>
+				</td>
 
-				<td>{{ projeto.wordpress_user_id }}</td> <!-- esta id é a id da tabela wp_users, precisamos incluir a coluna user_login -->
+				<td>{{ projeto.wordpress_user_id }}</td> <!-- esta id é a id da tabela wordpress_user_id, precisamos incluir a coluna user_login -->
 				<td>{{ displayData(projeto.atualizacao) }}</td>
 				<td>
 					<div class="switchCont" @click="ativoToggle(projeto.id)">
@@ -40,11 +42,18 @@
 
 <script>
 import AdicionarProjeto from '../components/AdicionarProjeto.vue'
+import trataSlug from '../mixins/trataSlug'
 
 export default {
 	name: 'Home',
 	components: {
 		AdicionarProjeto,
+	},
+	mixins:[ trataSlug ],
+	data(){
+		return {
+			busca: ''
+		}
 	},
 	computed: {
 		projetos: {
@@ -53,6 +62,12 @@ export default {
 		},
 		abreAddProjetoBox() {
 			return this.$store.state.addProjetoBox
+		},
+		projetosFiltrado:function(){
+			const app = this
+			return this.projetos.filter(function(projeto) {
+				return projeto.nome.toLowerCase().indexOf(app.busca.toLowerCase()) >= 0;
+			})
 		}
 	},
 	methods:{
@@ -69,9 +84,6 @@ export default {
 		},
 		ativoToggle(incomeId) {
 			this.$store.commit('ativoToggle', incomeId)
-		},
-		copiaSlug(evt) {
-			navigator.clipboard.writeText(evt.target.innerText)
 		},
 		abreNovoProjeto() {
 			this.$store.commit('abreAdicionarProjetoBox')

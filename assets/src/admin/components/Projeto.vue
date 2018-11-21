@@ -12,12 +12,12 @@
 					<span>Shortcode do projeto <code @click="copiaSlug($event)">[arquivos-gu-{{projeto.id}}]</code></span>
 				</div>
 			</div>
-			<input type="text" class="busca-arquivos" placeholder="Pesquisar arquivos...">
+			<input type="text" class="busca-arquivos" placeholder="Pesquisar arquivos..." v-model="busca">
 			<template v-for="etapa in projeto.etapas">
-				<!-- :arquivos="etapa.arquivos" -->
 				<Etapa 
 					:idEtapa="etapa.id" 
 					:idProjeto="projeto.id"
+					:busca="busca"
 					>
 					<template slot="nomeEtapa">{{etapa.nome}}</template>
 				</Etapa>
@@ -47,17 +47,20 @@ export default {
 	mixins:[ trataSlug ],
 	data() {
 		return {
-			etapasInput: [
-				{ index: 0 }
-			],
-			etapaCounter: 1,
-			etapas: [],
-			nProjetos: []
+			busca: ''
+			// etapasInput: [ { index: 0 } ],
+			// etapaCounter: 1,
+			// etapas: [],
+			// nProjetos: []
 		};
 	},
 	computed: {
-		projeto(){ return this.$store.state.projeto },
-		abreAdicionarEtapa() { return this.$store.state.addEtapaBox }
+		projeto: {
+			get(){ return this.$store.state.projeto }
+			// , set(){ ... }
+		},
+		abreAdicionarEtapa() { return this.$store.state.addEtapaBox },
+
 	},
 	components: {
 		Etapa,

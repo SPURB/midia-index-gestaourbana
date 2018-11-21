@@ -6,7 +6,7 @@
 	"id": 3,
 	"nome": "Projeto 3",
 	"ativo": 1,
-	"id_wordpress": 3,
+	"wordpress_user_id": 3,
 	"atualizacao":"2018-08-21 17:18:33",
 	"consultas": [
 		{
@@ -30,11 +30,10 @@
 				{
 					"nome": "Diagnóstico",
 					"id": 9,
-					"id_wordpress": 3,
+					"wordpress_user_id": 3,
 					"fonte": "Gestão Urbana",
 					"atualizacao": "2018-08-21 18:37:28",
 					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-					"ordem": 0,
 					"urls":[
 						{
 							"id": 12,
@@ -50,11 +49,10 @@
 				{
 					"nome": "Mapas",
 					"id": 10,
-					"id_wordpress": 3,
+					"wordpress_user_id": 3,
 					"fonte": "Gestão Urbana",
 					"atualizacao":"2018-08-21 18:37:50",
 					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-					"ordem": 1,
 					"urls":[
 						{
 							"id": 14,
@@ -71,11 +69,10 @@
 				{
 					"nome": "Quadros",
 					"id": 11,
-					"id_wordpress": 3,
+					"wordpress_user_id": 3,
 					"fonte": "Gestão Urbana",
 					"atualizacao":"2018-08-21 18:37:50",
 					"descricao": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-					"ordem": 2,
 					"urls":[
 						{
 							"id": 16,
