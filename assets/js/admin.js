@@ -276,6 +276,17 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -283,13 +294,55 @@ if (false) {(function () {
 	name: 'Projeto',
 	mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_trataSlug___default.a],
 	data() {
-		return {};
+		return {
+			nomeProjeto: '',
+			disabled: true,
+			message: false
+		};
 	},
-	components: {},
+	computed: {
+		projetosNomes: {
+			get() {
+				return this.$store.state.projetos.map(index => index.nome.toLowerCase());
+			}
+		},
+		projetosIds() {
+			return this.$store.state.projetos.map(index => parseInt(index.id));
+		}
+	},
+	watch: {
+		nomeProjeto(nome) {
+			const nomeCaixaBaixa = nome.toLowerCase();
+			const nomeIgual = this.projetosNomes.find(function (index) {
+				return index == nomeCaixaBaixa;
+			});
+			if (nomeIgual === undefined) {
+				this.message = false;
+				this.disabled = false;
+			} else {
+				this.message = 'O projeto "' + nome + '" já existe. Escolha outro nome.';
+				this.disabled = true;
+			}
+		}
+	},
 	methods: {
 		fechaNovoProjetoBox() {
 			this.$store.commit('abreAdicionarProjetoBox');
 			this.$store.commit('luzToggle');
+		},
+		adicionarProjeto() {
+			const projetoId = Math.max(...this.projetosIds) + 1;
+
+			this.$store.commit('SET_PROJETO', {
+				ativo: 1,
+				id: projetoId,
+				nome: this.nomeProjeto,
+				atualizacao: this.$store.getters.dataFormatada,
+				wordpress_user_id: this.$store.getters.wordpressUserSettings.uid
+			});
+
+			this.fechaNovoProjetoBox();
+			this.$router.push({ path: '/projeto/' + projetoId });
 		}
 	}
 });
@@ -1304,7 +1357,40 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._m(1)
+        _c("form", [
+          _c("fieldset", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.nomeProjeto,
+                  expression: "nomeProjeto"
+                }
+              ],
+              attrs: {
+                type: "text",
+                id: "nome",
+                placeholder: "Digite o nome do projeto"
+              },
+              domProps: { value: _vm.nomeProjeto },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.nomeProjeto = $event.target.value
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _vm.message
+          ? _c("p", { staticClass: "mensagem-erro" }, [
+              _vm._v(_vm._s(_vm.message))
+            ])
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "actions" }, [
@@ -1314,7 +1400,15 @@ var render = function() {
           [_vm._v("Cancelar")]
         ),
         _vm._v(" "),
-        _c("button", { staticClass: "adicionar" }, [_vm._v("Adicionar")])
+        _c(
+          "button",
+          {
+            staticClass: "adicionar",
+            attrs: { disabled: _vm.disabled },
+            on: { click: _vm.adicionarProjeto }
+          },
+          [_vm._v("Adicionar")]
+        )
       ])
     ])
   ])
@@ -1326,22 +1420,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "title" }, [
       _c("h3", [_vm._v("Adicionar projeto")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("form", [
-      _c("fieldset", [
-        _c("input", {
-          attrs: {
-            type: "text",
-            id: "nome",
-            placeholder: "Digite o nome do projeto"
-          }
-        })
-      ])
     ])
   }
 ]
@@ -2846,10 +2924,29 @@ var store = new _vuex2.default.Store({
 		addEtapaBox: false,
 		addProjetoBox: false
 	},
-
 	getters: {
 		wordpressUserSettings: function wordpressUserSettings() {
 			return userSettings;
+		},
+		dataFormatada: function dataFormatada() {
+			var d = new Date(),
+			    year = d.getFullYear(),
+			    month = d.getMonth() + 1,
+			    day = d.getDate(),
+			    hour = d.getHours(),
+			    minutes = d.getMinutes(),
+			    seconds = d.getSeconds();
+
+			function twoDigits(oneDigit) {
+				var digits = oneDigit.toString().length;
+				if (digits === 1) {
+					return '0' + oneDigit.toString();
+				} else {
+					return oneDigit;
+				}
+			}
+
+			return year + '-' + twoDigits(month) + '-' + twoDigits(day) + ' ' + twoDigits(hour) + ':' + twoDigits(minutes) + ':' + twoDigits(seconds);
 		}
 	},
 
@@ -2904,6 +3001,9 @@ var store = new _vuex2.default.Store({
 				return parseInt(i.id) === parseInt(obj.idUrl);
 			});
 			state.arquivoClicado.urls[indexUrl].extensao = obj.extensao;
+		},
+		SET_PROJETO: function SET_PROJETO(state, obj) {
+			state.projetos.push(obj); // criar action -> POST PROJETO, se 200 state.projetos.push(response)
 		}
 	},
 	actions: {
@@ -2912,12 +3012,14 @@ var store = new _vuex2.default.Store({
 			_apiFake2.default.get('?data=projetos').then(function (response) {
 				state.commit('SET_PROJETOS', response);
 			});
+			// .catch(e){ console.log(e) }
 		},
 		FETCH_INFO_PROJETO: function FETCH_INFO_PROJETO(state, id) {
 			//			api.get('projeto/'+id)
 			_apiFake2.default.get('?data=projeto/' + id).then(function (response) {
 				state.commit('SET_INFO_PROJETO', response);
 			});
+			// .catch(e){ console.log(e) }
 		}
 	}
 });

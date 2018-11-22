@@ -9,13 +9,24 @@
 				<p>Para inserir os links em um post, copie o Shortcode <code @click="copiaSlug($event)">[tabel id=&lt;<span style="color: #0073aa;">número da ID</span>&gt;/]</code> e cole no lugar desejado. Cada lista/tabela tem um único Shortcode.</p>		
 				<form>
 					<fieldset>
-						<input type="text" id="nome" placeholder="Digite o nome do projeto">
+						<input 
+							type="text" 
+							id="nome" 
+							placeholder="Digite o nome do projeto"
+							v-model="nomeProjeto"
+							/>
 					</fieldset>
 				</form>
+				<p class="mensagem-erro" v-if="message">{{ message }}</p>
 			</div>
 			<div class="actions">
-				<button class="cancelar" @click="fechaNovoProjetoBox">Cancelar</button>
-				<button class="adicionar">Adicionar</button>
+				<button 
+					class="cancelar" 
+					@click="fechaNovoProjetoBox">Cancelar</button>
+				<button 
+					:disabled="disabled" 
+					class="adicionar"
+					@click="adicionarProjeto">Adicionar</button>
 			</div>
 		</div>
 	</div>
@@ -27,14 +38,55 @@ import trataSlug from '../mixins/trataSlug'
 export default {
 	name: 'Projeto',
 	mixins: [ trataSlug ],
-	data() {
-		return {};
+	data(){
+		return {
+			nomeProjeto: '',
+			disabled: true,
+			message: false
+		}
 	},
-	components: {},
+	computed:{
+		projetosNomes: {
+			get(){ 
+				return this.$store.state.projetos.map(index => index.nome.toLowerCase() )
+			}
+		},
+		projetosIds() { 
+			return  this.$store.state.projetos.map( index => parseInt(index.id) )
+		} 
+	},
+	watch:{
+		nomeProjeto(nome){
+			const nomeCaixaBaixa = nome.toLowerCase()
+			const nomeIgual = this.projetosNomes.find(function(index) { return index == nomeCaixaBaixa })
+			if (nomeIgual === undefined){
+				this.message = false
+				this.disabled = false 
+			}
+			else { 
+				this.message = 'O projeto "' + nome + '" já existe. Escolha outro nome.';
+				this.disabled = true 
+			}
+		}
+	},
 	methods: {
 		fechaNovoProjetoBox() {
 			this.$store.commit('abreAdicionarProjetoBox')
 			this.$store.commit('luzToggle')
+		},
+		adicionarProjeto(){ 
+			const projetoId =  Math.max(...this.projetosIds) + 1
+
+			this.$store.commit('SET_PROJETO', {
+				ativo:1,
+				id: projetoId,
+				nome: this.nomeProjeto,
+				atualizacao: this.$store.getters.dataFormatada,
+				wordpress_user_id: this.$store.getters.wordpressUserSettings.uid
+			}) 
+
+			this.fechaNovoProjetoBox()
+			this.$router.push({ path: '/projeto/' +  projetoId })
 		}
 	}
 };
@@ -97,6 +149,12 @@ div.app-projeto {
 				border-radius: 20px;
 				padding: 0 12px;
 			}
+			p.mensagem-erro{
+				background-color: #fe4c4c;
+				padding: .5em;
+				border-radius: 5px;
+				color: #fff;
+			}
 		}
 
 		div.actions {
@@ -113,7 +171,14 @@ div.app-projeto {
 				cursor: pointer;
 
 				&.cancelar { background-color: #fe4c4c; }
-				&.adicionar { background-color: #219653; }
+				&.adicionar { 
+					background-color: #219653; 
+					&:disabled{ 
+						background-color: #ececec;
+						color: #bdbdbd;
+						box-shadow: inset 0 -2px 2px rgba(222, 221, 221, 0.2)
+					}
+				}
 			}
 		}
 	}
