@@ -81,25 +81,80 @@ let store = new Vuex.Store({
 			state.arquivoClicado.urls[indexUrl].extensao = obj.extensao
 		},
 		SET_PROJETO: (state, obj) => {
-			state.projetos.push(obj) // criar action -> POST PROJETO, se 200 state.projetos.push(response)
-		}
+			/* 
+			alterar action -> POST PROJETO, se 200 state.projetos.push(response)
+			este push(obj). Este 'obj' deve ser o 'response' do POST
+			*/
+			console.log(obj)
+		},
+		SET_NOVA_ETAPA: (state, nome) => {
+			/* 
+			alterar action -> POST ETAPA
+			*/
+			console.log('idProjeto: ' + state.projeto.id)
+			console.log(nome)
+		},
+		UPDATE_ETAPA_NOME: (state, objIndexEtapaNome) => {
+			state.projeto.etapas[objIndexEtapaNome.indexEtapa].nome = objIndexEtapaNome.nome
+		},
+		UPDATE_ARQUIVO_CLICADO:(state, arquivo) => { state.arquivoClicado = arquivo }
 	},
 	actions: {
-		FETCH_PROJETOS: state =>{
+		fetchProjetos: state =>{
 //			api.get('projetos')
 			apiFake.get('?data=projetos')
 				.then(response => {
 					state.commit('SET_PROJETOS', response)
 				})
-				// .catch(e){ console.log(e) }
+				.catch(error => { 
+					console.log(error)
+				})
+				.then(() => {
+					// fim de fetch 
+				}
+			)
 		},
-		FETCH_INFO_PROJETO: (state, id) => {
+		fetchInfoProjeto: (state, id) => {
 //			api.get('projeto/'+id)
 			apiFake.get('?data=projeto/'+id)
 				.then(response => {
 					state.commit('SET_INFO_PROJETO', response)
 				})
-				// .catch(e){ console.log(e) }
+				.catch(error => { 
+					console.log(error)
+				})
+				.then(() => {
+					// fim de fetch 
+				}
+			)
+		},
+		postNovoProjeto: ( state, obj ) => {
+			state.commit('SET_PROJETO', obj)
+			// api.post(obj)
+			// 	.then(response => {
+			// 		state.commit('SET_PROJETO', response)
+			// 	})
+			// 	.catch(error => {
+			// 		console.log(error)
+			// 	})
+			// 	.then(() => {
+			// 		// fim de fetch
+			// 	}
+			// )
+		},
+		postNovaEtapa: ( state, nome ) =>{
+			state.commit('SET_NOVA_ETAPA', nome)
+			// api.post(nome)
+			// 	.then(response => {
+			// 		state.commit('SET_NOVA_ETAPA', response)
+			// 	})
+			// 	.catch(error => {
+			// 		console.log(error)
+			// 	})
+			// 	.then(() => {
+			// 		// fim de fetch
+			// 	}
+			// )
 		}
 	}
 })

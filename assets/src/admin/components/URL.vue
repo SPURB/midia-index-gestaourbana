@@ -3,7 +3,7 @@
 		<td>URL</td>
 		<td>
 			<input type="text" name="url" v-model="urlArquivoClicado.url">
-			<div v-if="displayExtensao()">
+			<div v-if="displayExtensao(urlArquivoClicado)">
 				<span @click="extensaoBoxShow.state = !extensaoBoxShow.state">{{ extensaoBoxShow.text }}</span>
 				<div 
 					class="arquivo_extensao-box" 
@@ -54,9 +54,9 @@
 			}
 		},
 		methods: {
-			displayExtensao(){
-				const extensaoFromUrl = this.extensao(this.urlArquivoClicado.url)
-				const extensaoState = this.urlArquivoClicado.extensao
+			displayExtensao(arquivo){
+				const extensaoFromUrl = this.extensao(arquivo.url)
+				const extensaoState = arquivo.extensao
 
 				if(extensaoFromUrl === 'ZIP' || extensaoFromUrl === 'RAR') { 
 					if(extensaoState != false){
@@ -73,9 +73,9 @@
 
 				if (ext != null){
 					extensao = (url).match(regexPattern)[1].toUpperCase()
-					if(extensao === 'ZIP' || extensao === 'RAR'){
+					// if(extensao === 'ZIP' || extensao === 'RAR'){
 						// set this.urlArquivoClicado.urls
-					}
+					// }
 				}
 				else{
 					extensao = 'URL'
@@ -87,7 +87,7 @@
 				return arr.findIndex(item => parseInt(item.id) === fileId)
 			},
 			alteraTipoDeArq(ext) {
-				console.log(ext)
+				// console.log(ext)
 				this.extensaoBoxShow.state = false
 				this.extensaoBoxShow.text = ext
 

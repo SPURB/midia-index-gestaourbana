@@ -11,14 +11,19 @@
 							<label for="">Nome</label>
 						</td>
 						<td>
-							<input type="text" @keyup="charCount($event)">
+							 <!-- @keyup="charCount($event)" -->
+							<input type="text" v-model="novaEtapaInput">
 						</td>
 					</tr>
 				</table>
 			</form>
 			<div class="actions">
-				<button class="cancelar" @click="cancelar()">Cancelar</button>
-				<button class="adicionar">Adicionar</button>
+				<button class="cancelar" @click="fechar()">Cancelar</button>
+				<button 
+					:disabled="disabled" 
+					class="adicionar" 
+					@click="novaEtapa"
+				>Adicionar</button>
 			</div>
 		</div>
 	</div>
@@ -29,25 +34,40 @@
 export default {
 	name: 'AdicionarEtapa',
 	data() {
-		return {}
+		return {
+			novaEtapaInput: '',
+			disabled: true,
+		}
 	},
-	components: {},
+	watch:{
+		novaEtapaInput(name){
+			switch (name) {
+				case '': this.disabled = true
+				case ' ': this.disabled = true
+				default: this.disabled = false
+			}
+		}
+	},
 	computed: {
 		fechaBox() {
 			return this.$store.state.addEtapaBox
-		}
+		},
 	},
 	created() {},
 	methods: {
-		cancelar() {
+		fechar() {
 			this.$store.commit('luzToggle')
 			this.$store.commit('abreAdicionarEtapaBox')
+		}, 
+		novaEtapa(){
+			this.$store.dispatch('postNovaEtapa', this.novaEtapaInput)
 		}
+
 	}
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped> 
 div.AdicionarEtapa {
 	position: absolute;
 	top: 0;
@@ -127,7 +147,14 @@ div.AdicionarEtapa {
 				cursor: pointer;
 
 				&.cancelar { background-color: #fe4c4c; }
-				&.adicionar { background-color: #219653; }
+				&.adicionar { 
+					background-color: #219653; 
+					&:disabled{ 
+						background-color: #ececec;
+						color: #bdbdbd;
+						box-shadow: inset 0 -2px 2px rgba(222, 221, 221, 0.2)
+					}
+				}
 			}
 		}
 	}

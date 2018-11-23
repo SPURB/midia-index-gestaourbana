@@ -1,5 +1,5 @@
 <template>
-	<div class="app-projeto">
+	<div class="AdicionarProjeto">
 		<div class="cont">
 			<div class="title">
 				<h3>Adicionar projeto</h3>
@@ -77,7 +77,7 @@ export default {
 		adicionarProjeto(){ 
 			const projetoId =  Math.max(...this.projetosIds) + 1
 
-			this.$store.commit('SET_PROJETO', {
+			this.$store.dispatch('postNovoProjeto', {
 				ativo:1,
 				id: projetoId,
 				nome: this.nomeProjeto,
@@ -93,7 +93,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-div.app-projeto {
+div.AdicionarProjeto {
 	position: absolute;
 	top: 0;
 	left: -20px;

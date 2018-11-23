@@ -1,0 +1,31 @@
+export default {
+	data(){
+		return {
+			newUrls: []
+		}
+	},
+	props:{
+		idEtapa: {
+			type: Number,
+			required: true
+		} 
+	},
+	methods:{
+		addUrl() {
+			this.newUrls.push({})
+		},
+		charCount(evt) {
+			let txt = evt.target.value
+
+			let counter = evt.target.parentNode.lastElementChild
+			counter.innerText = txt.length + '/330'
+			if (txt.length > 330) {
+				counter.style.color = "#FE4C4C"
+				evt.target.style.borderColor = "#FE4C4C"
+			} else if (txt.length < 330) {
+				counter.style.color = "#898989"
+				evt.target.style.borderColor = "#DDD"
+			}
+		},
+	}
+}

@@ -2,7 +2,7 @@
 	<div class="Etapa" v-if="arquivosFiltrados.length > 0">
 		<div class="h-etapa">
 			<span>Etapa</span>
-			<h3><slot name="nomeEtapa"></slot></h3>
+			<input type="text" name="nome" v-model="nomeEtapa">
 			<div class="shortcode_expand">
 				<span>Shortcode da etapa <code @click="copiaSlug($event)">[arquivos-gu-{{ idProjeto }}.{{ idEtapa }}]</code></span>
 				<button @click="etapaCollapse($event)">&#9650;</button>
@@ -48,7 +48,10 @@
 			v-if="editarArquivo" 
 			:idEtapa="idEtapa"
 		></EditarArquivo>
-		<AdicionarArquivo v-if="abreNovoArquivo"></AdicionarArquivo>
+		<AdicionarArquivo 
+			v-if="abreNovoArquivo"
+			:idEtapa="idEtapa"
+			></AdicionarArquivo>
 	</div>
 </template>
 
@@ -86,8 +89,7 @@ export default {
 		abreNovoArquivo() { return this.$store.state.adicionarArquivoBox },
 		arquivos:{
 			get(){  
-				const indexEtapas = this.$store.state.projeto.etapas.findIndex(i => i.id === this.idEtapa);
-				return  this.$store.state.projeto.etapas[indexEtapas].arquivos
+				return  this.$store.state.projeto.etapas[this.indexEtapas(this.idEtapa)].arquivos
 			},
 			set(value){
 				this.$store.commit('REORDER_ARQUIVOS', {
@@ -101,9 +103,21 @@ export default {
 			return this.arquivos.filter(function(arquivo) {
 				return arquivo.nome.toLowerCase().indexOf(app.busca.toLowerCase()) >= 0;
 			})
+		},
+		nomeEtapa: {
+			get(){
+				return this.$store.state.projeto.etapas[this.indexEtapas(this.idEtapa)].nome
+			},
+			set(value){
+				this.$store.commit('UPDATE_ETAPA_NOME', {
+					indexEtapa: this.indexEtapas(this.idEtapa),
+					nome: value
+				})
+			}
 		}
-	},
+  	},
 	methods: {
+		indexEtapas(idEtapa) { return this.$store.state.projeto.etapas.findIndex(i => i.id === idEtapa) },
 		etapaCollapse(evt) {
 			let divEtapa = evt.target.parentNode.parentNode.parentNode
 			if (divEtapa.style.maxHeight != '40px') {
@@ -160,10 +174,18 @@ div.Etapa {
 			margin-right: 4px;
 		}
 
-		h3 {
-			display: inline-block;
+		input {
 			color: #FFF;
-			margin:0
+			background-color:#066898;
+			font-size: 13px;
+			font-weight: 700;
+			border: unset;
+			box-shadow: unset;
+			transition: background-color ease-in-out .2s;
+			&:hover{
+				background-color:#04415f;
+				cursor: pointer;
+			}
 		}
 
 		& > div.shortcode_expand {
@@ -182,7 +204,6 @@ div.Etapa {
 				transition: all ease-out .2s;
 				cursor: pointer;
 				transform-origin: center 61%;
-
 				&:hover { color: initial; }
 			}
 

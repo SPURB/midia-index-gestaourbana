@@ -14,11 +14,11 @@ export default {
 		}
 	},
 	mounted(){
-		this.$store.dispatch('FETCH_PROJETOS')
+		this.$store.dispatch('fetchProjetos')
 	},
 	watch:{
 		'$route'(to){
-			this.$store.dispatch('FETCH_INFO_PROJETO', to.params.id)
+			this.$store.dispatch('fetchInfoProjeto', to.params.id)
 		}
 	}
 };

@@ -19,7 +19,6 @@
 					:idProjeto="projeto.id"
 					:busca="busca"
 					>
-					<template slot="nomeEtapa">{{etapa.nome}}</template>
 				</Etapa>
 			</template>
 			<button class="adicionarEtapa" @click="insereEtapa()">+ Adicionar etapa</button>
@@ -48,10 +47,6 @@ export default {
 	data() {
 		return {
 			busca: ''
-			// etapasInput: [ { index: 0 } ],
-			// etapaCounter: 1,
-			// etapas: [],
-			// nProjetos: []
 		};
 	},
 	computed: {
@@ -59,8 +54,10 @@ export default {
 			get(){ return this.$store.state.projeto }
 			// , set(){ ... }
 		},
-		abreAdicionarEtapa() { return this.$store.state.addEtapaBox },
-
+		abreAdicionarEtapa: {
+			get() { return this.$store.state.addEtapaBox },
+			// , set(){ ... }
+		}
 	},
 	components: {
 		Etapa,

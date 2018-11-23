@@ -11,11 +11,17 @@
 							<label for="">Nome público</label>
 						</td>
 						<td>
-							<input type="text" @keyup="charCount($event)">
+							<input 
+								type="text" 
+								ref="nome" 
+								@keyup="charCount($event)" 
+								v-model="form.nome">
 							<span class="charCounter">0/330</span>
 						</td>
 					</tr>
-						<URL v-for="url in urls">URL ({{ url.index }})</URL>
+						<template v-for="(newUrl, index) in newUrls">
+							<URLnova :index="index"></URLnova>
+						</template>
 					<tr>
 						<td colspan="2">
 							<div class="addUrl" @click="addUrl()">+ Adicionar URL</div>
@@ -23,10 +29,15 @@
 					</tr>
 					<tr>
 						<td>
-							<label for="">Descrição</label>
+							<label for="descricao">Descrição</label>
 						</td>
 						<td>
-							<textarea name="" id="" @keyup="charCount($event)"></textarea>
+							<textarea 
+								name="descricao" 
+								id="descricao" 
+								@keyup="charCount($event)"
+								v-model="form.descricao"
+								></textarea>
 							<span class="charCounter">0/330</span>
 						</td>
 					</tr>
@@ -34,54 +45,43 @@
 			</form>
 			<div class="actions">
 				<button class="cancelar" @click="cancelar()">Cancelar</button>
-				<button class="adicionar">Adicionar</button>
+				<button class="adicionar" @click="teste">Adicionar</button>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import URL from '../components/URL.vue'
+import URLnova from '../components/URLnova.vue'
+import inputForms from '../mixins/inputForms'
 
 export default {
 	name: 'AdicionarArquivo',
-	data() {
+	data(){
 		return {
-			urls: [
-				{ 'index': 1, 'url': '', 'extensao': '' }
-			]
+			form: {
+				nome: '',
+				descricao: '',
+			},
+			newUrls: [{}]
 		}
 	},
 	components: {
-		URL,
+		URLnova
 	},
+	mixins:[ inputForms ],
 	computed: {
 		fechaBox() {
 			return this.$store.state.adicionarArquivoBox
 		}
 	},
-	created() {},
-	mounted() {},
-	updated() {},
 	methods: {
-		charCount(evt) {
-			let txt = evt.target.value
-			let counter = evt.target.parentNode.lastElementChild
-			counter.innerText = txt.length + '/330'
-			if (txt.length > 330) {
-				counter.style.color = "#FE4C4C"
-				evt.target.style.borderColor = "#FE4C4C"
-			} else if (txt.length < 330) {
-				counter.style.color = "#898989"
-				evt.target.style.borderColor = "#DDD"
-			}
-		},
-		addUrl() {
-			this.urls.push({ 'index': this.urls.length+1, 'url': '', 'extensao': '' })
-		},
 		cancelar() {
 			this.$store.commit('luzToggle')
 			this.$store.commit('abreAdicionarArquivoBox')
+		}, 
+		teste(){
+			console.log(this.nome)
 		}
 	}
 };
