@@ -45,7 +45,7 @@
 			</form>
 			<div class="actions">
 				<button class="cancelar" @click="cancelar()">Cancelar</button>
-				<button class="adicionar" @click="teste">Adicionar</button>
+				<button class="adicionar">Adicionar</button>
 			</div>
 		</div>
 	</div>
@@ -79,9 +79,6 @@ export default {
 		cancelar() {
 			this.$store.commit('luzToggle')
 			this.$store.commit('abreAdicionarArquivoBox')
-		}, 
-		teste(){
-			console.log(this.nome)
 		}
 	}
 };

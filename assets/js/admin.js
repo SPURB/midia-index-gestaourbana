@@ -693,9 +693,6 @@ if (false) {(function () {
 		cancelar() {
 			this.$store.commit('luzToggle');
 			this.$store.commit('abreAdicionarArquivoBox');
-		},
-		teste() {
-			console.log(this.nome);
 		}
 	}
 });
@@ -770,21 +767,92 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	name: 'UrlNova',
 	props: {
 		index: {
+			type: Number,
 			required: true
 		}
 	},
 	data() {
 		return {
-			output: {
-				url: '',
-				extensao: false
-			}
+			input: '',
+			displayExtensao: false,
+			displayExtensaoBox: false,
+			extensao: '',
+			extensaoFixa: true
 		};
+	},
+	watch: {
+		input(value) {
+			this.extensao = this.checkExtensao(value.replace(/ /g, '')); // remove espaços
+		},
+		extensao(value) {
+			value = value.toUpperCase();
+			if (value === '...' || value != '') {
+				this.displayExtensao = true;
+				this.displayExtensaoBox = false;
+			} else {
+				this.displayExtensao = false;
+				this.displayExtensaoBox = false;
+			}
+		}
+
+	},
+	computed: {
+		tiposDeArquivo() {
+			return this.$store.state.tiposDeArquivo;
+		}
+	},
+	methods: {
+		deletaUrl(evt) {
+			console.log(evt);
+		},
+		checkExtensao(url) {
+			const regexPattern = /\.([0-9a-z]+)(?:[\?#]|$)/i; // extensão  = apenas texto após o último ponto
+			const ext = url.match(regexPattern);
+			let extensao;
+
+			if (ext != null) {
+				extensao = url.match(regexPattern)[1].toUpperCase();
+				extensao === 'RAR' || extensao === 'ZIP' ? extensao = "..." : extensao = extensao;
+				extensao === '...' ? this.extensaoFixa = false : this.extensaoFixa = true;
+			} else {
+				extensao = 'URL';
+			}
+			return extensao;
+		},
+		alteraTipoDeArq(ext) {
+			console.log(ext);
+			this.displayExtensaoBox = false;
+			this.extensao = ext;
+		},
+		openBox() {
+			this.extensaoFixa ? this.displayExtensaoBox = false : this.displayExtensaoBox = true;
+		}
 	}
 });
 
@@ -957,6 +1025,7 @@ exports.default = {
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	name: 'URL',
@@ -990,8 +1059,11 @@ exports.default = {
 		}
 	},
 	methods: {
+		deletaUrl(evt) {
+			console.log(evt);
+		},
 		displayExtensao(arquivo) {
-			const extensaoFromUrl = this.extensao(arquivo.url);
+			const extensaoFromUrl = this.checkExtensao(arquivo.url.replace(/ /g, ''));
 			const extensaoState = arquivo.extensao;
 
 			if (extensaoFromUrl === 'ZIP' || extensaoFromUrl === 'RAR') {
@@ -1003,30 +1075,24 @@ exports.default = {
 				return false;
 			}
 		},
-		extensao(url) {
+		checkExtensao(url) {
 			const regexPattern = /\.([0-9a-z]+)(?:[\?#]|$)/i;
 			const ext = url.match(regexPattern);
 			let extensao;
 
 			if (ext != null) {
 				extensao = url.match(regexPattern)[1].toUpperCase();
-				// if(extensao === 'ZIP' || extensao === 'RAR'){
-				// set this.urlArquivoClicado.urls
-				// }
 			} else {
 				extensao = 'URL';
 			}
-
 			return extensao;
 		},
 		getIndex(arr, fileId) {
 			return arr.findIndex(item => parseInt(item.id) === fileId);
 		},
 		alteraTipoDeArq(ext) {
-			// console.log(ext)
 			this.extensaoBoxShow.state = false;
 			this.extensaoBoxShow.text = ext;
-
 			this.$store.commit('SET_ARQUIVO_EXTENSION', {
 				idUrl: this.idUrl,
 				extensao: ext
@@ -1098,7 +1164,6 @@ exports.default = {
 			return this.$store.state.addEtapaBox;
 		}
 	},
-	created() {},
 	methods: {
 		fechar() {
 			this.$store.commit('luzToggle');
@@ -1908,21 +1973,103 @@ var render = function() {
           {
             name: "model",
             rawName: "v-model",
-            value: _vm.output.url,
-            expression: "output.url"
+            value: _vm.input,
+            expression: "input"
           }
         ],
         attrs: { type: "text", name: "url" },
-        domProps: { value: _vm.output.url },
+        domProps: { value: _vm.input },
         on: {
           input: function($event) {
             if ($event.target.composing) {
               return
             }
-            _vm.$set(_vm.output, "url", $event.target.value)
+            _vm.input = $event.target.value
           }
         }
-      })
+      }),
+      _vm._v(" "),
+      _vm.displayExtensao
+        ? _c("div", [
+            _c(
+              "span",
+              {
+                class: { extensao_fixa: _vm.extensaoFixa },
+                attrs: { disabled: _vm.extensaoFixa },
+                on: {
+                  click: function($event) {
+                    _vm.openBox()
+                  }
+                }
+              },
+              [_vm._v(_vm._s(_vm.extensao) + " ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.displayExtensaoBox,
+                    expression: "displayExtensaoBox"
+                  }
+                ],
+                ref: "extensaoBox",
+                staticClass: "arquivo_extensao-box",
+                class: { display: _vm.displayExtensaoBox }
+              },
+              [
+                _vm._v("Selecione a extensão do arquivo\n\t\t\t\t"),
+                _c(
+                  "i",
+                  {
+                    on: {
+                      click: function($event) {
+                        _vm.displayExtensaoBox = !_vm.displayExtensaoBox
+                      }
+                    }
+                  },
+                  [_vm._v("×")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "opcoes" },
+                  _vm._l(_vm.tiposDeArquivo, function(extensao) {
+                    return _c(
+                      "span",
+                      {
+                        on: {
+                          click: function($event) {
+                            _vm.alteraTipoDeArq(extensao)
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(extensao))]
+                    )
+                  })
+                )
+              ]
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.displayExtensao
+        ? _c(
+            "a",
+            {
+              staticClass: "excluirUrl",
+              on: {
+                click: function($event) {
+                  _vm.deletaUrl($event)
+                }
+              }
+            },
+            [_c("span", [_vm._v("×")])]
+          )
+        : _vm._e()
     ])
   ])
 }
@@ -2065,9 +2212,7 @@ var render = function() {
             [_vm._v("Cancelar")]
           ),
           _vm._v(" "),
-          _c("button", { staticClass: "adicionar", on: { click: _vm.teste } }, [
-            _vm._v("Adicionar")
-          ])
+          _c("button", { staticClass: "adicionar" }, [_vm._v("Adicionar")])
         ])
       ])
     ]
@@ -2289,7 +2434,7 @@ var render = function() {
                 class: { display: _vm.extensaoBoxShow.state }
               },
               [
-                _vm._v("\n\t\t\t\tSelecione a extensão do arquivo "),
+                _vm._v("\n\t\t\t\tSelecione a extensão do arquivo \n\t\t\t\t"),
                 _c(
                   "i",
                   {
@@ -2324,12 +2469,12 @@ var render = function() {
           ])
         : _c("div", [
             _c("span", { staticClass: "extensao_fixa" }, [
-              _vm._v(_vm._s(_vm.extensao(_vm.urlArquivoClicado.url)))
+              _vm._v(_vm._s(_vm.checkExtensao(_vm.urlArquivoClicado.url)))
             ])
           ]),
       _vm._v(" "),
       _c(
-        "button",
+        "a",
         {
           staticClass: "excluirUrl",
           on: {
@@ -2338,7 +2483,7 @@ var render = function() {
             }
           }
         },
-        [_vm._v("×")]
+        [_c("span", [_vm._v("×")])]
       )
     ])
   ])

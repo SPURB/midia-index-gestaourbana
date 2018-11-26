@@ -51,9 +51,8 @@ export default {
 	computed: {
 		fechaBox() {
 			return this.$store.state.addEtapaBox
-		},
+		}
 	},
-	created() {},
 	methods: {
 		fechar() {
 			this.$store.commit('luzToggle')
