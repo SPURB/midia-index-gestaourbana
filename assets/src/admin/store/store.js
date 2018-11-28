@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import api from '../utils/api'
-import apiFake from '../utils/apiFake'
+import api from '../utils/api'
+// import apiFake from '../utils/apiFake'
 
 Vue.use(Vuex)
 
 let store = new Vuex.Store({
 	state: {
-		projeto: {},
+		projeto: false,
 		arquivoClicado: undefined,
 		projetos: [],
 		tiposDeArquivo: [
@@ -22,6 +22,7 @@ let store = new Vuex.Store({
 		adicionarArquivoBox: false,
 		addEtapaBox: false,
 		addProjetoBox: false,
+		serverResponse: false
 	},
 	getters: {
 		wordpressUserSettings() { return userSettings },
@@ -64,8 +65,42 @@ let store = new Vuex.Store({
 				}
 			})
 		},
-		SET_PROJETOS: (state, response) => { state.projetos = response.data },
-		SET_INFO_PROJETO: (state, response) => { state.projeto = response.data },
+		SET_PROJETOS: (state, response) => { 
+			state.projetos = response.data.map(index => {
+				index.id = parseInt(index.id)
+				index.ativo = parseInt(index.ativo)
+				index.wordpress_user_id = parseInt(index.wordpress_user_id)
+				return index
+			})
+		},
+		SET_INFO_PROJETO: (state, response) => { 
+			let projeto = response.data
+			projeto.id = parseInt(projeto.id)
+			projeto.ativo = parseInt(projeto.ativo)
+			projeto.wordpress_user_id = parseInt(projeto.wordpress_user_id)
+			projeto.etapas = projeto.etapas.map(function(etapa) {
+				etapa.id = parseInt(etapa.id)
+				etapa.idProjeto = parseInt(etapa.idProjeto)
+				let arquivos = () => {
+					for (let key in etapa.arquivos) {
+						etapa.arquivos[key].id = parseInt(etapa.arquivos[key].id)
+						etapa.arquivos[key].idEtapa = parseInt(etapa.arquivos[key].idEtapa)
+						etapa.arquivos[key].posicao = parseInt(etapa.arquivos[key].posicao)
+					}
+					return etapa.arquivos
+				}
+				etapa.arquivos = arquivos()
+				return etapa
+			})
+			state.projeto = projeto
+		},
+		SET_PROJETO: (state, res, status) => {
+			/* 
+			alterar action -> POST PROJETO
+			*/
+			console.log(res)
+			'error' ? state.serverResponse = res.response.data : state.serverResponse = false
+		},
 		SET_ARQUIVO: (state, arquivo) => { 
 			const etapas = state.projeto.etapas;
 			const indexEtapas = etapas.findIndex(i => i.id === arquivo.idEtapa);
@@ -80,13 +115,7 @@ let store = new Vuex.Store({
 			const indexUrl = state.arquivoClicado.urls.findIndex(i => parseInt(i.id) === parseInt(obj.idUrl) )
 			state.arquivoClicado.urls[indexUrl].extensao = obj.extensao
 		},
-		SET_PROJETO: (state, obj) => {
-			/* 
-			alterar action -> POST PROJETO, se 200 state.projetos.push(response)
-			este push(obj). Este 'obj' deve ser o 'response' do POST
-			*/
-			console.log(obj)
-		},
+
 		SET_NOVA_ETAPA: (state, nome) => {
 			/* 
 			alterar action -> POST ETAPA
@@ -101,8 +130,7 @@ let store = new Vuex.Store({
 	},
 	actions: {
 		fetchProjetos: state =>{
-//			api.get('projetos')
-			apiFake.get('?data=projetos')
+			api.get('projetos')
 				.then(response => {
 					state.commit('SET_PROJETOS', response)
 				})
@@ -110,13 +138,12 @@ let store = new Vuex.Store({
 					console.log(error)
 				})
 				.then(() => {
-					// fim de fetch 
 				}
 			)
 		},
 		fetchInfoProjeto: (state, id) => {
-//			api.get('projeto/'+id)
-			apiFake.get('?data=projeto/'+id)
+			api.get('projetos/'+id)
+			// apiFake.get('?data=projeto/'+id)
 				.then(response => {
 					state.commit('SET_INFO_PROJETO', response)
 				})
@@ -124,23 +151,23 @@ let store = new Vuex.Store({
 					console.log(error)
 				})
 				.then(() => {
-					// fim de fetch 
 				}
 			)
 		},
-		postNovoProjeto: ( state, obj ) => {
-			state.commit('SET_PROJETO', obj)
-			// api.post(obj)
-			// 	.then(response => {
-			// 		state.commit('SET_PROJETO', response)
-			// 	})
-			// 	.catch(error => {
-			// 		console.log(error)
-			// 	})
-			// 	.then(() => {
-			// 		// fim de fetch
-			// 	}
-			// )
+		postNovoProjeto: ( state, projeto, status ) => {
+			// state.commit('SET_PROJETO', obj)
+
+			api.post('/projetos', projeto)
+				.then(response => {
+					console.log(response)
+					state.commit('SET_PROJETO', response)
+				})
+				.catch(error => {
+					state.commit('SET_PROJETO', error, 'error')
+				})
+				.then(() => {
+				}
+			)
 		},
 		postNovaEtapa: ( state, nome ) =>{
 			state.commit('SET_NOVA_ETAPA', nome)

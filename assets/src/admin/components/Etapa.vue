@@ -89,7 +89,7 @@ export default {
 		abreNovoArquivo() { return this.$store.state.adicionarArquivoBox },
 		arquivos:{
 			get(){  
-				return  this.$store.state.projeto.etapas[this.indexEtapas(this.idEtapa)].arquivos
+				return this.$store.state.projeto.etapas[this.indexEtapas(this.idEtapa)].arquivos
 			},
 			set(value){
 				this.$store.commit('REORDER_ARQUIVOS', {
@@ -115,7 +115,7 @@ export default {
 				})
 			}
 		}
-  	},
+	},
 	methods: {
 		indexEtapas(idEtapa) { return this.$store.state.projeto.etapas.findIndex(i => i.id === idEtapa) },
 		etapaCollapse(evt) {

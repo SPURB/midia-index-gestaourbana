@@ -287,6 +287,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 
@@ -306,9 +307,10 @@ if (false) {(function () {
 				return this.$store.state.projetos.map(index => index.nome.toLowerCase());
 			}
 		},
-		projetosIds() {
-			return this.$store.state.projetos.map(index => parseInt(index.id));
+		serverResponse() {
+			return this.$store.state.serverResponse;
 		}
+		// projetosIds() { return  this.$store.state.projetos.map( index => parseInt(index.id) ) } 
 	},
 	watch: {
 		nomeProjeto(nome) {
@@ -331,18 +333,21 @@ if (false) {(function () {
 			this.$store.commit('luzToggle');
 		},
 		adicionarProjeto() {
-			const projetoId = Math.max(...this.projetosIds) + 1;
+			// const projetoId =  Math.max(...this.projetosIds) + 1
 
 			this.$store.dispatch('postNovoProjeto', {
-				ativo: 1,
-				id: projetoId,
 				nome: this.nomeProjeto,
-				atualizacao: this.$store.getters.dataFormatada,
 				wordpress_user_id: this.$store.getters.wordpressUserSettings.uid
 			});
 
-			this.fechaNovoProjetoBox();
-			this.$router.push({ path: '/projeto/' + projetoId });
+			/* 	post { nome: this.nome }
+   	reposta 
+   		ok 	router pusn
+   		err mensagem de erro
+   */
+
+			// this.fechaNovoProjetoBox()
+			// this.$router.push({ path: '/projeto/' +  projetoId })
 		}
 	}
 });
@@ -1511,7 +1516,7 @@ var render = function() {
               }
             },
             [
-              _vm._v("[tabel id=<"),
+              _vm._v("[table id=<"),
               _c("span", { staticStyle: { color: "#0073aa" } }, [
                 _vm._v("número da ID")
               ]),
@@ -1555,6 +1560,12 @@ var render = function() {
         _vm.message
           ? _c("p", { staticClass: "mensagem-erro" }, [
               _vm._v(_vm._s(_vm.message))
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.serverResponse
+          ? _c("p", { staticClass: "mensagem-erro" }, [
+              _vm._v(_vm._s(_vm.serverResponse))
             ])
           : _vm._e()
       ]),
@@ -3326,19 +3337,19 @@ var _vuex = __webpack_require__(7);
 
 var _vuex2 = _interopRequireDefault(_vuex);
 
-var _apiFake = __webpack_require__(68);
+var _api = __webpack_require__(102);
 
-var _apiFake2 = _interopRequireDefault(_apiFake);
+var _api2 = _interopRequireDefault(_api);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_vue2.default.use(_vuex2.default);
-// import api from '../utils/api'
+// import apiFake from '../utils/apiFake'
 
+_vue2.default.use(_vuex2.default);
 
 var store = new _vuex2.default.Store({
 	state: {
-		projeto: {},
+		projeto: false,
 		arquivoClicado: undefined,
 		projetos: [],
 		tiposDeArquivo: ['PDF', 'KML', 'SHP', 'DOC', 'XLS'],
@@ -3346,7 +3357,8 @@ var store = new _vuex2.default.Store({
 		editArquivoBox: false,
 		adicionarArquivoBox: false,
 		addEtapaBox: false,
-		addProjetoBox: false
+		addProjetoBox: false,
+		serverResponse: false
 	},
 	getters: {
 		wordpressUserSettings: function wordpressUserSettings() {
@@ -3399,10 +3411,40 @@ var store = new _vuex2.default.Store({
 		},
 
 		SET_PROJETOS: function SET_PROJETOS(state, response) {
-			state.projetos = response.data;
+			state.projetos = response.data.map(function (index) {
+				index.id = parseInt(index.id);
+				index.ativo = parseInt(index.ativo);
+				index.wordpress_user_id = parseInt(index.wordpress_user_id);
+				return index;
+			});
 		},
 		SET_INFO_PROJETO: function SET_INFO_PROJETO(state, response) {
-			state.projeto = response.data;
+			var projeto = response.data;
+			projeto.id = parseInt(projeto.id);
+			projeto.ativo = parseInt(projeto.ativo);
+			projeto.wordpress_user_id = parseInt(projeto.wordpress_user_id);
+			projeto.etapas = projeto.etapas.map(function (etapa) {
+				etapa.id = parseInt(etapa.id);
+				etapa.idProjeto = parseInt(etapa.idProjeto);
+				var arquivos = function arquivos() {
+					for (var key in etapa.arquivos) {
+						etapa.arquivos[key].id = parseInt(etapa.arquivos[key].id);
+						etapa.arquivos[key].idEtapa = parseInt(etapa.arquivos[key].idEtapa);
+						etapa.arquivos[key].posicao = parseInt(etapa.arquivos[key].posicao);
+					}
+					return etapa.arquivos;
+				};
+				etapa.arquivos = arquivos();
+				return etapa;
+			});
+			state.projeto = projeto;
+		},
+		SET_PROJETO: function SET_PROJETO(state, res, status) {
+			/* 
+   alterar action -> POST PROJETO
+   */
+			console.log(res);
+			'error' ? state.serverResponse = res.response.data : state.serverResponse = false;
 		},
 		SET_ARQUIVO: function SET_ARQUIVO(state, arquivo) {
 			var etapas = state.projeto.etapas;
@@ -3426,13 +3468,7 @@ var store = new _vuex2.default.Store({
 			});
 			state.arquivoClicado.urls[indexUrl].extensao = obj.extensao;
 		},
-		SET_PROJETO: function SET_PROJETO(state, obj) {
-			/* 
-   alterar action -> POST PROJETO, se 200 state.projetos.push(response)
-   este push(obj). Este 'obj' deve ser o 'response' do POST
-   */
-			console.log(obj);
-		},
+
 		SET_NOVA_ETAPA: function SET_NOVA_ETAPA(state, nome) {
 			/* 
    alterar action -> POST ETAPA
@@ -3449,38 +3485,30 @@ var store = new _vuex2.default.Store({
 	},
 	actions: {
 		fetchProjetos: function fetchProjetos(state) {
-			//			api.get('projetos')
-			_apiFake2.default.get('?data=projetos').then(function (response) {
+			_api2.default.get('projetos').then(function (response) {
 				state.commit('SET_PROJETOS', response);
 			}).catch(function (error) {
 				console.log(error);
-			}).then(function () {
-				// fim de fetch 
-			});
+			}).then(function () {});
 		},
 		fetchInfoProjeto: function fetchInfoProjeto(state, id) {
-			//			api.get('projeto/'+id)
-			_apiFake2.default.get('?data=projeto/' + id).then(function (response) {
+			_api2.default.get('projetos/' + id)
+			// apiFake.get('?data=projeto/'+id)
+			.then(function (response) {
 				state.commit('SET_INFO_PROJETO', response);
 			}).catch(function (error) {
 				console.log(error);
-			}).then(function () {
-				// fim de fetch 
-			});
+			}).then(function () {});
 		},
-		postNovoProjeto: function postNovoProjeto(state, obj) {
-			state.commit('SET_PROJETO', obj);
-			// api.post(obj)
-			// 	.then(response => {
-			// 		state.commit('SET_PROJETO', response)
-			// 	})
-			// 	.catch(error => {
-			// 		console.log(error)
-			// 	})
-			// 	.then(() => {
-			// 		// fim de fetch
-			// 	}
-			// )
+		postNovoProjeto: function postNovoProjeto(state, projeto, status) {
+			// state.commit('SET_PROJETO', obj)
+
+			_api2.default.post('/projetos', projeto).then(function (response) {
+				console.log(response);
+				state.commit('SET_PROJETO', response);
+			}).catch(function (error) {
+				state.commit('SET_PROJETO', error, 'error');
+			}).then(function () {});
 		},
 		postNovaEtapa: function postNovaEtapa(state, nome) {
 			state.commit('SET_NOVA_ETAPA', nome);
@@ -3502,31 +3530,7 @@ var store = new _vuex2.default.Store({
 exports.default = store;
 
 /***/ }),
-/* 68 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _axios = __webpack_require__(24);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = _axios2.default.create({
-  baseURL: "http://spurbcp13343:7080/fake/",
-  timeout: 5000,
-  headers: {
-    'Content-Type': 'application/json'
-  }
-});
-
-/***/ }),
+/* 68 */,
 /* 69 */,
 /* 70 */,
 /* 71 */,
@@ -3588,6 +3592,54 @@ function menuFix(slug) {
 }
 
 exports.default = menuFix;
+
+/***/ }),
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _config = __webpack_require__(103);
+
+var _axios = __webpack_require__(24);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _axios2.default.create({
+  baseURL: _config.baseURL,
+  timeout: 5000,
+  headers: {
+    'token': _config.token,
+    'Content-Type': 'application/json'
+  }
+});
+
+/***/ }),
+/* 103 */
+/***/ (function(module, exports) {
+
+module.exports = {"proxyURL":"http://spurbcp13343:7080/wp_teste_plugins/wp-admin/admin.php?page=indexador-gestao-urbana","baseURL":"http://spurbcp13343:7080/consultas-publicas-backend/","token":"59095394d3501cd705419e06e8913165"}
 
 /***/ })
 ],[30]);

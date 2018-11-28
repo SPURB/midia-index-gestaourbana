@@ -6,7 +6,7 @@
 			</div>
 			<div class="conteudo">
 				<p>Criação de um projeto e suas etapas. Ao criar as etapas, elas serão numeradas em ordem crescente.</p>
-				<p>Para inserir os links em um post, copie o Shortcode <code @click="copiaSlug($event)">[tabel id=&lt;<span style="color: #0073aa;">número da ID</span>&gt;/]</code> e cole no lugar desejado. Cada lista/tabela tem um único Shortcode.</p>		
+				<p>Para inserir os links em um post, copie o Shortcode <code @click="copiaSlug($event)">[table id=&lt;<span style="color: #0073aa;">número da ID</span>&gt;/]</code> e cole no lugar desejado. Cada lista/tabela tem um único Shortcode.</p>		
 				<form>
 					<fieldset>
 						<input 
@@ -18,6 +18,7 @@
 					</fieldset>
 				</form>
 				<p class="mensagem-erro" v-if="message">{{ message }}</p>
+				<p class="mensagem-erro" v-if="serverResponse">{{ serverResponse }}</p>
 			</div>
 			<div class="actions">
 				<button 
@@ -51,9 +52,8 @@ export default {
 				return this.$store.state.projetos.map(index => index.nome.toLowerCase() )
 			}
 		},
-		projetosIds() { 
-			return  this.$store.state.projetos.map( index => parseInt(index.id) )
-		} 
+		serverResponse(){ return this.$store.state.serverResponse }
+		// projetosIds() { return  this.$store.state.projetos.map( index => parseInt(index.id) ) } 
 	},
 	watch:{
 		nomeProjeto(nome){
@@ -75,18 +75,22 @@ export default {
 			this.$store.commit('luzToggle')
 		},
 		adicionarProjeto(){ 
-			const projetoId =  Math.max(...this.projetosIds) + 1
+			// const projetoId =  Math.max(...this.projetosIds) + 1
 
 			this.$store.dispatch('postNovoProjeto', {
-				ativo:1,
-				id: projetoId,
 				nome: this.nomeProjeto,
-				atualizacao: this.$store.getters.dataFormatada,
-				wordpress_user_id: this.$store.getters.wordpressUserSettings.uid
+				wordpress_user_id: this.$store.getters.wordpressUserSettings.uid,
+				// token:token
 			}) 
 
-			this.fechaNovoProjetoBox()
-			this.$router.push({ path: '/projeto/' +  projetoId })
+			/* 	post { nome: this.nome }
+				reposta 
+					ok 	router pusn
+					err mensagem de erro
+			*/
+
+			// this.fechaNovoProjetoBox()
+			// this.$router.push({ path: '/projeto/' +  projetoId })
 		}
 	}
 };
