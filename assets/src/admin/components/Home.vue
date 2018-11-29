@@ -37,17 +37,22 @@
 			</tr>
 		</table>
 		<AdicionarProjeto v-if="abreAddProjetoBox"></AdicionarProjeto>
+		<SalvarCancelar 
+			:salvar="{ text: 'Salvar disponibilidade de arquivos' }" 
+			:cancelar="{ display: false }"></SalvarCancelar>
 	</div>
 </template>
 
 <script>
 import AdicionarProjeto from '../components/AdicionarProjeto.vue'
+import SalvarCancelar from '../components/SalvarCancelar.vue'
 import trataSlug from '../mixins/trataSlug'
 
 export default {
 	name: 'Home',
 	components: {
 		AdicionarProjeto,
+		SalvarCancelar
 	},
 	mixins:[ trataSlug ],
 	data(){

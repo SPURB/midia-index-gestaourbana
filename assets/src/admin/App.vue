@@ -9,9 +9,7 @@
 export default {
 	name: 'App',
 	computed: {
-		luzToggle() {
-			return this.$store.state.apagaLuz
-		}
+		luzToggle() { return this.$store.state.apagaLuz }
 	},
 	mounted(){
 		this.$store.dispatch('fetchProjetos')

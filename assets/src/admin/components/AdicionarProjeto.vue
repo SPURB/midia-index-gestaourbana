@@ -10,20 +10,23 @@
 				<form>
 					<fieldset>
 						<input 
+							@keyup.esc="fechaNovoProjetoBox"
 							type="text" 
 							id="nome" 
+							ref="nome"
 							placeholder="Digite o nome do projeto"
 							v-model="nomeProjeto"
 							/>
 					</fieldset>
 				</form>
 				<p class="mensagem-erro" v-if="message">{{ message }}</p>
-				<p class="mensagem-erro" v-if="serverResponse">{{ serverResponse }}</p>
+				<p class="mensagem-erro" v-if="serverError">{{ serverError }}</p>
 			</div>
 			<div class="actions">
 				<button 
 					class="cancelar" 
-					@click="fechaNovoProjetoBox">Cancelar</button>
+					@click="fechaNovoProjetoBox"
+					>Cancelar</button>
 				<button 
 					:disabled="disabled" 
 					class="adicionar"
@@ -52,10 +55,13 @@ export default {
 				return this.$store.state.projetos.map(index => index.nome.toLowerCase() )
 			}
 		},
-		serverResponse(){ return this.$store.state.serverResponse }
-		// projetosIds() { return  this.$store.state.projetos.map( index => parseInt(index.id) ) } 
+		uid(){ return this.$store.getters.wordpressUserSettings.uid },
+		isfetching(){ return this.$store.state.fetching },
+		serverResponse(){ return this.$store.state.serverResponse },
+		serverError(){	return this.$store.state.serverError },
 	},
 	watch:{
+		isfetching(status){ status ? this.message = 'carregando' : this.message = false },
 		nomeProjeto(nome){
 			const nomeCaixaBaixa = nome.toLowerCase()
 			const nomeIgual = this.projetosNomes.find(function(index) { return index == nomeCaixaBaixa })
@@ -67,31 +73,31 @@ export default {
 				this.message = 'O projeto "' + nome + '" já existe. Escolha outro nome.';
 				this.disabled = true 
 			}
+		},
+		serverResponse(val) {
+			if(val != false){ 
+				this.changeRoute()
+			}
 		}
 	},
+	mounted(){ this.setFocusToInput() },
 	methods: {
 		fechaNovoProjetoBox() {
+			this.$store.dispatch('fetchProjetos')
 			this.$store.commit('abreAdicionarProjetoBox')
 			this.$store.commit('luzToggle')
 		},
 		adicionarProjeto(){ 
-			// const projetoId =  Math.max(...this.projetosIds) + 1
-
 			this.$store.dispatch('postNovoProjeto', {
 				nome: this.nomeProjeto,
-				wordpress_user_id: this.$store.getters.wordpressUserSettings.uid,
-				// token:token
-			}) 
-
-			/* 	post { nome: this.nome }
-				reposta 
-					ok 	router pusn
-					err mensagem de erro
-			*/
-
-			// this.fechaNovoProjetoBox()
-			// this.$router.push({ path: '/projeto/' +  projetoId })
-		}
+				wordpress_user_id: this.uid
+			})
+		},
+		changeRoute(){
+			this.fechaNovoProjetoBox()
+			this.$router.push({ path: '/projeto/' +  this.serverResponse })
+		},
+		setFocusToInput(){this.$refs.nome.focus()},
 	}
 };
 </script>

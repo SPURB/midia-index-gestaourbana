@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import api from '../utils/api'
-// import apiFake from '../utils/apiFake'
 
 Vue.use(Vuex)
 
@@ -22,7 +21,9 @@ let store = new Vuex.Store({
 		adicionarArquivoBox: false,
 		addEtapaBox: false,
 		addProjetoBox: false,
-		serverResponse: false
+		serverResponse: false,
+		serverError: false,
+		fetching: true
 	},
 	getters: {
 		wordpressUserSettings() { return userSettings },
@@ -65,6 +66,9 @@ let store = new Vuex.Store({
 				}
 			})
 		},
+		SET_FECHING_STATUS: (state, status) => {
+			state.fetching = status
+		}, 
 		SET_PROJETOS: (state, response) => { 
 			state.projetos = response.data.map(index => {
 				index.id = parseInt(index.id)
@@ -94,13 +98,8 @@ let store = new Vuex.Store({
 			})
 			state.projeto = projeto
 		},
-		SET_PROJETO: (state, res, status) => {
-			/* 
-			alterar action -> POST PROJETO
-			*/
-			console.log(res)
-			'error' ? state.serverResponse = res.response.data : state.serverResponse = false
-		},
+		SET_ERROR: (state, error) => { state.serverError = error.data },
+		SET_PROJETO: (state, res) => { state.serverResponse = res.data },
 		SET_ARQUIVO: (state, arquivo) => { 
 			const etapas = state.projeto.etapas;
 			const indexEtapas = etapas.findIndex(i => i.id === arquivo.idEtapa);
@@ -130,43 +129,28 @@ let store = new Vuex.Store({
 	},
 	actions: {
 		fetchProjetos: state =>{
+			state.commit('SET_FECHING_STATUS', true)
 			api.get('projetos')
-				.then(response => {
-					state.commit('SET_PROJETOS', response)
-				})
-				.catch(error => { 
-					console.log(error)
-				})
-				.then(() => {
+				.then(response => { state.commit('SET_PROJETOS', response) })
+				.catch(error => { state.commit('SET_ERROR', error)})
+				.then(() => {state.commit('SET_FECHING_STATUS', false)
 				}
 			)
 		},
 		fetchInfoProjeto: (state, id) => {
+			state.commit('SET_FECHING_STATUS', true)
 			api.get('projetos/'+id)
-			// apiFake.get('?data=projeto/'+id)
-				.then(response => {
-					state.commit('SET_INFO_PROJETO', response)
-				})
-				.catch(error => { 
-					console.log(error)
-				})
-				.then(() => {
-				}
+				.then(response => { state.commit('SET_INFO_PROJETO', response)})
+				.catch(error => { state.commit('SET_ERROR', error) })
+				.then(() => { state.commit('SET_FECHING_STATUS', false)}
 			)
 		},
-		postNovoProjeto: ( state, projeto, status ) => {
-			// state.commit('SET_PROJETO', obj)
-
+		postNovoProjeto: ( state, projeto ) => {
+			state.commit('SET_FECHING_STATUS', true)
 			api.post('/projetos', projeto)
-				.then(response => {
-					console.log(response)
-					state.commit('SET_PROJETO', response)
-				})
-				.catch(error => {
-					state.commit('SET_PROJETO', error, 'error')
-				})
-				.then(() => {
-				}
+				.then(response => { state.commit('SET_PROJETO', response )})
+				.catch(error => { state.commit('SET_ERROR', error)})
+				.then(() => {state.commit('SET_FECHING_STATUS', false)}
 			)
 		},
 		postNovaEtapa: ( state, nome ) =>{

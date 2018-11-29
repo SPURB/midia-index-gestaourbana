@@ -14,6 +14,8 @@ log.txt
 /dist
 /tmp
 /build
+/assets/css/
+/assets/js/
 
 # Dependencies #
 ###################
