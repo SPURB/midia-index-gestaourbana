@@ -1,5 +1,5 @@
 <template>
-	<div class="Etapa" v-if="arquivosFiltrados.length > 0">
+	<div class="Etapa">
 		<div class="h-etapa">
 			<span>Etapa</span>
 			<input type="text" name="nome" v-model="nomeEtapa">

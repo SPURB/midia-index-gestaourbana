@@ -75,7 +75,7 @@ export default {
 			}
 		},
 		serverResponse(val) {
-			if(val != false){ 
+			if(val){ 
 				this.changeRoute()
 			}
 		}

@@ -23,10 +23,30 @@
 			</template>
 			<button class="adicionarEtapa" @click="insereEtapa()">+ Adicionar etapa</button>
 		</section>
-		<section class="acoes">
+
+<!-- 		<section class="acoes">
 			<router-link to='/' tag='a'>Cancelar</router-link>
 			<a>Salvar</a>
+		</section> -->
+
+		<section class="acoes">
+			<SalvarCancelar 
+				:tipo="'cancelar'"
+				:texto="'Cancelar'"
+				:disabledState="false"
+				:commitName="'RESET_PROJETO'">
+			</SalvarCancelar>
+			<SalvarCancelar 
+				:tipo="'salvar'"
+				:texto="'Salvar'"
+				:disabledState="false"
+				:actionName="{
+					name: 'putProjeto',
+					parameter: {}
+				}">
+			</SalvarCancelar>
 		</section>
+
 		<!-- <Modal class="erro">
 			<template slot="header">Campos não preenchidos</template>
 			<template slot="msg">Por favor, preencha todos os campos.</template>
@@ -39,6 +59,7 @@
 import Etapa from '../components/Etapa.vue'
 import AdicionarEtapa from '../components/AdicionarEtapa.vue'
 import Modal from '../components/Modal.vue'
+import SalvarCancelar from '../components/SalvarCancelar.vue'
 import trataSlug from '../mixins/trataSlug'
 
 export default {
@@ -62,7 +83,8 @@ export default {
 	components: {
 		Etapa,
 		AdicionarEtapa,
-		Modal
+		Modal,
+		SalvarCancelar
 	},
 	methods: {
 		insereEtapa() {
@@ -137,33 +159,6 @@ div.Projeto {
 			height: 100%;
 			border-radius: 20px;
 			background: rgba(0, 0, 0, .4);
-		}
-	}
-
-	section.acoes {
-		width: 100%;
-		a {
-			text-decoration: none;
-			margin: 0;
-			font-family: inherit;
-			font-size: large;
-			border: 0;
-			padding: 20px 32px;
-			border-radius: 2px;
-			cursor: pointer;
-			color: #FFF;
-			box-shadow: inset 0 -2px 2px rgba(0, 0, 0, .24);
-			position: relative;
-			overflow: hidden;
-			&:first-child { float: left; background-color: #FE4C4C; }
-			&:last-child { float: right; background-color: #219653; }
-
-			&.disabled {
-				opacity: .4;
-				-moz-user-select: none;
-				user-select: none;
-				cursor: not-allowed;
-			}
 		}
 	}
 }

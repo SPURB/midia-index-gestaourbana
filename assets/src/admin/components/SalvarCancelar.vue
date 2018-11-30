@@ -1,59 +1,86 @@
 <template>
-	<section class="SalvarCancelar">
-		<a v-show="cancelar.display">{{ cancelar.text }}</a>
-		<a>{{ salvar.text  }}</a>
+	<div class="SalvarCancelar">
+		<a  :class="[tipo, { disabled: disabledState }]"
+			:style="inlinestyle"
+			:disabled="disabledState"
+			@click="commitOrAction"
+			>{{ texto }}</a>
 		<div v-if="isFetching">fetching</div>
-	</section>
+	</div>
 </template>
 <script>
 
 export default{
 	name:"SalvarCancelar",
 	props:{
-		salvar: {
-			type: Object,
+		tipo:{
 			required: true,
-			display:{
-				type: Boolean,
-				required: false,
-				default: true
-			},
-			action: {
-				type: Function,
-				required: false
-			},
-			text: {
-				required: true,
-				type: String,
-			}
+			type: String, 
+			validator: valido =>  [
+				'salvar', 
+				'cancelar'
+			].indexOf(valido) !== -1  // strings válidas para cancelar ou salvar
 		},
-		cancelar: {
-			type: Object,
+		texto: {
 			required: true,
-			display:{
-				type: Boolean,
-				required: false,
-				default: true
+			type: String
+		},
+		disabledState:{
+			required: false,
+			type: Boolean,
+			deafault: true
+		},
+		inlinestyle:{
+			required: false,
+			type: String,
+			default:''
+		},
+		commitName: {
+			required: false,
+			type: String,
+			validator: valido =>  [ // ver commits em store/store.js
+				'RESET_PROJETOS',
+				'RESET_PROJETO'
+			].indexOf(valido) !== -1  
+		},
+		actionName:{
+			required: false,
+			type: Object,
+			name: {
+				required: true,
+				type: undefined,
+				validator: valido =>  [ // ver actions em store/store.js
+					'putProjetos', 
+					'putProjeto', 
+				].indexOf(valido) !== -1  
 			},
-			action: {
-				type: Function,
-				required: false
-			},
-			text: {
-				required: false,
-				type: String,
-				default: 'Cancelar'
+			parameter:{ 
+				required: true
 			}
 		}
 	},
 	computed:{
-		isFetching(){ return this.$store.state.fetching}
+		isFetching(){ return this.$store.state.fetching},
+		projetos(){ return this.$store.state.projetos }
+	},
+	methods:{
+		commitOrAction(){
+			if(this.commitName){
+				this.$store.commit(this.commitName) 
+				if(this.commitName == 'RESET_PROJETO'){
+					 this.$router.push({ path:'/' })
+				}
+			}
+			else{
+				this.$store.dispatch(this.actionName.name, this.actionName.parameter)
+			}
+		}
 	}
 }
 </script>
 
 <style lang="scss" scoped>
-section.SalvarCancelar {
+div.SalvarCancelar {
 	width: 100%;
 	a {
 		text-decoration: none;
@@ -68,10 +95,12 @@ section.SalvarCancelar {
 		box-shadow: inset 0 -2px 2px rgba(0, 0, 0, .24);
 		position: relative;
 		overflow: hidden;
-		&:first-child { float: left; background-color: #FE4C4C; }
-		&:last-child { float: right; background-color: #219653; }
-
+		transition: opacity ease-in-out .2s;
+		&.cancelar { float: left; background-color: #FE4C4C; }
+		&.salvar { float: right; background-color: #219653; }
+		&:hover { opacity: 0.85 }
 		&.disabled {
+			background-color: grey;
 			opacity: .4;
 			-moz-user-select: none;
 			user-select: none;

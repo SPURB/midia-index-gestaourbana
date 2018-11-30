@@ -37,9 +37,23 @@
 			</tr>
 		</table>
 		<AdicionarProjeto v-if="abreAddProjetoBox"></AdicionarProjeto>
-		<SalvarCancelar 
-			:salvar="{ text: 'Salvar disponibilidade de arquivos' }" 
-			:cancelar="{ display: false }"></SalvarCancelar>
+		<section class="SalvarCancelar">
+			<SalvarCancelar 
+				:tipo="'cancelar'"
+				:texto="'Cancelar'"
+				:disabledState="!projetosAlterados"
+				:commitName="'RESET_PROJETOS'">
+			</SalvarCancelar>
+			<SalvarCancelar 
+				:tipo="'salvar'"
+				:texto="'Salvar disponibilidade de arquivos'"
+				:disabledState="!projetosAlterados"
+				:actionName="{
+					name: 'putProjetos',
+					parameter: idsProjetosAlterados
+				}">
+			</SalvarCancelar>
+		</section>
 	</div>
 </template>
 
@@ -57,22 +71,20 @@ export default {
 	mixins:[ trataSlug ],
 	data(){
 		return {
-			busca: ''
+			busca: '',
 		}
 	},
 	computed: {
-		projetos: {
-			get(){ return this.$store.state.projetos }
-			// set(){ this.$store.... }
-		},
-		abreAddProjetoBox() {
-			return this.$store.state.addProjetoBox
-		},
-		projetosFiltrado:function(){
+		projetosAlterados() { return this.$store.getters.projetosAlterados }, 
+		abreAddProjetoBox() { return this.$store.state.addProjetoBox },
+		projetosFiltrado(){
 			const app = this
-			return this.projetos.filter(function(projeto) {
+			return this.$store.state.projetos.filter(function(projeto) {
 				return projeto.nome.toLowerCase().indexOf(app.busca.toLowerCase()) >= 0;
 			})
+		},
+		idsProjetosAlterados(){
+			return this.$store.state.projetos.filter(index => index.alterado == true ).map( index => index.id )
 		}
 	},
 	methods:{
@@ -87,8 +99,8 @@ export default {
 		ocultoClass(par) {
 			if (par == 1) { return '' } else if (par == 0) { return 'oculto' }
 		},
-		ativoToggle(incomeId) {
-			this.$store.commit('ativoToggle', incomeId)
+		ativoToggle(incomeId) { 
+			this.$store.commit('ativoToggle', incomeId) 
 		},
 		abreNovoProjeto() {
 			this.$store.commit('abreAdicionarProjetoBox')
