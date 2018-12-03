@@ -48,7 +48,7 @@
 				:tipo="'salvar'"
 				:texto="'Salvar disponibilidade de arquivos'"
 				:disabledState="!projetosAlterados"
-				:actionName="{
+				:action="{
 					name: 'putProjetos',
 					parameter: idsProjetosAlterados
 				}">
@@ -75,7 +75,14 @@ export default {
 		}
 	},
 	computed: {
-		projetosAlterados() { return this.$store.getters.projetosAlterados }, 
+		projetosAlterados() { 
+			let alterado = this.$store.getters.projetosAlterados 
+			let fetching = this.$store.state.fetching 
+			if(alterado || fetching ) {
+				return true
+			}
+			else { return false}
+		}, 
 		abreAddProjetoBox() { return this.$store.state.addProjetoBox },
 		projetosFiltrado(){
 			const app = this

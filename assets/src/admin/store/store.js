@@ -148,7 +148,10 @@ let store = new Vuex.Store({
 		UPDATE_ETAPA_NOME: (state, objIndexEtapaNome) => {
 			state.projeto.etapas[objIndexEtapaNome.indexEtapa].nome = objIndexEtapaNome.nome
 		},
-		UPDATE_ARQUIVO_CLICADO:(state, arquivo) => { state.arquivoClicado = arquivo }
+		UPDATE_ARQUIVO_CLICADO:(state, arquivo) => { state.arquivoClicado = arquivo },
+		UPDATE_PROJETO_NOME: (state, projetoAlterado ) => { 
+			state.projeto.nome = projetoAlterado
+		}
 	},
 	actions: {
 		fetchProjetos: state =>{
@@ -180,7 +183,8 @@ let store = new Vuex.Store({
 			console.log(ids)
 		},
 		putProjeto: ( state, obj ) => {
-			console.log(obj)
+			console.log(obj.nome)
+			console.log(obj.etapas)
 		}, 
 		postNovaEtapa: ( state, nome ) =>{
 			state.commit('SET_NOVA_ETAPA', nome)

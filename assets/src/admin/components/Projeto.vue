@@ -7,7 +7,14 @@
 		</section>
 		<section class="projeto">
 			<div class="nome">
-				<h2>{{ projeto.nome }}</h2>
+				<input 
+					:class="{ invalid: errors.first('nome') }"
+					type="text" 
+					name="nome"
+					v-model='projetoNome'
+					v-validate="'required'">
+					<ErroSpan 
+						:display="errors.first('nome')!==undefined">{{ errors.first('nome') }}</ErroSpan>
 				<div class="shortcode_expand">
 					<span>Shortcode do projeto <code @click="copiaSlug($event)">[arquivos-gu-{{projeto.id}}]</code></span>
 				</div>
@@ -24,11 +31,6 @@
 			<button class="adicionarEtapa" @click="insereEtapa()">+ Adicionar etapa</button>
 		</section>
 
-<!-- 		<section class="acoes">
-			<router-link to='/' tag='a'>Cancelar</router-link>
-			<a>Salvar</a>
-		</section> -->
-
 		<section class="acoes">
 			<SalvarCancelar 
 				:tipo="'cancelar'"
@@ -39,11 +41,8 @@
 			<SalvarCancelar 
 				:tipo="'salvar'"
 				:texto="'Salvar'"
-				:disabledState="false"
-				:actionName="{
-					name: 'putProjeto',
-					parameter: {}
-				}">
+				:disabledState="statusBotao"
+				:action="action">
 			</SalvarCancelar>
 		</section>
 
@@ -60,32 +59,61 @@ import Etapa from '../components/Etapa.vue'
 import AdicionarEtapa from '../components/AdicionarEtapa.vue'
 import Modal from '../components/Modal.vue'
 import SalvarCancelar from '../components/SalvarCancelar.vue'
+import ErroSpan from '../components/ErroSpan.vue'
 import trataSlug from '../mixins/trataSlug'
+import { ptBr, validator } from '../mixins/formValidation'
 
 export default {
 	name: 'Projeto',
-	mixins:[ trataSlug ],
+	mixins:[ trataSlug, validator ],
 	data() {
 		return {
-			busca: ''
+			busca: '', 
+			action: {
+				name: 'putProjeto',
+				toChange: {
+					nome: false,
+					etapas:[]
+				} 
+			}
 		};
 	},
 	computed: {
-		projeto: {
-			get(){ return this.$store.state.projeto }
-			// , set(){ ... }
+		projeto() { 
+			return {
+				id: this.$store.state.projeto.id,
+				etapas: this.$store.state.projeto.etapas
+			}
+		},
+		projetoNome: { 
+			get(){ return this.$store.state.projeto.nome },
+			set(value) { this.$store.commit('UPDATE_PROJETO_NOME',  value )}
 		},
 		abreAdicionarEtapa: {
 			get() { return this.$store.state.addEtapaBox },
 			// , set(){ ... }
+		},
+		statusBotao(){
+			if(this.fields.nome){ // fazer validacao aqui
+				return this.fields.nome.pristine
+					   this.fields.nome.valid
+			}
+			else{ return false }
+		}
+	},
+	watch: {
+		statusBotao(status){ 
+			status ? this.action.toChange.nome = false : this.action.toChange.nome = true
 		}
 	},
 	components: {
 		Etapa,
 		AdicionarEtapa,
 		Modal,
-		SalvarCancelar
+		SalvarCancelar,
+		ErroSpan
 	},
+
 	methods: {
 		insereEtapa() {
 			this.$store.commit('abreAdicionarEtapaBox')
@@ -98,9 +126,7 @@ export default {
 <style lang="scss" scoped>
 div.Projeto {
 	overflow: hidden;
-
 	section:not(.projeto) { margin: 2rem 0; p { color: #898989; } }
-
 	section.projeto {
 		h2, h3, h4, h5, h6 { margin: 0; }
 
@@ -112,17 +138,40 @@ div.Projeto {
 
 		div.nome {
 			height: 40px;
-			h2 {
+			margin: .8em 0 1em;
+				input {
+				padding-left: .5em;
 				display: inline-block;
 				font-size: x-large;
 				line-height: 40px;
+				border: 1px solid #fff;
+				background-color: rgba(0,0,0,.1);
+				font-weight: 600;
+				border-radius: 10px;
+				transition: all ease-in-out .15s;
+				&:hover{
+					border: 1px solid  #ddd;
+					color:#000;
+					background-color: #fff;
+					cursor: pointer;
+				}
+				&:focus{
+					color:#000;
+					background-color: #fff;
+					border: 1px solid  #ddd
+				}
+				&.invalid{
+					border: 1px solid  #fe4c4c;
+					background-color:#fff;
+					box-shadow:  1px 1px 2px 2px #ddd;
+				}
 			}
 			& > div.shortcode_expand {
 				display: inline-flex;
 				align-items: center;
 				height: 100%;
 				float: right;
-				span { color: #898989; }
+				span { color: #515151; }
 			}
 		}
 

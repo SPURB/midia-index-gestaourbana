@@ -1,11 +1,11 @@
 <template>
 	<div class="SalvarCancelar">
-		<a  :class="[tipo, { disabled: disabledState }]"
+		<a  :class="[tipo, { disabled: disabledAndFetching }]"
 			:style="inlinestyle"
-			:disabled="disabledState"
-			@click="commitOrAction"
-			>{{ texto }}</a>
-		<div v-if="isFetching">fetching</div>
+			:disabled="disabledAndFetching"
+			@click="commitOrAction">
+			<span v-if="!fetching">{{ texto }}</span>
+			<span v-if="fetching">Carregando</span></a>
 	</div>
 </template>
 <script>
@@ -43,7 +43,7 @@ export default{
 				'RESET_PROJETO'
 			].indexOf(valido) !== -1  
 		},
-		actionName:{
+		action:{
 			required: false,
 			type: Object,
 			name: {
@@ -54,15 +54,19 @@ export default{
 					'putProjeto', 
 				].indexOf(valido) !== -1  
 			},
-			parameter:{ 
+			toChange:{ 
 				required: true
 			}
 		}
 	},
+
 	computed:{
-		isFetching(){ return this.$store.state.fetching},
-		projetos(){ return this.$store.state.projetos }
+		fetching(){ return this.$store.state.fetching },
+		projetos(){ return this.$store.state.projetos },
+		projeto(){ return this.$store.state.projeto },
+		disabledAndFetching(){ return this.disabledState || this.$store.state.fetching ? true : false }
 	},
+
 	methods:{
 		commitOrAction(){
 			if(this.commitName){
@@ -72,7 +76,7 @@ export default{
 				}
 			}
 			else{
-				this.$store.dispatch(this.actionName.name, this.actionName.parameter)
+				this.$store.dispatch(this.action.name, this.action.toChange)
 			}
 		}
 	}
@@ -105,6 +109,7 @@ div.SalvarCancelar {
 			-moz-user-select: none;
 			user-select: none;
 			cursor: not-allowed;
+			pointer-events: none;
 		}
 	}
 }
