@@ -1,10 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import api from '../utils/api'
+import novaEtapa from './modulos/novaEtapa'
+import statusProjetos from './modulos/statusProjetos'
 
 Vue.use(Vuex)
 
 let store = new Vuex.Store({
+	modules:{
+		novaEtapa,
+		statusProjetos		
+	},
 	state: {
 		projeto: false,
 		arquivoClicado: undefined,
@@ -89,7 +95,14 @@ let store = new Vuex.Store({
 		SET_PROJETOS: (state, response) => { 
 			state.projetos = response.data.map(index => {
 				index.id = parseInt(index.id)
+
+				if(index.ativo == null){
+					index.ativo = 0
+				}
+
 				index.ativo = parseInt(index.ativo)
+
+
 				index.wordpress_user_id = parseInt(index.wordpress_user_id)
 				index.alterado = false
 				return index
@@ -137,14 +150,6 @@ let store = new Vuex.Store({
 			const indexUrl = state.arquivoClicado.urls.findIndex(i => parseInt(i.id) === parseInt(obj.idUrl) )
 			state.arquivoClicado.urls[indexUrl].extensao = obj.extensao
 		},
-
-		SET_NOVA_ETAPA: (state, nome) => {
-			/* 
-			alterar action -> POST ETAPA
-			*/
-			console.log('idProjeto: ' + state.projeto.id)
-			console.log(nome)
-		},
 		UPDATE_ETAPA_NOME: (state, objIndexEtapaNome) => {
 			state.projeto.etapas[objIndexEtapaNome.indexEtapa].nome = objIndexEtapaNome.nome
 		},
@@ -179,27 +184,10 @@ let store = new Vuex.Store({
 				.then(() => {state.commit('SET_FECHING_STATUS', false)}
 			)
 		},
-		putProjetos: ( state, ids ) => {
-			console.log(ids)
-		},
 		putProjeto: ( state, obj ) => {
-			console.log(obj.nome)
-			console.log(obj.etapas)
+			console.log('action: putProjeto')
+			console.log(obj)
 		}, 
-		postNovaEtapa: ( state, nome ) =>{
-			state.commit('SET_NOVA_ETAPA', nome)
-			// api.post(nome)
-			// 	.then(response => {
-			// 		state.commit('SET_NOVA_ETAPA', response)
-			// 	})
-			// 	.catch(error => {
-			// 		console.log(error)
-			// 	})
-			// 	.then(() => {
-			// 		// fim de fetch
-			// 	}
-			// )
-		}
 	}
 })
 

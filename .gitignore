@@ -1,6 +1,5 @@
 # Compiled output #
 ###################
-config.json
 plugin-deploy.sh
 export.sh
 nbproject
@@ -33,6 +32,9 @@ config.codekit
 /libpeerconnection.log
 npm-debug.log
 testem.log
+config.json
+config-hecio.json
+config-163.json
 
 # Compiled source #
 ###################

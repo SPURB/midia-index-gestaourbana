@@ -39,6 +39,11 @@ export default {
 			disabled: true,
 		}
 	},
+	computed: {
+		fechaBox() { return this.$store.state.addEtapaBox },
+		idNewEtapa(){ return this.$store.state.novaEtapa.idEtapa }, 
+		fetchError() { return this.$store.state.novaEtapa.error }
+	},
 	watch:{
 		novaEtapaInput(name){
 			switch (name) {
@@ -48,18 +53,13 @@ export default {
 			}
 		}
 	},
-	computed: {
-		fechaBox() {
-			return this.$store.state.addEtapaBox
-		}
-	},
 	methods: {
 		fechar() {
 			this.$store.commit('luzToggle')
 			this.$store.commit('abreAdicionarEtapaBox')
 		}, 
 		novaEtapa(){
-			this.$store.dispatch('postNovaEtapa', this.novaEtapaInput)
+			this.$store.dispatch('novaEtapa/postNovaEtapa', this.novaEtapaInput)
 		}
 
 	}

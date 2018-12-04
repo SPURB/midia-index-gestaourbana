@@ -24,7 +24,7 @@
 				<Etapa 
 					:idEtapa="etapa.id" 
 					:idProjeto="projeto.id"
-					:busca="busca"
+					:busca="busca" 
 					>
 				</Etapa>
 			</template>
@@ -103,7 +103,10 @@ export default {
 	},
 	watch: {
 		statusBotao(status){ 
-			status ? this.action.toChange.nome = false : this.action.toChange.nome = true
+			// status ? this.action.toChange.nome = false : this.action.toChange.nome = true
+			if(status){
+				// this.action.toChange.nome = this.$store.state.projeto.id
+			}
 		}
 	},
 	components: {

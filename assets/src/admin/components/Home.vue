@@ -49,8 +49,8 @@
 				:texto="'Salvar disponibilidade de arquivos'"
 				:disabledState="!projetosAlterados"
 				:action="{
-					name: 'putProjetos',
-					parameter: idsProjetosAlterados
+					name: 'statusProjetos/put',
+					toChange: idsProjetosAlterados
 				}">
 			</SalvarCancelar>
 		</section>
@@ -97,11 +97,14 @@ export default {
 	methods:{
 		goToProjeto(pathId){ return '/projeto/' + pathId },
 		displayData(data) {
-			let aaaa = data.slice(0,4)
-			let mm = data.slice(5,7)
-			let dd = data.slice(8,10)
-			let h = data.slice(11,16)
-			return dd+'/'+mm+'/'+aaaa+' ('+h+')'
+			if(data){
+				let aaaa = data.slice(0,4)
+				let mm = data.slice(5,7)
+				let dd = data.slice(8,10)
+				let h = data.slice(11,16)
+				return dd+'/'+mm+'/'+aaaa+' ('+h+')'
+			}
+			else { return 'Corrigir backend' }
 		},
 		ocultoClass(par) {
 			if (par == 1) { return '' } else if (par == 0) { return 'oculto' }
@@ -114,7 +117,7 @@ export default {
 			this.$store.commit('luzToggle')
 		}
 	}
-};
+}
 </script>
 
 <style lang="scss" scoped>

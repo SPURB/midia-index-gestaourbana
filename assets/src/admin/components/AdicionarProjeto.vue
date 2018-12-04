@@ -90,6 +90,7 @@ export default {
 		adicionarProjeto(){ 
 			this.$store.dispatch('postNovoProjeto', {
 				nome: this.nomeProjeto,
+				ativo: 1,
 				wordpress_user_id: this.uid
 			})
 		},

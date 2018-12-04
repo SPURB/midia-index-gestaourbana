@@ -5,7 +5,6 @@ import router from './router'
 import store from './store/store'
 import VeeValidate from 'vee-validate';
 import menuFix from './utils/admin-menu-fix'
-import { mapFields } from 'vee-validate'
 
 Vue.config.productionTip = false
 Vue.use(VeeValidate, { inject: false });

@@ -50,7 +50,7 @@ export default{
 				required: true,
 				type: undefined,
 				validator: valido =>  [ // ver actions em store/store.js
-					'putProjetos', 
+					'statusProjetos/put', 
 					'putProjeto', 
 				].indexOf(valido) !== -1  
 			},
@@ -62,9 +62,11 @@ export default{
 
 	computed:{
 		fetching(){ return this.$store.state.fetching },
+		fetchErrors(){ return this.$store.state.statusProjetos.error },
+		loaded(){ return this.$store.state.statusProjetos.response === undefined ?  false : true },
 		projetos(){ return this.$store.state.projetos },
 		projeto(){ return this.$store.state.projeto },
-		disabledAndFetching(){ return this.disabledState || this.$store.state.fetching ? true : false }
+		disabledAndFetching(){ return this.disabledState || this.$store.state.fetching ? true : false },
 	},
 
 	methods:{
@@ -77,6 +79,13 @@ export default{
 			}
 			else{
 				this.$store.dispatch(this.action.name, this.action.toChange)
+				// if( this.action.name === 'statusProjetos/put' ||
+				// 	this.fetching ||
+				// 	!this.fetchErrors ||
+				// 	this.loaded){
+				// 	console.log('fetchAgain')
+				// 	this.$store.dispatch('fetchProjetos')
+				// }
 			}
 		}
 	}
