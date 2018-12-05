@@ -71,9 +71,7 @@ export default {
 	},
 	mixins:[ inputForms ],
 	computed: {
-		fechaBox() {
-			return this.$store.state.adicionarArquivoBox
-		}
+		fechaBox() { return this.$store.state.adicionarArquivoBox }
 	},
 	methods: {
 		cancelar() {

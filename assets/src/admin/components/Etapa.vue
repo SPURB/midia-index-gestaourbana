@@ -13,10 +13,9 @@
 				<thead>
 					<th>Última modificação</th>
 					<th>Nome</th>
-					<th><img 
-						src="https://static.thenounproject.com/png/505631-200.png" 
-						style="height: 24px; width: 24px; vertical-align: bottom;" 
-						alt="files"></th>
+					<th>
+					<svg width="24" height="24" style="vertical-align: bottom" alt="arquivos" viewBox="0.14 841.445 24 24"><path d="M23.14 849.69l-5.491-5.056-5.491 5.056 1.496 1.62 2.892-2.669v12.519h2.206v-12.519l2.892 2.669zM7.734 858.25v-12.52H5.528v12.52l-2.892-2.669L1.14 857.2l5.491 5.057 5.492-5.057-1.497-1.619z"/></svg>
+					</th>
 				</thead>
 				<draggable 
 					v-model="arquivos"
@@ -34,11 +33,10 @@
 						<td><a 
 								@click="abreEditArquivoBox(arquivo.id)" 
 								:id="arquivo.id">{{ arquivo.nome }}</a></td>
-						<td><img 
-							src="https://www.materialui.co/materialIcons/action/reorder_black_192x192.png" 
-							style="height: 24px; width: 24px; vertical-align: bottom;" 
-							alt="reorder"
-							></td>
+						<td>
+
+						<svg width="24" height="24" viewBox="0 0 24 24" alt="reordenar" style=" vertical-align: bottom"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"/></svg> 
+						</td>
 					</tr>
 				</draggable>
 			</table>
@@ -284,7 +282,7 @@ div.Etapa {
 		button.adicionar-arquivo {
 			position: absolute;
 			right: 40px;
-			bottom: 20px;
+			bottom: 40px;
 			height: 40px;
 			border-radius: 20px;
 			border: 0;

@@ -1,5 +1,5 @@
 <template>
-	<div class="AdicionarEtapa" :class="{ fechado: !fechaBox }" ref="div">
+	<div class="AdicionarEtapa" :class="{ fechado: !addEtapaBox }" ref="div">
 		<div class="cont">
 			<div class="title">
 				<h3>Adicionar etapa</h3>
@@ -7,61 +7,67 @@
 			<form action="">
 				<table>
 					<tr>
-						<td>
-							<label for="">Nome</label>
-						</td>
-						<td>
-							 <!-- @keyup="charCount($event)" -->
-							<input type="text" v-model="novaEtapaInput">
-						</td>
+						<td><label for="novaetapa">Nome</label></td>
+						<td><input 
+								name="novaetapa" 
+								type="text" 
+								v-model="novaEtapaInput"
+								v-validate="'required'"></td>
 					</tr>
 				</table>
 			</form>
 			<div class="actions">
-				<button class="cancelar" @click="fechar()">Cancelar</button>
-				<button 
-					:disabled="disabled" 
-					class="adicionar" 
-					@click="novaEtapa"
-				>Adicionar</button>
+				<SalvarCancelar
+					:tipo="'cancelar'"
+					:texto="'Cancelar'"
+					:disabledState="false"
+					:commitName="'etapas/DISPLAY'"
+					:options="false">
+				</SalvarCancelar>
+				<SalvarCancelar 
+					:tipo="'salvar'"
+					:texto="'Salvar'"
+					:disabledState="statusBotao"
+					:action="action">
+				</SalvarCancelar>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import SalvarCancelar from '../components/SalvarCancelar.vue'
+import { ptBr, validator } from '../mixins/formValidation'
 
 export default {
 	name: 'AdicionarEtapa',
+	mixins:[ validator ],
+	components:{ SalvarCancelar },
 	data() {
 		return {
 			novaEtapaInput: '',
 			disabled: true,
-		}
-	},
-	computed: {
-		fechaBox() { return this.$store.state.addEtapaBox },
-		idNewEtapa(){ return this.$store.state.novaEtapa.idEtapa }, 
-		fetchError() { return this.$store.state.novaEtapa.error }
-	},
-	watch:{
-		novaEtapaInput(name){
-			switch (name) {
-				case '': this.disabled = true
-				case ' ': this.disabled = true
-				default: this.disabled = false
+			action:{
+				name: 'etapas/postNovaEtapa',
+				toChange: undefined
 			}
 		}
 	},
-	methods: {
-		fechar() {
-			this.$store.commit('luzToggle')
-			this.$store.commit('abreAdicionarEtapaBox')
-		}, 
-		novaEtapa(){
-			this.$store.dispatch('novaEtapa/postNovaEtapa', this.novaEtapaInput)
-		}
+	computed: {
+		addEtapaBox() { return this.$store.state.etapas.addEtapaBox },
+		idNewEtapa() { return this.$store.state.etapas.idEtapa }, 
+		fetchError() { return this.$store.state.etapas.error }
+	},
+	watch:{
+		novaEtapaInput(input){
+			switch (input) {
+				case '' : this.disabled = true
+				case ' ': this.disabled = true
+				default : this.disabled = false
 
+			}
+			this.action.toChange = input
+		}, 
 	}
 };
 </script>
@@ -136,25 +142,6 @@ div.AdicionarEtapa {
 			padding: 0 24px 24px 24px;
 			display: flex;
 			justify-content: space-between;
-
-			button {
-				border-width: 0;
-				color: #FFF;
-				padding: 16px 24px;
-				border-radius: 2px;
-				box-shadow: inset 0 -2px 2px rgba(0, 0, 0, .24);
-				cursor: pointer;
-
-				&.cancelar { background-color: #fe4c4c; }
-				&.adicionar { 
-					background-color: #219653; 
-					&:disabled{ 
-						background-color: #ececec;
-						color: #bdbdbd;
-						box-shadow: inset 0 -2px 2px rgba(222, 221, 221, 0.2)
-					}
-				}
-			}
 		}
 	}
 }

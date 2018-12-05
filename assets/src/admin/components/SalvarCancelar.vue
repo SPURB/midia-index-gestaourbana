@@ -12,7 +12,7 @@
 
 export default{
 	name:"SalvarCancelar",
-	props:{
+	props:{ 
 		tipo:{
 			required: true,
 			type: String, 
@@ -40,17 +40,23 @@ export default{
 			type: String,
 			validator: valido =>  [ // ver commits em store/store.js
 				'RESET_PROJETOS',
-				'RESET_PROJETO'
+				'RESET_PROJETO',
+				'etapas/DISPLAY'
 			].indexOf(valido) !== -1  
+		},
+		options:{ 
+			required: false,
+			default: undefined
 		},
 		action:{
 			required: false,
 			type: Object,
 			name: {
 				required: true,
-				type: undefined,
+				type: String,
 				validator: valido =>  [ // ver actions em store/store.js
 					'statusProjetos/put', 
+					'etapas/postNovaEtapa',
 					'putProjeto', 
 				].indexOf(valido) !== -1  
 			},
@@ -62,30 +68,31 @@ export default{
 
 	computed:{
 		fetching(){ return this.$store.state.fetching },
-		fetchErrors(){ return this.$store.state.statusProjetos.error },
-		loaded(){ return this.$store.state.statusProjetos.response === undefined ?  false : true },
-		projetos(){ return this.$store.state.projetos },
-		projeto(){ return this.$store.state.projeto },
+		// fetchErrors(){ return this.$store.state.statusProjetos.error },
+		// loaded(){ return this.$store.state.statusProjetos.response === undefined ?  false : true },
+		// projetos(){ return this.$store.state.projetos },
+		// projeto(){ return this.$store.state.projeto },
 		disabledAndFetching(){ return this.disabledState || this.$store.state.fetching ? true : false },
 	},
 
 	methods:{
 		commitOrAction(){
 			if(this.commitName){
-				this.$store.commit(this.commitName) 
-				if(this.commitName == 'RESET_PROJETO'){
-					 this.$router.push({ path:'/' })
+				if(this.commitName === 'etapas/DISPLAY'){
+					this.$store.commit('luzToggle')
+				}
+				if(this.options !== undefined){
+					this.$store.commit(this.commitName, this.options) 
+				}
+				else{
+					this.$store.commit(this.commitName) 
+					if(this.commitName === 'RESET_PROJETO'){
+						 this.$router.push({ path:'/' })
+					}
 				}
 			}
 			else{
 				this.$store.dispatch(this.action.name, this.action.toChange)
-				// if( this.action.name === 'statusProjetos/put' ||
-				// 	this.fetching ||
-				// 	!this.fetchErrors ||
-				// 	this.loaded){
-				// 	console.log('fetchAgain')
-				// 	this.$store.dispatch('fetchProjetos')
-				// }
 			}
 		}
 	}

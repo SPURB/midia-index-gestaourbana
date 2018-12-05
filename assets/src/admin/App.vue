@@ -1,22 +1,21 @@
 <template>
 	<div id="vue-backend-app">
 		<router-view/>
-		<div class="luz" :class="{ apagada: luzToggle }"></div>
+		<div ref="luz" class="luz" :class="{ apagada: luzToggle }"></div>
 	</div>
 </template>
 
 <script>
 export default {
 	name: 'App',
-	computed: {
-		luzToggle() { return this.$store.state.apagaLuz }
-	},
-	mounted(){
-		this.$store.dispatch('fetchProjetos')
-	},
+	computed: { luzToggle() { return this.$store.state.apagaLuz } },
+	mounted(){this.$store.dispatch('fetchProjetos') },
 	watch:{
 		'$route'(to){
 			this.$store.dispatch('fetchInfoProjeto', to.params.id)
+		},
+		luzToggle(state){ 
+			if(state){ this.$refs.luz.scrollIntoView({behavior:"smooth"})}
 		}
 	}
 };

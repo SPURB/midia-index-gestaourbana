@@ -1,17 +1,19 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import api from '../utils/api'
-import novaEtapa from './modulos/novaEtapa'
+import etapas from './modulos/etapas'
+import arquivos from './modulos/arquivos'
 import statusProjetos from './modulos/statusProjetos'
 
 Vue.use(Vuex)
 
 let store = new Vuex.Store({
 	modules:{
-		novaEtapa,
-		statusProjetos		
+		etapas,
+		arquivos,
+		statusProjetos
 	},
-	state: {
+	state: { 
 		projeto: false,
 		arquivoClicado: undefined,
 		projetos: [],
@@ -25,7 +27,6 @@ let store = new Vuex.Store({
 		apagaLuz: false,
 		editArquivoBox: false,
 		adicionarArquivoBox: false,
-		addEtapaBox: false,
 		addProjetoBox: false,
 		serverResponse: false,
 		serverError: false,
@@ -70,7 +71,6 @@ let store = new Vuex.Store({
 		luzToggle(state) { state.apagaLuz = !state.apagaLuz },
 		abreEditarArquivoBox(state) { state.editArquivoBox = !state.editArquivoBox },
 		abreAdicionarArquivoBox(state) { state.adicionarArquivoBox = !state.adicionarArquivoBox },
-		abreAdicionarEtapaBox(state) { state.addEtapaBox = !state.addEtapaBox },
 		abreAdicionarProjetoBox(state) { state.addProjetoBox = !state.addProjetoBox },
 		ativoToggle(state, incomeId) {
 			state.projetos.map(function(index) {
@@ -80,6 +80,8 @@ let store = new Vuex.Store({
 				}
 			})
 		},
+		SET_ERROR: (state, error) => { state.serverError = error.data },
+		SET_FECHING_STATUS: (state, status) => { state.fetching = status }, 
 		RESET_PROJETOS: (state) => { 
 			state.projetos.map(function(index) {
 				if(index.alterado){
@@ -89,9 +91,9 @@ let store = new Vuex.Store({
 			})
 		},
 		RESET_PROJETO: state =>{
-			console.log('RESET_PROJETO')
+			// console.log('RESET_PROJETO')
+			state.projeto = false
 		}, 
-		SET_FECHING_STATUS: (state, status) => { state.fetching = status }, 
 		SET_PROJETOS: (state, response) => { 
 			state.projetos = response.data.map(index => {
 				index.id = parseInt(index.id)
@@ -101,7 +103,6 @@ let store = new Vuex.Store({
 				}
 
 				index.ativo = parseInt(index.ativo)
-
 
 				index.wordpress_user_id = parseInt(index.wordpress_user_id)
 				index.alterado = false
@@ -134,7 +135,6 @@ let store = new Vuex.Store({
 			})
 			state.projeto = projeto
 		},
-		SET_ERROR: (state, error) => { state.serverError = error.data },
 		SET_PROJETO: (state, res) => { state.serverResponse = res.data },
 		SET_ARQUIVO: (state, arquivo) => { 
 			const etapas = state.projeto.etapas;
@@ -152,6 +152,9 @@ let store = new Vuex.Store({
 		},
 		UPDATE_ETAPA_NOME: (state, objIndexEtapaNome) => {
 			state.projeto.etapas[objIndexEtapaNome.indexEtapa].nome = objIndexEtapaNome.nome
+		},
+		UPDATE_ETAPAS:(state, novaEtapa) =>{
+			state.projeto.etapas.push(novaEtapa)
 		},
 		UPDATE_ARQUIVO_CLICADO:(state, arquivo) => { state.arquivoClicado = arquivo },
 		UPDATE_PROJETO_NOME: (state, projetoAlterado ) => { 

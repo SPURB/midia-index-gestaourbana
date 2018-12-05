@@ -24,15 +24,14 @@
 				<Etapa 
 					:idEtapa="etapa.id" 
 					:idProjeto="projeto.id"
-					:busca="busca" 
-					>
+					:busca="busca">
 				</Etapa>
 			</template>
 			<button class="adicionarEtapa" @click="insereEtapa()">+ Adicionar etapa</button>
 		</section>
 
 		<section class="acoes">
-			<SalvarCancelar 
+			<SalvarCancelar
 				:tipo="'cancelar'"
 				:texto="'Cancelar'"
 				:disabledState="false"
@@ -47,7 +46,7 @@
 		</section>
 
 		<!-- <Modal class="erro">
-			<template slot="header">Campos não preenchidos</template>
+			<template slot="header">Campos não preenchidos</template> 
 			<template slot="msg">Por favor, preencha todos os campos.</template>
 		</Modal> -->
 		<AdicionarEtapa v-if="abreAdicionarEtapa"></AdicionarEtapa>
@@ -89,24 +88,12 @@ export default {
 			get(){ return this.$store.state.projeto.nome },
 			set(value) { this.$store.commit('UPDATE_PROJETO_NOME',  value )}
 		},
-		abreAdicionarEtapa: {
-			get() { return this.$store.state.addEtapaBox },
-			// , set(){ ... }
-		},
-		statusBotao(){
-			if(this.fields.nome){ // fazer validacao aqui
-				return this.fields.nome.pristine
-					   this.fields.nome.valid
-			}
-			else{ return false }
-		}
+		abreAdicionarEtapa(){ return this.$store.state.etapas.addEtapaBox },
+		newEtapa(){ return this.$store.state.etapas.idEtapa }
 	},
 	watch: {
-		statusBotao(status){ 
-			// status ? this.action.toChange.nome = false : this.action.toChange.nome = true
-			if(status){
-				// this.action.toChange.nome = this.$store.state.projeto.id
-			}
+		newEtapa(value){ 
+			if(value !== undefined){ this.$store.dispatch('etapas/getNovaEtapa', value)}
 		}
 	},
 	components: {
@@ -119,7 +106,7 @@ export default {
 
 	methods: {
 		insereEtapa() {
-			this.$store.commit('abreAdicionarEtapaBox')
+			this.$store.commit('etapas/DISPLAY', true)
 			this.$store.commit('luzToggle')
 		}
 	}
