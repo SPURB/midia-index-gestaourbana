@@ -19,7 +19,10 @@ const actions = {
 		})
 		// console.log(output)
 		api.put('/projetos', output)
-			.then(response => commit('SET_ETAPA', response.data ))
+			.then(response => {
+				commit('SET_ETAPA', response.data )
+				commit('RESET_PROJETOS_AFTER_UPDATE', false, { root: true })
+			})
 			.catch(error => commit('SET_ERROR', error))
 			.then(() => commit('SET_FECHING_STATUS', false, { root: true }))
 	}

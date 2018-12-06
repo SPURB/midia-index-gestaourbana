@@ -26,7 +26,7 @@ let store = new Vuex.Store({
 		],
 		apagaLuz: false,
 		editArquivoBox: false,
-		adicionarArquivoBox: false,
+		// adicionarArquivoBox: false,
 		addProjetoBox: false,
 		serverResponse: false,
 		serverError: false,
@@ -70,7 +70,7 @@ let store = new Vuex.Store({
 	mutations: {
 		luzToggle(state) { state.apagaLuz = !state.apagaLuz },
 		abreEditarArquivoBox(state) { state.editArquivoBox = !state.editArquivoBox },
-		abreAdicionarArquivoBox(state) { state.adicionarArquivoBox = !state.adicionarArquivoBox },
+		// abreAdicionarArquivoBox(state) { state.adicionarArquivoBox = !state.adicionarArquivoBox },
 		abreAdicionarProjetoBox(state) { state.addProjetoBox = !state.addProjetoBox },
 		ativoToggle(state, incomeId) {
 			state.projetos.map(function(index) {
@@ -90,8 +90,13 @@ let store = new Vuex.Store({
 				}
 			})
 		},
+		RESET_PROJETOS_AFTER_UPDATE:(state, status) => {
+			state.projetos = state.projetos.map(function(index) { 
+				index.alterado = status 
+				return index
+			})
+		},
 		RESET_PROJETO: state =>{
-			// console.log('RESET_PROJETO')
 			state.projeto = false
 		}, 
 		SET_PROJETOS: (state, response) => { 
@@ -109,6 +114,7 @@ let store = new Vuex.Store({
 				return index
 			})
 		},
+
 		SET_INFO_PROJETO: (state, response) => { 
 			let projeto = response.data
 			projeto.id = parseInt(projeto.id)

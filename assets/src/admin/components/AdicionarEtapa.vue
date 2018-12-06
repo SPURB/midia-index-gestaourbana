@@ -22,13 +22,15 @@
 					:texto="'Cancelar'"
 					:disabledState="false"
 					:commitName="'etapas/DISPLAY'"
-					:options="false">
+					:options="false"
+					:inlinestyle="'font-size:13px; padding: 16px 24px;'">
 				</SalvarCancelar>
 				<SalvarCancelar 
 					:tipo="'salvar'"
-					:texto="'Salvar'"
-					:disabledState="statusBotao"
-					:action="action">
+					:texto="'Adicionar'"
+					:disabledState="isvalid"
+					:action="action"
+					:inlinestyle="'font-size:13px; padding: 16px 24px;'">
 				</SalvarCancelar>
 			</div>
 		</div>
@@ -56,7 +58,8 @@ export default {
 	computed: {
 		addEtapaBox() { return this.$store.state.etapas.addEtapaBox },
 		idNewEtapa() { return this.$store.state.etapas.idEtapa }, 
-		fetchError() { return this.$store.state.etapas.error }
+		fetchError() { return this.$store.state.etapas.error },
+		isvalid() { return this.fields.novaetapa === undefined ? true : !this.fields.novaetapa.valid }
 	},
 	watch:{
 		novaEtapaInput(input){

@@ -14,12 +14,12 @@
 					<th>Última modificação</th>
 					<th>Nome</th>
 					<th>
-					<svg width="24" height="24" style="vertical-align: bottom" alt="arquivos" viewBox="0.14 841.445 24 24"><path d="M23.14 849.69l-5.491-5.056-5.491 5.056 1.496 1.62 2.892-2.669v12.519h2.206v-12.519l2.892 2.669zM7.734 858.25v-12.52H5.528v12.52l-2.892-2.669L1.14 857.2l5.491 5.057 5.492-5.057-1.497-1.619z"/></svg>
+					<svg width="20" height="20" style="vertical-align: bottom" alt="arquivos" viewBox="0.14 841.445 24 24"><path d="M23.14 849.69l-5.491-5.056-5.491 5.056 1.496 1.62 2.892-2.669v12.519h2.206v-12.519l2.892 2.669zM7.734 858.25v-12.52H5.528v12.52l-2.892-2.669L1.14 857.2l5.491 5.057 5.492-5.057-1.497-1.619z"/></svg>
 					</th>
 				</thead>
 				<draggable 
 					v-model="arquivos"
-					element="tbody" 
+					element="tbody"
 					:options="{ 
 						draggable: '.tablerow', 
 						ghostClass: 'slot-vazio', 
@@ -40,7 +40,9 @@
 					</tr>
 				</draggable>
 			</table>
-			<button class="adicionar-arquivo" @click="novoArquivo()">+ Adicionar arquivo</button>
+			<transition	name="adicionarArquivoFade">
+				<button v-show="!collapsed" class="adicionar-arquivo" @click="novoArquivo()">+ Adicionar arquivo</button>
+			</transition>
 		</div>
 		<EditarArquivo 
 			v-if="editarArquivo" 
@@ -77,6 +79,11 @@ export default {
 			default: ''
 		}
 	},
+	data(){
+		return {
+			collapsed: false
+		}
+	},
 	components: {
 		EditarArquivo, 
 		AdicionarArquivo, 
@@ -84,7 +91,11 @@ export default {
 	},
 	computed: {
 		editarArquivo() { return this.$store.state.editArquivoBox },
-		abreNovoArquivo() { return this.$store.state.adicionarArquivoBox },
+		// editarArquivo() { return this.$store.state.arquivos.editBox },
+
+		// abreNovoArquivo() { return this.$store.state.adicionarArquivoBox },
+		abreNovoArquivo() { return this.$store.state.arquivos.box },
+
 		arquivos:{
 			get(){  
 				return this.$store.state.projeto.etapas[this.indexEtapas(this.idEtapa)].arquivos
@@ -125,6 +136,7 @@ export default {
 				divEtapa.style.maxHeight = '1000px'
 				evt.target.style.transform = 'rotate(0deg)'
 			}
+			this.collapsed = !this.collapsed
 		},
 		displayData(data) {
 			let aaaa = data.slice(0,4)
@@ -135,7 +147,8 @@ export default {
 		},
 		novoArquivo() {
 			this.$store.commit('luzToggle')
-			this.$store.commit('abreAdicionarArquivoBox')
+			// this.$store.commit('abreAdicionarArquivoBox')
+			this.$store.commit('arquivos/ABRE_BOX')
 		},
 		abreEditArquivoBox(idArquivoFromLoop) {
 			this.$store.commit('luzToggle')
@@ -151,6 +164,7 @@ export default {
 
 <style lang="scss" scoped>
 div.Etapa {
+
 	display: flex;
 	flex-flow: column nowrap;
 	margin: 12px 0 0 0;
@@ -282,7 +296,7 @@ div.Etapa {
 		button.adicionar-arquivo {
 			position: absolute;
 			right: 40px;
-			bottom: 40px;
+			bottom: 7px;
 			height: 40px;
 			border-radius: 20px;
 			border: 0;
@@ -302,6 +316,18 @@ div.Etapa {
 				background-color: #FFF;
 				color: #fe4c4c;
 			}
+			/* 
+			vue cria estas classes entre os elementos da 
+			diretiva <transition name="adicionarArquivoFade"> */
+			// .adicionarArquivoFade-enter-active, 
+			&.adicionarArquivoFade-leave-active {
+				transition: opacity .1s;
+			}
+			// .adicionarArquivoFade-enter, // 
+			&.adicionarArquivoFade-leave-to {
+				opacity: 0;
+			}
+
 		}
 	}
 }

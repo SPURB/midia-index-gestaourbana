@@ -4,19 +4,22 @@
 			<div class="title">
 				<h3>Adicionar arquivo</h3>
 			</div>
-			<form action="">
+			<form>
 				<table>
 					<tr>
 						<td>
-							<label for="">Nome público</label>
+							<label for="nome">Nome público</label>
 						</td>
 						<td>
 							<input 
 								type="text" 
 								ref="nome" 
-								@keyup="charCount($event)" 
-								v-model="form.nome">
-							<span class="charCounter">0/330</span>
+								id="nome"
+								name="Nome público"
+								v-model="action.toChange.nome"
+								v-validate="'required|max:330'">
+								<span v-if="!errors.has('Nome público')">{{nomeCharNumber}}/330</span>
+								<ErroSpan :display="errors.has('Nome público')">{{ errors.first('Nome público') }}</ErroSpan>
 						</td>
 					</tr>
 						<template v-for="(newUrl, index) in newUrls">
@@ -33,53 +36,84 @@
 						</td>
 						<td>
 							<textarea 
-								name="descricao" 
+								type="text"
+								name="Descrição" 
 								id="descricao" 
-								@keyup="charCount($event)"
-								v-model="form.descricao"
-								></textarea>
-							<span class="charCounter">0/330</span>
+								v-model="action.toChange.descricao"
+								v-validate="'required|max:330'"></textarea>
+								<span class="contador" v-if="!errors.has('Descrição')">{{descricaoCharNumber}}/330</span>
+								<ErroSpan :display="errors.has('Descrição')">{{ errors.first('Descrição') }}</ErroSpan>
 						</td>
 					</tr>
 				</table>
 			</form>
 			<div class="actions">
-				<button class="cancelar" @click="cancelar()">Cancelar</button>
-				<button class="adicionar">Adicionar</button>
+				<SalvarCancelar
+					:tipo="'cancelar'"
+					:texto="'Cancelar'"
+					:disabledState="false"
+					:commitName="'arquivos/ABRE_BOX'"
+					:inlinestyle="'font-size:13px; padding: 16px 24px;'">
+				</SalvarCancelar>
+				<SalvarCancelar 
+					:tipo="'salvar'"
+					:texto="'Adicionar'"
+					:disabledState="disabled"
+					:action="action"
+					:inlinestyle="'font-size:13px; padding: 16px 24px;'">
+				</SalvarCancelar>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import ErroSpan from '../components/ErroSpan.vue'
 import URLnova from '../components/URLnova.vue'
+import SalvarCancelar from '../components/SalvarCancelar.vue'
 import inputForms from '../mixins/inputForms'
+import { ptBr, validator } from '../mixins/formValidation'
 
 export default {
 	name: 'AdicionarArquivo',
 	data(){
 		return {
-			form: {
-				nome: '',
-				descricao: '',
+			action:{
+				name: 'arquivos/postNovoArquivo',
+				toChange: { 
+					nome:'', 
+					descricao: '',
+					idEtapa: undefined
+				}
 			},
-			newUrls: [{}]
+			newUrls: [{}],
+			disabledNome: true,
+			disabledDescricao: true, 
 		}
 	},
 	components: {
-		URLnova
+		ErroSpan,
+		URLnova,
+		SalvarCancelar
 	},
-	mixins:[ inputForms ],
+	mixins:[ inputForms, validator  ],
 	computed: {
-		fechaBox() { return this.$store.state.adicionarArquivoBox }
-	},
-	methods: {
-		cancelar() {
-			this.$store.commit('luzToggle')
-			this.$store.commit('abreAdicionarArquivoBox')
+		fechaBox() { return this.$store.state.arquivos.box },
+		nomeCharNumber() {return this.action.toChange.nome.length },
+		descricaoCharNumber() {return this.action.toChange.descricao.length },
+		disabled() { 
+			if( this.disabledNome || this.disabledDescricao ) { return true } 
+			else { return false }
 		}
+	},
+	watch:{
+		nomeCharNumber(value) { value > 1 ? this.disabledNome = false :  this.disabledNome = true },
+		descricaoCharNumber(value) { value > 1 ? this.disabledDescricao = false :  this.disabledDescricao = true },
+	},
+	mounted(){
+		this.action.toChange.idEtapa = this.idEtapa
 	}
-};
+}
 </script>
 
 <style lang="scss">
@@ -159,13 +193,11 @@ div.AdicionarArquivo {
 
 						& > span {
 							margin-left: 8px;
-
-							&.charCounter {
-								width: 50px;
-								display: inline-flex;
+							display: inline-flex;
+							align-items: center;
+							justify-content: flex-end;
+							&.contador{
 								align-items: flex-end;
-								justify-content: flex-end;
-								color: #898989;
 							}
 						}
 					}

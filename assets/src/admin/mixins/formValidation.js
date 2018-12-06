@@ -9,15 +9,15 @@ const validator = {
 			messages: ptBr.messages
 		})
 	},
-	computed:{
-		statusBotao(){
-			if(this.fields.nome){ // fazer validacao aqui
-				return this.fields.nome.pristine ? this.fields.nome.valid : false
-			}
-			else if(this.fields.novaetapa){
-				return this.fields.novaetapa.pristine ? this.fields.novaetapa.valid : false
-			}
-			else{ return false }
+	data(){
+		return {
+			camposValidados: false
+		}
+	},
+	methods:{
+		validateAll() {
+			this.$validator.validateAll()
+				.then((result) =>  this.camposValidados = result)
 		}
 	}
 }

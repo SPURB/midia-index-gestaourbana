@@ -54,13 +54,13 @@
 </template>
 
 <script>
+import { ptBr, validator } from '../mixins/formValidation'
 import Etapa from '../components/Etapa.vue'
 import AdicionarEtapa from '../components/AdicionarEtapa.vue'
 import Modal from '../components/Modal.vue'
 import SalvarCancelar from '../components/SalvarCancelar.vue'
 import ErroSpan from '../components/ErroSpan.vue'
 import trataSlug from '../mixins/trataSlug'
-import { ptBr, validator } from '../mixins/formValidation'
 
 export default {
 	name: 'Projeto',
@@ -89,7 +89,13 @@ export default {
 			set(value) { this.$store.commit('UPDATE_PROJETO_NOME',  value )}
 		},
 		abreAdicionarEtapa(){ return this.$store.state.etapas.addEtapaBox },
-		newEtapa(){ return this.$store.state.etapas.idEtapa }
+		newEtapa(){ return this.$store.state.etapas.idEtapa },
+		statusBotao(){
+			if(this.fields.nome){ // fazer validacao com fields.nome para habilitar botão de SALVAR
+				return this.fields.nome.pristine ? this.fields.nome.valid : false
+			}
+			else { return false }
+		}
 	},
 	watch: {
 		newEtapa(value){ 

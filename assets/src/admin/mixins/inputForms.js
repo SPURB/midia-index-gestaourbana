@@ -16,7 +16,6 @@ export default {
 		},
 		charCount(evt) {
 			let txt = evt.target.value
-
 			let counter = evt.target.parentNode.lastElementChild
 			counter.innerText = txt.length + '/330'
 			if (txt.length > 330) {

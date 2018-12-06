@@ -30,7 +30,7 @@ export default{
 			type: Boolean,
 			deafault: true
 		},
-		inlinestyle:{
+		inlinestyle:{ // exemplo <.. :inlinestyle="'background-color:purple'">
 			required: false,
 			type: String,
 			default:''
@@ -41,6 +41,7 @@ export default{
 			validator: valido =>  [ // ver commits em store/store.js
 				'RESET_PROJETOS',
 				'RESET_PROJETO',
+				'arquivos/ABRE_BOX',
 				'etapas/DISPLAY'
 			].indexOf(valido) !== -1  
 		},
@@ -57,7 +58,8 @@ export default{
 				validator: valido =>  [ // ver actions em store/store.js
 					'statusProjetos/put', 
 					'etapas/postNovaEtapa',
-					'putProjeto', 
+					'arquivos/postNovoArquivo',
+					'putProjeto' 
 				].indexOf(valido) !== -1  
 			},
 			toChange:{ 
@@ -68,17 +70,13 @@ export default{
 
 	computed:{
 		fetching(){ return this.$store.state.fetching },
-		// fetchErrors(){ return this.$store.state.statusProjetos.error },
-		// loaded(){ return this.$store.state.statusProjetos.response === undefined ?  false : true },
-		// projetos(){ return this.$store.state.projetos },
-		// projeto(){ return this.$store.state.projeto },
 		disabledAndFetching(){ return this.disabledState || this.$store.state.fetching ? true : false },
 	},
 
 	methods:{
 		commitOrAction(){
 			if(this.commitName){
-				if(this.commitName === 'etapas/DISPLAY'){
+				if(	this.commitName === 'etapas/DISPLAY' || this.commitName === 'arquivos/ABRE_BOX'){
 					this.$store.commit('luzToggle')
 				}
 				if(this.options !== undefined){

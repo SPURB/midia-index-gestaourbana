@@ -18,6 +18,6 @@ span.ErroMensagem{
 	background-color: #fe4c4c;
 	color: #fff;
 	padding: .5rem;
-	border-radius: 18px;
+	border-radius: 3px;
 }
 </style>
