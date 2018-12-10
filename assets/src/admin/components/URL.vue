@@ -46,7 +46,7 @@
 			}
 		},
 		computed: {
-			tiposDeArquivo() { return this.$store.state.tiposDeArquivo },
+			tiposDeArquivo() { return this.$store.state.urls.tiposDeArquivo },
 			urlArquivoClicado: {
 				get(){ 
 					const urls = this.$store.state.arquivoClicado.urls

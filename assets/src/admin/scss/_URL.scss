@@ -67,17 +67,10 @@ tr {
 
 	td a.excluirUrl {
 		display: flex;
-		// display: none;
 		background-color: #fea8a8;
-		// border: 0;
-		// padding: 0;
-		// width: 18px;
-		// height: 18px;
-		// line-height: 18px;
 		color: #FFF;
 		border-radius: 3px;
 		cursor: pointer;
-		// &:active { color: #FE4C4C; background-color: transparent; }
 		&:hover{ background-color: #FE4C4C };
 		margin-left: 5px;
 		span{

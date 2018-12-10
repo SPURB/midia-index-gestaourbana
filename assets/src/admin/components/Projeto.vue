@@ -89,17 +89,21 @@ export default {
 			set(value) { this.$store.commit('UPDATE_PROJETO_NOME',  value )}
 		},
 		abreAdicionarEtapa(){ return this.$store.state.etapas.addEtapaBox },
-		newEtapa(){ return this.$store.state.etapas.idEtapa },
+		novaEtapa(){ return this.$store.state.etapas.idEtapa },
 		statusBotao(){
 			if(this.fields.nome){ // fazer validacao com fields.nome para habilitar botão de SALVAR
 				return this.fields.nome.pristine ? this.fields.nome.valid : false
 			}
 			else { return false }
-		}
+		},
+		novoArquivoId(){ return this.$store.state.arquivos.response }
 	},
 	watch: {
-		newEtapa(value){ 
+		novaEtapa(value){ 
 			if(value !== undefined){ this.$store.dispatch('etapas/getNovaEtapa', value)}
+		},
+		novoArquivoId(value){
+			if(value !== undefined){ this.$store.dispatch('arquivos/fetchNovoArquivo', { id: value }) }
 		}
 	},
 	components: {

@@ -35,7 +35,7 @@
 								:id="arquivo.id">{{ arquivo.nome }}</a></td>
 						<td>
 
-						<svg width="24" height="24" viewBox="0 0 24 24" alt="reordenar" style=" vertical-align: bottom"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"/></svg> 
+						<a><svg class="draggableIcon" width="24" height="24" viewBox="0 0 24 24" alt="reordenar" style=" vertical-align: bottom"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"/></svg></a>
 						</td>
 					</tr>
 				</draggable>
@@ -44,6 +44,8 @@
 				<button v-show="!collapsed" class="adicionar-arquivo" @click="novoArquivo()">+ Adicionar arquivo</button>
 			</transition>
 		</div>
+
+
 		<EditarArquivo 
 			v-if="editarArquivo" 
 			:idEtapa="idEtapa"
@@ -91,11 +93,7 @@ export default {
 	},
 	computed: {
 		editarArquivo() { return this.$store.state.editArquivoBox },
-		// editarArquivo() { return this.$store.state.arquivos.editBox },
-
-		// abreNovoArquivo() { return this.$store.state.adicionarArquivoBox },
 		abreNovoArquivo() { return this.$store.state.arquivos.box },
-
 		arquivos:{
 			get(){  
 				return this.$store.state.projeto.etapas[this.indexEtapas(this.idEtapa)].arquivos
@@ -146,8 +144,8 @@ export default {
 			return dd+'/'+mm+'/'+aaaa+' ('+h+')'
 		},
 		novoArquivo() {
+			this.$store.commit('arquivos/SET_ID_ETAPA', { idEtapa: this.idEtapa })
 			this.$store.commit('luzToggle')
-			// this.$store.commit('abreAdicionarArquivoBox')
 			this.$store.commit('arquivos/ABRE_BOX')
 		},
 		abreEditArquivoBox(idArquivoFromLoop) {
@@ -260,7 +258,6 @@ div.Etapa {
 				a {
 					text-decoration: none;
 					cursor: pointer;
-
 					&::after {
 						content: 'Editar';
 						font-size: 10px;
@@ -273,7 +270,6 @@ div.Etapa {
 						margin-left: 8px;
 						display: none;
 					}
-
 					&:hover::after { display: inline-block; }
 				}
 			}

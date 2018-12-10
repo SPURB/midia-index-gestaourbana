@@ -11,6 +11,10 @@ export default {
 		} 
 	},
 	methods:{
+		removeUrl(index){
+			console.log(index)
+			this.newUrls = []
+		},
 		addUrl() {
 			this.newUrls.push({})
 		},

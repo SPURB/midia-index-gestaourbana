@@ -2,8 +2,16 @@
 	<tr class="UrlNova">
 		<td>URL</td>
 		<td>
-			<input type="text" name="url" v-model="input">
-			<div v-if="displayExtensao"> 
+			<input 
+				type="text" 
+				name="url" 
+				v-model="input"
+				v-validate="'required|url'"
+				:class="{'input': true, 'error': errors.has('url') }"
+				>
+				<ErroSpan :display="errors.first('url')!==undefined">{{ errors.first('url') }}</ErroSpan>
+
+			<div v-if="displayExtensao">
 				<span 
 					:class="{ extensao_fixa:extensaoFixa }" 
 					@click="openBox()"
@@ -23,12 +31,19 @@
 					</div>
 				</div>
 			</div>
-			<a v-if="displayExtensao" class="excluirUrl" @click="deletaUrl($event)"><span>&times;</span></a>
+			<a 
+				v-if="displayExtensao" 
+				class="excluirUrl" 
+				@click="deletaUrl"
+				><span>&times;</span></a>
 		</td>
 	</tr>
 </template>
 
 <script>
+import { ptBr, validator } from '../mixins/formValidation'
+import ErroSpan from '../components/ErroSpan.vue'
+
 	export default {
 		name: 'UrlNova',
 		props:{
@@ -36,6 +51,10 @@
 				type: Number,
 				required: true 
 			}
+		},
+		mixins:[ validator ],
+		components:{ 
+			ErroSpan
 		},
 		data() {
 			return {
@@ -64,11 +83,12 @@
 
 		},
 		computed: {
-			tiposDeArquivo() { return this.$store.state.tiposDeArquivo },
+			tiposDeArquivo() { return this.$store.state.urls.tiposDeArquivo },
 		},
 		methods:{
-			deletaUrl(evt){
-				console.log(evt)
+			deletaUrl(){
+				console.log('deletaUrl')
+				this.$emit('removerurls')
 			},
 			checkExtensao(url){
 				const regexPattern = /\.([0-9a-z]+)(?:[\?#]|$)/i // extensão  = apenas texto após o último ponto
@@ -86,7 +106,7 @@
 				return extensao
 			},
 			alteraTipoDeArq(ext) {
-				console.log(ext)
+				// console.log(ext)
 				this.displayExtensaoBox = false
 				this.extensao = ext
 			},
@@ -99,4 +119,5 @@
 
 <style lang="scss" scoped>
 @import "../scss/URL"
+
 </style>

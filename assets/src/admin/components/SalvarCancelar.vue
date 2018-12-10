@@ -65,7 +65,7 @@ export default{
 			toChange:{ 
 				required: true
 			}
-		}
+		},
 	},
 
 	computed:{

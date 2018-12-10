@@ -37,7 +37,7 @@ const actions = {
 				novaEtapa.arquivos = []
 				commit('UPDATE_ETAPAS', novaEtapa, { root: true })
 			})
-			.catch(error => console.log(error))//commit('SET_ERROR', error))
+			.catch(error => commit('SET_ERROR', error)) // console.log(error))
 			.then(() => commit('SET_FECHING_STATUS', false, { root: true }))
 	}
 }

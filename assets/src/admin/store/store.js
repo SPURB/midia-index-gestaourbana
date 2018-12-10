@@ -4,6 +4,7 @@ import api from '../utils/api'
 import etapas from './modulos/etapas'
 import arquivos from './modulos/arquivos'
 import statusProjetos from './modulos/statusProjetos'
+import urls from './modulos/urls'
 
 Vue.use(Vuex)
 
@@ -11,22 +12,15 @@ let store = new Vuex.Store({
 	modules:{
 		etapas,
 		arquivos,
-		statusProjetos
+		statusProjetos,
+		urls
 	},
 	state: { 
 		projeto: false,
 		arquivoClicado: undefined,
 		projetos: [],
-		tiposDeArquivo: [
-			'PDF', 
-			'KML',
-			'SHP',
-			'DOC',
-			'XLS'
-		],
 		apagaLuz: false,
 		editArquivoBox: false,
-		// adicionarArquivoBox: false,
 		addProjetoBox: false,
 		serverResponse: false,
 		serverError: false,
@@ -70,7 +64,6 @@ let store = new Vuex.Store({
 	mutations: {
 		luzToggle(state) { state.apagaLuz = !state.apagaLuz },
 		abreEditarArquivoBox(state) { state.editArquivoBox = !state.editArquivoBox },
-		// abreAdicionarArquivoBox(state) { state.adicionarArquivoBox = !state.adicionarArquivoBox },
 		abreAdicionarProjetoBox(state) { state.addProjetoBox = !state.addProjetoBox },
 		ativoToggle(state, incomeId) {
 			state.projetos.map(function(index) {
@@ -165,6 +158,11 @@ let store = new Vuex.Store({
 		UPDATE_ARQUIVO_CLICADO:(state, arquivo) => { state.arquivoClicado = arquivo },
 		UPDATE_PROJETO_NOME: (state, projetoAlterado ) => { 
 			state.projeto.nome = projetoAlterado
+		},
+		UPDATE_ARQUIVOS: (state, arquivo)=>{ 
+			const index = state.projeto.etapas.findIndex(i => i.id === arquivo.idEtapa )
+			typeof(index) !== Number ? console.error('id etapa indefinido') : null
+			state.projeto.etapas[index].arquivos.push(arquivo)
 		}
 	},
 	actions: {

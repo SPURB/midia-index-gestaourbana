@@ -23,7 +23,10 @@
 						</td>
 					</tr>
 						<template v-for="(newUrl, index) in newUrls">
-							<URLnova :index="index"></URLnova>
+							<URLnova 
+								:index="index"
+								v-on:removerurls="removeUrl(index)"
+							></URLnova>
 						</template>
 					<tr>
 						<td colspan="2">
@@ -47,6 +50,7 @@
 					</tr>
 				</table>
 			</form>
+
 			<div class="actions">
 				<SalvarCancelar
 					:tipo="'cancelar'"
@@ -83,7 +87,6 @@ export default {
 				toChange: { 
 					nome:'', 
 					descricao: '',
-					idEtapa: undefined
 				}
 			},
 			newUrls: [{}],
@@ -98,6 +101,9 @@ export default {
 	},
 	mixins:[ inputForms, validator  ],
 	computed: {
+		fetching(){ return this.$store.state.fetching },
+		fetchError(){ return this.$store.state.arquivos.error },
+		fetchResponse(){ return this.$store.state.arquivos.response },
 		fechaBox() { return this.$store.state.arquivos.box },
 		nomeCharNumber() {return this.action.toChange.nome.length },
 		descricaoCharNumber() {return this.action.toChange.descricao.length },
@@ -109,10 +115,14 @@ export default {
 	watch:{
 		nomeCharNumber(value) { value > 1 ? this.disabledNome = false :  this.disabledNome = true },
 		descricaoCharNumber(value) { value > 1 ? this.disabledDescricao = false :  this.disabledDescricao = true },
+		fetchError(status){ status ? console.log('errrou') : null },
+		fetchResponse(oldStatus, newStatus){
+			if(newStatus !== undefined || !this.fetching || !this.fetchError){
+				console.log('fetchResponse: '+this.fetchResponse)
+			}
+		}
 	},
-	mounted(){
-		this.action.toChange.idEtapa = this.idEtapa
-	}
+
 }
 </script>
 
@@ -189,6 +199,10 @@ div.AdicionarArquivo {
 						input[type=text], textarea {
 							width: 520px;
 							padding: 4px 6px;
+							transition: width ease .2s
+						}
+						input.error{
+							width: 379px
 						}
 
 						& > span {
@@ -225,7 +239,7 @@ div.AdicionarArquivo {
 
 				&:last-child td {
 					margin: 8px 0 0 0;
-				};
+				}
 			}
 		}
 

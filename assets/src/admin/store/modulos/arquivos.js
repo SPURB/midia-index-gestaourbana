@@ -2,35 +2,25 @@ import api from '../../utils/api'
 const state = { 
 	box: false,
 	editBox: false,
-	response: undefined,
-	error: false
+	response: undefined, // será o id do arquivo criado
+	error: false,
+	clickedIdEtapa: undefined
 }
 
 const getters = {}
 
 const actions = {
-	postNovoArquivo: ({ state, commit, getters, rootState }, novoArquivo) => {
+	postNovoArquivo: ({ state, commit, getters, rootGetters }, novoArquivo) => {
 		commit('SET_FECHING_STATUS', true,  { root: true })
-
 		const output = {
 			nome: novoArquivo.nome,
-			idEtapa: novoArquivo.idEtapa,
-			descricao: novoArquivo.descricao
+			idEtapa: state.clickedIdEtapa,
+			descricao: novoArquivo.descricao, 
+			autor: rootGetters.wordpressUserSettings.uid
 		}
-
-
-		// id	"1"
-		// nome	"Diagnóstico"
-		// idEtapa	"2"
-		// atualizacao	"2018-11-01 16:50:56"
-		// autor	"devspurbanismo"
-		// descricao	"Lorem lorem"
-		// posicao	"1"
-
 		api.post('/arquivos', output)
-			.then(response => commit('SET_RESPONSE', response.data ))
+			.then(response => commit('SET_RESPONSE', { postResponse: response.data } ))
 			.catch(error => {
-				console.log(error)
 				commit('SET_ERROR', error)
 			})
 			.then(() => {
@@ -38,13 +28,30 @@ const actions = {
 				commit('luzToggle', null, { root: true })
 				commit('ABRE_BOX')
 			})
+	},
+	fetchNovoArquivo: ({ state, commit, getters, rootGetters }, novoArquivo) => {
+		commit('SET_FECHING_STATUS', true,  { root: true })
+
+		api.get('/arquivos/' + novoArquivo.id )
+			.then(response => {
+				let arquivo  = response.data
+				arquivo.id = parseInt(arquivo.id)
+				arquivo.idEtapa = parseInt(arquivo.idEtapa)
+				arquivo.posicao !== null ? parseInt(arquivo.posicao) : null
+				commit('UPDATE_ARQUIVOS', arquivo, { root: true })
+			})
+			.catch(error => { commit('SET_ERROR', error) })
+			.then(() => {
+				commit('SET_FECHING_STATUS', false, { root: true })
+			})
 	}
 }
 
 const mutations = {
-	ABRE_BOX(state) { state.box = !state.box },
-	SET_RESPONSE: (state, response) => { state.idEtapa = response },
-	SET_ERROR: (state, response) => { state.error = response }
+	ABRE_BOX:(state) => { state.box = !state.box },
+	SET_RESPONSE: (state, resposeNovoIdEtapa) => { state.response = resposeNovoIdEtapa.postResponse },
+	SET_ERROR: (state, response) => { state.error = response },
+	SET_ID_ETAPA: (state, id) => { state.clickedIdEtapa = id.idEtapa }
 }
 
 export default {

@@ -21,10 +21,6 @@ export default {
 			fechaModal: false,
 		};
 	},
-	components: {},
-	mounted() {},
-	updated() {},
-	methods: {}
 }
 </script>
 

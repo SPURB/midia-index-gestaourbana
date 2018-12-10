@@ -17,7 +17,6 @@ const actions = {
 				ativo: getters.projetos.find(projeto => projeto.id === id).ativo
 			}
 		})
-		// console.log(output)
 		api.put('/projetos', output)
 			.then(response => {
 				commit('SET_ETAPA', response.data )
