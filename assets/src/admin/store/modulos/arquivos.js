@@ -19,7 +19,9 @@ const actions = {
 			autor: rootGetters.wordpressUserSettings.uid
 		}
 		api.post('/arquivos', output)
-			.then(response => commit('SET_RESPONSE', { postResponse: response.data } ))
+			.then(response => { 
+				commit('SET_RESPONSE', { postResponse: response.data } )
+			})
 			.catch(error => {
 				commit('SET_ERROR', error)
 			})

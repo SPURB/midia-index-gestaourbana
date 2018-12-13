@@ -18,17 +18,14 @@ export default {
 			if(state){ this.$refs.luz.scrollIntoView({behavior:"smooth"})}
 		}
 	}
-};
+}
 </script>
 
 <style lang="scss">
 div#vue-backend-app {
-	// max-width: 1000px;
-	
 	*[class] h1 { font-weight: bold; }
 
 	button, input, textarea { margin: 0; font-family: inherit; }
-
 	code {
 		color: initial;
 		position: relative;

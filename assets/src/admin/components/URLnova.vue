@@ -14,7 +14,7 @@
 			<div v-if="displayExtensao">
 				<span 
 					:class="{ extensao_fixa:extensaoFixa }" 
-					@click="openBox()"
+					@click="openBox"
 					:disabled="extensaoFixa"
 					>{{ extensao }} </span>
 				<div 
@@ -25,14 +25,14 @@
 					<i @click="displayExtensaoBox = !displayExtensaoBox">&times;</i>
 					<div class="opcoes">
 						<span 
-							v-for="extensao in tiposDeArquivo" 
+							v-for="(extensao, index) in tiposDeArquivo" 
 							@click="alteraTipoDeArq(extensao)"
+							:key="index"
 						>{{ extensao }}</span>
 					</div>
 				</div>
 			</div>
 			<a 
-				v-if="displayExtensao" 
 				class="excluirUrl" 
 				@click="deletaUrl"
 				><span>&times;</span></a>
@@ -62,12 +62,16 @@ import ErroSpan from '../components/ErroSpan.vue'
 				displayExtensao: false,
 				displayExtensaoBox: false,
 				extensao:'',
-				extensaoFixa: true
-			}
+				extensaoFixa: true, 
+				}
 		},
 		watch:{
 			input(value){ 
 				this.extensao = this.checkExtensao(value.replace(/ /g,'')) // remove espaços
+				this.$store.commit('urls/SET_URL',{
+					url: value,
+					index: this.index
+				})
 			},
 			extensao(value){ 
 				value = value.toUpperCase()
@@ -79,16 +83,30 @@ import ErroSpan from '../components/ErroSpan.vue'
 					this.displayExtensao = false
 					this.displayExtensaoBox = false
 				}
-			}
-
+				this.$store.commit('urls/SET_EXTENSAO',{
+					extensao: value,
+					index: this.index
+				})
+			},
+			// novoArquivoResponseId(idArquivo, newIdArquivo){
+			// 	if( idArquivo || idArquivo !== undefined || idArquivo !== newIdArquivo) {
+			// 		this.$store.dispatch('urls/setNovasUrls',{ id: idArquivo })
+			// 	}
+			// 	else{ console.log('idArquivo indefinido') }
+			// }
 		},
 		computed: {
+			// novoArquivoResponseId() { return this.$store.state.arquivos.response },
 			tiposDeArquivo() { return this.$store.state.urls.tiposDeArquivo },
+			urlNova(){ return this.$store.state.urls.urlsNovas[this.index] }
 		},
 		methods:{
-			deletaUrl(){
-				console.log('deletaUrl')
-				this.$emit('removerurls')
+			deletaUrl(){ 
+				this.$store.commit('urls/RESET', { reset: this.index})
+				if(this.urlNova !== undefined){
+					this.input = this.urlNova.url
+					this.extensao = this.urlNova.extensao
+				}
 			},
 			checkExtensao(url){
 				const regexPattern = /\.([0-9a-z]+)(?:[\?#]|$)/i // extensão  = apenas texto após o último ponto
@@ -106,7 +124,6 @@ import ErroSpan from '../components/ErroSpan.vue'
 				return extensao
 			},
 			alteraTipoDeArq(ext) {
-				// console.log(ext)
 				this.displayExtensaoBox = false
 				this.extensao = ext
 			},
@@ -119,5 +136,4 @@ import ErroSpan from '../components/ErroSpan.vue'
 
 <style lang="scss" scoped>
 @import "../scss/URL"
-
 </style>

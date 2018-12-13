@@ -1,8 +1,5 @@
 export default {
 	data(){
-		return {
-			newUrls: []
-		}
 	},
 	props:{
 		idEtapa: {
@@ -11,10 +8,9 @@ export default {
 		} 
 	},
 	methods:{
-		removeUrl(index){
-			console.log(index)
-			this.newUrls = []
-		},
+		// removeUrl(index){
+		// 	this.newUrls = []
+		// },
 		addUrl() {
 			this.newUrls.push({})
 		},

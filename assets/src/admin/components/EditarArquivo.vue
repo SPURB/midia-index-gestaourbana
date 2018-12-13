@@ -19,8 +19,9 @@
 							<span class="charCounter">0/330</span>
 						</td>
 					</tr>
-						<template v-for="url in arquivoClicado.urls">
+						<template v-for="(url, index) in arquivoClicado.urls">
 							<URL 
+								:key="index"
 								:idUrl='parseInt(url.id)'
 								:idEtapa="idEtapa"
 							></URL>
@@ -59,6 +60,11 @@ import inputForms from '../mixins/inputForms'
 
 export default {
 	name: 'EditarArquivo',
+	data(){
+		return {
+			newUrls: []
+		}
+	}, 
 	components: {
 		URL,
 		URLnova

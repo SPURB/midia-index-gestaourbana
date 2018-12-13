@@ -76,17 +76,20 @@ export default{
 	methods:{
 		commitOrAction(){
 			if(this.commitName){
-				if(	this.commitName === 'etapas/DISPLAY' || this.commitName === 'arquivos/ABRE_BOX'){
-					this.$store.commit('luzToggle')
+				switch(this.commitName){
+					case 'etapas/DISPLAY': this.$store.commit('luzToggle'); break;
+					case 'arquivos/ABRE_BOX' : 
+						this.$store.commit('luzToggle')
+						this.$store.commit('urls/RESET_ALL')
+						break;
+					case 'RESET_PROJETO' : this.$router.push({ path:'/' }); break;
+					default : this.$store.commit(this.commitName) 
 				}
 				if(this.options !== undefined){
 					this.$store.commit(this.commitName, this.options) 
 				}
 				else{
 					this.$store.commit(this.commitName) 
-					if(this.commitName === 'RESET_PROJETO'){
-						 this.$router.push({ path:'/' })
-					}
 				}
 			}
 			else{

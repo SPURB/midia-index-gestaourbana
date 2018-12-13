@@ -12,7 +12,10 @@
 					Selecione a extensão do arquivo 
 					<i @click="extensaoBoxShow.state = !extensaoBoxShow.state">&times;</i>
 					<div class="opcoes">
-						<span v-for="extensao in tiposDeArquivo" @click="alteraTipoDeArq(extensao)">{{ extensao }}</span>
+						<span 
+							v-for="(extensao, index) in tiposDeArquivo" 
+							@click="alteraTipoDeArq(extensao)"
+							:key="index">{{ extensao }}</span>
 					</div>
 				</div>
 			</div>

@@ -24,6 +24,10 @@ tr {
 		}
 	}
 
+	td .input.error{
+		border-color:  #FE4C4C;
+	}
+
 	div.arquivo_extensao-box {
 		position: absolute;
 		right: 0;

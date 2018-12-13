@@ -20,8 +20,9 @@
 				</div>
 			</div>
 			<input type="text" class="busca-arquivos" placeholder="Pesquisar arquivos..." v-model="busca">
-			<template v-for="etapa in projeto.etapas">
+			<template v-for="(etapa, index) in projeto.etapas">
 				<Etapa 
+					:key="index"
 					:idEtapa="etapa.id" 
 					:idProjeto="projeto.id"
 					:busca="busca">

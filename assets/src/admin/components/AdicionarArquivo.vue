@@ -26,11 +26,12 @@
 							<URLnova 
 								:index="index"
 								v-on:removerurls="removeUrl(index)"
+								:key="index"
 							></URLnova>
 						</template>
 					<tr>
 						<td colspan="2">
-							<div class="addUrl" @click="addUrl()">+ Adicionar URL</div>
+							<div class="addUrl" @click="addUrl">+ Adicionar URL</div>
 						</td>
 					</tr>
 					<tr>
@@ -89,7 +90,6 @@ export default {
 					descricao: '',
 				}
 			},
-			newUrls: [{}],
 			disabledNome: true,
 			disabledDescricao: true, 
 		}
@@ -100,7 +100,19 @@ export default {
 		SalvarCancelar
 	},
 	mixins:[ inputForms, validator  ],
+	methods:{
+		addUrl() {
+			this.newUrls.push({
+				url: undefined,
+				extensao: undefined
+			})
+		},
+	},
 	computed: {
+		newUrls:{ 
+			get(){ return this.$store.state.urls.urlsNovas },
+			set(value) { this.$store.commit('urls/SET') }
+		},
 		fetching(){ return this.$store.state.fetching },
 		fetchError(){ return this.$store.state.arquivos.error },
 		fetchResponse(){ return this.$store.state.arquivos.response },
@@ -118,7 +130,7 @@ export default {
 		fetchError(status){ status ? console.log('errrou') : null },
 		fetchResponse(oldStatus, newStatus){
 			if(newStatus !== undefined || !this.fetching || !this.fetchError){
-				console.log('fetchResponse: '+this.fetchResponse)
+				this.$store.dispatch('urls/setNovasUrls', { id: this.fetchResponse })
 			}
 		}
 	},
@@ -193,7 +205,6 @@ div.AdicionarArquivo {
 
 					&:nth-child(2) {
 						display: inline-flex;
-						justify-content: space-between;
 						width: 100%;
 
 						input[type=text], textarea {
@@ -216,8 +227,8 @@ div.AdicionarArquivo {
 						}
 					}
 
-					div.addUrl {
-						display: inline;
+					.addUrl {
+						// display: inline;
 						float: right;
 						background-color: transparent;
 						color: #DDD;

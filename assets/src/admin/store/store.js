@@ -161,7 +161,6 @@ let store = new Vuex.Store({
 		},
 		UPDATE_ARQUIVOS: (state, arquivo)=>{ 
 			const index = state.projeto.etapas.findIndex(i => i.id === arquivo.idEtapa )
-			typeof(index) !== Number ? console.error('id etapa indefinido') : null
 			state.projeto.etapas[index].arquivos.push(arquivo)
 		}
 	},
