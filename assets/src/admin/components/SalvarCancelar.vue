@@ -77,9 +77,9 @@ export default{
 		commitOrAction(){
 			if(this.commitName){
 				switch(this.commitName){
-					case 'etapas/DISPLAY': this.$store.commit('luzToggle'); break;
+					case 'etapas/DISPLAY': this.$store.commit('LUZ_TOGGLE'); break;
 					case 'arquivos/ABRE_BOX' : 
-						this.$store.commit('luzToggle')
+						this.$store.commit('LUZ_TOGGLE')
 						this.$store.commit('urls/RESET_ALL')
 						break;
 					case 'RESET_PROJETO' : this.$router.push({ path:'/' }); break;

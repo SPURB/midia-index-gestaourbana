@@ -27,7 +27,9 @@
 							></URL>
 						</template>
 						<template v-for="(newUrl, index) in newUrls">
-							<URLnova :index="index"></URLnova>
+							<URLnova 
+								:key="index"
+								:index="index"></URLnova>
 						</template>
 					<tr>
 						<td colspan="2">
@@ -73,9 +75,7 @@ export default {
 	computed: {
 		arquivoClicado:{ 
 			get(){ return this.$store.state.arquivoClicado },
-			set(value){
-				this.$store.commit('UPDATE_ARQUIVO_CLICADO', value)
-			}
+			set(value){ this.$store.commit('UPDATE_ARQUIVO_CLICADO', value)}
 		},
 		fechaBox() {
 			return this.$store.state.editArquivoBox
@@ -83,8 +83,8 @@ export default {
 	},
 	methods: {
 		cancelar() {
-			this.$store.commit('luzToggle')
-			this.$store.commit('abreEditarArquivoBox')
+			this.$store.commit('LUZ_TOGGLE')
+			this.$store.commit('ABRE_ARQUIVO_BOX')
 		}
 	}
 };

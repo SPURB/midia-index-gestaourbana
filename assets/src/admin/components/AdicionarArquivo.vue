@@ -87,11 +87,12 @@ export default {
 				name: 'arquivos/postNovoArquivo',
 				toChange: { 
 					nome:'', 
-					descricao: '',
+					descricao: ''
 				}
 			},
 			disabledNome: true,
-			disabledDescricao: true, 
+			disabledDescricao: true,
+			counter:0
 		}
 	},
 	components: {
@@ -115,7 +116,6 @@ export default {
 		},
 		fetching(){ return this.$store.state.fetching },
 		fetchError(){ return this.$store.state.arquivos.error },
-		fetchResponse(){ return this.$store.state.arquivos.response },
 		fechaBox() { return this.$store.state.arquivos.box },
 		nomeCharNumber() {return this.action.toChange.nome.length },
 		descricaoCharNumber() {return this.action.toChange.descricao.length },
@@ -128,11 +128,6 @@ export default {
 		nomeCharNumber(value) { value > 1 ? this.disabledNome = false :  this.disabledNome = true },
 		descricaoCharNumber(value) { value > 1 ? this.disabledDescricao = false :  this.disabledDescricao = true },
 		fetchError(status){ status ? console.log('errrou') : null },
-		fetchResponse(oldStatus, newStatus){
-			if(newStatus !== undefined || !this.fetching || !this.fetchError){
-				this.$store.dispatch('urls/setNovasUrls', { id: this.fetchResponse })
-			}
-		}
 	},
 
 }

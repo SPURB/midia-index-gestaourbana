@@ -1,29 +1,46 @@
 import api from '../../utils/api'
 const state = { 
-	idEtapa: undefined, 
+	idEtapa: undefined, // será definido quando criar a etapa 
 	error: false, 
-	addEtapaBox: false
+	addEtapaBox: false,
+	response: undefined,
+	etapaNomeMutated: false
 }
 
 const getters = {
 	projectId (state, getters, rootState) { return rootState.projeto.id }
 }
-
 const actions = {
+	putEtapas: ({ state, commit, getters, rootState }) => {
+		commit('SET_FECHING_STATUS', true,  { root: true })
+		rootState.projeto.etapas.forEach( index => {
+			if(index.updated) {
+				api.put('/etapas/' + index.id, { nome: index.nome })
+					.then(response => { 
+						commit('SET_PUT_RESPONSE', response.data)
+						// console.log(response) 
+					})
+					.catch(error => { 
+						commit('SET_PUT_RESPONSE', error)
+						console.error(error)
+					})
+
+			}
+		})
+		commit('SET_FECHING_STATUS', false,  { root: true })
+	},
 	postNovaEtapa: ({ state, commit, getters, rootState }, novoNome) => {
 		commit('SET_FECHING_STATUS', true,  { root: true })
-
 		const output = {
 			idProjeto: getters.projectId,
 			nome: novoNome
 		}
-
 		api.post('/etapas', output)
 			.then(response => commit('SET_ETAPA', response.data ))
 			.catch(error => commit('SET_ERROR', error))
 			.then(() => {
 				commit('SET_FECHING_STATUS', false, { root: true })
-				commit('luzToggle', null, { root: true })
+				commit('LUZ_TOGGLE', null, { root: true })
 				commit('DISPLAY', false)
 			})
 	},
@@ -45,7 +62,10 @@ const actions = {
 const mutations = {
 	SET_ETAPA: (state, response) => { state.idEtapa = response },
 	SET_ERROR: (state, response) => { state.error = !state.error },
-	DISPLAY: (state, boxState) => { state.addEtapaBox = boxState }
+	DISPLAY: (state, boxState) => { state.addEtapaBox = boxState },
+	SET_PUT_RESPONSE: (state, response) => { state.response = response },
+	ETAPA_NOME_MUTATED: (state, status) => { state.etapaNomeMutated = status }
+	// SET_STATUS_NOME_PROJETO:( state, status ) => { state.statusNomeProjetoAlterado = status }
 }
 
 export default {

@@ -16,7 +16,11 @@
 				<th width="25%">Última modificação</th>
 				<th width="15%"></th>
 			</thead>
-			<tr v-for="projeto in projetosFiltrado" :class="ocultoClass(projeto.ativo)">
+			<tr 
+				v-for="(projeto, index) in projetosFiltrado" 
+				:class="ocultoClass(projeto.ativo)"
+				:key="index"
+				>
 				<td>
 					<router-link 
 						:to="goToProjeto(projeto.id)"
@@ -27,7 +31,7 @@
 				<td>{{ projeto.wordpress_user_id }}</td> <!-- esta id é a id da tabela wordpress_user_id, precisamos incluir a coluna user_login -->
 				<td>{{ displayData(projeto.atualizacao) }}</td>
 				<td>
-					<div class="switchCont" @click="ativoToggle(projeto.id)">
+					<div class="switchCont" @click="ATIVA_TOGGLER(projeto.id)">
 						<div :class="ocultoClass(projeto.ativo)">
 							<span v-if="projeto.ativo == 1">Disponível</span>
 							<span v-else>Oculto</span>
@@ -109,12 +113,12 @@ export default {
 		ocultoClass(par) {
 			if (par == 1) { return '' } else if (par == 0) { return 'oculto' }
 		},
-		ativoToggle(incomeId) { 
-			this.$store.commit('ativoToggle', incomeId) 
+		ATIVA_TOGGLER(incomeId) { 
+			this.$store.commit('ATIVA_TOGGLER', incomeId) 
 		},
 		abreNovoProjeto() {
-			this.$store.commit('abreAdicionarProjetoBox')
-			this.$store.commit('luzToggle')
+			this.$store.commit('ABRE_PROJETO_BOX')
+			this.$store.commit('LUZ_TOGGLE')
 		}
 	}
 }

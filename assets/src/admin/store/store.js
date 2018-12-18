@@ -5,15 +5,18 @@ import etapas from './modulos/etapas'
 import arquivos from './modulos/arquivos'
 import statusProjetos from './modulos/statusProjetos'
 import urls from './modulos/urls'
+import infoProjeto from './modulos/infoProjeto'
 
 Vue.use(Vuex)
 
 let store = new Vuex.Store({
+	// strict: true,
 	modules:{
 		etapas,
 		arquivos,
 		statusProjetos,
-		urls
+		urls,
+		infoProjeto
 	},
 	state: { 
 		projeto: false,
@@ -51,7 +54,6 @@ let store = new Vuex.Store({
 				}
 				else { return oneDigit }
 			}
-
 			return year + '-' + 
 			twoDigits(month) + '-' + 
 			twoDigits(day) + ' ' + 
@@ -62,10 +64,10 @@ let store = new Vuex.Store({
 	},
 
 	mutations: {
-		luzToggle(state) { state.apagaLuz = !state.apagaLuz },
-		abreEditarArquivoBox(state) { state.editArquivoBox = !state.editArquivoBox },
-		abreAdicionarProjetoBox(state) { state.addProjetoBox = !state.addProjetoBox },
-		ativoToggle(state, incomeId) {
+		LUZ_TOGGLE(state) { state.apagaLuz = !state.apagaLuz },
+		ABRE_ARQUIVO_BOX(state) { state.editArquivoBox = !state.editArquivoBox },
+		ABRE_PROJETO_BOX(state) { state.addProjetoBox = !state.addProjetoBox },
+		ATIVA_TOGGLER(state, incomeId) {
 			state.projetos.map(function(index) {
 				if (index.id === incomeId) {
 					index.ativo = Math.abs(index.ativo - 1)
@@ -89,25 +91,19 @@ let store = new Vuex.Store({
 				return index
 			})
 		},
-		RESET_PROJETO: state =>{
-			state.projeto = false
-		}, 
+		RESET_PROJETO: state =>{ state.projeto = false }, 
 		SET_PROJETOS: (state, response) => { 
 			state.projetos = response.data.map(index => {
 				index.id = parseInt(index.id)
-
 				if(index.ativo == null){
 					index.ativo = 0
 				}
-
 				index.ativo = parseInt(index.ativo)
-
 				index.wordpress_user_id = parseInt(index.wordpress_user_id)
 				index.alterado = false
 				return index
 			})
 		},
-
 		SET_INFO_PROJETO: (state, response) => { 
 			let projeto = response.data
 			projeto.id = parseInt(projeto.id)
@@ -145,24 +141,32 @@ let store = new Vuex.Store({
 			const indexEtapa = state.projeto.etapas.findIndex(i => i.id === obj.idEtapa )
 			state.projeto.etapas[indexEtapa].arquivos = obj.arquivos
 		},
-		SET_ARQUIVO_EXTENSION: (state, obj) =>{
+		SET_ARQUIVO_EXTENSION: (state, obj) => {
 			const indexUrl = state.arquivoClicado.urls.findIndex(i => parseInt(i.id) === parseInt(obj.idUrl) )
 			state.arquivoClicado.urls[indexUrl].extensao = obj.extensao
 		},
 		UPDATE_ETAPA_NOME: (state, objIndexEtapaNome) => {
 			state.projeto.etapas[objIndexEtapaNome.indexEtapa].nome = objIndexEtapaNome.nome
+			state.projeto.etapas[objIndexEtapaNome.indexEtapa].updated = true
 		},
-		UPDATE_ETAPAS:(state, novaEtapa) =>{
-			state.projeto.etapas.push(novaEtapa)
-		},
+		UPDATE_ETAPAS:(state, novaEtapa) => { state.projeto.etapas.push(novaEtapa) },
 		UPDATE_ARQUIVO_CLICADO:(state, arquivo) => { state.arquivoClicado = arquivo },
-		UPDATE_PROJETO_NOME: (state, projetoAlterado ) => { 
-			state.projeto.nome = projetoAlterado
-		},
-		UPDATE_ARQUIVOS: (state, arquivo)=>{ 
+		UPDATE_PROJETO_NOME: (state, projetoAlterado ) => {  state.projeto.nome = projetoAlterado },
+		UPDATE_ARQUIVOS: (state, arquivo) => { 
 			const index = state.projeto.etapas.findIndex(i => i.id === arquivo.idEtapa )
+			arquivo.itemNovo = true
 			state.projeto.etapas[index].arquivos.push(arquivo)
-		}
+		},
+		// UPDATE_ARQUIVO:(state, arquivo) => {
+		// 	// console.log('UPDATE_ARQUIVO')
+		// 	arquivo.idEtapa = parseInt(arquivo.idEtapa)
+		// 	arquivo.idArquivo = parseInt(arquivo.idArquivo)
+		// 	arquivo.idUrl = parseInt(arquivo.idUrl)
+			
+		// 	const etapa = state.projeto.etapas.find(etapa => etapa.id === arquivo.idEtapa)
+		// 	console.log(arquivo.idArquivo)
+		// 	console.log(etapa.arquivos.map(index => index.id))
+		// }
 	},
 	actions: {
 		fetchProjetos: state =>{
@@ -176,7 +180,7 @@ let store = new Vuex.Store({
 		},
 		fetchInfoProjeto: (state, id) => {
 			state.commit('SET_FECHING_STATUS', true)
-			api.get('projetos/'+id)
+			api.get('projetos/' + id)
 				.then(response => { state.commit('SET_INFO_PROJETO', response)})
 				.catch(error => { state.commit('SET_ERROR', error) })
 				.then(() => { state.commit('SET_FECHING_STATUS', false)}
@@ -190,11 +194,21 @@ let store = new Vuex.Store({
 				.then(() => {state.commit('SET_FECHING_STATUS', false)}
 			)
 		},
-		putProjeto: ( state, obj ) => {
-			console.log('action: putProjeto')
-			console.log(obj)
-		}, 
+		putProjeto: ( { dispatch, state, commit } ) => {
+			/* nome projetos, nome etapas e ordem de arquivos */
+			commit('SET_FECHING_STATUS', false)
+			api.put('/projetos/' + state.projeto.id , { nome: state.projeto.nome })
+				.then(response => {
+					dispatch('etapas/putEtapas')
+					// console.log(response)
+					// commit('etapas/SET_STATUS_NOME_PROJETO', true)
+				})
+				.catch(error => console.log(error))
+				.then(() => { 
+					commit('SET_FECHING_STATUS', false)
+					// commit('etapas/SET_STATUS_NOME_PROJETO', false)
+				})
+		},
 	}
 })
-
 export default store

@@ -66,37 +66,34 @@ import ErroSpan from '../components/ErroSpan.vue'
 				}
 		},
 		watch:{
-			input(value){ 
-				this.extensao = this.checkExtensao(value.replace(/ /g,'')) // remove espaços
-				this.$store.commit('urls/SET_URL',{
-					url: value,
-					index: this.index
-				})
-			},
-			extensao(value){ 
-				value = value.toUpperCase()
-				if(value === '...' || value != ''){
-					this.displayExtensao = true
-					this.displayExtensaoBox = false
+			input(value){
+				if(value){
+					this.extensao = this.checkExtensao(value.replace(/ /g,'')) // remove espaços
+					this.$store.commit('urls/SET_URL',{
+						url: value,
+						index: this.index
+					})
 				}
-				else{
-					this.displayExtensao = false
-					this.displayExtensaoBox = false
-				}
-				this.$store.commit('urls/SET_EXTENSAO',{
-					extensao: value,
-					index: this.index
-				})
 			},
-			// novoArquivoResponseId(idArquivo, newIdArquivo){
-			// 	if( idArquivo || idArquivo !== undefined || idArquivo !== newIdArquivo) {
-			// 		this.$store.dispatch('urls/setNovasUrls',{ id: idArquivo })
-			// 	}
-			// 	else{ console.log('idArquivo indefinido') }
-			// }
+			extensao(value){
+				if(value){
+					value = value.toUpperCase()
+					if(value === '...' || value != ''){
+						this.displayExtensao = true
+						this.displayExtensaoBox = false
+					}
+					else{
+						this.displayExtensao = false
+						this.displayExtensaoBox = false
+					}
+					this.$store.commit('urls/SET_EXTENSAO',{
+						extensao: value,
+						index: this.index
+					})
+				}
+			}
 		},
 		computed: {
-			// novoArquivoResponseId() { return this.$store.state.arquivos.response },
 			tiposDeArquivo() { return this.$store.state.urls.tiposDeArquivo },
 			urlNova(){ return this.$store.state.urls.urlsNovas[this.index] }
 		},

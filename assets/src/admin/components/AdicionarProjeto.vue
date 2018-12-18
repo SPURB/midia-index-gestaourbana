@@ -84,8 +84,8 @@ export default {
 	methods: {
 		fechaNovoProjetoBox() {
 			this.$store.dispatch('fetchProjetos')
-			this.$store.commit('abreAdicionarProjetoBox')
-			this.$store.commit('luzToggle')
+			this.$store.commit('ABRE_PROJETO_BOX')
+			this.$store.commit('LUZ_TOGGLE')
 		},
 		adicionarProjeto(){ 
 			this.$store.dispatch('postNovoProjeto', {

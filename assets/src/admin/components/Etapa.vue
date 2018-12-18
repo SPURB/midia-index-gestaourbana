@@ -26,13 +26,17 @@
 						animation: 50, 
 						scroll: true, 
 						scrollSensitivity: 80, 
-						scrollSpeed: 8 
+						scrollSpeed: 8
 					}">
-					<tr v-for="arquivo in arquivosFiltrados" class="tablerow">
+					<tr 
+						v-for="(arquivo, index) in arquivosFiltrados" 
+						class="tablerow" 
+						:key="index">
 						<td>{{ displayData(arquivo.atualizacao) }}</td>
 						<td><a 
-								@click="abreEditArquivoBox(arquivo.id)" 
-								:id="arquivo.id">{{ arquivo.nome }}</a></td>
+								@click="abreEditArquivoBox(arquivo)" 
+								:id="arquivo.id"
+								>{{ arquivo.nome }}</a></td>
 						<td>
 
 						<a><svg class="draggableIcon" width="24" height="24" viewBox="0 0 24 24" alt="reordenar" style=" vertical-align: bottom"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"/></svg></a>
@@ -41,19 +45,17 @@
 				</draggable>
 			</table>
 			<transition	name="adicionarArquivoFade">
-				<button v-show="!collapsed" class="adicionar-arquivo" @click="novoArquivo()">+ Adicionar arquivo</button>
+				<button v-show="!collapsed" class="adicionar-arquivo" @click="novoArquivo">+ Adicionar arquivo</button>
 			</transition>
 		</div>
 
 
 		<EditarArquivo 
 			v-if="editarArquivo" 
-			:idEtapa="idEtapa"
-		></EditarArquivo>
+			:idEtapa="idEtapa"></EditarArquivo>
 		<AdicionarArquivo 
 			v-if="abreNovoArquivo"
-			:idEtapa="idEtapa"
-			></AdicionarArquivo>
+			:idEtapa="idEtapa"></AdicionarArquivo>
 	</div>
 </template>
 
@@ -70,7 +72,7 @@ export default {
 		idEtapa: {
 			type: Number,
 			required: true
-		}, 
+		},
 		idProjeto: {
 			type: Number,
 			required: true
@@ -95,9 +97,7 @@ export default {
 		editarArquivo() { return this.$store.state.editArquivoBox },
 		abreNovoArquivo() { return this.$store.state.arquivos.box },
 		arquivos:{
-			get(){  
-				return this.$store.state.projeto.etapas[this.indexEtapas(this.idEtapa)].arquivos
-			},
+			get(){ return this.$store.state.projeto.etapas[this.indexEtapas(this.idEtapa)].arquivos },
 			set(value){
 				this.$store.commit('REORDER_ARQUIVOS', {
 					arquivos: value, 
@@ -120,6 +120,16 @@ export default {
 					indexEtapa: this.indexEtapas(this.idEtapa),
 					nome: value
 				})
+				this.$store.commit('etapas/ETAPA_NOME_MUTATED', true)
+			}
+		},
+		novoArquivoResponse(){ return this.$store.state.arquivos.response }
+	},
+	watch: {
+		novoArquivoResponse(state) {
+			if(state){
+				this.$store.dispatch('urls/setNovasUrls', { id: state, idEtapa: this.idEtapa })
+				this.$store.commit('arquivos/RESET_RESPONSE')
 			}
 		}
 	},
@@ -145,15 +155,18 @@ export default {
 		},
 		novoArquivo() {
 			this.$store.commit('arquivos/SET_ID_ETAPA', { idEtapa: this.idEtapa })
-			this.$store.commit('luzToggle')
+			this.$store.commit('LUZ_TOGGLE')
 			this.$store.commit('arquivos/ABRE_BOX')
 		},
-		abreEditArquivoBox(idArquivoFromLoop) {
-			this.$store.commit('luzToggle')
-			this.$store.commit('abreEditarArquivoBox')
+		abreEditArquivoBox(arquivoFromLooop) {
+			if(arquivoFromLooop.itemNovo === true){ 
+				this.$store.dispatch('infoProjeto/getNovoArquivo', { idArquivo: arquivoFromLooop.id })
+			}
+			this.$store.commit('LUZ_TOGGLE')
+			this.$store.commit('ABRE_ARQUIVO_BOX')
 			this.$store.commit('SET_ARQUIVO', {
 				idEtapa: this.idEtapa,
-				idArquivo: idArquivoFromLoop
+				idArquivo: arquivoFromLooop.id
 			})
 		}
 	}

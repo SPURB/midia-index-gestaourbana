@@ -2,7 +2,7 @@ import api from '../../utils/api'
 const state = { 
 	box: false,
 	editBox: false,
-	response: undefined, // será o id do arquivo criado
+	response: false, // será o id do arquivo criado
 	error: false,
 	clickedIdEtapa: undefined
 }
@@ -27,7 +27,7 @@ const actions = {
 			})
 			.then(() => {
 				commit('SET_FECHING_STATUS', false, { root: true })
-				commit('luzToggle', null, { root: true })
+				commit('LUZ_TOGGLE', null, { root: true })
 				commit('ABRE_BOX')
 			})
 	},
@@ -46,14 +46,16 @@ const actions = {
 			.then(() => {
 				commit('SET_FECHING_STATUS', false, { root: true })
 			})
-	}
+	},
+	
 }
 
 const mutations = {
 	ABRE_BOX:(state) => { state.box = !state.box },
 	SET_RESPONSE: (state, resposeNovoIdEtapa) => { state.response = resposeNovoIdEtapa.postResponse },
 	SET_ERROR: (state, response) => { state.error = response },
-	SET_ID_ETAPA: (state, id) => { state.clickedIdEtapa = id.idEtapa }
+	SET_ID_ETAPA: (state, id) => { state.clickedIdEtapa = id.idEtapa },
+	RESET_RESPONSE: (state) => { state.response = false }
 }
 
 export default {

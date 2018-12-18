@@ -71,11 +71,9 @@ export default {
 			busca: '', 
 			action: {
 				name: 'putProjeto',
-				toChange: {
-					nome: false,
-					etapas:[]
-				} 
-			}
+				toChange: {} 
+			}, 
+			statusBotao: true
 		};
 	},
 	computed: {
@@ -91,8 +89,9 @@ export default {
 		},
 		abreAdicionarEtapa(){ return this.$store.state.etapas.addEtapaBox },
 		novaEtapa(){ return this.$store.state.etapas.idEtapa },
-		statusBotao(){
-			if(this.fields.nome){ // fazer validacao com fields.nome para habilitar botão de SALVAR
+		etapasMutated(){ return this.$store.state.etapas.etapaNomeMutated },
+		untouchedNome(){
+			if(this.fields.nome){ // fazer validacao com fields.nome para habilitar botão de salvar
 				return this.fields.nome.pristine ? this.fields.nome.valid : false
 			}
 			else { return false }
@@ -100,11 +99,13 @@ export default {
 		novoArquivoId(){ return this.$store.state.arquivos.response }
 	},
 	watch: {
+		untouchedNome(status){ this.statusBotao = status },
+		etapasMutated(status){ this.statusBotao = !status },
 		novaEtapa(value){ 
 			if(value !== undefined){ this.$store.dispatch('etapas/getNovaEtapa', value)}
 		},
 		novoArquivoId(value){
-			if(value !== undefined){ this.$store.dispatch('arquivos/fetchNovoArquivo', { id: value }) }
+			if(value !== undefined && value){ this.$store.dispatch('arquivos/fetchNovoArquivo', { id: value }) }
 		}
 	},
 	components: {
@@ -118,7 +119,7 @@ export default {
 	methods: {
 		insereEtapa() {
 			this.$store.commit('etapas/DISPLAY', true)
-			this.$store.commit('luzToggle')
+			this.$store.commit('LUZ_TOGGLE')
 		}
 	}
 }
