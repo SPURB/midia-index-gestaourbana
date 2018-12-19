@@ -3,7 +3,7 @@ const state = {
 	idEtapa: undefined, // será definido quando criar a etapa 
 	error: false, 
 	addEtapaBox: false,
-	response: undefined,
+	response: false,
 	etapaNomeMutated: false
 }
 
@@ -15,13 +15,16 @@ const actions = {
 		commit('SET_FECHING_STATUS', true,  { root: true })
 		rootState.projeto.etapas.forEach( index => {
 			if(index.updated) {
-				api.put('/etapas/' + index.id, { nome: index.nome })
+				api.put('/etapas/' + index.id, { 
+					nome: index.nome
+				})
 					.then(response => { 
 						commit('SET_PUT_RESPONSE', response.data)
 						// console.log(response) 
 					})
 					.catch(error => { 
 						commit('SET_PUT_RESPONSE', error)
+						commit('SET_ERROR_TRUE')
 						console.error(error)
 					})
 
@@ -62,10 +65,15 @@ const actions = {
 const mutations = {
 	SET_ETAPA: (state, response) => { state.idEtapa = response },
 	SET_ERROR: (state, response) => { state.error = !state.error },
+	SET_ERROR_TRUE: (state) => { state.error = true },
 	DISPLAY: (state, boxState) => { state.addEtapaBox = boxState },
 	SET_PUT_RESPONSE: (state, response) => { state.response = response },
-	ETAPA_NOME_MUTATED: (state, status) => { state.etapaNomeMutated = status }
+	ETAPA_NOME_MUTATED: (state, status) => { state.etapaNomeMutated = status },
 	// SET_STATUS_NOME_PROJETO:( state, status ) => { state.statusNomeProjetoAlterado = status }
+	RESET_RESPONSES: (state) => {
+		state.response = false
+		state.error = false
+	}
 }
 
 export default {

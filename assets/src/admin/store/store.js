@@ -27,7 +27,7 @@ let store = new Vuex.Store({
 		addProjetoBox: false,
 		serverResponse: false,
 		serverError: false,
-		fetching: true
+		fetching: false
 	},
 	getters: {
 		projetosAlterados(state) {
@@ -84,6 +84,10 @@ let store = new Vuex.Store({
 					index.ativo = !index.ativo
 				}
 			})
+		},
+		RESET_RESPONSES:(state) =>{
+			state.serverResponse = false
+			state.serverError = false
 		},
 		RESET_PROJETOS_AFTER_UPDATE:(state, status) => {
 			state.projetos = state.projetos.map(function(index) { 
@@ -156,17 +160,7 @@ let store = new Vuex.Store({
 			const index = state.projeto.etapas.findIndex(i => i.id === arquivo.idEtapa )
 			arquivo.itemNovo = true
 			state.projeto.etapas[index].arquivos.push(arquivo)
-		},
-		// UPDATE_ARQUIVO:(state, arquivo) => {
-		// 	// console.log('UPDATE_ARQUIVO')
-		// 	arquivo.idEtapa = parseInt(arquivo.idEtapa)
-		// 	arquivo.idArquivo = parseInt(arquivo.idArquivo)
-		// 	arquivo.idUrl = parseInt(arquivo.idUrl)
-			
-		// 	const etapa = state.projeto.etapas.find(etapa => etapa.id === arquivo.idEtapa)
-		// 	console.log(arquivo.idArquivo)
-		// 	console.log(etapa.arquivos.map(index => index.id))
-		// }
+		}
 	},
 	actions: {
 		fetchProjetos: state =>{
@@ -197,17 +191,15 @@ let store = new Vuex.Store({
 		putProjeto: ( { dispatch, state, commit } ) => {
 			/* nome projetos, nome etapas e ordem de arquivos */
 			commit('SET_FECHING_STATUS', false)
-			api.put('/projetos/' + state.projeto.id , { nome: state.projeto.nome })
+			api.put('/projetos/' + state.projeto.id, { nome: state.projeto.nome })
 				.then(response => {
 					dispatch('etapas/putEtapas')
-					// console.log(response)
-					// commit('etapas/SET_STATUS_NOME_PROJETO', true)
+					commit('SET_PROJETO', response)
 				})
-				.catch(error => console.log(error))
-				.then(() => { 
-					commit('SET_FECHING_STATUS', false)
-					// commit('etapas/SET_STATUS_NOME_PROJETO', false)
+				.catch(error => {
+					commit('SET_ERROR', error)
 				})
+				.then(() => commit('SET_FECHING_STATUS', false))
 		},
 	}
 })

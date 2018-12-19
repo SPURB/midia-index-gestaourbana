@@ -6,7 +6,7 @@
 				<slot name="msg"></slot>
 			</div>
 			<div class="modal-ok">
-				<button @click="fechaModal = !fechaModal">OK</button>
+				<button @click="toggleModal">OK</button>
 			</div>
 		</div>
 		<slot name="componente"></slot>
@@ -19,17 +19,24 @@ export default {
 	data() {
 		return {
 			fechaModal: false,
-		};
+		}
 	},
+	methods:{
+		toggleModal(){
+			this.fechaModal = !this.fechaModal
+			this.$store.commit('RESET_RESPONSES')
+			this.$store.commit('etapas/RESET_RESPONSES')
+		}
+	}
 }
 </script>
 
 <style lang="scss">
 div.Modal {
 	box-sizing: border-box;
-	position: absolute;
-	top: 20px;
-	left: -20px;
+	position: fixed;
+	top: 50px;
+	left: 38px;
 	width: 100%;
 	height: calc(100vh - 32px);
 	display: flex;
@@ -37,6 +44,7 @@ div.Modal {
 	align-items: flex-end;
 	padding: 40px 20px;
 	overflow: hidden;
+	z-index:10;
 
 	&.fechado { display: none; }
 

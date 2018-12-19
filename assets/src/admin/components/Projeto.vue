@@ -46,10 +46,20 @@
 			</SalvarCancelar>
 		</section>
 
-		<!-- <Modal class="erro">
-			<template slot="header">Campos não preenchidos</template> 
-			<template slot="msg">Por favor, preencha todos os campos.</template>
-		</Modal> -->
+		<Modal class="erro" v-if="errorEtapas" >
+			<template slot="header">Erro ao alterar etapas!</template>
+			<template slot="msg">{{ errorEtapasMessage.response.data }}</template>
+		</Modal>
+		<Modal class="erro" v-if="errorProjeto" >
+			<template slot="header">Erro ao alterar projeto!</template>
+			<template slot="msg">{{ errorProjeto.response.data }}</template>
+		</Modal>
+
+		<Modal class="sucesso" v-if="fetchSucceded" >
+			<template slot="header">Sucesso!</template>
+			<template slot="msg">Projeto atualizado com sucesso.</template>
+		</Modal>
+
 		<AdicionarEtapa v-if="abreAdicionarEtapa"></AdicionarEtapa>
 	</div>
 </template>
@@ -73,10 +83,25 @@ export default {
 				name: 'putProjeto',
 				toChange: {} 
 			}, 
-			statusBotao: true
-		};
+			statusBotao: true,
+			fetchError: false
+		}
 	},
 	computed: {
+		fetchSucceded(){
+			if(	this.$store.state.serverResponse !== false && 
+				this.$store.state.serverError === false){
+				return true
+			}
+			else if( this.$store.state.etapas.response !== false &&
+			 		 this.$store.state.etapas.error === false){
+				return true
+			}
+			else { return false }
+		},
+		errorEtapas(){ return this.$store.state.etapas.error },
+		errorEtapasMessage() { return this.$store.state.etapas.response },
+		errorProjeto(){ return this.$store.state.serverError },
 		projeto() { 
 			return {
 				id: this.$store.state.projeto.id,
@@ -99,6 +124,7 @@ export default {
 		novoArquivoId(){ return this.$store.state.arquivos.response }
 	},
 	watch: {
+		errorEtapas(status){ status ? this.fetchError = true : null },
 		untouchedNome(status){ this.statusBotao = status },
 		etapasMutated(status){ this.statusBotao = !status },
 		novaEtapa(value){ 
