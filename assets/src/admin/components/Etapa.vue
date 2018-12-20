@@ -20,6 +20,7 @@
 				<draggable 
 					v-model="arquivos"
 					element="tbody"
+					@end="etapaAlterada"
 					:options="{ 
 						draggable: '.tablerow', 
 						ghostClass: 'slot-vazio', 
@@ -38,8 +39,13 @@
 								:id="arquivo.id"
 								>{{ arquivo.nome }}</a></td>
 						<td>
-
-						<a><svg class="draggableIcon" width="24" height="24" viewBox="0 0 24 24" alt="reordenar" style=" vertical-align: bottom"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"/></svg></a>
+						<a><svg 
+							class="draggableIcon" 
+							width="24" 
+							height="24" 
+							viewBox="0 0 24 24" 
+							alt="reordenar" 
+							style=" vertical-align: bottom"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"/></svg></a>
 						</td>
 					</tr>
 				</draggable>
@@ -52,10 +58,12 @@
 
 		<EditarArquivo 
 			v-if="editarArquivo" 
-			:idEtapa="idEtapa"></EditarArquivo>
+			:idEtapa="idEtapa">
+		</EditarArquivo>
 		<AdicionarArquivo 
 			v-if="abreNovoArquivo"
-			:idEtapa="idEtapa"></AdicionarArquivo>
+			:idEtapa="idEtapa">
+		</AdicionarArquivo>
 	</div>
 </template>
 
@@ -134,6 +142,9 @@ export default {
 		}
 	},
 	methods: {
+		etapaAlterada(){
+			this.$store.commit('etapas/SET_ETAPAS_ALTERADAS', this.idEtapa)
+		},
 		indexEtapas(idEtapa) { return this.$store.state.projeto.etapas.findIndex(i => i.id === idEtapa) },
 		etapaCollapse(evt) {
 			let divEtapa = evt.target.parentNode.parentNode.parentNode
@@ -158,15 +169,16 @@ export default {
 			this.$store.commit('LUZ_TOGGLE')
 			this.$store.commit('arquivos/ABRE_BOX')
 		},
-		abreEditArquivoBox(arquivoFromLooop) {
-			if(arquivoFromLooop.itemNovo === true){ 
-				this.$store.dispatch('infoProjeto/getNovoArquivo', { idArquivo: arquivoFromLooop.id })
+		abreEditArquivoBox(arquivoFromLoop) {
+			if(arquivoFromLoop.itemNovo === true){ 
+				// console.log('arquivoFromLoop: arquivo novo')
+				this.$store.dispatch('infoProjeto/getNovoArquivo', { idArquivo: arquivoFromLoop.id })
 			}
 			this.$store.commit('LUZ_TOGGLE')
 			this.$store.commit('ABRE_ARQUIVO_BOX')
 			this.$store.commit('SET_ARQUIVO', {
 				idEtapa: this.idEtapa,
-				idArquivo: arquivoFromLooop.id
+				idArquivo: arquivoFromLoop.id
 			})
 		}
 	}

@@ -44,9 +44,10 @@
 								name="Descrição" 
 								id="descricao" 
 								v-model="action.toChange.descricao"
-								v-validate="'required|max:330'"></textarea>
-								<span class="contador" v-if="!errors.has('Descrição')">{{descricaoCharNumber}}/330</span>
-								<ErroSpan :display="errors.has('Descrição')">{{ errors.first('Descrição') }}</ErroSpan>
+								v-validate="'required|max:330'">
+							</textarea>
+							<span class="contador" v-if="!errors.has('Descrição')">{{descricaoCharNumber}}/330</span>
+							<ErroSpan :display="errors.has('Descrição')">{{ errors.first('Descrição') }}</ErroSpan>
 						</td>
 					</tr>
 				</table>
@@ -76,7 +77,6 @@
 import ErroSpan from '../components/ErroSpan.vue'
 import URLnova from '../components/URLnova.vue'
 import SalvarCancelar from '../components/SalvarCancelar.vue'
-import inputForms from '../mixins/inputForms'
 import { ptBr, validator } from '../mixins/formValidation'
 
 export default {
@@ -91,16 +91,21 @@ export default {
 				}
 			},
 			disabledNome: true,
-			disabledDescricao: true,
-			counter:0
+			disabledDescricao: true
 		}
+	},
+	props:{
+		idEtapa: {
+			type: Number,
+			required: true
+		} 
 	},
 	components: {
 		ErroSpan,
 		URLnova,
 		SalvarCancelar
 	},
-	mixins:[ inputForms, validator  ],
+	mixins:[  validator  ],
 	methods:{
 		addUrl() {
 			this.newUrls.push({

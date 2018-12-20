@@ -28,7 +28,7 @@
 					:busca="busca">
 				</Etapa>
 			</template>
-			<button class="adicionarEtapa" @click="insereEtapa()">+ Adicionar etapa</button>
+			<button class="adicionarEtapa" @click="insereEtapa">+ Adicionar etapa</button>
 		</section>
 
 		<section class="acoes">
@@ -53,6 +53,10 @@
 		<Modal class="erro" v-if="errorProjeto" >
 			<template slot="header">Erro ao alterar projeto!</template>
 			<template slot="msg">{{ errorProjeto.response.data }}</template>
+		</Modal>
+		<Modal class="erro" v-if="errorArquivos > 0" >
+			<template slot="header">Erro ao alterar ordenação de arquivos!</template>
+			<template slot="msg">Erro ao atualizar ordenação</template>
 		</Modal>
 
 		<Modal class="sucesso" v-if="fetchSucceded" >
@@ -90,7 +94,7 @@ export default {
 	computed: {
 		fetchSucceded(){
 			if(	this.$store.state.serverResponse !== false && 
-				this.$store.state.serverError === false){
+				this.$store.state.serverError === false ){
 				return true
 			}
 			else if( this.$store.state.etapas.response !== false &&
@@ -102,6 +106,7 @@ export default {
 		errorEtapas(){ return this.$store.state.etapas.error },
 		errorEtapasMessage() { return this.$store.state.etapas.response },
 		errorProjeto(){ return this.$store.state.serverError },
+		errorArquivos(){ return this.$store.state.arquivos.errors }, 
 		projeto() { 
 			return {
 				id: this.$store.state.projeto.id,

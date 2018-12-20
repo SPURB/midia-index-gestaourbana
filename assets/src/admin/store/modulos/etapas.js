@@ -4,13 +4,15 @@ const state = {
 	error: false, 
 	addEtapaBox: false,
 	response: false,
-	etapaNomeMutated: false
+	etapaNomeMutated: false,
+	etapasAlteradas: []
 }
 
 const getters = {
 	projectId (state, getters, rootState) { return rootState.projeto.id }
 }
 const actions = {
+	putArquivosOrder:({ state, commit, getters }) => { console.log('ETAPAS/putArquivosOrder')},
 	putEtapas: ({ state, commit, getters, rootState }) => {
 		commit('SET_FECHING_STATUS', true,  { root: true })
 		rootState.projeto.etapas.forEach( index => {
@@ -73,6 +75,9 @@ const mutations = {
 	RESET_RESPONSES: (state) => {
 		state.response = false
 		state.error = false
+	},
+	SET_ETAPAS_ALTERADAS: (state, idEtapa) => { 
+		state.etapasAlteradas.includes(idEtapa) ? null : state.etapasAlteradas.push(idEtapa)
 	}
 }
 

@@ -194,6 +194,7 @@ let store = new Vuex.Store({
 			api.put('/projetos/' + state.projeto.id, { nome: state.projeto.nome })
 				.then(response => {
 					dispatch('etapas/putEtapas')
+					dispatch('etapas/putArquivosOrder')
 					commit('SET_PROJETO', response)
 				})
 				.catch(error => {

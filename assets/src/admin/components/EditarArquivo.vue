@@ -12,11 +12,14 @@
 						</td>
 						<td>
 							<input 
-								type="text" 
-								@keyup="charCount($event)" 
+								type="text"
 								ref="nome" 
-								v-model="arquivoClicado.nome">
-							<span class="charCounter">0/330</span>
+								id="nome"
+								name="Nome público"
+								v-model="arquivoClicado.nome"
+								v-validate="'required|max:330'">
+								<span v-if="!errors.has('Nome público')">{{nomeCharNumber}}/330</span>
+								<ErroSpan :display="errors.has('Nome público')">{{ errors.first('Nome público') }}</ErroSpan>
 						</td>
 					</tr>
 						<template v-for="(url, index) in arquivoClicado.urls">
@@ -41,8 +44,20 @@
 							<label for="descricao">Descrição</label>
 						</td>
 						<td>
-							<textarea @keyup="charCount($event)" ref="descricao" v-model="arquivoClicado.descricao"></textarea>
-							<span class="charCounter">0/330</span>
+							<textarea 
+								type="text"
+								name="Descrição" 
+								id="descricao" 
+								v-model="arquivoClicado.descricao"
+								v-validate="'required|max:330'">
+							</textarea>
+							<span 
+								class="contador" 
+								v-if="!errors.has('Descrição')">{{descricaoCharNumber}}/330
+							</span>
+							<ErroSpan 
+								:display="errors.has('Descrição')">{{ errors.first('Descrição') }}
+							</ErroSpan>
 						</td>
 					</tr>
 				</table>
@@ -56,22 +71,30 @@
 </template>
 
 <script>
+import ErroSpan from '../components/ErroSpan.vue'
 import URL from '../components/URL.vue'
 import URLnova from '../components/URLnova.vue'
-import inputForms from '../mixins/inputForms'
+import { ptBr, validator } from '../mixins/formValidation'
 
 export default {
 	name: 'EditarArquivo',
 	data(){
 		return {
-			newUrls: []
+			newUrls: [],
+			disabledDescricao: true,
 		}
 	}, 
+	props:{
+		idEtapa: {
+			type: Number,
+			required: true
+		} 
+	},
 	components: {
+		ErroSpan,
 		URL,
 		URLnova
 	},
-	mixins:[ inputForms ],
 	computed: {
 		arquivoClicado:{ 
 			get(){ return this.$store.state.arquivoClicado },
@@ -79,15 +102,29 @@ export default {
 		},
 		fechaBox() {
 			return this.$store.state.editArquivoBox
-		}
+		},
+		nomeCharNumber() {return this.arquivoClicado.nome.length },
+		descricaoCharNumber() {return this.arquivoClicado.descricao.length },
+		disabled() { 
+			if( this.disabledNome || this.disabledDescricao ) { return true } 
+			else { return false }
+		},
 	},
+	watch:{
+		nomeCharNumber(value) { value > 1 ? this.disabledNome = false :  this.disabledNome = true },
+		descricaoCharNumber(value) { value > 1 ? this.disabledDescricao = false :  this.disabledDescricao = true },
+	},
+	mixins:[  validator  ],
 	methods: {
+		addUrl() {
+			this.newUrls.push({})
+		},
 		cancelar() {
 			this.$store.commit('LUZ_TOGGLE')
 			this.$store.commit('ABRE_ARQUIVO_BOX')
 		}
 	}
-};
+}
 </script>
 
 <style lang="scss">
