@@ -194,7 +194,7 @@ div.EditarArquivo {
 
 					&:nth-child(2) {
 						display: inline-flex;
-						justify-content: space-between;
+						// justify-content: space-between;
 						width: 100%;
 
 						input[type=text], textarea {
