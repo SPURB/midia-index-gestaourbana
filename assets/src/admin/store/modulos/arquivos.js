@@ -95,6 +95,7 @@ const actions = {
 }
 
 const mutations = {
+	ABRE_EDIT_BOX(state) { state.editBox = !state.editBox },
 	ABRE_BOX:(state) => { state.box = !state.box },
 	SET_RESPONSE: (state, resposeNovoIdEtapa) => { state.response = resposeNovoIdEtapa.postResponse },
 	SET_ERROR: (state, response) => { state.error = response },

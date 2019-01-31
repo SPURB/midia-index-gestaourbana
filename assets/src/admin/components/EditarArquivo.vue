@@ -31,7 +31,7 @@
 						</template>
 						<template v-for="(newUrl, index) in newUrls">
 							<URLnova 
-								:key="index"
+								:key="index + 1"
 								:index="index"></URLnova>
 						</template>
 					<tr>
@@ -63,8 +63,20 @@
 				</table>
 			</form>
 			<div class="actions">
-				<button class="cancelar" @click="cancelar()">Cancelar</button>
-				<button class="adicionar">Salvar</button>
+				<SalvarCancelar
+					:tipo="'cancelar'"
+					:texto="'Cancelar'"
+					:disabledState="false"
+					:commitName="'arquivos/ABRE_EDIT_BOX'"
+					:inlinestyle="'font-size:13px; padding: 16px 24px;'">
+				</SalvarCancelar>
+				<SalvarCancelar 
+					:tipo="'salvar'"
+					:texto="'Adicionar'"
+					:disabledState="!enabled"
+					:action="action"
+					:inlinestyle="'font-size:13px; padding: 16px 24px;'">
+				</SalvarCancelar>
 			</div>
 		</div>
 	</div>
@@ -74,6 +86,7 @@
 import ErroSpan from '../components/ErroSpan.vue'
 import URL from '../components/URL.vue'
 import URLnova from '../components/URLnova.vue'
+import SalvarCancelar from '../components/SalvarCancelar.vue'
 import { ptBr, validator } from '../mixins/formValidation'
 
 export default {
@@ -81,7 +94,13 @@ export default {
 	data(){
 		return {
 			newUrls: [],
-			disabledDescricao: true,
+			action:{
+				name: 'arquivos/postNovoArquivo',
+				toChange: { 
+					nome:'', 
+					descricao: ''
+				}
+			}
 		}
 	}, 
 	props:{
@@ -93,36 +112,40 @@ export default {
 	components: {
 		ErroSpan,
 		URL,
-		URLnova
-	},
-	computed: {
-		arquivoClicado:{ 
-			get(){ return this.$store.state.arquivoClicado },
-			set(value){ this.$store.commit('UPDATE_ARQUIVO_CLICADO', value)}
-		},
-		fechaBox() {
-			return this.$store.state.editArquivoBox
-		},
-		nomeCharNumber() {return this.arquivoClicado.nome.length },
-		descricaoCharNumber() {return this.arquivoClicado.descricao.length },
-		disabled() { 
-			if( this.disabledNome || this.disabledDescricao ) { return true } 
-			else { return false }
-		},
-	},
-	watch:{
-		nomeCharNumber(value) { value > 1 ? this.disabledNome = false :  this.disabledNome = true },
-		descricaoCharNumber(value) { value > 1 ? this.disabledDescricao = false :  this.disabledDescricao = true },
+		URLnova,
+		SalvarCancelar
 	},
 	mixins:[  validator  ],
 	methods: {
-		addUrl() {
-			this.newUrls.push({})
+		addUrl() { 
+			this.newUrls.push({
+				url: undefined,
+				extensao: undefined
+		})},
+	},
+	computed: {
+		enabled() {
+			let formHaveErrors = this.$validator.errors.items.length > 0 // boolean 
+			let formTouched = this.$validator.fields.items.filter( field => field.flags.changed ).length > 0 
+			let urlAdded = this.newUrls.length > 0 
+
+			return formHaveErrors + formTouched + urlAdded > 0 // true + true === 2 
 		},
-		cancelar() {
-			this.$store.commit('LUZ_TOGGLE')
-			this.$store.commit('ABRE_ARQUIVO_BOX')
-		}
+
+		arquivoClicado:{ 
+			get(){ return this.$store.state.arquivoClicado },
+			set(value){ 
+				this.$store.commit('UPDATE_ARQUIVO_CLICADO', value)
+			}
+		},
+		fetchError(){ return this.$store.state.arquivos.error },
+		fechaBox() { return this.$store.state.arquivos.editBox },
+		nomeCharNumber() {return this.arquivoClicado.nome.length },
+		descricaoCharNumber() {return this.arquivoClicado.descricao.length },
+		
+	},
+	watch:{
+		fetchError(status){ status ? console.log('errrou') : null },
 	}
 }
 </script>
@@ -194,12 +217,14 @@ div.EditarArquivo {
 
 					&:nth-child(2) {
 						display: inline-flex;
-						// justify-content: space-between;
 						width: 100%;
 
 						input[type=text], textarea {
 							width: 520px;
 							padding: 4px 6px;
+						}
+						input.error{
+							width: 379px
 						}
 
 						& > span {
@@ -238,7 +263,7 @@ div.EditarArquivo {
 
 				&:last-child td {
 					margin: 8px 0 0 0;
-				};
+				}
 			}
 		}
 

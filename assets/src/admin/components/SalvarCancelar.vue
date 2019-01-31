@@ -41,8 +41,9 @@ export default{
 			validator: valido =>  [ // ver commits em store/store.js
 				'RESET_PROJETOS',
 				'RESET_PROJETO',
+				'etapas/DISPLAY',
 				'arquivos/ABRE_BOX',
-				'etapas/DISPLAY'
+				'arquivos/ABRE_EDIT_BOX'
 			].indexOf(valido) !== -1  
 		},
 		options:{ 
@@ -82,6 +83,7 @@ export default{
 						this.$store.commit('LUZ_TOGGLE')
 						this.$store.commit('urls/RESET_ALL')
 						break;
+					case 'arquivos/ABRE_EDIT_BOX': this.$store.commit('LUZ_TOGGLE'); break;
 					case 'RESET_PROJETO' : this.$router.push({ path:'/' }); break;
 					default : this.$store.commit(this.commitName) 
 				}

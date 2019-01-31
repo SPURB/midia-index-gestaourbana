@@ -119,7 +119,6 @@ export default {
 			get(){ return this.$store.state.urls.urlsNovas },
 			set(value) { this.$store.commit('urls/SET') }
 		},
-		fetching(){ return this.$store.state.fetching },
 		fetchError(){ return this.$store.state.arquivos.error },
 		fechaBox() { return this.$store.state.arquivos.box },
 		nomeCharNumber() {return this.action.toChange.nome.length },

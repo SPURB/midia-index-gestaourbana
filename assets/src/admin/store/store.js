@@ -23,7 +23,7 @@ let store = new Vuex.Store({
 		arquivoClicado: undefined,
 		projetos: [],
 		apagaLuz: false,
-		editArquivoBox: false,
+		// editArquivoBox: false,
 		addProjetoBox: false,
 		serverResponse: false,
 		serverError: false,
@@ -65,7 +65,7 @@ let store = new Vuex.Store({
 
 	mutations: {
 		LUZ_TOGGLE(state) { state.apagaLuz = !state.apagaLuz },
-		ABRE_ARQUIVO_BOX(state) { state.editArquivoBox = !state.editArquivoBox },
+		// ABRE_ARQUIVO_BOX(state) { state.editArquivoBox = !state.editArquivoBox },
 		ABRE_PROJETO_BOX(state) { state.addProjetoBox = !state.addProjetoBox },
 		ATIVA_TOGGLER(state, incomeId) {
 			state.projetos.map(function(index) {
@@ -201,7 +201,7 @@ let store = new Vuex.Store({
 					commit('SET_ERROR', error)
 				})
 				.then(() => commit('SET_FECHING_STATUS', false))
-		},
+		}
 	}
 })
 export default store

@@ -102,7 +102,8 @@ export default {
 		draggable
 	},
 	computed: {
-		editarArquivo() { return this.$store.state.editArquivoBox },
+		// editarArquivo() { return this.$store.state.editArquivoBox },
+		editarArquivo() { return this.$store.state.arquivos.editBox },
 		abreNovoArquivo() { return this.$store.state.arquivos.box },
 		arquivos:{
 			get(){ return this.$store.state.projeto.etapas[this.indexEtapas(this.idEtapa)].arquivos },
@@ -175,7 +176,7 @@ export default {
 				this.$store.dispatch('infoProjeto/getNovoArquivo', { idArquivo: arquivoFromLoop.id })
 			}
 			this.$store.commit('LUZ_TOGGLE')
-			this.$store.commit('ABRE_ARQUIVO_BOX')
+			this.$store.commit('arquivos/ABRE_EDIT_BOX')
 			this.$store.commit('SET_ARQUIVO', {
 				idEtapa: this.idEtapa,
 				idArquivo: arquivoFromLoop.id
