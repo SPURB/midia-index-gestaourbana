@@ -8,8 +8,9 @@ const state = {
 		'SHP',
 		'DOC',
 		'XLS'
-	],
+	], 
 	urlsNovas:[{}],
+	urlsAlteradas:[],
 	response: false,
 	error: false
 }	
@@ -55,6 +56,17 @@ const actions = {
 }
 
 const mutations = {
+	CHANGE_URL:(state, alterada) =>{ 
+		if (alterada.isValid && alterada.isTouched){
+			const alt = state.urlsAlteradas.find( alt => parseInt(alterada.id) === parseInt(id)) 
+
+			if(alt){
+				const index = state.urlsAlteradas.indexOf(alt)
+				state.urlsAlteradas[index] = alterada.id
+			}
+			else { state.urlsAlteradas.push(alterada.id) }
+		}
+	},
 	SET_URL:(state, newUrl) => {
 		state.urlsNovas[newUrl.index].url = newUrl.url
 	},
@@ -67,7 +79,10 @@ const mutations = {
 		})
 		state.urlsNovas = filtradas
 	},
-	RESET_ALL: (state) => { state.urlsNovas = [{}] }
+	RESET_ALL: (state) => { 
+		state.urlsNovas = [{}] 
+		state.urlsAlteradas = [] 
+	}
 }
 
 export default {

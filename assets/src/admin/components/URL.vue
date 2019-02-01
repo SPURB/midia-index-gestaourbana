@@ -12,22 +12,32 @@ export default {
 		idEtapa: {
 			type: Number,
 			required: true
-		},
+		}
 	},
 	mixins:[ validator, url ],
 	watch:{
-        input(value){
+		input(value){
 			if(value){
-                this.extensao = this.checkExtensao(value.replace(/ /g,'')) // remove espaços
+				// this.extensao = this.checkExtensao(value.replace(/ /g,'')) // remove espaços
+				this.$store.commit('urls/CHANGE_URL',{
+					// url: value,
+					id: this.idUrl,
+					// extensao: this.extensao,
+					// idArquivo: this.urlArquivoClicado.idArquivo,
+					isValid: this.isValid,
+					isTouched: this.isTouched
+				})
 			}
 		},
-        extensao(value){
-            if(value){
+		extensao(value){
+			if(value){
 				this.setExtensaoSpanValue(value)
-            }
-        }
+			}
+		}
 	},
 	computed: {
+		isValid(){ return this.$validator.errors.items.length === 0 }, 
+		isTouched(){ return this.$validator.fields.items.filter( field => field.flags.changed ).length > 0  }, 
 		urlArquivoClicado: {
 			get(){ 
 				const urls = this.$store.state.arquivoClicado.urls

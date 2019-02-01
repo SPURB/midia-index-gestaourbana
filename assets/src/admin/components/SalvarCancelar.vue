@@ -60,6 +60,7 @@ export default{
 					'statusProjetos/put', 
 					'etapas/postNovaEtapa',
 					'arquivos/postNovoArquivo',
+					'arquivos/putArquivo',
 					'putProjeto' 
 				].indexOf(valido) !== -1  
 			},
@@ -79,11 +80,14 @@ export default{
 			if(this.commitName){
 				switch(this.commitName){
 					case 'etapas/DISPLAY': this.$store.commit('LUZ_TOGGLE'); break;
-					case 'arquivos/ABRE_BOX' : 
+					case 'arquivos/ABRE_BOX': 
 						this.$store.commit('LUZ_TOGGLE')
 						this.$store.commit('urls/RESET_ALL')
 						break;
-					case 'arquivos/ABRE_EDIT_BOX': this.$store.commit('LUZ_TOGGLE'); break;
+					case 'arquivos/ABRE_EDIT_BOX': 
+						this.$store.commit('LUZ_TOGGLE')
+						this.$store.commit('urls/RESET_ALL')
+						break;
 					case 'RESET_PROJETO' : this.$router.push({ path:'/' }); break;
 					default : this.$store.commit(this.commitName) 
 				}

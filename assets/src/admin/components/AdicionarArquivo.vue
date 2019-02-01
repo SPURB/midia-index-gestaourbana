@@ -22,10 +22,11 @@
 								<ErroSpan :display="errors.has('Nome público')">{{ errors.first('Nome público') }}</ErroSpan>
 						</td>
 					</tr>
+								<!-- v-on:removerurls="removeUrl(index)" -->
+
 						<template v-for="(newUrl, index) in newUrls">
 							<URLnova 
 								:index="index"
-								v-on:removerurls="removeUrl(index)"
 								:key="index"
 							></URLnova>
 						</template>

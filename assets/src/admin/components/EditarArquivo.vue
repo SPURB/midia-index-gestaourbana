@@ -22,9 +22,8 @@
 								<ErroSpan :display="errors.has('Nome público')">{{ errors.first('Nome público') }}</ErroSpan>
 						</td>
 					</tr>
-						<template v-for="(url, index) in arquivoClicado.urls">
+						<template v-for="url in arquivoClicado.urls">
 							<URL 
-								:key="index"
 								:idUrl='parseInt(url.id)'
 								:idEtapa="idEtapa"
 							></URL>
@@ -32,7 +31,8 @@
 						<template v-for="(newUrl, index) in newUrls">
 							<URLnova 
 								:key="index + 1"
-								:index="index"></URLnova>
+								:index="index">
+							</URLnova>
 						</template>
 					<tr>
 						<td colspan="2">
@@ -72,9 +72,16 @@
 				</SalvarCancelar>
 				<SalvarCancelar 
 					:tipo="'salvar'"
-					:texto="'Adicionar'"
+					:texto="'Atualizar'"
 					:disabledState="!enabled"
-					:action="action"
+					:action="{
+						name: 'arquivos/putArquivo',
+						toChange: {
+							id: arquivoClicado.id,
+							nome: arquivoClicado.nome,
+							descricao: arquivoClicado.descricao, 
+						}
+					}"
 					:inlinestyle="'font-size:13px; padding: 16px 24px;'">
 				</SalvarCancelar>
 			</div>
@@ -91,18 +98,6 @@ import { ptBr, validator } from '../mixins/formValidation'
 
 export default {
 	name: 'EditarArquivo',
-	data(){
-		return {
-			newUrls: [],
-			action:{
-				name: 'arquivos/postNovoArquivo',
-				toChange: { 
-					nome:'', 
-					descricao: ''
-				}
-			}
-		}
-	}, 
 	props:{
 		idEtapa: {
 			type: Number,
@@ -124,18 +119,22 @@ export default {
 		})},
 	},
 	computed: {
+		newUrls:{ 
+			get(){ return this.$store.state.urls.urlsNovas },
+			set(value) { this.$store.commit('urls/SET') }
+		},
 		enabled() {
 			let formHaveErrors = this.$validator.errors.items.length > 0 // boolean 
 			let formTouched = this.$validator.fields.items.filter( field => field.flags.changed ).length > 0 
-			let urlAdded = this.newUrls.length > 0 
 
-			return formHaveErrors + formTouched + urlAdded > 0 // true + true === 2 
+			return formHaveErrors + formTouched > 0 // true + true === 2 -> true 
 		},
 
 		arquivoClicado:{ 
 			get(){ return this.$store.state.arquivoClicado },
-			set(value){ 
-				this.$store.commit('UPDATE_ARQUIVO_CLICADO', value)
+			set(value){
+				console.log(value)
+				this.$store.commit('UPDATE_ARQUIVO_CLICADO', value) 
 			}
 		},
 		fetchError(){ return this.$store.state.arquivos.error },

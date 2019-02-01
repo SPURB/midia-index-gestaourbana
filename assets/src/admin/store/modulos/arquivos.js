@@ -3,10 +3,10 @@ const state = {
 	box: false,
 	editBox: false,
 	response: false, // será o id do arquivo criado
-	// responses: [],
 	error: false,
-	// errors: [],
 	clickedIdEtapa: undefined,
+	// responses: [],
+	// errors: [],
 	// etapasAlteradas: []
 }
 
@@ -34,6 +34,11 @@ const getters = {
 }
 
 const actions = {
+	putArquivo: ({ state, commit, getters, rootGetters }, message) => { 
+		console.log(message) 
+		// http://spurbcp13343:7080/consultas-publicas-backend-doc/#updateArquivo
+	},
+
 	// putArquivosOrder:({ state, commit, getters }) => { 
 	// 	console.log('putArquivosOrder: etapasAlteradas + posicoesPorEtapas')
 	// 	console.log(state.etapasAlteradas)

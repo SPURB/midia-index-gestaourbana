@@ -19,5 +19,6 @@ span.ErroMensagem{
 	color: #fff;
 	padding: .5rem;
 	border-radius: 3px;
+	max-width: 140px;
 }
 </style>

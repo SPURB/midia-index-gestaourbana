@@ -65,9 +65,9 @@ div#vue-backend-app {
 	div.luz {
 		position: absolute;
 		top: 0;
+		bottom: 0;
 		left: -20px;
 		width: calc(100% + 20px);
-		height: 100vh;
 		background-color: transparent;
 		overflow: hidden;
 		z-index: -1;
