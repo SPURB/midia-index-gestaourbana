@@ -155,7 +155,7 @@ final class Midia_Index_Gestao_Urbana {
 		}
 
 		if( $this->is_request('shortcodes') ) {
-		   require_once BASEPLUGIN_INCLUDES . '/class-shortcodes.php';
+			require_once BASEPLUGIN_INCLUDES . '/class-shortcodes.php';
 		}
 	}
 

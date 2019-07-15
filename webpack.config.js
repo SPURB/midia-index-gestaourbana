@@ -1,44 +1,40 @@
-const webpack = require('webpack');
 const path = require('path');
-const package = require('./package.json');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BrowserSyncPlugin = require( 'browser-sync-webpack-plugin' );
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const config = require( './config.json' );
 
 // Naming and path settings
 var appName = 'app';
 var entryPoint = {
-	// frontend: './assets/src/frontend/main.js',
-	admin: './assets/src/admin/main.js',
-	vendor: Object.keys(package.dependencies),
-	// style: './assets/less/style.less',
+	admin: './assets/src/admin/main.js'
+	// vendor: Object.keys(package.dependencies),
 };
 
 var exportPath = path.resolve(__dirname, './assets/js');
 
 // Enviroment flag
 var plugins = [];
-var env = process.env.WEBPACK_ENV;
+
+const env = process.env.WEBPACK_ENV;
+
+// add vue loader plugin
+const vueLoaderPlugin = new VueLoaderPlugin()
+plugins.push(vueLoaderPlugin);
 
 function isProduction() {
 	return process.env.WEBPACK_ENV === 'production';
 }
 
 // extract css into its own file
-const extractCss = new ExtractTextPlugin({
+const extractCss = new MiniCssExtractPlugin({
 	filename: "../css/[name].css",
 });
 
 plugins.push( extractCss );
-
-// Extract all 3rd party modules into a separate 'vendor' chunk
-plugins.push(new webpack.optimize.CommonsChunkPlugin({
-	name: 'vendor',
-	minChunks: ({ resource }) => /node_modules/.test(resource),
-}));
 
 plugins.push(new BrowserSyncPlugin( {
 	proxy: {
@@ -51,12 +47,9 @@ plugins.push(new BrowserSyncPlugin( {
 	reloadDelay: 0
 } ));
 
-// Generate a 'manifest' chunk to be inlined in the HTML template
-// plugins.push(new webpack.optimize.CommonsChunkPlugin('manifest'));
-
 // Compress extracted CSS. We are using this plugin so that possible
 // duplicated CSS from different components can be deduped.
-plugins.push(new OptimizeCSSPlugin({
+plugins.push(new OptimizeCSSAssetsPlugin({
 	cssProcessorOptions: {
 		safe: true,
 		map: {
@@ -67,39 +60,56 @@ plugins.push(new OptimizeCSSPlugin({
 
 // Differ settings based on production flag
 if ( isProduction() ) {
-
-	plugins.push(new UglifyJsPlugin({
-		sourceMap: true,
-	}));
-
-	plugins.push(new webpack.DefinePlugin({
-		'process.env': env
-	}));
-
 	appName = '[name].min.js';
 } else {
 	appName = '[name].js';
 }
 
 module.exports = {
+	node: {
+		fs: 'empty'
+	},
+	mode: env,
 	entry: entryPoint,
 	output: {
 		path: exportPath,
 		filename: appName,
-		chunkFilename: 'chunks/[chunkhash].js',
 		jsonpFunction: 'pluginWebpack'
 	},
-
+	optimization: {
+		minimizer: [
+			new TerserPlugin({
+				parallel: true,
+				terserOptions: {
+					ecma: 6,
+					sourceMap: true,
+					comments: false
+				},
+			}), 
+			new OptimizeCSSAssetsPlugin({
+				filename: `${appName}.css`,
+				chunkFilename: '[id].css'
+			})
+		],
+		// splitChunks: {
+		// 	cacheGroups: {
+		// 		vendor: {
+		// 		test: /[\\/]node_modules[\\/]/,
+		// 		name: "vendor",
+		// 		chunks: "all"
+		// 		}
+		// 	}
+		// }
+	},
 	resolve: {
 		alias: {
 			'vue$': 'vue/dist/vue.esm.js',
 			'@': path.resolve('./assets/src/'),
-			// 'frontend': path.resolve('./assets/src/frontend/'),
-			'admin': path.resolve('./assets/src/admin/'),
+			'admin': path.resolve('./assets/src/admin/')
 		},
 		modules: [
 			path.resolve('./node_modules'),
-			path.resolve(path.join(__dirname, 'assets/src/')),
+			path.resolve(path.join(__dirname, 'assets/src/'))
 		]
 	},
 
@@ -110,9 +120,10 @@ module.exports = {
 			{
 				test: /\.scss$/,
 				use: [
-					"style-loader", // creates style nodes from JS strings
-					"css-loader", // translates CSS into CommonJS
-					"sass-loader" // compiles Sass to CSS, using Node Sass by default
+					{ loader: "style-loader" }, // creates style nodes from JS strings
+					{ loader: "css-loader" }, // translates CSS into CommonJS
+					{ loader: "sass-loader" }, // compiles Sass to CSS, using Node Sass by default
+
 				]
 			},
 			{
@@ -120,19 +131,21 @@ module.exports = {
 				exclude: /(node_modules|bower_components)/,
 				loader: 'babel-loader',
 				query: {
-					presets: ['es2015']
+					presets: ['@babel/preset-env']
 				}
 			},
 			{
 				test: /\.vue$/,
-				loader: 'vue-loader',
-				options: {
-					extractCSS: true
-				}
+				loader: 'vue-loader'
 			},
 			{
 				test: /\.css$/,
-				use: [ 'style-loader', 'css-loader' ]
+				use: [
+					{ loader: 'style-loader' }, 
+					{ loader: 'css-loader' },
+					{ loader: "vue-style-loader" },
+					{ loader: MiniCssExtractPlugin.loader }
+				],
 			}
 		]
 	},

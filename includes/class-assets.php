@@ -65,7 +65,8 @@ class Assets {
     public function get_scripts() {
         $prefix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.min' : '';
 
-        $scripts = [
+        $scripts = 
+            [
             'baseplugin-vendor' => [
                 'src'       => BASEPLUGIN_ASSETS . '/js/vendor.js',
                 'version'   => filemtime( BASEPLUGIN_PATH . '/assets/js/vendor.js' ),
