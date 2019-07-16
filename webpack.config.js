@@ -1,20 +1,19 @@
 const path = require('path');
-const package = require('./package.json')
+const webpack = require('webpack');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BrowserSyncPlugin = require( 'browser-sync-webpack-plugin' );
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-
 const config = require( './config.json' );
 
 // Naming and path settings
 let appName = 'app';
-
 let entryPoint = { admin: './assets/src/admin/main.js' }
 
+// const package = require('./package.json')
 // List dependencies from package.json and add to entryPoint
-package.dependencies ? entryPoint['vendor'] = Object.keys(package.dependencies) : false;
+// package.dependencies ? entryPoint['vendor'] = Object.keys(package.dependencies) : false;
 
 let exportPath = path.resolve(__dirname, './assets/js');
 const env = process.env.WEBPACK_ENV;
@@ -52,15 +51,15 @@ module.exports = {
 				chunkFilename: '[id].css'
 			})
 		],
-		splitChunks: {
-			cacheGroups: {
-				vendor: {
-					test: /[\\/]node_modules[\\/]/,
-					name: "vendor",
-					chunks: "all"
-				}
-			}
-		}
+		// splitChunks: {
+		// 	cacheGroups: {
+		// 		vendor: {
+		// 			test: /[\\/]node_modules[\\/]/,
+		// 			name: "vendor",
+		// 			chunks: "all"
+		// 		}
+		// 	}
+		// }
 	},
 	resolve: {
 		alias: {
@@ -75,6 +74,9 @@ module.exports = {
 	},
 
 	plugins: [
+		new webpack.DefinePlugin({
+			CONFIG: JSON.stringify(config)
+		}),
 		new VueLoaderPlugin(), // add vue loader plugin
 		new MiniCssExtractPlugin({ filename: "../css/[name].css" }),
 		new BrowserSyncPlugin({
