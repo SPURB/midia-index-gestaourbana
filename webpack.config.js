@@ -1,4 +1,5 @@
 const path = require('path');
+const package = require('./package.json')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BrowserSyncPlugin = require( 'browser-sync-webpack-plugin' );
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -8,58 +9,18 @@ const TerserPlugin = require('terser-webpack-plugin');
 const config = require( './config.json' );
 
 // Naming and path settings
-var appName = 'app';
-var entryPoint = {
-	admin: './assets/src/admin/main.js'
-	// vendor: Object.keys(package.dependencies),
-};
+let appName = 'app';
 
-var exportPath = path.resolve(__dirname, './assets/js');
+let entryPoint = { admin: './assets/src/admin/main.js' }
 
-// Enviroment flag
-var plugins = [];
+// List dependencies from package.json and add to entryPoint
+package.dependencies ? entryPoint['vendor'] = Object.keys(package.dependencies) : false;
 
+let exportPath = path.resolve(__dirname, './assets/js');
 const env = process.env.WEBPACK_ENV;
 
-// add vue loader plugin
-const vueLoaderPlugin = new VueLoaderPlugin()
-plugins.push(vueLoaderPlugin);
-
-function isProduction() {
-	return process.env.WEBPACK_ENV === 'production';
-}
-
-// extract css into its own file
-const extractCss = new MiniCssExtractPlugin({
-	filename: "../css/[name].css",
-});
-
-plugins.push( extractCss );
-
-plugins.push(new BrowserSyncPlugin( {
-	proxy: {
-		target: config.proxyURL
-	},
-	files: [
-		'**/*.php'
-	],
-	cors: true,
-	reloadDelay: 0
-} ));
-
-// Compress extracted CSS. We are using this plugin so that possible
-// duplicated CSS from different components can be deduped.
-plugins.push(new OptimizeCSSAssetsPlugin({
-	cssProcessorOptions: {
-		safe: true,
-		map: {
-			inline: false
-		}
-	}
-}));
-
 // Differ settings based on production flag
-if ( isProduction() ) {
+if (env === 'production') {
 	appName = '[name].min.js';
 } else {
 	appName = '[name].js';
@@ -91,15 +52,15 @@ module.exports = {
 				chunkFilename: '[id].css'
 			})
 		],
-		// splitChunks: {
-		// 	cacheGroups: {
-		// 		vendor: {
-		// 		test: /[\\/]node_modules[\\/]/,
-		// 		name: "vendor",
-		// 		chunks: "all"
-		// 		}
-		// 	}
-		// }
+		splitChunks: {
+			cacheGroups: {
+				vendor: {
+					test: /[\\/]node_modules[\\/]/,
+					name: "vendor",
+					chunks: "all"
+				}
+			}
+		}
 	},
 	resolve: {
 		alias: {
@@ -113,7 +74,27 @@ module.exports = {
 		]
 	},
 
-	plugins,
+	plugins: [
+		new VueLoaderPlugin(), // add vue loader plugin
+		new MiniCssExtractPlugin({ filename: "../css/[name].css" }),
+		new BrowserSyncPlugin({
+			proxy: {
+				target: config.proxyURL
+			},
+			files: [
+				'**/*.php'
+			],
+			reloadDelay: 10
+		}),
+		new OptimizeCSSAssetsPlugin({
+			cssProcessorOptions: {
+				safe: true,
+				map: {
+					inline: false
+				}
+			}
+		})
+	],
 
 	module: {
 		rules: [
