@@ -1,17 +1,20 @@
 import api from '../../utils/api'
 const state = { 
+	etapas: [],
 	idEtapa: undefined, // será definido quando criar a etapa 
 	error: false, 
 	addEtapaBox: false,
 	response: false,
 	etapaNomeMutated: false,
-	etapasAlteradas: []
+	etapasAlteradas: [],
 }
 
 const getters = {
 	projectId (state, getters, rootState) { return rootState.projeto.id }
 }
 const actions = {
+	getEtapas: ({state, commit}) => console.log('olar'),
+
 	putArquivosOrder:({ state, commit, getters }) => { console.log('ETAPAS/putArquivosOrder')},
 	putEtapas: ({ state, commit, getters, rootState }) => {
 		commit('SET_FECHING_STATUS', true,  { root: true })

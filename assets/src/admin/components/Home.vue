@@ -3,7 +3,7 @@
 		<h1>Arquivos GU</h1>
 		<section>
 			<p>Esta é a lista de arquivos por projeto e etapa. Clique no nome do projeto para editar sua lista.</p>
-			<p>Para inserir os links em um post, copie o shortcode <code @click="copiaSlug($event)">[tabel id=&lt;<span style="color: #0073aa;">número da ID</span>&gt;/]</code> e cole no lugar desejado. Cada lista/tabela tem um único shortcode.</p>
+			<p>Para inserir os links em um post, copie o shortcode <code @click="copiaSlug($event)">[label id=&lt;<span style="color: #0073aa;">número da ID</span>&gt;/]</code> e cole no lugar desejado. Cada lista/tabela tem um único shortcode.</p>
 		</section>
 		<section class="buscaprojeto">
 			<input type="text" placeholder="Pesquisar..." v-model="busca">
@@ -28,7 +28,7 @@
 					</router-link>
 				</td>
 
-				<td>{{ projeto.wordpress_user_id }}</td> <!-- esta id é a id da tabela wordpress_user_id, precisamos incluir a coluna user_login -->
+				<td>{{ projeto.wordpressUserId }}</td> <!-- esta id é a id da tabela wordpress_user_id, precisamos incluir a coluna user_login -->
 				<td>{{ displayData(projeto.atualizacao) }}</td>
 				<td>
 					<div class="switchCont" @click="ATIVA_TOGGLER(projeto.id)">
@@ -80,7 +80,7 @@ export default {
 	},
 	computed: {
 		projetosAlterados() { 
-			let alterado = this.$store.getters.projetosAlterados 
+			let alterado = this.$store.getters.projetosAlterados
 			let fetching = this.$store.state.fetching 
 			if(alterado || fetching ) {
 				return true
@@ -95,7 +95,7 @@ export default {
 			})
 		},
 		idsProjetosAlterados(){
-			return this.$store.state.projetos.filter(index => index.alterado == true ).map( index => index.id )
+			return this.$store.state.projetos.filter(index => index.alterado === true ).map( index => index.id )
 		}
 	},
 	methods:{
