@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default axios.create({
-	baseURL: CONFIG.baseURL,
+	baseURL: CONFIG.consultasApUrl,
 	timeout: 5000,
 	headers: {
 		'Content-Post': CONFIG.token,

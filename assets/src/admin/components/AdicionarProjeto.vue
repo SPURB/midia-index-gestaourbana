@@ -55,7 +55,7 @@ export default {
 				return this.$store.state.projetos.map(index => index.nome.toLowerCase() )
 			}
 		},
-		uid(){ return this.$store.getters.wordpressUserSettings.uid },
+		uid(){ return this.$store.getters.wordpress.userSettings.uid },
 		isfetching(){ return this.$store.state.fetching },
 		serverResponse(){ return this.$store.state.serverResponse },
 		serverError(){	return this.$store.state.serverError },

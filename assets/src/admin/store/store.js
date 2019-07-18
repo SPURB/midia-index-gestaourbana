@@ -6,6 +6,7 @@ import arquivos from './modulos/arquivos'
 import statusProjetos from './modulos/statusProjetos'
 import urls from './modulos/urls'
 import infoProjeto from './modulos/infoProjeto'
+import wordpress from './modulos/wordpress'
 
 Vue.use(Vuex)
 
@@ -16,9 +17,10 @@ let store = new Vuex.Store({
 		arquivos,
 		statusProjetos,
 		urls,
-		infoProjeto
+		infoProjeto,
+		wordpress
 	},
-	state: { 
+	state: {
 		projeto: false,
 		arquivoClicado: undefined,
 		projetos: [],
@@ -37,7 +39,6 @@ let store = new Vuex.Store({
 			})
 			return status
 		}, 
-		wordpressUserSettings() { return userSettings },
 		dataFormatada(){
 				const d = new Date,
 				year = d.getFullYear(),
@@ -99,10 +100,15 @@ let store = new Vuex.Store({
 		SET_PROJETOS: (state, response) => { 
 			state.projetos = response.data.map(index => {
 				index.id = parseInt(index.id)
-				if(index.ativo == null){
+				if(index.ativo === null){
 					index.ativo = 0
 				}
 				index.ativo = parseInt(index.ativo)
+
+				index.idEtapa = parseInt(index.idEtapa)
+				index.wordpressUserId = parseInt(index.wordpressUserId)
+				index.piu = parseInt(index.piu)
+
 				index.alterado = false
 				return index
 			})
@@ -111,26 +117,10 @@ let store = new Vuex.Store({
 			let projeto = response.data
 			projeto.id = parseInt(projeto.id)
 			projeto.ativo = parseInt(projeto.ativo)
-			// projeto.wordpress_user_id = parseInt(projeto.wordpress_user_id)
-			// projeto.etapas = projeto.etapas.map(function(etapa) {
-			// 	etapa.id = parseInt(etapa.id)
-			// 	etapa.idProjeto = parseInt(etapa.idProjeto)
-			// 	let arquivos = () => {
-			// 		if(etapa.arquivos == undefined){
-			// 			etapa.arquivos = []
-			// 		}
-			// 		else{
-			// 			for (let key in etapa.arquivos) {
-			// 				etapa.arquivos[key].id = parseInt(etapa.arquivos[key].id)
-			// 				etapa.arquivos[key].idEtapa = parseInt(etapa.arquivos[key].idEtapa)
-			// 				etapa.arquivos[key].posicao = parseInt(etapa.arquivos[key].posicao)
-			// 			}
-			// 		}
-			// 		return etapa.arquivos
-			// 	}
-			// 	etapa.arquivos = arquivos()
-			// 	return etapa
-			// })
+			projeto.idEtapa = parseInt(projeto.idEtapa)
+			projeto.wordpressUserId = parseInt(projeto.wordpressUserId)
+			projeto.piu = parseInt(projeto.piu)
+
 			state.projeto = projeto
 		},
 		SET_PROJETO: (state, res) => { state.serverResponse = res.data },
@@ -193,7 +183,6 @@ let store = new Vuex.Store({
 			api.put('/projetos/' + state.projeto.id, { nome: state.projeto.nome })
 				.then(response => {
 					dispatch('etapas/putEtapas')
-					dispatch('etapas/putArquivosOrder')
 					commit('SET_PROJETO', response)
 				})
 				.catch(error => {

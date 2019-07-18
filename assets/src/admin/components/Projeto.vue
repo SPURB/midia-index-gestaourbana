@@ -16,15 +16,15 @@
 					<ErroSpan 
 						:display="errors.first('nome')!==undefined">{{ errors.first('nome') }}</ErroSpan>
 				<div class="shortcode_expand">
-					<span>Shortcode do projeto <code @click="copiaSlug($event)">[arquivos-gu-{{projeto.id}}]</code></span>
+					<span>Shortcode do projeto <code @click="copiaSlug($event)">[arquivos-gu-{{projetoid}}]</code></span>
 				</div>
 			</div>
 			<input type="text" class="busca-arquivos" placeholder="Pesquisar arquivos..." v-model="busca">
-			<template v-for="(etapa, index) in projeto.etapas">
+			<template v-for="(etapa, index) in etapas">
 				<Etapa 
 					:key="index"
 					:idEtapa="etapa.id" 
-					:idProjeto="projeto.id"
+					:idProjeto="projetoid"
 					:busca="busca">
 				</Etapa>
 			</template>
@@ -88,7 +88,8 @@ export default {
 				toChange: {} 
 			}, 
 			statusBotao: true,
-			fetchError: false
+			fetchError: false,
+			etapas: []
 		}
 	},
 	computed: {
@@ -103,17 +104,12 @@ export default {
 			}
 			else { return false }
 		},
-		errorEtapas(){ return this.$store.state.etapas.error },
-		errorEtapasMessage() { return this.$store.state.etapas.response },
-		errorProjeto(){ return this.$store.state.serverError },
-		errorArquivos(){ return this.$store.state.arquivos.errors }, 
-		projeto() { 
-			return {
-				id: this.$store.state.projeto.id,
-				etapas: this.$store.state.projeto.etapas
-			}
-		},
-		projetoNome: { 
+		errorEtapas () { return this.$store.state.etapas.error },
+		errorEtapasMessage () { return this.$store.state.etapas.response },
+		errorProjeto (){ return this.$store.state.serverError },
+		errorArquivos (){ return this.$store.state.arquivos.errors }, 
+		projetoid() { return this.$store.state.projeto.id },
+		projetoNome: {
 			get(){ return this.$store.state.projeto.nome },
 			set(value) { this.$store.commit('UPDATE_PROJETO_NOME',  value )}
 		},

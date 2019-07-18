@@ -28,7 +28,7 @@
 					</router-link>
 				</td>
 
-				<td>{{ projeto.wordpressUserId }}</td> <!-- esta id é a id da tabela wordpress_user_id, precisamos incluir a coluna user_login -->
+				<td>{{ name(projeto.wordpressUserId) }}</td> <!-- esta id é a id da tabela wordpress_user_id, precisamos incluir a coluna user_login -->
 				<td>{{ displayData(projeto.atualizacao) }}</td>
 				<td>
 					<div class="switchCont" @click="ATIVA_TOGGLER(projeto.id)">
@@ -62,6 +62,8 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex'
+const { mapState } = createNamespacedHelpers('wordpress')
 import AdicionarProjeto from '../components/AdicionarProjeto.vue'
 import SalvarCancelar from '../components/SalvarCancelar.vue'
 import trataSlug from '../mixins/trataSlug'
@@ -79,9 +81,14 @@ export default {
 		}
 	},
 	computed: {
-		projetosAlterados() { 
+		...mapState({
+			names: state => state.names,
+			errors: state => state.errors,
+			error: state=> state.error
+		}),
+		projetosAlterados() {
 			let alterado = this.$store.getters.projetosAlterados
-			let fetching = this.$store.state.fetching 
+			let fetching = this.$store.state.fetching
 			if(alterado || fetching ) {
 				return true
 			}
@@ -96,9 +103,18 @@ export default {
 		},
 		idsProjetosAlterados(){
 			return this.$store.state.projetos.filter(index => index.alterado === true ).map( index => index.id )
+		},
+		projetosFecthed () { return this.$store.state.projetos.length }
+	},
+	watch:{
+		projetosFecthed(val) {
+			if (val) { this.$store.dispatch('wordpress/getNames') }
 		}
 	},
 	methods:{
+		name(id) {
+			return this.names[id] ? console.log(this.names) : 'false'
+		},
 		goToProjeto(pathId){ return '/projeto/' + pathId },
 		displayData(data) {
 			if(data){
