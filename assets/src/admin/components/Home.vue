@@ -12,7 +12,7 @@
 		<table>
 			<thead>
 				<th width="35%">Projeto</th>
-				<th width="25%">Autor(a)</th>
+				<th width="25%">Autor(a) da última atualização</th>
 				<th width="25%">Última modificação</th>
 				<th width="15%"></th>
 			</thead>
@@ -28,7 +28,7 @@
 					</router-link>
 				</td>
 
-				<td>{{ name(projeto.wordpressUserId) }}</td> <!-- esta id é a id da tabela wordpress_user_id, precisamos incluir a coluna user_login -->
+				<td>{{ wpUsername(projeto.wordpressUserId) }}</td> <!-- esta id é a id da tabela wordpress_user_id, precisamos incluir a coluna user_login -->
 				<td>{{ displayData(projeto.atualizacao) }}</td>
 				<td>
 					<div class="switchCont" @click="ATIVA_TOGGLER(projeto.id)">
@@ -112,8 +112,12 @@ export default {
 		}
 	},
 	methods:{
-		name(id) {
-			return this.names[id] ? console.log(this.names) : 'false'
+		wpUsername(id) {
+			const user = this.names.find(name => name.id === id)
+			if (this.names && id && user)  {
+				return user.name
+			}
+			else return 'Usuário não identificado'
 		},
 		goToProjeto(pathId){ return '/projeto/' + pathId },
 		displayData(data) {

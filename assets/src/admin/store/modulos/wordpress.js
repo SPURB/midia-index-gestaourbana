@@ -1,10 +1,10 @@
 import wpApi from '../../utils/apiWordpress.js'
 
 const state = {
-	names: {}, // { id: name, slug, avatars } from wordpress database
+	names: [], // { id: name, slug, avatars } from wordpress database
 	errors: [],
-	error: false
-
+	error: false,
+	fetchFinished: false
 }
 
 const getters = {
@@ -20,7 +20,6 @@ const actions = {
 		getters.userUniqueIds.forEach( id => {
 			wpApi.get(`/users/${id}`)
 				.then( res => {
-					console.log(res)
 					let output = {
 						id: id,
 						name: res.data.name,
@@ -30,17 +29,22 @@ const actions = {
 					commit('SET_USER_NAME', output)
 				})
 				.catch( error => commit('FETCH_STATUS', error))
+				.finally( state.fetchFinished = true )
 		})
 	}
 }
 
 const mutations = {
-	SET_USER_NAME: (state, user ) => state.names[user.id] = { name: user.name, slug: user.slug, avatars: user.avatars },
+	SET_USER_NAME: (state, user) => state.names.push({ 
+		id: user.id,
+		name: user.name,
+		slug: user.slug,
+		avatars: user.avatars
+	}),
 	FETCH_ERROR_STATUS: (state, error) => {
 		state.errors.push(error)
 		state.error = true
 	}
-
 }
 
 export default {
