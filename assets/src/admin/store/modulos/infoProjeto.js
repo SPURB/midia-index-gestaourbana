@@ -17,8 +17,8 @@ const actions = {
 	}
 }
 
-const mutations = { 
-	SET_RESPONSE: (state, novoArquivo) => { 
+const mutations = {
+	SET_RESPONSE: (state, novoArquivo) => {
 		novoArquivo.id = parseInt(novoArquivo.id)
 		novoArquivo.idEtapa = parseInt(novoArquivo.idEtapa)
 		state.response = novoArquivo 

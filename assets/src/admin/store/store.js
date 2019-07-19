@@ -152,7 +152,7 @@ let store = new Vuex.Store({
 		}
 	},
 	actions: {
-		fetchProjetos: state =>{
+		fetchProjetos: state => {
 			state.commit('SET_FECHING_STATUS', true)
 			api.get('projetos')
 				.then(response => { state.commit('SET_PROJETOS', response)})

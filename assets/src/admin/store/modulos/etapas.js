@@ -1,8 +1,8 @@
 import api from '../../utils/api'
 const state = { 
 	etapas: [],
-	idEtapa: undefined, // será definido quando criar a etapa 
-	error: false, 
+	idEtapa: undefined, // será definido quando criar a etapa
+	error: false,
 	addEtapaBox: false,
 	response: false,
 	etapaNomeMutated: false,
@@ -13,9 +13,20 @@ const getters = {
 	projectId (state, getters, rootState) { return rootState.projeto.id }
 }
 const actions = {
-	getEtapas: ({state, commit}) => console.log('olar'),
+	getEtapas: ({state, commit}) => {
+		commit('SET_FECHING_STATUS', true,  { root: true })
+		api.get('/etapas/')
+			.then(res => commit('GET_ETAPAS', res.data))
+			.catch(error => { 
+				commit('SET_ERROR_TRUE')
+				console.log('error from set fetching getEtapas')
+				console.log(error)
+			})
+			.finally(() => commit('SET_FECHING_STATUS', false,  { root: true }))
+	},
 
 	putArquivosOrder:({ state, commit, getters }) => { console.log('ETAPAS/putArquivosOrder')},
+
 	putEtapas: ({ state, commit, getters, rootState }) => {
 		commit('SET_FECHING_STATUS', true,  { root: true })
 		rootState.projeto.etapas.forEach( index => {
@@ -23,14 +34,12 @@ const actions = {
 				api.put('/etapas/' + index.id, { 
 					nome: index.nome
 				})
-					.then(response => { 
+					.then(response => {
 						commit('SET_PUT_RESPONSE', response.data)
-						// console.log(response) 
 					})
-					.catch(error => { 
+					.catch(error => {
 						commit('SET_PUT_RESPONSE', error)
 						commit('SET_ERROR_TRUE')
-						console.error(error)
 					})
 
 			}
@@ -68,8 +77,17 @@ const actions = {
 }
 
 const mutations = {
+	GET_ETAPAS: (state, etapas) => { 
+		const numericalIds = etapas.map(etapa => {
+			return {
+				id: parseInt(etapa.id),
+				nome: etapa.nome
+			}
+		})
+		state.etapas = numericalIds
+	},
 	SET_ETAPA: (state, response) => { state.idEtapa = response },
-	SET_ERROR: (state, response) => { state.error = !state.error },
+	SET_ERROR: (state) => { state.error = !state.error },
 	SET_ERROR_TRUE: (state) => { state.error = true },
 	DISPLAY: (state, boxState) => { state.addEtapaBox = boxState },
 	SET_PUT_RESPONSE: (state, response) => { state.response = response },

@@ -22,7 +22,7 @@
 				:key="index"
 				>
 				<td>
-					<router-link 
+					<router-link
 						:to="goToProjeto(projeto.id)"
 						tag="a">{{ projeto.nome }}
 					</router-link>
@@ -119,7 +119,10 @@ export default {
 			}
 			else return 'Usuário não identificado'
 		},
-		goToProjeto(pathId){ return '/projeto/' + pathId },
+		
+		goToProjeto(pathId){
+			return `/projeto/${pathId}` // change to this
+		},
 		displayData(data) {
 			if(data){
 				let aaaa = data.slice(0,4)

@@ -1,17 +1,23 @@
 import api from '../../utils/api'
-const state = { 
+const state = {
+	arquivos: [],
 	box: false,
 	editBox: false,
 	response: false, // será o id do arquivo criado
 	error: false,
+	errors: [],
 	clickedIdEtapa: undefined
 }
 
 const getters = { }
 
 const actions = {
+	getArquivos: ({ state, commit, getters, rootState }) => {
+		console.log(rootState.projeto.id) // GET `/arquivos/?id_projeto=${rootState.projeto.id}`
+	},
+
 	putArquivo: ({ state, commit, getters, rootGetters }, message) => { 
-		console.log(message) 
+		console.log(message)
 	},
 	postNovoArquivo: ({ state, commit, getters, rootGetters }, novoArquivo) => {
 		commit('SET_FECHING_STATUS', true,  { root: true })

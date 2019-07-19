@@ -7,9 +7,9 @@
 		</section>
 		<section class="projeto">
 			<div class="nome">
-				<input 
+				<input
 					:class="{ invalid: errors.first('nome') }"
-					type="text" 
+					type="text"
 					name="nome"
 					v-model='projetoNome'
 					v-validate="'required'">
@@ -20,14 +20,14 @@
 				</div>
 			</div>
 			<input type="text" class="busca-arquivos" placeholder="Pesquisar arquivos..." v-model="busca">
-			<template v-for="(etapa, index) in etapas">
-				<Etapa 
+			<!-- <template v-for="(etapa, index) in etapas">
+				<Etapa
 					:key="index"
 					:idEtapa="etapa.id" 
-					:idProjeto="projetoid"
+					:idProjeto="1"
 					:busca="busca">
 				</Etapa>
-			</template>
+			</template> -->
 			<button class="adicionarEtapa" @click="insereEtapa">+ Adicionar etapa</button>
 		</section>
 
@@ -46,9 +46,9 @@
 			</SalvarCancelar>
 		</section>
 
-		<Modal class="erro" v-if="errorEtapas" >
+		<Modal class="erro" v-if='errorEtapas'>
 			<template slot="header">Erro ao alterar etapas!</template>
-			<template slot="msg">{{ errorEtapasMessage.response.data }}</template>
+			<template slot="msg">{{ response }}</template>
 		</Modal>
 		<Modal class="erro" v-if="errorProjeto" >
 			<template slot="header">Erro ao alterar projeto!</template>
@@ -69,8 +69,9 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 import { ptBr, validator } from '../mixins/formValidation'
-import Etapa from '../components/Etapa.vue'
+// import Etapa from '../components/Etapa.vue'
 import AdicionarEtapa from '../components/AdicionarEtapa.vue'
 import Modal from '../components/Modal.vue'
 import SalvarCancelar from '../components/SalvarCancelar.vue'
@@ -88,44 +89,60 @@ export default {
 				toChange: {} 
 			}, 
 			statusBotao: true,
-			fetchError: false,
-			etapas: []
+			fetchError: false
 		}
 	},
 	computed: {
+		...mapState({
+			projetoid: state => state.projeto.id,
+			serverResponse: state => state.serverResponse,
+			serverError: state => state.serverError
+		}),
+
+		...mapState('etapas', {
+			etapas: state => state.etapas,
+			errorEtapas: state => state.error,
+			errorEtapasMessage: state => state.response,
+			abreAdicionarEtapa: state => state.addEtapaBox,
+			novaEtapa: state => state.idEtapa,
+			etapasMutated: state => state.etapaNomeMutated,
+		}),
+
+		...mapState('arquivos', {
+			errorArquivos: state => state.errors,
+			novoArquivoId: state => state.response
+		}),
+
 		fetchSucceded(){
-			if(	this.$store.state.serverResponse !== false && 
-				this.$store.state.serverError === false ){
+			if(	this.serverResponse !== false &&
+				this.serverError === false ){
 				return true
 			}
-			else if( this.$store.state.etapas.response !== false &&
-			 		 this.$store.state.etapas.error === false){
+			else if( this.errorEtapasMessage !== false &&
+			 		 this.errorEtapas === false){
 				return true
 			}
 			else { return false }
 		},
-		errorEtapas () { return this.$store.state.etapas.error },
-		errorEtapasMessage () { return this.$store.state.etapas.response },
-		errorProjeto (){ return this.$store.state.serverError },
-		errorArquivos (){ return this.$store.state.arquivos.errors }, 
-		projetoid() { return this.$store.state.projeto.id },
+
+		errorProjeto (){ return this.serverError },
+
 		projetoNome: {
 			get(){ return this.$store.state.projeto.nome },
 			set(value) { this.$store.commit('UPDATE_PROJETO_NOME',  value )}
 		},
-		abreAdicionarEtapa(){ return this.$store.state.etapas.addEtapaBox },
-		novaEtapa(){ return this.$store.state.etapas.idEtapa },
-		etapasMutated(){ return this.$store.state.etapas.etapaNomeMutated },
+
 		untouchedNome(){
 			if(this.fields.nome){ // fazer validacao com fields.nome para habilitar botão de salvar
 				return this.fields.nome.pristine ? this.fields.nome.valid : false
 			}
 			else { return false }
 		},
-		novoArquivoId(){ return this.$store.state.arquivos.response }
+		// novoArquivoId(){ return this.$store.state.arquivos.response }
 	},
 	watch: {
-		errorEtapas(status){ status ? this.fetchError = true : null },
+		projetoid(projetoIsSet) { if (projetoIsSet) this.getArquivos() }, // if projeto is set fetch arquivos
+		errorEtapas(status){ if(status) this.fetchError = true },
 		untouchedNome(status){ this.statusBotao = status },
 		etapasMutated(status){ this.statusBotao = !status },
 		novaEtapa(value){ 
@@ -136,19 +153,29 @@ export default {
 		}
 	},
 	components: {
-		Etapa,
+		// Etapa,
 		AdicionarEtapa,
 		Modal,
 		SalvarCancelar,
 		ErroSpan
 	},
-
+	created () {
+		this.getEtapas()
+	},
 	methods: {
 		insereEtapa() {
 			this.$store.commit('etapas/DISPLAY', true)
 			this.$store.commit('LUZ_TOGGLE')
-		}
-	}
+		},
+
+		...mapActions('etapas', [
+			'getEtapas'
+		]),
+
+		...mapActions('arquivos', [
+			'getArquivos'
+		])
+	},
 }
 </script>
 

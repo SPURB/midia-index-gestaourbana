@@ -9,7 +9,7 @@
 export default {
 	name: 'App',
 	computed: { LUZ_TOGGLE() { return this.$store.state.apagaLuz } },
-	mounted(){this.$store.dispatch('fetchProjetos') },
+	created() { this.$store.dispatch('fetchProjetos') },
 	watch:{
 		'$route'(to){
 			this.$store.dispatch('fetchInfoProjeto', to.params.id)
