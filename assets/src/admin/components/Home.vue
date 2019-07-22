@@ -62,8 +62,7 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex'
-const { mapState } = createNamespacedHelpers('wordpress')
+import { mapState, mapActions } from 'vuex'
 import AdicionarProjeto from '../components/AdicionarProjeto.vue'
 import SalvarCancelar from '../components/SalvarCancelar.vue'
 import trataSlug from '../mixins/trataSlug'
@@ -82,13 +81,18 @@ export default {
 	},
 	computed: {
 		...mapState({
+			fetching: state => state.fetching,
+		}),
+
+		...mapState('wordpress', {
 			names: state => state.names,
 			errors: state => state.errors,
 			error: state=> state.error
 		}),
+
 		projetosAlterados() {
 			let alterado = this.$store.getters.projetosAlterados
-			let fetching = this.$store.state.fetching
+			let fetching = this.fetching
 			if(alterado || fetching ) {
 				return true
 			}
@@ -108,10 +112,16 @@ export default {
 	},
 	watch:{
 		projetosFecthed(val) {
-			if (val) { this.$store.dispatch('wordpress/getNames') }
+			if (val) { this.getNames() }
 		}
 	},
+
 	methods:{
+
+		...mapActions('wordpress', [
+			'getNames'
+		]),
+
 		wpUsername(id) {
 			const user = this.names.find(name => name.id === id)
 			if (this.names && id && user)  {

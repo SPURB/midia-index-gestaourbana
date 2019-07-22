@@ -13,21 +13,20 @@
 					name="nome"
 					v-model='projetoNome'
 					v-validate="'required'">
-					<ErroSpan 
-						:display="errors.first('nome')!==undefined">{{ errors.first('nome') }}</ErroSpan>
+					<ErroSpan :display="errors.first('nome')!==undefined">{{ errors.first('nome') }}</ErroSpan>
 				<div class="shortcode_expand">
-					<span>Shortcode do projeto <code @click="copiaSlug($event)">[arquivos-gu-{{projetoid}}]</code></span>
+					<span>Shortcode do projeto <code @click="copiaSlug($event)">[arquivos-gu-{{projeto.id}}]</code></span>
 				</div>
 			</div>
 			<input type="text" class="busca-arquivos" placeholder="Pesquisar arquivos..." v-model="busca">
-			<!-- <template v-for="(etapa, index) in etapas">
+			<template v-for="(etapa, index) in etapasFiltradas">
 				<Etapa
 					:key="index"
-					:idEtapa="etapa.id" 
-					:idProjeto="1"
+					:idEtapa="etapa.id"
+					:idProjeto="projeto.id"
 					:busca="busca">
 				</Etapa>
-			</template> -->
+			</template>
 			<button class="adicionarEtapa" @click="insereEtapa">+ Adicionar etapa</button>
 		</section>
 
@@ -38,7 +37,7 @@
 				:disabledState="false"
 				:commitName="'RESET_PROJETO'">
 			</SalvarCancelar>
-			<SalvarCancelar 
+			<SalvarCancelar
 				:tipo="'salvar'"
 				:texto="'Salvar'"
 				:disabledState="statusBotao"
@@ -69,9 +68,9 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import { ptBr, validator } from '../mixins/formValidation'
-// import Etapa from '../components/Etapa.vue'
+import Etapa from '../components/Etapa.vue'
 import AdicionarEtapa from '../components/AdicionarEtapa.vue'
 import Modal from '../components/Modal.vue'
 import SalvarCancelar from '../components/SalvarCancelar.vue'
@@ -89,12 +88,18 @@ export default {
 				toChange: {} 
 			}, 
 			statusBotao: true,
-			fetchError: false
+			fetchError: false,
 		}
 	},
 	computed: {
+		etapasFiltradas () {
+			const ids = this.arquivos.map(arquivo => parseInt(arquivo.id_etapa))
+			const uniqueids = [...new Set(ids)]
+			return uniqueids.map(id => this.etapas.find(etapa => etapa.id === id))
+		},
+
 		...mapState({
-			projetoid: state => state.projeto.id,
+			projeto: state => state.projeto,
 			serverResponse: state => state.serverResponse,
 			serverError: state => state.serverError
 		}),
@@ -110,7 +115,8 @@ export default {
 
 		...mapState('arquivos', {
 			errorArquivos: state => state.errors,
-			novoArquivoId: state => state.response
+			novoArquivoId: state => state.response,
+			arquivos: state => state.arquivos
 		}),
 
 		fetchSucceded(){
@@ -141,7 +147,11 @@ export default {
 		// novoArquivoId(){ return this.$store.state.arquivos.response }
 	},
 	watch: {
-		projetoid(projetoIsSet) { if (projetoIsSet) this.getArquivos() }, // if projeto is set fetch arquivos
+		projeto(projetoIsSet) {
+			if (projetoIsSet) {
+				this.getArquivos()
+			}
+		},
 		errorEtapas(status){ if(status) this.fetchError = true },
 		untouchedNome(status){ this.statusBotao = status },
 		etapasMutated(status){ this.statusBotao = !status },
@@ -153,7 +163,7 @@ export default {
 		}
 	},
 	components: {
-		// Etapa,
+		Etapa,
 		AdicionarEtapa,
 		Modal,
 		SalvarCancelar,
@@ -161,6 +171,8 @@ export default {
 	},
 	created () {
 		this.getEtapas()
+		this.setTiposDeArquivos()
+		this.getSubEtapas()
 	},
 	methods: {
 		insereEtapa() {
@@ -172,8 +184,16 @@ export default {
 			'getEtapas'
 		]),
 
+		...mapActions('subetapas', [
+			'getSubEtapas'
+		]),
+
 		...mapActions('arquivos', [
 			'getArquivos'
+		]),
+
+		...mapActions('urls', [
+			'setTiposDeArquivos'
 		])
 	},
 }

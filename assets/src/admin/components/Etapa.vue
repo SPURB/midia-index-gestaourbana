@@ -17,7 +17,7 @@
 					<svg width="20" height="20" style="vertical-align: bottom" alt="arquivos" viewBox="0.14 841.445 24 24"><path d="M23.14 849.69l-5.491-5.056-5.491 5.056 1.496 1.62 2.892-2.669v12.519h2.206v-12.519l2.892 2.669zM7.734 858.25v-12.52H5.528v12.52l-2.892-2.669L1.14 857.2l5.491 5.057 5.492-5.057-1.497-1.619z"/></svg>
 					</th>
 				</thead>
-				<draggable 
+				<!-- <draggable 
 					v-model="arquivos"
 					element="tbody"
 					@end="etapaAlterada"
@@ -48,7 +48,7 @@
 							style=" vertical-align: bottom"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"/></svg></a>
 						</td>
 					</tr>
-				</draggable>
+				</draggable> -->
 			</table>
 			<transition	name="adicionarArquivoFade">
 				<button v-show="!collapsed" class="adicionar-arquivo" @click="novoArquivo">+ Adicionar arquivo</button>
@@ -97,23 +97,23 @@ export default {
 		}
 	},
 	components: {
-		EditarArquivo, 
-		AdicionarArquivo, 
+		EditarArquivo,
+		AdicionarArquivo,
 		draggable
 	},
 	computed: {
 		// editarArquivo() { return this.$store.state.editArquivoBox },
 		editarArquivo() { return this.$store.state.arquivos.editBox },
 		abreNovoArquivo() { return this.$store.state.arquivos.box },
-		arquivos:{
-			get(){ return this.$store.state.projeto.etapas[this.indexEtapas(this.idEtapa)].arquivos },
-			set(value){
-				this.$store.commit('REORDER_ARQUIVOS', {
-					arquivos: value, 
-					idEtapa: this.idEtapa
-				})
-			}
-		},
+		// arquivos:{
+		// 	get(){ return this.$store.state.projeto.etapas[this.indexEtapas(this.idEtapa)].arquivos },
+		// 	set(value){
+		// 		this.$store.commit('REORDER_ARQUIVOS', {
+		// 			arquivos: value, 
+		// 			idEtapa: this.idEtapa
+		// 		})
+		// 	}
+		// },
 		arquivosFiltrados(){
 			const app = this
 			return this.arquivos.filter(function(arquivo) {
@@ -173,7 +173,7 @@ export default {
 		abreEditArquivoBox(arquivoFromLoop) {
 			if(arquivoFromLoop.itemNovo === true){ 
 				// console.log('arquivoFromLoop: arquivo novo')
-				this.$store.dispatch('infoProjeto/getNovoArquivo', { idArquivo: arquivoFromLoop.id })
+				this.$store.dispatch('projetos/getNovoArquivo', { idArquivo: arquivoFromLoop.id })
 			}
 			this.$store.commit('LUZ_TOGGLE')
 			this.$store.commit('arquivos/ABRE_EDIT_BOX')

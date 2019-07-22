@@ -1,5 +1,6 @@
 import api from '../../utils/api'
 const state = {
+	fetching: false,
 	arquivos: [],
 	box: false,
 	editBox: false,
@@ -13,14 +14,21 @@ const getters = { }
 
 const actions = {
 	getArquivos: ({ state, commit, getters, rootState }) => {
-		console.log(rootState.projeto.id) // GET `/arquivos/?id_projeto=${rootState.projeto.id}`
+		// commit('SET_FECHING_STATUS', true, { root: true })
+		commit('FETCH_STATUS', true)
+		commit('RESET_ARQUIVOS')
+		api.get(`/arquivos/?id_projeto=${rootState.projeto.id}`)
+			.then(res => commit('SET_ARQUIVOS', res.data[0]))
+			.catch(error => commit('SET_ERROR', error))
+			.finally(() => commit('FETCH_STATUS', false))
 	},
 
 	putArquivo: ({ state, commit, getters, rootGetters }, message) => { 
 		console.log(message)
 	},
+
 	postNovoArquivo: ({ state, commit, getters, rootGetters }, novoArquivo) => {
-		commit('SET_FECHING_STATUS', true,  { root: true })
+		commit('SET_FECHING_STATUS', true, { root: true })
 		const output = {
 			nome: novoArquivo.nome,
 			idEtapa: state.clickedIdEtapa,
@@ -40,8 +48,9 @@ const actions = {
 				commit('ABRE_BOX')
 			})
 	},
+
 	fetchNovoArquivo: ({ state, commit, getters, rootGetters }, novoArquivo) => {
-		commit('SET_FECHING_STATUS', true,  { root: true })
+		commit('SET_FECHING_STATUS', true, { root: true })
 
 		api.get('/arquivos/' + novoArquivo.id )
 			.then(response => {
@@ -66,6 +75,9 @@ const mutations = {
 	SET_ERROR: (state, response) => { state.error = response },
 	SET_ID_ETAPA: (state, id) => { state.clickedIdEtapa = id.idEtapa },
 	RESET_RESPONSE: (state) => { state.response = false },
+	SET_ARQUIVOS: (state, arquivos) => { state.arquivos = arquivos },
+	RESET_ARQUIVOS: (state) => state.arquivos = [],
+	FETCH_STATUS: (state, isFetching) => state.fetching = !state.fetching
 	// SET_ETAPAS_ALTERADAS: (state, idEtapa) => { 
 	// 	state.etapasAlteradas.includes(idEtapa) ? null : state.etapasAlteradas.push(idEtapa)
 	// }

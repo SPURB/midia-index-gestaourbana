@@ -1,23 +1,31 @@
 import api from '../../utils/api'
 // import statusProjetos from './statusProjetos';
 
-const state = { 
-	tiposDeArquivo: [
-		'PDF', 
-		'KML',
-		'SHP',
-		'DOC',
-		'XLS'
-	], 
+const state = {
+	tipos: [],
+	// tiposDeArquivo: [],// 'PDF', 'KML', 'SHP', 'DOC', 'XLS'
 	urlsNovas:[{}],
 	urlsAlteradas:[],
 	response: false,
 	error: false
-}	
+}
 
-const getters = {}
+const getters = {
+	tiposDeArquivo (state) {
+		if (state.tipos.lenght) state.tipos.map(tipo => tipo.nome)
+		else return []
+	}
+}
 
 const actions = {
+	setTiposDeArquivos({ state, commit }) {
+		api.get('extensoes')
+			.then(res => commit('SET_TIPOS_DE_ARQUIVOS', res.data))
+			.catch(err => {
+				state.error = err
+				// throw new Error (`setTiposDeArquivos: ${err}`)
+			})
+	},
 	setNovasUrls({ state, commit, getters, rootGetters }, arquivo){
 		commit('SET_FECHING_STATUS', true,  { root: true })
 
@@ -44,7 +52,7 @@ const actions = {
 					// }, { root: true })
 				})
 				.catch(err => { 
-					console.error('setNovasUrls:' + err) 
+					console.error('setNovasUrls:' + err)
 					state.error = err
 				})
 				.then(() => {
@@ -56,7 +64,8 @@ const actions = {
 }
 
 const mutations = {
-	CHANGE_URL:(state, alterada) =>{ 
+	SET_TIPOS_DE_ARQUIVOS: (state, tipos) => state.tipos = tipos,
+	CHANGE_URL:(state, alterada) => { 
 		if (alterada.isValid && alterada.isTouched){
 			const alt = state.urlsAlteradas.find( alt => parseInt(alterada.id) === parseInt(id)) 
 

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import api from '../utils/api'
 import etapas from './modulos/etapas'
+import subetapas from './modulos/subetapas'
 import arquivos from './modulos/arquivos'
 import statusProjetos from './modulos/statusProjetos'
 import urls from './modulos/urls'
@@ -14,6 +15,7 @@ let store = new Vuex.Store({
 	// strict: true,
 	modules:{
 		etapas,
+		subetapas,
 		arquivos,
 		statusProjetos,
 		urls,
@@ -55,11 +57,12 @@ let store = new Vuex.Store({
 				}
 				else { return oneDigit }
 			}
-			return year + '-' + 
-			twoDigits(month) + '-' + 
-			twoDigits(day) + ' ' + 
-			twoDigits(hour) + ':' + 
-			twoDigits(minutes) + ':' + 
+
+			return year + '-' +
+			twoDigits(month) + '-' +
+			twoDigits(day) + ' ' +
+			twoDigits(hour) + ':' +
+			twoDigits(minutes) + ':' +
 			twoDigits(seconds)
 		} 
 	},
@@ -77,7 +80,7 @@ let store = new Vuex.Store({
 			})
 		},
 		SET_ERROR: (state, error) => { state.serverError = error.data },
-		SET_FECHING_STATUS: (state, status) => { state.fetching = status }, 
+		SET_FECHING_STATUS: (state, status) => { state.fetching = status },
 		RESET_PROJETOS: (state) => { 
 			state.projetos.map(function(index) {
 				if(index.alterado){
@@ -96,7 +99,7 @@ let store = new Vuex.Store({
 				return index
 			})
 		},
-		RESET_PROJETO: state =>{ state.projeto = false }, 
+		RESET_PROJETO: state => { state.projeto = false }, 
 		SET_PROJETOS: (state, response) => { 
 			state.projetos = response.data.map(index => {
 				index.id = parseInt(index.id)
@@ -113,7 +116,7 @@ let store = new Vuex.Store({
 				return index
 			})
 		},
-		SET_INFO_PROJETO: (state, response) => { 
+		SET_INFO_PROJETO: (state, response) => {
 			let projeto = response.data
 			projeto.id = parseInt(projeto.id)
 			projeto.ativo = parseInt(projeto.ativo)
@@ -162,12 +165,14 @@ let store = new Vuex.Store({
 			)
 		},
 		fetchInfoProjeto: ( state, id ) => {
-			state.commit('SET_FECHING_STATUS', true)
-			api.get('projetos/' + id)
-				.then(response => state.commit('SET_INFO_PROJETO', response))
-				.catch(error => { state.commit('SET_ERROR', error) })
-				.then(() => { state.commit('SET_FECHING_STATUS', false)}
-			)
+			if(parseInt(id)) {
+				state.commit('SET_FECHING_STATUS', true)
+				api.get('projetos/' + id)
+					.then(response => state.commit('SET_INFO_PROJETO', response))
+					.catch(error => { state.commit('SET_ERROR', error) })
+					.then(() => { state.commit('SET_FECHING_STATUS', false)}
+				)
+			}
 		},
 		postNovoProjeto: ( state, projeto ) => {
 			state.commit('SET_FECHING_STATUS', true)
