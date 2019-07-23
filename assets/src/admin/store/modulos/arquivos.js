@@ -7,10 +7,11 @@ const state = {
 	response: false, // será o id do arquivo criado
 	error: false,
 	errors: [],
-	clickedIdEtapa: undefined
+	clickedIdEtapa: undefined,
+	clieckedArquivoId: undefined
 }
 
-const getters = { }
+const getters = {}
 
 const actions = {
 	getArquivos: ({ state, commit, getters, rootState }) => {
@@ -44,7 +45,7 @@ const actions = {
 			})
 			.then(() => {
 				commit('SET_FECHING_STATUS', false, { root: true })
-				commit('LUZ_TOGGLE', null, { root: true })
+				commit('ui/LUZ_TOGGLE', null, { root: true })
 				commit('ABRE_BOX')
 			})
 	},
@@ -69,7 +70,17 @@ const actions = {
 }
 
 const mutations = {
-	ABRE_EDIT_BOX(state) { state.editBox = !state.editBox },
+	REORDER: (state, updateArquivosOrder) => {
+		updateArquivosOrder.arquivos.forEach(update => {
+			const arquivoIndex = state.arquivos.findIndex(arquivo => arquivo.id === update.id)
+			state.arquivos[arquivoIndex].posicao = update.posicao
+		})
+	},
+
+	ABRE_EDIT_BOX: (state, id) => {
+		state.editBox = !state.editBox
+		state.clieckedArquivoId = id
+	},
 	ABRE_BOX:(state) => { state.box = !state.box },
 	SET_RESPONSE: (state, resposeNovoIdEtapa) => { state.response = resposeNovoIdEtapa.postResponse },
 	SET_ERROR: (state, response) => { state.error = response },
@@ -77,7 +88,10 @@ const mutations = {
 	RESET_RESPONSE: (state) => { state.response = false },
 	SET_ARQUIVOS: (state, arquivos) => { state.arquivos = arquivos },
 	RESET_ARQUIVOS: (state) => state.arquivos = [],
-	FETCH_STATUS: (state, isFetching) => state.fetching = !state.fetching
+	FETCH_STATUS: (state, isFetching) => state.fetching = !state.fetching,
+	UPDATE_ARQUIVO_CLICADO: (state, arquivos) => {
+		console.log(arquivos)
+	}
 	// SET_ETAPAS_ALTERADAS: (state, idEtapa) => { 
 	// 	state.etapasAlteradas.includes(idEtapa) ? null : state.etapasAlteradas.push(idEtapa)
 	// }

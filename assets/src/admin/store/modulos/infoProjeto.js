@@ -13,7 +13,7 @@ const actions = {
 		api.get('/arquivos/' + arquivo.idArquivo)
 			.then(res => commit('SET_RESPONSE', res.data))
 			.catch(err => commit('SET_ERROR', err))
-			.then(() => commit('SET_FECHING_STATUS', false,  { root: true }) )
+			.finally(() => commit('SET_FECHING_STATUS', false,  { root: true }) )
 	}
 }
 

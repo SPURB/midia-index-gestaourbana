@@ -22,42 +22,19 @@
 								<ErroSpan :display="errors.has('Nome público')">{{ errors.first('Nome público') }}</ErroSpan>
 						</td>
 					</tr>
-						<template v-for="url in arquivoClicado.urls">
-							<URL 
-								:idUrl='parseInt(url.id)'
-								:idEtapa="idEtapa"
-							></URL>
-						</template>
-						<template v-for="(newUrl, index) in newUrls">
+						<URL
+							:idUrl='parseInt(arquivoClicado.id)'
+							:idEtapa="idEtapa"
+						></URL>
+						<!-- <template v-for="(newUrl, index) in newUrls">
 							<URLnova 
 								:key="index + 1"
 								:index="index">
 							</URLnova>
-						</template>
+						</template> -->
 					<tr>
 						<td colspan="2">
 							<div class="addUrl" @click="addUrl">+ Adicionar URL</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="descricao">Descrição</label>
-						</td>
-						<td>
-							<textarea 
-								type="text"
-								name="Descrição" 
-								id="descricao" 
-								v-model="arquivoClicado.descricao"
-								v-validate="'required|max:330'">
-							</textarea>
-							<span 
-								class="contador" 
-								v-if="!errors.has('Descrição')">{{descricaoCharNumber}}/330
-							</span>
-							<ErroSpan 
-								:display="errors.has('Descrição')">{{ errors.first('Descrição') }}
-							</ErroSpan>
 						</td>
 					</tr>
 				</table>
@@ -78,8 +55,7 @@
 						name: 'arquivos/putArquivo',
 						toChange: {
 							id: arquivoClicado.id,
-							nome: arquivoClicado.nome,
-							descricao: arquivoClicado.descricao, 
+							nome: arquivoClicado.nome
 						}
 					}"
 					:inlinestyle="'font-size:13px; padding: 16px 24px;'">
@@ -90,6 +66,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import ErroSpan from '../components/ErroSpan.vue'
 import URL from '../components/URL.vue'
 import URLnova from '../components/URLnova.vue'
@@ -102,7 +79,7 @@ export default {
 		idEtapa: {
 			type: Number,
 			required: true
-		} 
+		}
 	},
 	components: {
 		ErroSpan,
@@ -119,28 +96,31 @@ export default {
 		})},
 	},
 	computed: {
-		newUrls:{ 
+		newUrls:{
 			get(){ return this.$store.state.urls.urlsNovas },
 			set(value) { this.$store.commit('urls/SET') }
 		},
 		enabled() {
 			let formHaveErrors = this.$validator.errors.items.length > 0 // boolean 
-			let formTouched = this.$validator.fields.items.filter( field => field.flags.changed ).length > 0 
-
+			let formTouched = this.$validator.fields.items.filter(field => field.flags.changed).length > 0 
 			return formHaveErrors + formTouched > 0 // true + true === 2 -> true 
 		},
 
-		arquivoClicado:{ 
-			get(){ return this.$store.state.arquivoClicado },
-			set(value){
-				console.log(value)
-				this.$store.commit('UPDATE_ARQUIVO_CLICADO', value) 
+		arquivoClicado: {
+			get(){
+				return this.$store.state.arquivos.arquivos
+					.find(arquivo => parseInt(arquivo.id) === parseInt(this.$store.state.arquivos.clieckedArquivoId))
+			},
+			// set(value){
+ 			// 	this.$store.commit('UPDATE_ARQUIVO_CLICADO', value)
+			// }
+			set(arquivo) {
+				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO', arquivo)
 			}
 		},
 		fetchError(){ return this.$store.state.arquivos.error },
 		fechaBox() { return this.$store.state.arquivos.editBox },
 		nomeCharNumber() {return this.arquivoClicado.nome.length },
-		descricaoCharNumber() {return this.arquivoClicado.descricao.length },
 		
 	},
 	watch:{

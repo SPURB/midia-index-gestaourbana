@@ -1,5 +1,5 @@
 <template>
-	<div class="Etapa">
+	<div class="Etapa" v-if="existeArquivos">
 		<div class="h-etapa">
 			<span>Etapa</span>
 			<input type="text" name="nome" v-model="nomeEtapa">
@@ -17,25 +17,24 @@
 					<svg width="20" height="20" style="vertical-align: bottom" alt="arquivos" viewBox="0.14 841.445 24 24"><path d="M23.14 849.69l-5.491-5.056-5.491 5.056 1.496 1.62 2.892-2.669v12.519h2.206v-12.519l2.892 2.669zM7.734 858.25v-12.52H5.528v12.52l-2.892-2.669L1.14 857.2l5.491 5.057 5.492-5.057-1.497-1.619z"/></svg>
 					</th>
 				</thead>
-				<!-- <draggable 
+				<draggable 
 					v-model="arquivos"
-					element="tbody"
-					@end="etapaAlterada"
-					:options="{ 
-						draggable: '.tablerow', 
-						ghostClass: 'slot-vazio', 
-						animation: 50, 
-						scroll: true, 
-						scrollSensitivity: 80, 
-						scrollSpeed: 8
-					}">
+					tag="tbody" 
+					@end="etapaAlterada" 
+					draggable=".tablerow" 
+					ghostClass="slot-vazio" 
+					animation="50" 
+					scroll="true" 
+					scrollSensitivity="80"
+					scrollSpeed="8"
+					>
 					<tr 
 						v-for="(arquivo, index) in arquivosFiltrados" 
 						class="tablerow" 
 						:key="index">
 						<td>{{ displayData(arquivo.atualizacao) }}</td>
 						<td><a 
-								@click="abreEditArquivoBox(arquivo)" 
+								@click="abreEditArquivoBox(arquivo)"
 								:id="arquivo.id"
 								>{{ arquivo.nome }}</a></td>
 						<td>
@@ -48,7 +47,7 @@
 							style=" vertical-align: bottom"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"/></svg></a>
 						</td>
 					</tr>
-				</draggable> -->
+				</draggable>
 			</table>
 			<transition	name="adicionarArquivoFade">
 				<button v-show="!collapsed" class="adicionar-arquivo" @click="novoArquivo">+ Adicionar arquivo</button>
@@ -57,8 +56,9 @@
 
 
 		<EditarArquivo 
-			v-if="editarArquivo" 
-			:idEtapa="idEtapa">
+			v-if="editarArquivo"
+			:idEtapa="idEtapa"
+		>
 		</EditarArquivo>
 		<AdicionarArquivo 
 			v-if="abreNovoArquivo"
@@ -76,7 +76,7 @@ import trataSlug from '../mixins/trataSlug'
 export default {
 	name: 'Etapa',
 	mixins:[ trataSlug ],
-	props: { 
+	props: {
 		idEtapa: {
 			type: Number,
 			required: true
@@ -93,7 +93,8 @@ export default {
 	},
 	data(){
 		return {
-			collapsed: false
+			collapsed: false,
+			existeArquivos: true
 		}
 	},
 	components: {
@@ -102,31 +103,43 @@ export default {
 		draggable
 	},
 	computed: {
-		// editarArquivo() { return this.$store.state.editArquivoBox },
 		editarArquivo() { return this.$store.state.arquivos.editBox },
 		abreNovoArquivo() { return this.$store.state.arquivos.box },
-		// arquivos:{
-		// 	get(){ return this.$store.state.projeto.etapas[this.indexEtapas(this.idEtapa)].arquivos },
-		// 	set(value){
-		// 		this.$store.commit('REORDER_ARQUIVOS', {
-		// 			arquivos: value, 
-		// 			idEtapa: this.idEtapa
-		// 		})
-		// 	}
-		// },
+		arquivos: {
+			get () {
+				return this.$store.state.arquivos.arquivos
+					.filter(arquivo => {
+						if(parseInt(arquivo.id_etapa) === parseInt(this.idEtapa)) return arquivo
+					})
+					.sort((arquivoA, arquivoB) => arquivoA.posicao - arquivoB.posicao)
+			},
+			set (arquivos) {
+				const ordered = arquivos.map(arquivo => {
+					const index = arquivos.indexOf(arquivo)
+					arquivo.posicao = index + 1
+					return arquivo
+				})
+
+				this.$store.commit('arquivos/REORDER', {
+					arquivos: arquivos
+				})
+			}
+
+		},
 		arquivosFiltrados(){
 			const app = this
-			return this.arquivos.filter(function(arquivo) {
-				return arquivo.nome.toLowerCase().indexOf(app.busca.toLowerCase()) >= 0;
-			})
+			const output = this.arquivos
+				.filter(arquivo => arquivo.nome.toLowerCase().indexOf(app.busca.toLowerCase()) >= 0)
+
+			return output
 		},
 		nomeEtapa: {
-			get(){
-				return this.$store.state.projeto.etapas[this.indexEtapas(this.idEtapa)].nome
+			get () {
+				return this.$store.state.etapas.etapas[this.indexEtapas(this.idEtapa)].nome
 			},
 			set(value){
-				this.$store.commit('UPDATE_ETAPA_NOME', {
-					indexEtapa: this.indexEtapas(this.idEtapa),
+				this.$store.commit('etapas/UPDATE_ETAPA_NOME', {
+					index: this.indexEtapas(this.idEtapa),
 					nome: value
 				})
 				this.$store.commit('etapas/ETAPA_NOME_MUTATED', true)
@@ -135,6 +148,10 @@ export default {
 		novoArquivoResponse(){ return this.$store.state.arquivos.response }
 	},
 	watch: {
+		arquivosFiltrados(val) {
+			if (val.length) this.existeArquivos = true
+			else this.existeArquivos = false
+		},
 		novoArquivoResponse(state) {
 			if(state){
 				this.$store.dispatch('urls/setNovasUrls', { id: state, idEtapa: this.idEtapa })
@@ -143,10 +160,10 @@ export default {
 		}
 	},
 	methods: {
-		etapaAlterada(){
+		etapaAlterada () {
 			this.$store.commit('etapas/SET_ETAPAS_ALTERADAS', this.idEtapa)
 		},
-		indexEtapas(idEtapa) { return this.$store.state.projeto.etapas.findIndex(i => i.id === idEtapa) },
+		indexEtapas (idEtapa) { return this.$store.state.etapas.etapas.findIndex(i => i.id === idEtapa)},
 		etapaCollapse(evt) {
 			let divEtapa = evt.target.parentNode.parentNode.parentNode
 			if (divEtapa.style.maxHeight != '40px') {
@@ -158,29 +175,29 @@ export default {
 			}
 			this.collapsed = !this.collapsed
 		},
-		displayData(data) {
+		displayData (data) {
 			let aaaa = data.slice(0,4)
 			let mm = data.slice(5,7)
 			let dd = data.slice(8,10)
 			let h = data.slice(11,16)
 			return dd+'/'+mm+'/'+aaaa+' ('+h+')'
 		},
-		novoArquivo() {
+		novoArquivo () {
 			this.$store.commit('arquivos/SET_ID_ETAPA', { idEtapa: this.idEtapa })
-			this.$store.commit('LUZ_TOGGLE')
+			this.$store.commit('ui/LUZ_TOGGLE')
 			this.$store.commit('arquivos/ABRE_BOX')
 		},
-		abreEditArquivoBox(arquivoFromLoop) {
-			if(arquivoFromLoop.itemNovo === true){ 
-				// console.log('arquivoFromLoop: arquivo novo')
-				this.$store.dispatch('projetos/getNovoArquivo', { idArquivo: arquivoFromLoop.id })
+		abreEditArquivoBox (arquivo) {
+			if(arquivo.itemNovo === true){
+				this.$store.dispatch('infoProjeto/getNovoArquivo', { idArquivo: arquivo.id })
 			}
-			this.$store.commit('LUZ_TOGGLE')
-			this.$store.commit('arquivos/ABRE_EDIT_BOX')
-			this.$store.commit('SET_ARQUIVO', {
-				idEtapa: this.idEtapa,
-				idArquivo: arquivoFromLoop.id
-			})
+			this.$store.commit('ui/LUZ_TOGGLE')
+			this.$store.commit('arquivos/ABRE_EDIT_BOX', arquivo.id)
+
+			// this.$store.commit('SET_ARQUIVO', {
+			// 	idEtapa: this.idEtapa,
+			// 	idArquivo: arquivo.id
+			// })
 		}
 	}
 }

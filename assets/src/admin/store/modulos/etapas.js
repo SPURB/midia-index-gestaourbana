@@ -57,7 +57,7 @@ const actions = {
 			.catch(error => commit('SET_ERROR', error))
 			.then(() => {
 				commit('SET_FECHING_STATUS', false, { root: true })
-				commit('LUZ_TOGGLE', null, { root: true })
+				commit('ui/LUZ_TOGGLE', null, { root: true })
 				commit('DISPLAY', false)
 			})
 	},
@@ -99,7 +99,8 @@ const mutations = {
 	},
 	SET_ETAPAS_ALTERADAS: (state, idEtapa) => { 
 		state.etapasAlteradas.includes(idEtapa) ? null : state.etapasAlteradas.push(idEtapa)
-	}
+	},
+	UPDATE_ETAPA_NOME: (state, update) => state.etapas[update.index].nome = update.nome
 }
 
 export default {

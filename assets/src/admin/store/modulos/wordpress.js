@@ -19,15 +19,15 @@ const actions = {
 	getNames: ({ state, commit, getters }) => {
 		getters.userUniqueIds.forEach( id => {
 			wpApi.get(`/users/${id}`)
-				.then( res => {
-					let output = {
+				.then(res => {
+					return {
 						id: id,
 						name: res.data.name,
 						slug: res.data.slug,
 						avatars: res.data.avatar_urls
 					}
-					commit('SET_USER_NAME', output)
 				})
+				.then(res => commit('SET_USER_NAME', res))
 				.catch( error => commit('FETCH_STATUS', error))
 				.finally( state.fetchFinished = true )
 		})

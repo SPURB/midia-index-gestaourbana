@@ -1,7 +1,7 @@
 import ErroSpan from '../components/ErroSpan.vue'
 
 export default {
-    template: `<tr> 
+	template: `<tr> 
 		<td>URL</td>
 		<td>
 			<input 
@@ -38,20 +38,20 @@ export default {
 				><span>&times;</span></a>
 		</td>
 	</tr>`,
-    data() {
-        return {
-            input:'',
-            displayExtensao: false,
-            displayExtensaoBox: false,
-            extensao:'',
-            extensaoFixa: true
-        }
-    },
+	data() {
+		return {
+			input:'',
+			displayExtensao: false,
+			displayExtensaoBox: false,
+			extensao:'',
+			extensaoFixa: true
+		}
+	},
 	components:{ ErroSpan },
-    computed:{
+	computed:{
 		tiposDeArquivo() { return this.$store.state.urls.tiposDeArquivo },
-    },
-    methods:{
+	},
+	methods:{
 		setExtensaoSpanValue(value){
 			value = value.toUpperCase()
 			if(value === '...' || value != ''){
@@ -64,26 +64,26 @@ export default {
 			}
 		},
 		checkExtensao(url){
-            const regexPattern = /\.([0-9a-z]+)(?:[\?#]|$)/i // extensão  = apenas texto após o último ponto
-            const ext = (url).match(regexPattern)
-            let extensao
+			const regexPattern = /\.([0-9a-z]+)(?:[\?#]|$)/i // extensão  = apenas texto após o último ponto
+			const ext = (url).match(regexPattern)
+			let extensao
 
-            if (ext != null){
-                extensao = (url).match(regexPattern)[1].toUpperCase()
-                extensao === 'RAR' || extensao === 'ZIP' ? extensao = "..." : extensao = extensao 
-                extensao === '...' ? this.extensaoFixa = false : this.extensaoFixa = true
-            }
-            else{
-                extensao = 'URL'
-            }
-            return extensao
-        },
-        alteraTipoDeArq(ext) {
-            this.displayExtensaoBox = false
-            this.extensao = ext
-        },
-        openBox(){
-            this.extensaoFixa ? this.displayExtensaoBox = false : this.displayExtensaoBox = true 
-        }     
-    }
+			if (ext != null){
+				extensao = (url).match(regexPattern)[1].toUpperCase()
+				extensao === 'RAR' || extensao === 'ZIP' ? extensao = "..." : extensao = extensao 
+				extensao === '...' ? this.extensaoFixa = false : this.extensaoFixa = true
+			}
+			else{
+				extensao = 'URL'
+			}
+			return extensao
+		},
+		alteraTipoDeArq(ext) {
+			this.displayExtensaoBox = false
+			this.extensao = ext
+		},
+		openBox(){
+			this.extensaoFixa ? this.displayExtensaoBox = false : this.displayExtensaoBox = true 
+		}
+	}
 }

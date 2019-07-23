@@ -21,6 +21,7 @@
 			<input type="text" class="busca-arquivos" placeholder="Pesquisar arquivos..." v-model="busca">
 			<template v-for="(etapa, index) in etapasFiltradas">
 				<Etapa
+					v-if="etapasFiltradas && projeto.id"
 					:key="index"
 					:idEtapa="etapa.id"
 					:idProjeto="projeto.id"
@@ -177,7 +178,7 @@ export default {
 	methods: {
 		insereEtapa() {
 			this.$store.commit('etapas/DISPLAY', true)
-			this.$store.commit('LUZ_TOGGLE')
+			this.$store.commit('ui/LUZ_TOGGLE')
 		},
 
 		...mapActions('etapas', [

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import ui from './modulos/ui'
 import api from '../utils/api'
 import etapas from './modulos/etapas'
 import subetapas from './modulos/subetapas'
@@ -14,6 +15,7 @@ Vue.use(Vuex)
 let store = new Vuex.Store({
 	// strict: true,
 	modules:{
+		ui,
 		etapas,
 		subetapas,
 		arquivos,
@@ -24,10 +26,8 @@ let store = new Vuex.Store({
 	},
 	state: {
 		projeto: false,
-		arquivoClicado: undefined,
+		// arquivoClicado: undefined,
 		projetos: [],
-		apagaLuz: false,
-		// editArquivoBox: false,
 		addProjetoBox: false,
 		serverResponse: false,
 		serverError: false,
@@ -68,14 +68,12 @@ let store = new Vuex.Store({
 	},
 
 	mutations: {
-		LUZ_TOGGLE(state) { state.apagaLuz = !state.apagaLuz },
-		// ABRE_ARQUIVO_BOX(state) { state.editArquivoBox = !state.editArquivoBox },
 		ABRE_PROJETO_BOX(state) { state.addProjetoBox = !state.addProjetoBox },
 		ATIVA_TOGGLER(state, incomeId) {
 			state.projetos.map(function(index) {
 				if (index.id === incomeId) {
 					index.ativo = Math.abs(index.ativo - 1)
-					index.alterado = !index.alterado 		
+					index.alterado = !index.alterado
 				}
 			})
 		},
@@ -133,20 +131,16 @@ let store = new Vuex.Store({
 			const indexArquivos = etapas[indexEtapas].arquivos.findIndex(i => i.id === arquivo.idArquivo);
 			state.arquivoClicado = etapas[indexEtapas].arquivos[indexArquivos]
 		},
-		REORDER_ARQUIVOS: (state, obj) => {
-			const indexEtapa = state.projeto.etapas.findIndex(i => i.id === obj.idEtapa )
-			state.projeto.etapas[indexEtapa].arquivos = obj.arquivos
-		},
 		SET_ARQUIVO_EXTENSION: (state, obj) => {
 			const indexUrl = state.arquivoClicado.urls.findIndex(i => parseInt(i.id) === parseInt(obj.idUrl) )
 			state.arquivoClicado.urls[indexUrl].extensao = obj.extensao
 		},
-		UPDATE_ETAPA_NOME: (state, objIndexEtapaNome) => {
-			state.projeto.etapas[objIndexEtapaNome.indexEtapa].nome = objIndexEtapaNome.nome
-			state.projeto.etapas[objIndexEtapaNome.indexEtapa].updated = true
-		},
+		// UPDATE_ETAPA_NOME: (state, objIndexEtapaNome) => {
+		// 	state.projeto.etapas[objIndexEtapaNome.indexEtapa].nome = objIndexEtapaNome.nome
+		// 	state.projeto.etapas[objIndexEtapaNome.indexEtapa].updated = true
+		// },
 		UPDATE_ETAPAS:(state, novaEtapa) => { state.projeto.etapas.push(novaEtapa) },
-		UPDATE_ARQUIVO_CLICADO:(state, arquivo) => { state.arquivoClicado = arquivo },
+		// UPDATE_ARQUIVO_CLICADO:(state, arquivo) => { state.arquivoClicado = arquivo },
 		UPDATE_PROJETO_NOME: (state, projetoAlterado ) => {  state.projeto.nome = projetoAlterado },
 		UPDATE_ARQUIVOS: (state, arquivo) => { 
 			const index = state.projeto.etapas.findIndex(i => i.id === arquivo.idEtapa )

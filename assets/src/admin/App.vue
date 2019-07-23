@@ -6,9 +6,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
 	name: 'App',
-	computed: { LUZ_TOGGLE() { return this.$store.state.apagaLuz } },
+	computed: {
+		...mapState('ui',{
+			LUZ_TOGGLE: state => state.apagaLuz
+		})
+	},
 	created() { this.$store.dispatch('fetchProjetos') },
 	watch:{
 		'$route'(to){

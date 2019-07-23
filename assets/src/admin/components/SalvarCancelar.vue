@@ -81,11 +81,11 @@ export default{
 				switch(this.commitName){
 					case 'etapas/DISPLAY': this.$store.commit('LUZ_TOGGLE'); break;
 					case 'arquivos/ABRE_BOX': 
-						this.$store.commit('LUZ_TOGGLE')
+						this.$store.commit('ui/LUZ_TOGGLE')
 						this.$store.commit('urls/RESET_ALL')
 						break;
 					case 'arquivos/ABRE_EDIT_BOX': 
-						this.$store.commit('LUZ_TOGGLE')
+						this.$store.commit('ui/LUZ_TOGGLE')
 						this.$store.commit('urls/RESET_ALL')
 						break;
 					case 'RESET_PROJETO' : this.$router.push({ path:'/' }); break;
