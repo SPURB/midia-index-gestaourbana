@@ -1,7 +1,7 @@
 import ErroSpan from '../components/ErroSpan.vue'
 
 export default {
-	template: `<tr> 
+	template: `<tr>
 		<td>URL</td>
 		<td>
 			<input 
@@ -49,7 +49,7 @@ export default {
 	},
 	components:{ ErroSpan },
 	computed:{
-		tiposDeArquivo() { return this.$store.state.urls.tiposDeArquivo },
+		tiposDeArquivo() { return this.$store.state.urls.tipos.map(tipo => tipo.nome) },
 	},
 	methods:{
 		setExtensaoSpanValue(value){

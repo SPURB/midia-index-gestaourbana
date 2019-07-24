@@ -13,7 +13,7 @@
 					name="nome"
 					v-model='projetoNome'
 					v-validate="'required'">
-					<ErroSpan :display="errors.first('nome')!==undefined">{{ errors.first('nome') }}</ErroSpan>
+					<ErroSpan v-if="errors.first('nome')!==undefined">{{ errors.first('nome') }}</ErroSpan>
 				<div class="shortcode_expand">
 					<span>Shortcode do projeto <code @click="copiaSlug($event)">[arquivos-gu-{{projeto.id}}]</code></span>
 				</div>
@@ -145,7 +145,6 @@ export default {
 			}
 			else { return false }
 		},
-		// novoArquivoId(){ return this.$store.state.arquivos.response }
 	},
 	watch: {
 		projeto(projetoIsSet) {

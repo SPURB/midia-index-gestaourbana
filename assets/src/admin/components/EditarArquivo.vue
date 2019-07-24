@@ -11,32 +11,21 @@
 							<label for="nome">Nome público</label>
 						</td>
 						<td>
-							<input 
+							<input
 								type="text"
-								ref="nome" 
+								ref="nome"
 								id="nome"
 								name="Nome público"
 								v-model="arquivoClicado.nome"
 								v-validate="'required|max:330'">
 								<span v-if="!errors.has('Nome público')">{{nomeCharNumber}}/330</span>
-								<ErroSpan :display="errors.has('Nome público')">{{ errors.first('Nome público') }}</ErroSpan>
+								<ErroSpan v-if="errors.has('Nome público')">{{ errors.first('Nome público') }}</ErroSpan>
 						</td>
 					</tr>
-						<URL
-							:idUrl='parseInt(arquivoClicado.id)'
-							:idEtapa="idEtapa"
-						></URL>
-						<!-- <template v-for="(newUrl, index) in newUrls">
-							<URLnova 
-								:key="index + 1"
-								:index="index">
-							</URLnova>
-						</template> -->
-					<tr>
-						<td colspan="2">
-							<div class="addUrl" @click="addUrl">+ Adicionar URL</div>
-						</td>
-					</tr>
+					<URL :idArquivo='parseInt(arquivoClicado.id)' :idEtapa="idEtapa"></URL>
+					<SelecionarEtapa :idArquivo="parseInt(arquivoClicado.id)" :idEtapa="idEtapa"></SelecionarEtapa>
+					<SelecionarSubEtapa :idArquivo="parseInt(arquivoClicado.id)" :idSubEtapa="parseInt(arquivoClicado.id_subetapa)"></SelecionarSubEtapa>
+					<Fonte></Fonte>
 				</table>
 			</form>
 			<div class="actions">
@@ -71,6 +60,9 @@ import ErroSpan from '../components/ErroSpan.vue'
 import URL from '../components/URL.vue'
 import URLnova from '../components/URLnova.vue'
 import SalvarCancelar from '../components/SalvarCancelar.vue'
+import SelecionarEtapa from '../components/SelecionarEtapa.vue'
+import SelecionarSubEtapa from '../components/SelecionarSubEtapa.vue'
+import Fonte from '../components/Fonte.vue'
 import { ptBr, validator } from '../mixins/formValidation'
 
 export default {
@@ -85,21 +77,13 @@ export default {
 		ErroSpan,
 		URL,
 		URLnova,
-		SalvarCancelar
+		SalvarCancelar,
+		SelecionarEtapa,
+		SelecionarSubEtapa,
+		Fonte
 	},
 	mixins:[  validator  ],
-	methods: {
-		addUrl() { 
-			this.newUrls.push({
-				url: undefined,
-				extensao: undefined
-		})},
-	},
 	computed: {
-		newUrls:{
-			get(){ return this.$store.state.urls.urlsNovas },
-			set(value) { this.$store.commit('urls/SET') }
-		},
 		enabled() {
 			let formHaveErrors = this.$validator.errors.items.length > 0 // boolean 
 			let formTouched = this.$validator.fields.items.filter(field => field.flags.changed).length > 0 
@@ -111,9 +95,6 @@ export default {
 				return this.$store.state.arquivos.arquivos
 					.find(arquivo => parseInt(arquivo.id) === parseInt(this.$store.state.arquivos.clieckedArquivoId))
 			},
-			// set(value){
- 			// 	this.$store.commit('UPDATE_ARQUIVO_CLICADO', value)
-			// }
 			set(arquivo) {
 				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO', arquivo)
 			}
@@ -219,25 +200,25 @@ div.EditarArquivo {
 						}
 					}
 
-					div.addUrl {
-						display: inline;
-						float: right;
-						background-color: transparent;
-						color: #DDD;
-						height: 32px;
-						line-height: 32px;
-						border: 1px solid #DDD;
-						border-radius: 16px;
-						padding: 0 12px;
-						transition: all .2s;
-						cursor: pointer;
+					// div.addUrl {
+					// 	display: inline;
+					// 	float: right;
+					// 	background-color: transparent;
+					// 	color: #DDD;
+					// 	height: 32px;
+					// 	line-height: 32px;
+					// 	border: 1px solid #DDD;
+					// 	border-radius: 16px;
+					// 	padding: 0 12px;
+					// 	transition: all .2s;
+					// 	cursor: pointer;
 
-						&:hover {
-							background: #0073aa;
-							border-color: #0073aa;
-							color: #FFF;
-						}
-					}
+					// 	&:hover {
+					// 		background: #0073aa;
+					// 		border-color: #0073aa;
+					// 		color: #FFF;
+					// 	}
+					// }
 				}
 
 				&:last-child td {

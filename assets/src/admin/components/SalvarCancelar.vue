@@ -79,7 +79,7 @@ export default{
 		commitOrAction(){
 			if(this.commitName){
 				switch(this.commitName){
-					case 'etapas/DISPLAY': this.$store.commit('LUZ_TOGGLE'); break;
+					case 'etapas/DISPLAY': this.$store.commit('ui/LUZ_TOGGLE'); break;
 					case 'arquivos/ABRE_BOX': 
 						this.$store.commit('ui/LUZ_TOGGLE')
 						this.$store.commit('urls/RESET_ALL')

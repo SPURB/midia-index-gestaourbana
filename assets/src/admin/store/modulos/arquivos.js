@@ -11,7 +11,14 @@ const state = {
 	clieckedArquivoId: undefined
 }
 
-const getters = {}
+const getters = {
+	arquivoClicado: (state) => {
+		if(state.clieckedArquivoId) {
+			return state.arquivos.find(arquivo => parseInt(arquivo.id) === state.clieckedArquivoId)
+		}
+		else return undefined
+	}
+}
 
 const actions = {
 	getArquivos: ({ state, commit, getters, rootState }) => {
@@ -89,6 +96,7 @@ const mutations = {
 	SET_ARQUIVOS: (state, arquivos) => { state.arquivos = arquivos },
 	RESET_ARQUIVOS: (state) => state.arquivos = [],
 	FETCH_STATUS: (state, isFetching) => state.fetching = !state.fetching,
+
 	UPDATE_ARQUIVO_CLICADO: (state, arquivos) => {
 		console.log(arquivos)
 	}

@@ -19,7 +19,7 @@
 								v-model="action.toChange.nome"
 								v-validate="'required|max:330'">
 								<span v-if="!errors.has('Nome público')">{{nomeCharNumber}}/330</span>
-								<ErroSpan :display="errors.has('Nome público')">{{ errors.first('Nome público') }}</ErroSpan>
+								<ErroSpan v-if="errors.has('Nome público')">{{ errors.first('Nome público') }}</ErroSpan>
 						</td>
 					</tr>
 								<!-- v-on:removerurls="removeUrl(index)" -->
@@ -48,7 +48,7 @@
 								v-validate="'required|max:330'">
 							</textarea>
 							<span class="contador" v-if="!errors.has('Descrição')">{{descricaoCharNumber}}/330</span>
-							<ErroSpan :display="errors.has('Descrição')">{{ errors.first('Descrição') }}</ErroSpan>
+							<ErroSpan v-if="errors.has('Descrição')">{{ errors.first('Descrição') }}</ErroSpan>
 						</td>
 					</tr>
 				</table>

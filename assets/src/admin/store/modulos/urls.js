@@ -65,17 +65,17 @@ const actions = {
 
 const mutations = {
 	SET_TIPOS_DE_ARQUIVOS: (state, tipos) => state.tipos = tipos,
-	CHANGE_URL:(state, alterada) => { 
-		if (alterada.isValid && alterada.isTouched){
-			const alt = state.urlsAlteradas.find( alt => parseInt(alterada.id) === parseInt(id)) 
+	// CHANGE_URL:(state, alterada) => {
+	// 	if (alterada.isValid && alterada.isTouched){
+	// 		const alt = state.urlsAlteradas.find( alt => parseInt(alterada.id) === parseInt(id)) 
 
-			if(alt){
-				const index = state.urlsAlteradas.indexOf(alt)
-				state.urlsAlteradas[index] = alterada.id
-			}
-			else { state.urlsAlteradas.push(alterada.id) }
-		}
-	},
+	// 		if(alt){
+	// 			const index = state.urlsAlteradas.indexOf(alt)
+	// 			state.urlsAlteradas[index] = alterada.id
+	// 		}
+	// 		else { state.urlsAlteradas.push(alterada.id) }
+	// 	}
+	// },
 	SET_URL:(state, newUrl) => {
 		state.urlsNovas[newUrl.index].url = newUrl.url
 	},
@@ -95,7 +95,7 @@ const mutations = {
 }
 
 export default {
- 	namespaced: true,
+	namespaced: true,
 	state,
 	getters,
 	actions,

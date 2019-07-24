@@ -1,16 +1,16 @@
 <template>
-	<span v-if="display" class="ErroMensagem"><slot></slot></span>
+	<span class="ErroMensagem"><slot></slot></span>
 </template>
 
 <script>
 export default {
 	name: 'ErroMensagem',
-	props: { 
-		display: {
-			required: true,
-			type: Boolean
-		}
-	}
+	// props: { 
+	// 	display: {
+	// 		required: true,
+	// 		type: Boolean
+	// 	}
+	// }
 }
 </script>
 <style lang="scss" scoped>

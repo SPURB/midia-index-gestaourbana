@@ -7,32 +7,32 @@ export default {
 	props:{
 		index: {
 			type: Number,
-			required: true 
+			required: true
 		}
 	},
 	mixins:[ validator, url ],
 	watch:{
-        input(value){
-            if(value){
-                this.extensao = this.checkExtensao(value.replace(/ /g,'')) // remove espaços
-                this.$store.commit('urls/SET_URL',{
-                    url: value,
-                    index: this.index
-                })
-            }
+		input(value){
+			if(value){
+				this.extensao = this.checkExtensao(value.replace(/ /g,'')) // remove espaços
+				this.$store.commit('urls/SET_URL',{
+					url: value,
+					index: this.index
+				})
+			}
 		},
-        extensao(value){
-            if(value){
+		extensao(value){
+			if(value){
 				this.setExtensaoSpanValue(value)
-                this.$store.commit('urls/SET_EXTENSAO',{
-                    extensao: value,
-                    index: this.index
-                })
-            }
-        }
+				this.$store.commit('urls/SET_EXTENSAO',{
+					extensao: value,
+					index: this.index
+				})
+			}
+		}
 	},
 	methods:{
-		deletaUrl(){ 
+		deletaUrl(){
 			this.$store.commit('urls/RESET', { reset: this.index})
 			if(this.urlNova !== undefined){
 				this.input = this.urlNova.url

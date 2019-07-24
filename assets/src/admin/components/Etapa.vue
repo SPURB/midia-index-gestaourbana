@@ -12,6 +12,7 @@
 			<table>
 				<thead>
 					<th>Última modificação</th>
+					<th>Sub etapa</th>
 					<th>Nome</th>
 					<th>
 					<svg width="20" height="20" style="vertical-align: bottom" alt="arquivos" viewBox="0.14 841.445 24 24"><path d="M23.14 849.69l-5.491-5.056-5.491 5.056 1.496 1.62 2.892-2.669v12.519h2.206v-12.519l2.892 2.669zM7.734 858.25v-12.52H5.528v12.52l-2.892-2.669L1.14 857.2l5.491 5.057 5.492-5.057-1.497-1.619z"/></svg>
@@ -33,6 +34,7 @@
 						class="tablerow" 
 						:key="index">
 						<td>{{ displayData(arquivo.atualizacao) }}</td>
+						<td>{{ displaySubetapa(arquivo.id_subetapa) }}</td>
 						<td><a 
 								@click="abreEditArquivoBox(arquivo)"
 								:id="arquivo.id"
@@ -68,10 +70,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import draggable from 'vuedraggable'
 import AdicionarArquivo from '../components/AdicionarArquivo.vue'
 import EditarArquivo from '../components/EditarArquivo.vue'
 import trataSlug from '../mixins/trataSlug'
+import { async } from 'q';
 
 export default {
 	name: 'Etapa',
@@ -103,8 +107,16 @@ export default {
 		draggable
 	},
 	computed: {
-		editarArquivo() { return this.$store.state.arquivos.editBox },
-		abreNovoArquivo() { return this.$store.state.arquivos.box },
+		...mapState('arquivos', {
+			editarArquivo: state => state.editBox,
+			abreNovoArquivo: state => state.box,
+			novoArquivoResponse: state => state.response
+		}),
+
+		...mapState('subetapas', {
+			subetapas: state => state.subetapas
+		}),
+
 		arquivos: {
 			get () {
 				return this.$store.state.arquivos.arquivos
@@ -145,7 +157,6 @@ export default {
 				this.$store.commit('etapas/ETAPA_NOME_MUTATED', true)
 			}
 		},
-		novoArquivoResponse(){ return this.$store.state.arquivos.response }
 	},
 	watch: {
 		arquivosFiltrados(val) {
@@ -160,6 +171,13 @@ export default {
 		}
 	},
 	methods: {
+		displaySubetapa(id) {
+			if(this.subetapas.length) {
+				try { return this.subetapas.find(subetapa => parseInt(subetapa.id) === parseInt(id)).nome }
+				catch { return `Subetapa indefinida id: ${id}` }
+			}
+			else id
+		},
 		etapaAlterada () {
 			this.$store.commit('etapas/SET_ETAPAS_ALTERADAS', this.idEtapa)
 		},
@@ -193,11 +211,6 @@ export default {
 			}
 			this.$store.commit('ui/LUZ_TOGGLE')
 			this.$store.commit('arquivos/ABRE_EDIT_BOX', arquivo.id)
-
-			// this.$store.commit('SET_ARQUIVO', {
-			// 	idEtapa: this.idEtapa,
-			// 	idArquivo: arquivo.id
-			// })
 		}
 	}
 }
@@ -205,7 +218,6 @@ export default {
 
 <style lang="scss" scoped>
 div.Etapa {
-
 	display: flex;
 	flex-flow: column nowrap;
 	margin: 12px 0 0 0;
