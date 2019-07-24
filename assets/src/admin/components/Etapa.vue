@@ -324,9 +324,10 @@ div.Etapa {
 						padding: 0 4px;
 						border-radius: 2px;
 						margin-left: 8px;
-						display: none;
+						display:  inline-block;
+						opacity: 0;
 					}
-					&:hover::after { display: inline-block; }
+					&:hover::after { opacity: 1; }
 				}
 			}
 
