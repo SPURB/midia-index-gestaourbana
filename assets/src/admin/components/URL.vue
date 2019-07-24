@@ -9,7 +9,11 @@
 				v-validate="'required|url'"
 				:class="{'input': true, 'error': errors.has('url') }">
 				<ErroSpan v-if="errors.first('url')!==undefined">{{ errors.first('url') }}</ErroSpan>
-				<Extensao :input="input" :idExtensao="idExtensao" :idArquivo="idArquivo"></Extensao>
+				<Extensao 
+					:input="input"
+					:idExtensao="idExtensao"
+					:idArquivo="idArquivo">
+				</Extensao>
 		</td>
 	</tr>
 </template>
@@ -60,7 +64,7 @@ export default {
 
 		url: {
 			get () {
-				return this.arquivos.find(arquivo => parseInt(arquivo.id) === this.idArquivo).url
+				return this.arquivos.find(arquivo => arquivo.id === this.idArquivo).url
 			},
 			set (url) {
 				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO',{
@@ -69,7 +73,7 @@ export default {
 				})
 			}
 		},
-		idExtensao () { return parseInt(this.arquivos.find(arquivo => parseInt(arquivo.id) === this.idArquivo).id_extensao) },
+		idExtensao () { return this.arquivos.find(arquivo => arquivo.id === this.idArquivo).id_extensao },
 		isValid () { return this.errors.items.length === 0 },
 		isTouched () { return this.$validator.fields.items.filter( field => field.flags.changed ).length > 0  }, 
 	}

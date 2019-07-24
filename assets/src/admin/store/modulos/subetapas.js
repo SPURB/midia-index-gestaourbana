@@ -21,7 +21,12 @@ const actions = {
 const mutations = {
 	ERROR: (state, status) => state.error = status,
 	FETCH_STATUS: (state, status) => state.fetching = status,
-	SET_SUBETAPAS: (state, subetapas) => state.subetapas = subetapas
+	SET_SUBETAPAS: (state, subetapas) => {
+		state.subetapas = subetapas.map(subetapa => {
+			subetapa.id = parseInt(subetapa.id)
+			return subetapa
+		})
+	}
 }
 
 export default {

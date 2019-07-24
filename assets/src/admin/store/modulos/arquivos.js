@@ -93,7 +93,17 @@ const mutations = {
 	SET_ERROR: (state, response) => { state.error = response },
 	SET_ID_ETAPA: (state, id) => { state.clickedIdEtapa = id.idEtapa },
 	RESET_RESPONSE: (state) => { state.response = false },
-	SET_ARQUIVOS: (state, arquivos) => { state.arquivos = arquivos },
+	SET_ARQUIVOS: (state, arquivos) => { 
+		state.arquivos = arquivos.map(arquivo => {
+			arquivo.id = parseInt(arquivo.id)
+			arquivo.id_etapa = parseInt(arquivo.id_etapa)
+			arquivo.id_projeto = parseInt(arquivo.id_projeto)
+			arquivo.id_subetapa = parseInt(arquivo.id_subetapa)
+			arquivo.posicao = parseInt(arquivo.posicao)
+			arquivo.id_extensao = parseInt(arquivo.id_extensao)
+			return arquivo
+		})
+	},
 	RESET_ARQUIVOS: (state) => state.arquivos = [],
 	FETCH_STATUS: (state, isFetching) => state.fetching = !state.fetching,
 

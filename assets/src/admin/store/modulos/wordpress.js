@@ -35,7 +35,7 @@ const actions = {
 }
 
 const mutations = {
-	SET_USER_NAME: (state, user) => state.names.push({ 
+	SET_USER_NAME: (state, user) => state.names.push({
 		id: user.id,
 		name: user.name,
 		slug: user.slug,

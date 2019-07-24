@@ -22,10 +22,10 @@
 								<ErroSpan v-if="errors.has('Nome público')">{{ errors.first('Nome público') }}</ErroSpan>
 						</td>
 					</tr>
-					<URL :idArquivo='parseInt(arquivoClicado.id)' :idEtapa="idEtapa"></URL>
-					<SelecionarEtapa :idArquivo="parseInt(arquivoClicado.id)" :idEtapa="idEtapa"></SelecionarEtapa>
-					<SelecionarSubEtapa :idArquivo="parseInt(arquivoClicado.id)" :idSubEtapa="parseInt(arquivoClicado.id_subetapa)"></SelecionarSubEtapa>
-					<Fonte></Fonte>
+					<URL :idArquivo="arquivoClicado.id" :idEtapa="idEtapa"></URL>
+					<SelecionarEtapa :idArquivo="arquivoClicado.id" :idEtapa="idEtapa"></SelecionarEtapa>
+					<SelecionarSubEtapa :idArquivo="arquivoClicado.id" :idSubEtapa="arquivoClicado.id_subetapa"></SelecionarSubEtapa>
+					<Fonte :idArquivo="arquivoClicado.id"></Fonte>
 				</table>
 			</form>
 			<div class="actions">
@@ -93,7 +93,7 @@ export default {
 		arquivoClicado: {
 			get(){
 				return this.$store.state.arquivos.arquivos
-					.find(arquivo => parseInt(arquivo.id) === parseInt(this.$store.state.arquivos.clieckedArquivoId))
+					.find(arquivo => arquivo.id === this.$store.state.arquivos.clieckedArquivoId)
 			},
 			set(arquivo) {
 				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO', arquivo)

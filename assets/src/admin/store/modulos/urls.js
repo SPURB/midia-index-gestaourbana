@@ -64,7 +64,12 @@ const actions = {
 }
 
 const mutations = {
-	SET_TIPOS_DE_ARQUIVOS: (state, tipos) => state.tipos = tipos,
+	SET_TIPOS_DE_ARQUIVOS: (state, tipos) => { 
+		state.tipos = tipos.map(tipo => {
+			tipo.id = parseInt(tipo.id)
+			return tipo
+		})
+	},
 	// CHANGE_URL:(state, alterada) => {
 	// 	if (alterada.isValid && alterada.isTouched){
 	// 		const alt = state.urlsAlteradas.find( alt => parseInt(alterada.id) === parseInt(id)) 

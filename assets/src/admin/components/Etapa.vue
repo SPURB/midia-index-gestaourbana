@@ -3,6 +3,7 @@
 		<div class="h-etapa">
 			<span>Etapa</span>
 			<input type="text" name="nome" v-model="nomeEtapa">
+			<!-- <p>{{ nomeEtapa }}</p> -->
 			<div class="shortcode_expand">
 				<span>Shortcode da etapa <code @click="copiaSlug($event)">[arquivos-gu-{{ idProjeto }}.{{ idEtapa }}]</code></span>
 				<button @click="etapaCollapse($event)">&#9650;</button>
@@ -121,7 +122,7 @@ export default {
 			get () {
 				return this.$store.state.arquivos.arquivos
 					.filter(arquivo => {
-						if(parseInt(arquivo.id_etapa) === parseInt(this.idEtapa)) return arquivo
+						if(arquivo.id_etapa === this.idEtapa) return arquivo
 					})
 					.sort((arquivoA, arquivoB) => arquivoA.posicao - arquivoB.posicao)
 			},
@@ -173,7 +174,7 @@ export default {
 	methods: {
 		displaySubetapa(id) {
 			if(this.subetapas.length) {
-				try { return this.subetapas.find(subetapa => parseInt(subetapa.id) === parseInt(id)).nome }
+				try { return this.subetapas.find(subetapa => subetapa.id === id).nome }
 				catch { return `Subetapa indefinida id: ${id}` }
 			}
 			else id

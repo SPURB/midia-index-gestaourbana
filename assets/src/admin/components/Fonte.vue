@@ -5,6 +5,12 @@
 </template>
 <script>
 export default {
-	name: 'Fonte'
+	name: 'Fonte', 
+	props: {
+		idArquivo: {
+			type: Number,
+			required: true
+		}
+	}
 }
 </script>

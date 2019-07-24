@@ -30,7 +30,7 @@ export default {
 			subetapas: state => state.subetapas
 		}),
 		estaSubEtapa: { 
-			get() { return this.subetapas.find(subetapa => parseInt(subetapa.id) === this.idSubEtapa) },
+			get() { return this.subetapas.find(subetapa => subetapa.id === this.idSubEtapa) },
 			set(etapa) {
 				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO', {
 					idEtapa: subetapa.id,

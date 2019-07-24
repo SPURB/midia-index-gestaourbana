@@ -50,7 +50,7 @@ export default {
 			tipos: state => state.tipos
 		}),
 		extensao: { 
-			get() { return this.tipos.find(tipo => parseInt(tipo.id) === this.idExtensao).nome },
+			get() { return this.tipos.find(tipo => tipo.id === this.idExtensao).nome },
 			set(extensao) {
 				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO', { extensao: extensao, idArquivo: this.idArquivo })
 			}
