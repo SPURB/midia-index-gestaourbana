@@ -1,15 +1,7 @@
 <template>
-	<tr class="seletor--arquivos">
-		<td>
-			<label for="selectSubEtapa">Sub etapa</label>
-		</td>
-		<td>
-			<select name="selectSubEtapa" class="seletor--arquivo-subetapa" v-model="estaSubEtapa" :value="estaSubEtapa">
-				<option v-for="(subetapa, index) in subetapas" :value="subetapa" :key="index">{{ subetapa.nome }}</option>
-			</select>
-			<div><!-- btn placeholder --></div>
-		</td>
-	</tr>
+	<select name="selectSubEtapa" class="seletor--arquivo-subetapa" v-model="estaSubEtapa" :value="estaSubEtapa">
+		<option v-for="(subetapa, index) in subetapas" :value="subetapa" :key="index">{{ subetapa.nome }}</option>
+	</select>
 </template>
 <script>
 import { mapState } from 'vuex'
@@ -42,9 +34,4 @@ export default {
 	}
 }
 </script>
-<style lang="scss" scoped>
-.seletor--arquivo-subetapa {
-	width: inherit
-}
-</style>
 

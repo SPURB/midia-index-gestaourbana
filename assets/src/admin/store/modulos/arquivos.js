@@ -78,10 +78,14 @@ const actions = {
 
 const mutations = {
 	REORDER: (state, updateArquivosOrder) => {
-		updateArquivosOrder.arquivos.forEach(update => {
-			const arquivoIndex = state.arquivos.findIndex(arquivo => arquivo.id === update.id)
-			state.arquivos[arquivoIndex].posicao = update.posicao
+		updateArquivosOrder.arquivos.forEach(arquivo => {
+			const index = updateArquivosOrder.arquivos.indexOf(arquivo)
+			arquivo.posicao = index + 1
+			return arquivo
 		})
+
+		console.log("dispatch new order:")
+		console.log(state.arquivos.map(arquivo => { return { id: arquivo.id, posicao: arquivo.posicao }} ))
 	},
 
 	ABRE_EDIT_BOX: (state, id) => {

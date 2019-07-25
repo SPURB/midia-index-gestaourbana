@@ -7,7 +7,6 @@ import subetapas from './modulos/subetapas'
 import arquivos from './modulos/arquivos'
 import urls from './modulos/urls'
 import infoProjeto from './modulos/infoProjeto'
-import infoProjetos from './modulos/infoProjetos'
 import statusProjetos from './modulos/statusProjetos'
 import wordpress from './modulos/wordpress'
 
@@ -23,7 +22,6 @@ let store = new Vuex.Store({
 		statusProjetos,
 		urls,
 		infoProjeto,
-		infoProjetos,
 		wordpress
 	},
 	state: {

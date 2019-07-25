@@ -7,6 +7,8 @@ const state = {
 	response: false,
 	etapaNomeMutated: false,
 	etapasAlteradas: [],
+
+	serverResponse: false
 }
 
 const getters = {
@@ -17,9 +19,10 @@ const actions = {
 		commit('SET_FECHING_STATUS', true,  { root: true })
 		api.get('/etapas/')
 			.then(res => commit('GET_ETAPAS', res.data))
-			.catch(error => { 
+			.catch(error => {
+				commit('SET_ERROR', error)
 				commit('SET_ERROR_TRUE')
-				console.log('error from set fetching getEtapas')
+				console.log('error from getEtapas')
 				console.log(error)
 			})
 			.finally(() => commit('SET_FECHING_STATUS', false,  { root: true }))
@@ -39,7 +42,7 @@ const actions = {
 					})
 					.catch(error => {
 						commit('SET_PUT_RESPONSE', error)
-						commit('SET_ERROR_TRUE')
+						commit('SET_ERROR', error)
 					})
 
 			}
@@ -72,7 +75,7 @@ const actions = {
 				commit('UPDATE_ETAPAS', novaEtapa, { root: true })
 			})
 			.catch(error => commit('SET_ERROR', error))
-			.then(() => commit('SET_FECHING_STATUS', false, { root: true }))
+			.finally(() => commit('SET_FECHING_STATUS', false, { root: true }))
 	}
 }
 
@@ -87,12 +90,11 @@ const mutations = {
 		state.etapas = numericalIds
 	},
 	SET_ETAPA: (state, response) => { state.idEtapa = response },
-	SET_ERROR: (state) => { state.error = !state.error },
+	SET_ERROR: (state, error) => { state.error = error.response.data },
 	SET_ERROR_TRUE: (state) => { state.error = true },
 	DISPLAY: (state, boxState) => { state.addEtapaBox = boxState },
 	SET_PUT_RESPONSE: (state, response) => { state.response = response },
 	ETAPA_NOME_MUTATED: (state, status) => { state.etapaNomeMutated = status },
-	// SET_STATUS_NOME_PROJETO:( state, status ) => { state.statusNomeProjetoAlterado = status }
 	RESET_RESPONSES: (state) => {
 		state.response = false
 		state.error = false

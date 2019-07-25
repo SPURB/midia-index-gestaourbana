@@ -2,9 +2,8 @@
 	<div class="Etapa" v-if="existeArquivos">
 		<div class="h-etapa">
 			<span>Etapa</span>
-			<input type="text" name="nome" v-model="nomeEtapa">
 
-			<p><span>Etapa</span> {{ nomeEtapa }}</p>
+			<SelecionarEtapas :arquivos="arquivos" :idEtapa="idEtapa"></SelecionarEtapas>
 
 			<div class="shortcode_expand">
 				<span>Shortcode da etapa <code @click="copiaSlug($event)">[arquivos-gu-{{ idProjeto }}.{{ idEtapa }}]</code></span>
@@ -69,6 +68,7 @@ import { mapState } from 'vuex'
 import draggable from 'vuedraggable'
 import AdicionarArquivo from '../components/AdicionarArquivo.vue'
 import EditarArquivo from '../components/EditarArquivo.vue'
+import SelecionarEtapas from '../components/SelecionarEtapas.vue'
 import trataSlug from '../mixins/trataSlug'
 import { async } from 'q';
 
@@ -99,6 +99,7 @@ export default {
 	components: {
 		EditarArquivo,
 		AdicionarArquivo,
+		SelecionarEtapas,
 		draggable
 	},
 	computed: {
@@ -121,12 +122,6 @@ export default {
 					.sort((arquivoA, arquivoB) => arquivoA.posicao - arquivoB.posicao)
 			},
 			set (arquivos) {
-				const ordered = arquivos.map(arquivo => {
-					const index = arquivos.indexOf(arquivo)
-					arquivo.posicao = index + 1
-					return arquivo
-				})
-
 				this.$store.commit('arquivos/REORDER', {
 					arquivos: arquivos
 				})
@@ -154,6 +149,7 @@ export default {
 		},
 	},
 	watch: {
+		// arquivos (arr) { if(arr.length) console.log(arr) },
 		arquivosFiltrados(val) {
 			if (val.length) this.existeArquivos = true
 			else this.existeArquivos = false
@@ -234,19 +230,19 @@ div.Etapa {
 			margin-right: 4px;
 		}
 
-		input {
-			color: #FFF;
-			background-color:#066898;
-			font-size: 13px;
-			font-weight: 700;
-			border: unset;
-			box-shadow: unset;
-			transition: background-color ease-in-out .2s;
-			&:hover{
-				background-color:#04415f;
-				cursor: pointer;
-			}
-		}
+		// input {
+		// 	color: #FFF;
+		// 	background-color:#066898;
+		// 	font-size: 13px;
+		// 	font-weight: 700;
+		// 	border: unset;
+		// 	box-shadow: unset;
+		// 	transition: background-color ease-in-out .2s;
+		// 	&:hover{
+		// 		background-color:#04415f;
+		// 		cursor: pointer;
+		// 	}
+		// }
 
 		& > div.shortcode_expand {
 			display: inline-flex;

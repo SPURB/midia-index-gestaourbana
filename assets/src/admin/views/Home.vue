@@ -91,7 +91,7 @@ export default {
 			error: state=> state.error
 		}),
 
-		...mapState ('infoProjetos', {
+		...mapState ('ui', {
 			abreAddProjetoBox: state => state.addProjetoBox
 		}),
 
@@ -143,7 +143,7 @@ export default {
 			this.$store.commit('ATIVA_TOGGLER', incomeId) 
 		},
 		abreNovoProjeto() {
-			this.$store.commit('infoProjetos/ABRE_PROJETO_BOX')
+			this.$store.commit('ui/ABRE_PROJETO_BOX')
 			this.$store.commit('ui/LUZ_TOGGLE')
 		}
 	}

@@ -23,8 +23,22 @@
 						</td>
 					</tr>
 					<URL :idArquivo="arquivoClicado.id" :idEtapa="idEtapa"></URL>
-					<SelecionarEtapa :idArquivo="arquivoClicado.id" :idEtapa="idEtapa"></SelecionarEtapa>
-					<SelecionarSubEtapa :idArquivo="arquivoClicado.id" :idSubEtapa="arquivoClicado.id_subetapa"></SelecionarSubEtapa>
+
+
+					<tr>
+						<td></td>
+						<td>
+							<div class="dropdown-selector">
+								<label for="SelecionarEtapas">Etapa</label>
+								<SelecionarEtapas :arquivos="[arquivoClicado]" :idEtapa="idEtapa"></SelecionarEtapas>
+							</div>
+							<div class="dropdown-selector">
+								<label for="SelecionarSubEtapas">Sub etapas</label>
+								<SelecionarSubEtapa :idArquivo="arquivoClicado.id" :idSubEtapa="arquivoClicado.id_subetapa"></SelecionarSubEtapa>
+							</div>
+						</td>
+					</tr>
+
 					<Fonte :idArquivo="arquivoClicado.id"></Fonte>
 				</table>
 			</form>
@@ -60,7 +74,7 @@ import ErroSpan from '../components/ErroSpan.vue'
 import URL from '../components/URL.vue'
 import URLnova from '../components/URLnova.vue'
 import SalvarCancelar from '../components/SalvarCancelar.vue'
-import SelecionarEtapa from '../components/SelecionarEtapa.vue'
+import SelecionarEtapas from '../components/SelecionarEtapas.vue'
 import SelecionarSubEtapa from '../components/SelecionarSubEtapa.vue'
 import Fonte from '../components/Fonte.vue'
 import { ptBr, validator } from '../mixins/formValidation'
@@ -78,7 +92,7 @@ export default {
 		URL,
 		URLnova,
 		SalvarCancelar,
-		SelecionarEtapa,
+		SelecionarEtapas,
 		SelecionarSubEtapa,
 		Fonte
 	},
@@ -111,7 +125,16 @@ export default {
 </script>
 
 <style lang="scss">
-div.EditarArquivo {
+.dropdown-selector {
+	display: flex;
+	flex-direction: column;
+	margin-right: 2em;
+	label {
+		padding-bottom: 0.5rem
+	}
+}
+
+.EditarArquivo {
 	position: absolute;
 	top: 0;
 	left: -20px;
