@@ -17,7 +17,7 @@
 				<th width="15%"></th>
 			</thead>
 			<tr 
-				v-for="(projeto, index) in projetosFiltrado" 
+				v-for="(projeto, index) in projetosFiltrados"
 				:class="ocultoClass(projeto.ativo)"
 				:key="index"
 				>
@@ -80,17 +80,22 @@ export default {
 		}
 	},
 	computed: {
-		...mapState({
+		...mapState ({
 			fetching: state => state.fetching,
+			projetos: state => state.projetos,
 		}),
 
-		...mapState('wordpress', {
+		...mapState ('wordpress', {
 			names: state => state.names,
 			errors: state => state.errors,
 			error: state=> state.error
 		}),
 
-		projetosAlterados() {
+		...mapState ('infoProjetos', {
+			abreAddProjetoBox: state => state.addProjetoBox
+		}),
+
+		projetosAlterados () {
 			let alterado = this.$store.getters.projetosAlterados
 			let fetching = this.fetching
 			if(alterado || fetching ) {
@@ -98,30 +103,18 @@ export default {
 			}
 			else { return false}
 		}, 
-		abreAddProjetoBox() { return this.$store.state.addProjetoBox },
-		projetosFiltrado(){
-			const app = this
-			return this.$store.state.projetos.filter(function(projeto) {
-				return projeto.nome.toLowerCase().indexOf(app.busca.toLowerCase()) >= 0;
-			})
+
+		projetosFiltrados () {
+			return this.projetos.filter(projeto => projeto.nome.toLowerCase().indexOf(this.busca.toLowerCase()) >= 0)
 		},
-		idsProjetosAlterados(){
-			return this.$store.state.projetos.filter(index => index.alterado === true ).map( index => index.id )
+
+		idsProjetosAlterados (){
+			return this.projetos.filter(index => index.alterado === true ).map( index => index.id )
 		},
-		projetosFecthed () { return this.$store.state.projetos.length }
-	},
-	watch:{
-		projetosFecthed(val) {
-			if (val) { this.getNames() }
-		}
+
 	},
 
 	methods:{
-
-		...mapActions('wordpress', [
-			'getNames'
-		]),
-
 		wpUsername(id) {
 			const user = this.names.find(name => name.id === id)
 			if (this.names && id && user)  {
@@ -150,7 +143,7 @@ export default {
 			this.$store.commit('ATIVA_TOGGLER', incomeId) 
 		},
 		abreNovoProjeto() {
-			this.$store.commit('ABRE_PROJETO_BOX')
+			this.$store.commit('infoProjetos/ABRE_PROJETO_BOX')
 			this.$store.commit('ui/LUZ_TOGGLE')
 		}
 	}

@@ -31,7 +31,7 @@ export default {
 		}),
 		estaSubEtapa: { 
 			get() { return this.subetapas.find(subetapa => subetapa.id === this.idSubEtapa) },
-			set(etapa) {
+			set(subetapa) {
 				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO', {
 					idEtapa: subetapa.id,
 					nomeSubEtapa: subetapa.nome, 

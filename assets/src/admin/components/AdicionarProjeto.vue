@@ -5,11 +5,12 @@
 				<h3>Adicionar projeto</h3>
 			</div>
 			<div class="conteudo">
-				<p>Criação de um projeto e suas etapas. Ao criar as etapas, elas serão numeradas em ordem crescente.</p>
-				<p>Para inserir os links em um post, copie o Shortcode <code @click="copiaSlug($event)">[table id=&lt;<span style="color: #0073aa;">número da ID</span>&gt;/]</code> e cole no lugar desejado. Cada lista/tabela tem um único Shortcode.</p>		
+				<p>Adicione um novo projeto. Verifique se o mesmo já existe.</p>
+				<!-- <p>Criação de um projeto e suas etapas. Ao criar as etapas, elas serão numeradas em ordem crescente.</p>
+				<p>Para inserir os links em um post, copie o Shortcode <code @click="copiaSlug($event)">[table id=&lt;<span style="color: #0073aa;">número da ID</span>&gt;/]</code> e cole no lugar desejado. Cada lista/tabela tem um único Shortcode.</p>		 -->
 				<form>
 					<fieldset>
-						<input 
+						<input
 							@keyup.esc="fechaNovoProjetoBox"
 							type="text" 
 							id="nome" 
@@ -21,6 +22,9 @@
 				</form>
 				<p class="mensagem-erro" v-if="message">{{ message }}</p>
 				<p class="mensagem-erro" v-if="serverError">{{ serverError }}</p>
+				<ul class="projetos">
+					<li class="projetos--projeto" v-for="(projeto, index) in projetosFiltrados" :key="index">{{ projeto.nome }}</li>
+				</ul>
 			</div>
 			<div class="actions">
 				<button 
@@ -37,10 +41,11 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 import trataSlug from '../mixins/trataSlug'
 
 export default {
-	name: 'Projeto',
+	name: 'AdicionarProjeto',
 	mixins: [ trataSlug ],
 	data(){
 		return {
@@ -50,30 +55,30 @@ export default {
 		}
 	},
 	computed:{
+		...mapState({
+			projetos: state => state.projetos,
+			isfetching: state => state.isfetching,
+			serverResponse: state => state.serverResponse,
+			serverError: state => state.serverError
+		}),
+
 		projetosNomes: {
 			get(){ 
-				return this.$store.state.projetos.map(index => index.nome.toLowerCase() )
+				return this.projetos.map(index => index.nome.toLowerCase() )
 			}
 		},
-		uid(){ return this.$store.getters.wordpress.userSettings.uid },
-		isfetching(){ return this.$store.state.fetching },
-		serverResponse(){ return this.$store.state.serverResponse },
-		serverError(){	return this.$store.state.serverError },
+
+		projetosFiltrados () {
+			return this.projetos.filter(projeto => projeto.nome.toLowerCase().indexOf(this.nomeProjeto.toLowerCase()) >= 0)
+		},
+
+		uid(){ return parseInt(userSettings.uid) },
+
 	},
+
 	watch:{
+		projetosFiltrados(projetos){ projetos.length ? this.disabled = true : this.disabled = false },
 		isfetching(status){ status ? this.message = 'carregando' : this.message = false },
-		nomeProjeto(nome){
-			const nomeCaixaBaixa = nome.toLowerCase()
-			const nomeIgual = this.projetosNomes.find(function(index) { return index == nomeCaixaBaixa })
-			if (nomeIgual === undefined){
-				this.message = false
-				this.disabled = false 
-			}
-			else { 
-				this.message = 'O projeto "' + nome + '" já existe. Escolha outro nome.';
-				this.disabled = true 
-			}
-		},
 		serverResponse(val) {
 			if(val){ 
 				this.changeRoute()
@@ -84,16 +89,19 @@ export default {
 	methods: {
 		fechaNovoProjetoBox() {
 			this.$store.dispatch('fetchProjetos')
-			this.$store.commit('ABRE_PROJETO_BOX')
+			this.$store.commit('infoProjetos/ABRE_PROJETO_BOX')
+			this.$store.commit('RESET_ERROR')
 			this.$store.commit('ui/LUZ_TOGGLE')
 		},
-		adicionarProjeto(){ 
+
+		adicionarProjeto(){
 			this.$store.dispatch('postNovoProjeto', {
 				nome: this.nomeProjeto,
 				ativo: 1,
 				wordpress_user_id: this.uid
 			})
 		},
+
 		changeRoute(){
 			this.fechaNovoProjetoBox()
 			this.$router.push({ path: '/projeto/' +  this.serverResponse })
@@ -104,6 +112,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.projetos {
+	column-width: 215px
+}
+.projetos--projeto {
+	border-bottom: rgb(234, 234, 234) solid 1px;
+	margin: 0;
+	padding: 6px 0;
+}
+
 div.AdicionarProjeto {
 	position: absolute;
 	top: 0;

@@ -200,7 +200,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-div.Projeto {
+
+.Projeto {
 	overflow: hidden;
 	section:not(.projeto) { margin: 2rem 0; p { color: #898989; } }
 	section.projeto {
@@ -212,10 +213,11 @@ div.Projeto {
 		box-shadow: 0 4px 4px rgba(0, 0, 0, .12);
 		box-sizing: border-box;
 
-		div.nome {
+		.nome {
 			height: 40px;
 			margin: .8em 0 1em;
 				input {
+				min-width: 50%;
 				padding-left: .5em;
 				display: inline-block;
 				font-size: x-large;

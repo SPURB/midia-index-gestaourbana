@@ -3,7 +3,9 @@
 		<div class="h-etapa">
 			<span>Etapa</span>
 			<input type="text" name="nome" v-model="nomeEtapa">
-			<!-- <p>{{ nomeEtapa }}</p> -->
+
+			<p><span>Etapa</span> {{ nomeEtapa }}</p>
+
 			<div class="shortcode_expand">
 				<span>Shortcode da etapa <code @click="copiaSlug($event)">[arquivos-gu-{{ idProjeto }}.{{ idEtapa }}]</code></span>
 				<button @click="etapaCollapse($event)">&#9650;</button>
@@ -57,16 +59,8 @@
 			</transition>
 		</div>
 
-
-		<EditarArquivo 
-			v-if="editarArquivo"
-			:idEtapa="idEtapa"
-		>
-		</EditarArquivo>
-		<AdicionarArquivo 
-			v-if="abreNovoArquivo"
-			:idEtapa="idEtapa">
-		</AdicionarArquivo>
+		<EditarArquivo v-if="editarArquivo" :idEtapa="idEtapa"></EditarArquivo>
+		<AdicionarArquivo v-if="abreNovoArquivo" :idEtapa="idEtapa"></AdicionarArquivo>
 	</div>
 </template>
 

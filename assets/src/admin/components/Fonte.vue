@@ -23,11 +23,6 @@ import { mapState } from 'vuex'
 
 export default {
 	name: 'Fonte',
-	data () { 
-		return {
-			// fonte: 'placeholder'
-		}
-	},
 	props: {
 		idArquivo: {
 			type: Number,

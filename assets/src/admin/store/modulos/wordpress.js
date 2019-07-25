@@ -28,8 +28,8 @@ const actions = {
 					}
 				})
 				.then(res => commit('SET_USER_NAME', res))
-				.catch( error => commit('FETCH_STATUS', error))
-				.finally( state.fetchFinished = true )
+				.catch( error => commit('FETCH_ERROR_STATUS', error))
+				.finally(() => commit('FETCH_STATUS', true))
 		})
 	}
 }
@@ -44,7 +44,8 @@ const mutations = {
 	FETCH_ERROR_STATUS: (state, error) => {
 		state.errors.push(error)
 		state.error = true
-	}
+	},
+	FETCH_STATUS: (state, status) => state.fetchFinished = status
 }
 
 export default {

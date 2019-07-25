@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
+import router from './router.js'
 import store from './store/store'
 import VeeValidate from 'vee-validate';
 import menuFix from './utils/admin-menu-fix'
@@ -15,7 +15,6 @@ new Vue({
 	store,
 	render: h => h(App)
 });
-
 
 // fix the admin menu for the slug "gu-index-admin"
 menuFix('gu-index-admin');
