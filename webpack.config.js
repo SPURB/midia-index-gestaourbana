@@ -8,22 +8,11 @@ const TerserPlugin = require('terser-webpack-plugin');
 const config = require( './config.json' );
 
 // Naming and path settings
-let appName = 'app';
+const appName = 'admin.min.js';
 let entryPoint = { admin: './assets/src/admin/main.js' }
 
-// const package = require('./package.json')
-// List dependencies from package.json and add to entryPoint
-// package.dependencies ? entryPoint['vendor'] = Object.keys(package.dependencies) : false;
-
-let exportPath = path.resolve(__dirname, './assets/js');
+let exportPath = path.resolve(__dirname, './assets/dist');
 const env = process.env.WEBPACK_ENV;
-
-// Differ settings based on production flag
-if (env === 'production') {
-	appName = '[name].min.js';
-} else {
-	appName = '[name].js';
-}
 
 module.exports = {
 	node: {
@@ -50,16 +39,7 @@ module.exports = {
 				filename: `${appName}.css`,
 				chunkFilename: '[id].css'
 			})
-		],
-		// splitChunks: {
-		// 	cacheGroups: {
-		// 		vendor: {
-		// 			test: /[\\/]node_modules[\\/]/,
-		// 			name: "vendor",
-		// 			chunks: "all"
-		// 		}
-		// 	}
-		// }
+		]
 	},
 	resolve: {
 		alias: {
@@ -74,25 +54,19 @@ module.exports = {
 	},
 
 	plugins: [
-		new webpack.DefinePlugin({
-			CONFIG: JSON.stringify(config)
-		}),
+		new webpack.DefinePlugin({ CONFIG: JSON.stringify(config) }),
 		new VueLoaderPlugin(), // add vue loader plugin
 		new MiniCssExtractPlugin({ filename: "../css/[name].css" }),
 		new BrowserSyncPlugin({
-			proxy: {
-				target: config.proxyURL
-			},
-			files: [
-				'**/*.php'
-			],
+			proxy: { target: config.proxyURL },
+			files: [ '**/*.php' ],
 			reloadDelay: 10
 		}),
 		new OptimizeCSSAssetsPlugin({
 			cssProcessorOptions: {
 				safe: true,
 				map: {
-					inline: false
+					inline: true
 				}
 			}
 		})
@@ -106,7 +80,6 @@ module.exports = {
 					{ loader: "style-loader" }, // creates style nodes from JS strings
 					{ loader: "css-loader" }, // translates CSS into CommonJS
 					{ loader: "sass-loader" }, // compiles Sass to CSS, using Node Sass by default
-
 				]
 			},
 			{
@@ -119,7 +92,10 @@ module.exports = {
 			},
 			{
 				test: /\.vue$/,
-				loader: 'vue-loader'
+				loader: 'vue-loader',
+				options: {
+					extractCSS: true
+				}
 			},
 			{
 				test: /\.css$/,
@@ -131,5 +107,5 @@ module.exports = {
 				],
 			}
 		]
-	},
+	}
 }

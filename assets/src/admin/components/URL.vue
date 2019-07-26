@@ -64,7 +64,10 @@ export default {
 
 		url: {
 			get () {
-				return this.arquivos.find(arquivo => arquivo.id === this.idArquivo).url
+				if(this.idArquivo) {
+					return this.arquivos.find(arquivo => arquivo.id === this.idArquivo).url
+				}
+				else return 'Inclua a url do arquivo'
 			},
 			set (url) {
 				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO',{
@@ -73,7 +76,12 @@ export default {
 				})
 			}
 		},
-		idExtensao () { return this.arquivos.find(arquivo => arquivo.id === this.idArquivo).id_extensao },
+		idExtensao () { 
+			if(this.idArquivo){
+				return this.arquivos.find(arquivo => arquivo.id === this.idArquivo).id_extensao 
+			}
+			else { return 0 }
+		},
 		isValid () { return this.errors.items.length === 0 },
 		isTouched () { return this.$validator.fields.items.filter( field => field.flags.changed ).length > 0  }, 
 	}
@@ -81,5 +89,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../scss/URL"
+@import "../scss/URL";
 </style>

@@ -1,5 +1,6 @@
 {
-	"proxyURL": "http://localhost/seu-tema/wp-admin/admin.php?page=indexador-gestao-urbana",
-	"baseURL": "http://localhost/consultas-publicas-backend/",
+	"proxyURL": "http://localhost/seu-tema/wp-admin/admin.php?page=indexador-gestao-urbana/",
+	"wpApiUrl": "http://localhost/seu-tema/",
+	"consultasApUrl": "http://localhost/consultas-publicas-backend/",
 	"token": "token-para-posts-configurado-no-consultas-publicas-backend"
 }

@@ -1,8 +1,8 @@
 <template>
 	<div class="home">
-		<h1>Arquivos GU</h1>
+		<h1>Indexador de arquivos do Gestão Urbana</h1>
 		<section>
-			<p>Esta é a lista de arquivos por projeto e etapa. Clique no nome do projeto para editar sua lista.</p>
+			<p>Esta é uma lista de arquivos publicados no portal organizados por projetos e etapas. Clique no nome do projeto para editar as listas.</p>
 			<p>Para inserir os links em um post, copie o shortcode <code @click="copiaSlug($event)">[label id=&lt;<span style="color: #0073aa;">número da ID</span>&gt;/]</code> e cole no lugar desejado. Cada lista/tabela tem um único shortcode.</p>
 		</section>
 		<section class="buscaprojeto">

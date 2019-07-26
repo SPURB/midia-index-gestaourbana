@@ -50,19 +50,22 @@ const actions = {
 		commit('SET_FECHING_STATUS', false,  { root: true })
 	},
 	postNovaEtapa: ({ state, commit, getters, rootState }, novoNome) => {
-		commit('SET_FECHING_STATUS', true,  { root: true })
+		// commit('SET_FECHING_STATUS', true,  { root: true })
 		const output = {
-			idProjeto: getters.projectId,
-			nome: novoNome
+			idProjeto: novoNome.idProjeto,
+			nome: novoNome.nome
 		}
+		
+		console.log(output)
+
 		api.post('/etapas', output)
-			.then(response => commit('SET_ETAPA', response.data ))
-			.catch(error => commit('SET_ERROR', error))
-			.then(() => {
-				commit('SET_FECHING_STATUS', false, { root: true })
+			.then(response => {
+				commit('SET_ETAPA', response.data )
 				commit('ui/LUZ_TOGGLE', null, { root: true })
 				commit('DISPLAY', false)
 			})
+			.catch(error => commit('SET_ERROR', error))
+			.finally(() =>commit('SET_FECHING_STATUS', false, { root: true }))
 	},
 	getNovaEtapa:({ state, commit, getters, rootState }, idNovaEtapa) => {
 		commit('SET_FECHING_STATUS', true, { root: true })

@@ -22,12 +22,12 @@
 				</thead>
 				<draggable 
 					v-model="arquivos"
-					tag="tbody" 
-					@end="etapaAlterada" 
-					draggable=".tablerow" 
-					ghostClass="slot-vazio" 
-					animation="50" 
-					scroll="true" 
+					tag="tbody"
+					@end="etapaAlterada"
+					draggable=".tablerow"
+					ghostClass="slot-vazio"
+					animation="50"
+					scroll="true"
 					scrollSensitivity="80"
 					scrollSpeed="8"
 					>
@@ -112,7 +112,7 @@ export default {
 		...mapState('subetapas', {
 			subetapas: state => state.subetapas
 		}),
-
+		
 		arquivos: {
 			get () {
 				return this.$store.state.arquivos.arquivos
@@ -149,7 +149,6 @@ export default {
 		},
 	},
 	watch: {
-		// arquivos (arr) { if(arr.length) console.log(arr) },
 		arquivosFiltrados(val) {
 			if (val.length) this.existeArquivos = true
 			else this.existeArquivos = false
@@ -208,7 +207,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-div.Etapa {
+.Etapa {
 	display: flex;
 	flex-flow: column nowrap;
 	margin: 12px 0 0 0;
@@ -219,7 +218,7 @@ div.Etapa {
 	overflow: hidden;
 	transition: all ease-in-out .2s;
 
-	div.h-etapa {
+	.h-etapa {
 		padding: 8px 12px;
 		box-sizing: border-box;
 		border-bottom: 1px solid #DDD;
@@ -229,21 +228,6 @@ div.Etapa {
 			color: rgba(255, 255, 255, .4);
 			margin-right: 4px;
 		}
-
-		// input {
-		// 	color: #FFF;
-		// 	background-color:#066898;
-		// 	font-size: 13px;
-		// 	font-weight: 700;
-		// 	border: unset;
-		// 	box-shadow: unset;
-		// 	transition: background-color ease-in-out .2s;
-		// 	&:hover{
-		// 		background-color:#04415f;
-		// 		cursor: pointer;
-		// 	}
-		// }
-
 		& > div.shortcode_expand {
 			display: inline-flex;
 			align-items: center;
@@ -267,7 +251,7 @@ div.Etapa {
 		}
 	}
 
-	div.arquivosTable {
+	.arquivosTable {
 		position: relative;
 
 		table {

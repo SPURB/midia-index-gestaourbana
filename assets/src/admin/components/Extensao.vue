@@ -49,8 +49,13 @@ export default {
 		...mapState('urls', {
 			tipos: state => state.tipos
 		}),
-		extensao: { 
-			get() { return this.tipos.find(tipo => tipo.id === this.idExtensao).nome },
+		extensao: {
+			get() {
+				if(this.idExtensao) {
+					return this.tipos.find(tipo => tipo.id === this.idExtensao).nome 
+				}
+				else return '...'
+			},
 			set(extensao) {
 				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO', { extensao: extensao, idArquivo: this.idArquivo })
 			}
@@ -62,11 +67,14 @@ export default {
 	},
 	methods: {
 		setExtensaoFixa (extensao) {
-			const genericExtensions = [ 'RAR', 'ZIP', 'URL' ]
-			const found = genericExtensions.find(ext => ext === extensao)
+			if(this.idExtensao) {
+				const genericExtensions = [ 'RAR', 'ZIP', 'URL' ]
+				const found = genericExtensions.find(ext => ext === extensao)
 
-			if (found) this.extensaoFixa = false
-			else this.extensaoFixa = true
+				if (found) this.extensaoFixa = false
+				else this.extensaoFixa = true
+			}
+
 		},
 
 		// setExtensaoEditability(extension) {

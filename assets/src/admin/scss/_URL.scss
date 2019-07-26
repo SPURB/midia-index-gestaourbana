@@ -1,6 +1,5 @@
-tr {
+tr /deep/ {
 	position: relative;
-
 	td div span {
 		display: inline-flex;
 		background-color: #bbb;
@@ -24,15 +23,14 @@ tr {
 		}
 	}
 
-	td .input.error{
+	td .input.error {
 		border-color:  #FE4C4C;
 	}
 
-	div.arquivo_extensao-box {
+	.arquivo_extensao-box {
 		position: absolute;
 		right: 53px;
 		margin-top: 5px;
-		// top: 0;
 		background-color: #898989;
 		width: intrinsic;
 		width: max-content;

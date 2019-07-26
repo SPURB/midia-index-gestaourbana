@@ -84,7 +84,7 @@ const mutations = {
 			return arquivo
 		})
 
-		console.log("dispatch new order:")
+		console.log("store new order:")
 		console.log(state.arquivos.map(arquivo => { return { id: arquivo.id, posicao: arquivo.posicao }} ))
 	},
 

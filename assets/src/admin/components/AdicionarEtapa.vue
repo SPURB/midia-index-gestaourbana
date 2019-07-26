@@ -1,5 +1,4 @@
 <template>
-	<!-- <div class="AdicionarEtapa add-form" :class="{ fechado: !addEtapaBox }" ref="div"> -->
 	<div class="AdicionarEtapa add-form">
 		<div class="cont">
 			<div class="title">
@@ -15,6 +14,7 @@
 							name="novaetapa"
 							type="text"
 							id="novaetapa"
+							v-validate="'required|min:3'"
 							placeholder="Digite o nome da etapa"
 							v-model="novaEtapaInput"
 						/>
@@ -27,63 +27,36 @@
 				</ul>
 			</div>
 			<div class="actions">
-				<button 
-					class="cancelar" 
+				<button
+					class="cancelar"
 					@click="fechar"
 					>Cancelar</button>
 				<button 
-					:disabled="disabled" 
+					:disabled="disabled"
 					class="adicionar"
-					@click="criar">Nova etapa</button>
+					@click="criar">Adicionar</button>
 			</div>
-
-
-			<!-- <form>
-				<table>
-					<tr>
-						<td><label for="novaetapa">Nome</label></td>
-						<td><input 
-								name="novaetapa" 
-								type="text" 
-								v-model="novaEtapaInput"
-								v-validate="'required'"></td>
-					</tr>
-				</table>
-			</form> -->
-			<!-- <div class="actions">
-				<SalvarCancelar
-					:tipo="'cancelar'"
-					:texto="'Cancelar'"
-					:disabledState="false"
-					:commitName="'etapas/DISPLAY'"
-					:options="false"
-					:inlinestyle="'font-size:13px; padding: 16px 24px;'">
-				</SalvarCancelar>
-				<SalvarCancelar 
-					:tipo="'salvar'"
-					:texto="'Adicionar'"
-					:disabledState="isvalid"
-					:action="action"
-					:inlinestyle="'font-size:13px; padding: 16px 24px;'">
-				</SalvarCancelar>
-			</div> -->
 		</div>
 	</div>
 </template>
 
 <script>
-// import SalvarCancelar from '../components/SalvarCancelar.vue'
-// import { ptBr, validator } from '../mixins/formValidation'
-import { mapState } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
+import { ptBr, validator } from '../mixins/formValidation'
 
 export default {
 	name: 'AdicionarEtapa',
+	props: {
+		projeto: {
+			required: true,
+			type: Object
+		}
+	},
 	data() {
 		return {
 			novaEtapaInput: '',
 			disabled: true,
 			message: false
-
 		}
 	},
 	computed: {
@@ -92,51 +65,48 @@ export default {
 			serverError: state => state.error,
 			etapas: state => state.etapas
 		}),
-		// etapasNomes() { return this.etapas.map(etapa => etapa.nome.toLowerCase()) },
 		etapasFiltradas () {
 			return this.etapas.filter(etapa =>etapa.nome.toLowerCase().indexOf(this.novaEtapaInput.toLowerCase()) >= 0)
+		},
+		buttonDisabled () {
+			if (!this.etapasFiltradas.length && !this.errors.items.length) return false
+			else return true
 		}
 	},
+	watch: {
+		buttonDisabled (status) { this.disabled = status }
+	},
 	mounted(){ this.setFocusToInput() },
+	mixins:[  validator ],
 	methods:{
-		setFocusToInput(){this.$refs.etapa.focus()},
-		fechar() { },
-		criar() { }
+		...mapMutations('etapas',[
+			'DISPLAY'
+		]),
+
+		...mapMutations('ui',[
+			'LUZ_TOGGLE'
+		]),
+
+		...mapActions('etapas', [
+			'postNovaEtapa'
+		]),
+
+		setFocusToInput(){ this.$refs.etapa.focus() },
+		fechar() {
+			this.DISPLAY(false)
+			this.LUZ_TOGGLE()
+		},
+		criar() {
+			this.postNovaEtapa({
+				idProjeto: this.projeto.id,
+				nome: this.novaEtapaInput
+			})
+		}
 	}
-
-	// mixins:[ validator ],
-	// // components:{ SalvarCancelar },
-	// data() {
-	// 	return {
-	// 		novaEtapaInput: '',
-	// 		disabled: true,
-	// 		action:{
-	// 			name: 'etapas/postNovaEtapa',
-	// 			toChange: undefined
-	// 		}
-	// 	}
-	// },
-	// computed: {
-	// 	addEtapaBox() { return this.$store.state.etapas.addEtapaBox },
-	// 	idNewEtapa() { return this.$store.state.etapas.idEtapa }, 
-	// 	fetchError() { return this.$store.state.etapas.error },
-	// 	isvalid() { return this.fields.novaetapa === undefined ? true : !this.fields.novaetapa.valid }
-	// },
-	// watch:{
-	// 	novaEtapaInput(input){
-	// 		switch (input) {
-	// 			case '' : this.disabled = true
-	// 			case ' ': this.disabled = true
-	// 			default : this.disabled = false
-
-	// 		}
-	// 		this.action.toChange = input
-	// 	}
-	// }
 }
 </script>
 
-<style lang="scss" scoped> 
+<style lang="scss" scoped>
 @import "../scss/ADDFORM";
 
 </style>

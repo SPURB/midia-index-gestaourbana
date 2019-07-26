@@ -15,6 +15,7 @@ log.txt
 /build
 /assets/css/
 /assets/js/
+/assets/dist/
 
 # Dependencies #
 ###################

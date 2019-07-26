@@ -48,7 +48,7 @@
 
 		<Modal class="erro" v-if='errorEtapas'>
 			<template slot="header">Erro ao alterar etapas!</template>
-			<template slot="msg">{{ response }}</template>
+			<template slot="msg">{{ errorEtapasMessage }}</template>
 		</Modal>
 		<Modal class="erro" v-if="errorProjeto" >
 			<template slot="header">Erro ao alterar projeto!</template>
@@ -64,7 +64,7 @@
 			<template slot="msg">Projeto atualizado com sucesso.</template>
 		</Modal>
 
-		<AdicionarEtapa v-if="abreAdicionarEtapa"></AdicionarEtapa>
+		<AdicionarEtapa v-if="abreAdicionarEtapa" :projeto="projeto"></AdicionarEtapa>
 	</div>
 </template>
 
@@ -200,6 +200,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+section.projeto {
+	min-height: 50vh
+}
 
 .Projeto {
 	overflow: hidden;
