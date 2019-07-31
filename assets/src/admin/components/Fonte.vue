@@ -27,6 +27,10 @@ export default {
 		idArquivo: {
 			type: Number,
 			required: true
+		},
+		novoArquivo: {
+			type: Boolean,
+			required: true
 		}
 	},
 	computed:{
@@ -36,7 +40,10 @@ export default {
 		
 		fonte: {
 			get () {
-				return this.arquivos.find(arquivo => arquivo.id === this.idArquivo).fonte
+				if (!this.novoArquivo) {
+					return this.arquivos.find(arquivo => arquivo.id === this.idArquivo).fonte
+				}
+				else return 'Inclua uma fonte'
 			},
 			set (fonte) {
 				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO', { fonte: fonte, idArquivo: this.idArquivo })

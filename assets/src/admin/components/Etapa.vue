@@ -87,13 +87,15 @@ export default {
 		busca:{
 			type: String,
 			required: true,
-			default: ''
 		}
 	},
 	data(){
 		return {
 			collapsed: false,
-			existeArquivos: true
+			existeArquivos: true,
+			editarArquivo: false,
+			clickedArquivo: false,
+			abreNovoArquivo: false
 		}
 	},
 	components: {
@@ -104,15 +106,16 @@ export default {
 	},
 	computed: {
 		...mapState('arquivos', {
-			editarArquivo: state => state.editBox,
-			abreNovoArquivo: state => state.box,
-			novoArquivoResponse: state => state.response
+			editBox: state => state.editBox,
+			box: state => state.box,
+			novoArquivoResponse: state => state.response,
+			clickedIdEtapa: state => state.clickedIdEtapa
 		}),
 
 		...mapState('subetapas', {
 			subetapas: state => state.subetapas
 		}),
-		
+
 		arquivos: {
 			get () {
 				return this.$store.state.arquivos.arquivos
@@ -158,6 +161,13 @@ export default {
 				this.$store.dispatch('urls/setNovasUrls', { id: state, idEtapa: this.idEtapa })
 				this.$store.commit('arquivos/RESET_RESPONSE')
 			}
+		},
+		editBox(status) {
+			if (this.idEtapa === this.clickedArquivo.id_etapa) this.editarArquivo = status
+			else this.editarArquivo = false
+		},
+		box (status) {
+			if(this.idEtapa === this.clickedIdEtapa) this.abreNovoArquivo = status
 		}
 	},
 	methods: {
@@ -196,9 +206,11 @@ export default {
 			this.$store.commit('arquivos/ABRE_BOX')
 		},
 		abreEditArquivoBox (arquivo) {
+			this.clickedArquivo = arquivo
 			if(arquivo.itemNovo === true){
 				this.$store.dispatch('infoProjeto/getNovoArquivo', { idArquivo: arquivo.id })
 			}
+			this.$store.commit('etapas/SET_ETAPA', arquivo.id_etapa)
 			this.$store.commit('ui/LUZ_TOGGLE')
 			this.$store.commit('arquivos/ABRE_EDIT_BOX', arquivo.id)
 		}

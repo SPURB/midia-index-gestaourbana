@@ -21,7 +21,7 @@
 			<input type="text" class="busca-arquivos" placeholder="Pesquisar arquivos..." v-model="busca">
 			<template v-for="(etapa, index) in etapasFiltradas">
 				<Etapa
-					v-if="etapasFiltradas && projeto.id"
+					v-if="etapasFiltradas"
 					:key="index"
 					:idEtapa="etapa.id"
 					:idProjeto="projeto.id"

@@ -75,7 +75,7 @@ const actions = {
 				novaEtapa.id = parseInt(novaEtapa.id)
 				novaEtapa.idProjeto = parseInt(novaEtapa.idProjeto)
 				novaEtapa.arquivos = []
-				commit('UPDATE_ETAPAS', novaEtapa, { root: true })
+				// commit('UPDATE_ETAPAS', novaEtapa, { root: true })
 			})
 			.catch(error => commit('SET_ERROR', error))
 			.finally(() => commit('SET_FECHING_STATUS', false, { root: true }))

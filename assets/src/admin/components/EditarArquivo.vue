@@ -32,13 +32,12 @@
 								<SelecionarEtapas :arquivos="[arquivoClicado]" :idEtapa="idEtapa"></SelecionarEtapas>
 							</div>
 							<div class="dropdown-selector">
-								<label for="SelecionarSubEtapas">Sub etapas</label>
+								<label for="SelecionarSubEtapas">Sub etapa</label>
 								<SelecionarSubEtapa :idArquivo="arquivoClicado.id" :idSubEtapa="arquivoClicado.id_subetapa"></SelecionarSubEtapa>
 							</div>
 						</td>
 					</tr>
-
-					<Fonte :idArquivo="arquivoClicado.id"></Fonte>
+					<Fonte :idArquivo="arquivoClicado.id" :novoArquivo="false"></Fonte>
 				</table>
 			</form>
 			<div class="actions">

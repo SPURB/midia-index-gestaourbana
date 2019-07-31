@@ -23,6 +23,20 @@
 						</td>
 					</tr>
 					<URL :idArquivo="0" :idEtapa="idEtapa"></URL>
+					<tr>
+						<td></td>
+						<td>
+							<div class="dropdown-selector">
+								<label for="SelecionarEtapas">Etapa</label>
+								<SelecionarEtapas :arquivos="[]" :idEtapa="idEtapa"></SelecionarEtapas>
+							</div>
+							<div class="dropdown-selector">
+								<label for="SelecionarSubEtapas">Sub etapa</label>
+								<SelecionarSubEtapa :idArquivo="0" :idSubEtapa="0"></SelecionarSubEtapa>
+							</div>
+						</td>
+					</tr>
+					<Fonte :idArquivo="0" :novoArquivo="true"></Fonte>
 					<!-- <tr>
 						<td colspan="2">
 							<div class="addUrl" @click="addUrl">+ Adicionar URL</div>
@@ -70,6 +84,9 @@
 <script>
 import ErroSpan from '../components/ErroSpan.vue'
 // import URLnova from '../components/URLnova.vue'
+import SelecionarEtapas from '../components/SelecionarEtapas.vue'
+import SelecionarSubEtapa from '../components/SelecionarSubEtapa.vue'
+import Fonte from '../components/Fonte.vue'
 import URL from '../components/URL.vue'
 import SalvarCancelar from '../components/SalvarCancelar.vue'
 import { ptBr, validator } from '../mixins/formValidation'
@@ -83,12 +100,12 @@ export default {
 			action:{
 				name: 'arquivos/postNovoArquivo',
 				toChange: { 
-					nome:'', 
+					nome:'',
 					descricao: ''
 				}
 			},
 			disabledNome: true,
-			disabledDescricao: true
+			// disabledDescricao: true
 		}
 	},
 	props:{
@@ -100,47 +117,39 @@ export default {
 	components: {
 		ErroSpan,
 		URL,
-		SalvarCancelar
+		SalvarCancelar,
+		SelecionarEtapas,
+		SelecionarSubEtapa,
+		Fonte
 	},
 	mixins:[  validator  ],
-	methods:{
-		// addUrl() {
-		// 	this.newUrls.push({
-		// 		url: undefined,
-		// 		extensao: undefined
-		// 	})
-		// },
-	},
 	computed: {
-		// ...mapState('arquivos', {
-		// 	arquivos: state => state.arquivos
-		// }),
+		...mapState('arquivos', {
+			arquivos: state => state.arquivos,
+			fetchError: state => state.error,
+			fechaBox:  state => state.box
 
-		// arquivoClicado: {
-		// 	get(){
-		// 		return this.arquivos.find(arquivo => arquivo.id === this.clieckedArquivoId)
-		// 	},
-		// 	set(arquivo) {
-		// 		this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO', arquivo)
-		// 	}
-		// },
+		}),
 
-		// newUrls:{ 
-		// 	get(){ return this.$store.state.urls.urlsNovas },
-		// 	set(value) { this.$store.commit('urls/SET') }
-		// },
-		fetchError(){ return this.$store.state.arquivos.error },
-		fechaBox() { return this.$store.state.arquivos.box },
+		arquivoClicado: {
+			get(){
+				return this.arquivos.find(arquivo => arquivo.id === this.clieckedArquivoId)
+			},
+			set(arquivo) {
+				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO', arquivo)
+			}
+		},
+		// fetchError(){ return this.$store.state.arquivos.error },
+		// fechaBox() { return this.$store.state.arquivos.box },
 		nomeCharNumber() {return this.action.toChange.nome.length },
 		descricaoCharNumber() {return this.action.toChange.descricao.length },
 		disabled() { 
-			if( this.disabledNome || this.disabledDescricao ) { return true } 
+			if(this.disabledNome) { return true } 
 			else { return false }
 		}
 	},
 	watch:{
 		nomeCharNumber(value) { value > 1 ? this.disabledNome = false :  this.disabledNome = true },
-		descricaoCharNumber(value) { value > 1 ? this.disabledDescricao = false :  this.disabledDescricao = true },
 		fetchError(status){ status ? console.log('errrou') : null },
 	},
 

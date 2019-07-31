@@ -1,5 +1,5 @@
 <template>
-	<select name="SelecionarEtapas" class="seletor--arquivo-etapa select-css" v-model="estaEtapa" :value="estaEtapa">
+	<select name="SelecionarEtapas" class="seletor--arquivo-etapa select-css" v-model="estaEtapa" :value="estaEtapa.nome">
 		<option v-for="(etapa, index) in etapas" :value="etapa" :key="index">{{ etapa.nome }}</option>
 	</select>
 </template>
