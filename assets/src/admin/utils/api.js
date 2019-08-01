@@ -6,5 +6,6 @@ export default axios.create({
 	headers: {
 		'Content-Post': CONFIG.token,
 		'Content-Type': 'application/json',
+		'Referrer-Policy': 'unsafe-url'
 	}
 })

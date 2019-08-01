@@ -38,6 +38,7 @@ Domain Path: /languages
  * **********************************************************************
  */
 
+
 // don't call the file directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -45,6 +46,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * Midia_Index_Gestao_Urbana class
  * @class Midia_Index_Gestao_Urbana The class that holds the entire Midia_Index_Gestao_Urbana plugin
  */
+// header("Access-Control-Allow-Origin: *");
+
 final class Midia_Index_Gestao_Urbana {
 	/**
 	 * Plugin version
@@ -76,6 +79,10 @@ final class Midia_Index_Gestao_Urbana {
 	 * and if it doesn't find one, creates it.
 	 */
 	public static function init() {
+		header( "Access-Control-Allow-Origin: *" );
+		header( 'Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE' );
+		header( 'Access-Control-Allow-Credentials: true' );
+
 		static $instance = false;
 
 		if ( ! $instance ) {
@@ -168,7 +175,6 @@ final class Midia_Index_Gestao_Urbana {
 
 		// Localize our plugin
 		add_action( 'init', array( $this, 'localization_setup' ) );
-
 	}
 
 	/**
@@ -203,9 +209,10 @@ final class Midia_Index_Gestao_Urbana {
 	private function is_request( $type ) {
 		switch ( $type ) {
 			case 'admin' : return is_admin();
-            case 'shortcodes' : return ( ! is_admin()); 
-	   }
+			case 'shortcodes' : return ( ! is_admin()); 
+		}
 	}
+
 
 } // Midia_Index_Gestao_Urbana
 

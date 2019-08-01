@@ -5,12 +5,12 @@
 				<h3>Adicionar etapa</h3>
 			</div>
 			<div class="conteudo">
-				<p>Adicione uma nova etapa. Verifique se a etapa já foi criada.</p>
+				<p>Adicione ou selecione uma etapa. Verifique se a etapa já foi criada.</p>
 				<form>
 					<fieldset>
 						<input
 							ref="etapa"
-							@keyup.esc="fechaNovoProjetoBox"
+							@keyup.esc="fechar"
 							name="novaetapa"
 							type="text"
 							id="novaetapa"
@@ -23,7 +23,9 @@
 				<p class="mensagem-erro" v-if="message">{{ message }}</p>
 				<p class="mensagem-erro" v-if="serverError">{{ serverError }}</p>
 				<ul class="lista">
-					<li class="lista--item" v-for="(etapa, index) in etapasFiltradas" :key="index">{{ etapa.nome }}</li>
+					<li class="lista--item" v-for="(etapa, index) in etapasFiltradas" :key="index">
+						<button :class="addBotaoClass(etapa.id)" @click="seleciona(etapa)">{{ etapa.nome }}</button>
+					</li>
 				</ul>
 			</div>
 			<div class="actions">
@@ -41,7 +43,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import { ptBr, validator } from '../mixins/formValidation'
 
 export default {
@@ -50,6 +52,10 @@ export default {
 		projeto: {
 			required: true,
 			type: Object
+		},
+		etapasExistentes: {
+			required: true,
+			type: Array
 		}
 	},
 	data() {
@@ -71,7 +77,10 @@ export default {
 		buttonDisabled () {
 			if (!this.etapasFiltradas.length && !this.errors.items.length) return false
 			else return true
-		}
+		},
+		...mapGetters([
+			'dataFormatada'
+		])
 	},
 	watch: {
 		buttonDisabled (status) { this.disabled = status }
@@ -81,6 +90,12 @@ export default {
 	methods:{
 		...mapMutations('etapas',[
 			'DISPLAY'
+		]),
+
+		...mapMutations('arquivos',[
+			'ADD_ARQUIVO',
+			'ABRE_BOX',
+			'SET_ID_ETAPA'
 		]),
 
 		...mapMutations('ui',[
@@ -101,12 +116,58 @@ export default {
 				idProjeto: this.projeto.id,
 				nome: this.novaEtapaInput
 			})
+		},
+		seleciona (etapa) {
+			const found = this.etapasExistentes.find(etapaId => etapaId === etapa.id)
+
+			if (found){
+				console.log(etapa.id)
+			}
+			else {
+				console.log('create '+ etapa.id)
+				this.ADD_ARQUIVO({
+					atualizacao: this.dataFormatada,
+					fonte:"",
+					id: 0,
+					id_etapa: etapa.id,
+					id_extensao:0,
+					id_projeto: this.projeto.id,
+					id_subetapa:0,
+					nome: "Novo Arquivo",
+					posicao: 1,
+				})
+				this.fechar()
+				// this.ABRE_BOX()
+				// this.SET_ID_ETAPA({idEtapa: etapa.id})
+			}
+		},
+		addBotaoClass(id) {
+			if(this.etapasExistentes.find(etapaId => etapaId === id)) return 'botao botao--existente'
+			else return 'botao'
 		}
-	}
+	},
 }
 </script>
 
 <style lang="scss" scoped>
+.botao {
+	background: #219653;
+	opacity: 0.8;
+	border: 0;
+	padding: 0.5rem;
+	border-radius: 13px;
+	font-weight: 500;
+	color: white;
+	cursor: pointer;
+}
+.botao:hover{
+	opacity: 1;
+}
+.botao--existente {
+	background: #0073aa;
+}
+
+
 @import "../scss/ADDFORM";
 
 </style>

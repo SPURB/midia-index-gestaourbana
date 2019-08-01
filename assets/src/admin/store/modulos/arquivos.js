@@ -8,7 +8,9 @@ const state = {
 	error: false,
 	errors: [],
 	clickedIdEtapa: undefined,
-	clieckedArquivoId: undefined
+	clieckedArquivoId: undefined,
+	updates: [],
+	// create: []
 }
 
 const getters = {
@@ -22,7 +24,6 @@ const getters = {
 
 const actions = {
 	getArquivos: ({ state, commit, getters, rootState }) => {
-		// commit('SET_FECHING_STATUS', true, { root: true })
 		commit('FETCH_STATUS', true)
 		commit('RESET_ARQUIVOS')
 		api.get(`/arquivos/?id_projeto=${rootState.projeto.id}`)
@@ -110,13 +111,16 @@ const mutations = {
 	},
 	RESET_ARQUIVOS: (state) => state.arquivos = [],
 	FETCH_STATUS: (state, isFetching) => state.fetching = !state.fetching,
-
 	UPDATE_ARQUIVO_CLICADO: (state, arquivos) => {
 		console.log(arquivos)
+	},
+	ADD_ARQUIVO: (state, arquivo) => {
+		state.arquivos.push(arquivo)
+	},
+	LIST_UPDATES: (state, updates) => {
+		if (updates.length) updates.forEach(update => state.updates.push(update))
+		state.updates = [...new Set(state.updates)] 
 	}
-	// SET_ETAPAS_ALTERADAS: (state, idEtapa) => { 
-	// 	state.etapasAlteradas.includes(idEtapa) ? null : state.etapasAlteradas.push(idEtapa)
-	// }
 }
 
 export default {

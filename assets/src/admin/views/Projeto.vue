@@ -21,7 +21,7 @@
 			<input type="text" class="busca-arquivos" placeholder="Pesquisar arquivos..." v-model="busca">
 			<template v-for="(etapa, index) in etapasFiltradas">
 				<Etapa
-					v-if="etapasFiltradas"
+					v-if="etapasFiltradas && projeto"
 					:key="index"
 					:idEtapa="etapa.id"
 					:idProjeto="projeto.id"
@@ -64,7 +64,7 @@
 			<template slot="msg">Projeto atualizado com sucesso.</template>
 		</Modal>
 
-		<AdicionarEtapa v-if="abreAdicionarEtapa" :projeto="projeto"></AdicionarEtapa>
+		<AdicionarEtapa v-if="abreAdicionarEtapa" :projeto="projeto" :etapasExistentes="etapasFiltradasIds"></AdicionarEtapa>
 	</div>
 </template>
 
@@ -86,7 +86,7 @@ export default {
 			busca: '', 
 			action: {
 				name: 'putProjeto',
-				toChange: {} 
+				toChange: {}
 			}, 
 			statusBotao: true,
 			fetchError: false,
@@ -98,6 +98,8 @@ export default {
 			const uniqueids = [...new Set(ids)]
 			return uniqueids.map(id => this.etapas.find(etapa => etapa.id === id))
 		},
+
+		etapasFiltradasIds() { return this.etapasFiltradas.map(etapa => etapa.id) },
 
 		...mapState({
 			projeto: state => state.projeto,
@@ -156,10 +158,10 @@ export default {
 		untouchedNome(status){ this.statusBotao = status },
 		etapasMutated(status){ this.statusBotao = !status },
 		novaEtapa(value){ 
-			if(value !== undefined){ this.$store.dispatch('etapas/getNovaEtapa', value)}
+			if (value !== undefined){ this.getNovaEtapa(value) }
 		},
 		novoArquivoId(value){
-			if(value !== undefined && value){ this.$store.dispatch('arquivos/fetchNovoArquivo', { id: value }) }
+			if (value !== undefined && value){ this.$store.dispatch('arquivos/fetchNovoArquivo', { id: value }) }
 		}
 	},
 	components: {
@@ -181,7 +183,8 @@ export default {
 		},
 
 		...mapActions('etapas', [
-			'getEtapas'
+			'getEtapas',
+			'getNovaEtapa'
 		]),
 
 		...mapActions('subetapas', [

@@ -1,5 +1,5 @@
 <template>
-	<div class="Etapa" v-if="existeArquivos">
+	<div class="Etapa" v-if="existeArquivos" ref="etapas">
 		<div class="h-etapa">
 			<span>Etapa</span>
 

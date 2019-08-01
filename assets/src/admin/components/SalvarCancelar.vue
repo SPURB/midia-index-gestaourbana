@@ -10,8 +10,8 @@
 </template>
 <script>
 
-export default{
-	name:"SalvarCancelar",
+export default {
+	name: "SalvarCancelar",
 	props:{ 
 		tipo:{
 			required: true,
@@ -62,7 +62,7 @@ export default{
 					'arquivos/postNovoArquivo',
 					'arquivos/putArquivo',
 					'putProjeto' 
-				].indexOf(valido) !== -1  
+				].indexOf(valido) !== -1
 			},
 			toChange:{ 
 				required: true
@@ -107,7 +107,7 @@ export default{
 </script>
 
 <style lang="scss" scoped>
-div.SalvarCancelar {
+.SalvarCancelar {
 	width: 100%;
 	a {
 		text-decoration: none;

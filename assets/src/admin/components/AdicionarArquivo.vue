@@ -37,27 +37,6 @@
 						</td>
 					</tr>
 					<Fonte :idArquivo="0" :novoArquivo="true"></Fonte>
-					<!-- <tr>
-						<td colspan="2">
-							<div class="addUrl" @click="addUrl">+ Adicionar URL</div>
-						</td>
-					</tr> -->
-					<!-- <tr>
-						<td>
-							<label for="descricao">Descrição</label>
-						</td>
-						<td>
-							<textarea 
-								type="text"
-								name="Descrição" 
-								id="descricao" 
-								v-model="action.toChange.descricao"
-								v-validate="'required|max:330'">
-							</textarea>
-							<span class="contador" v-if="!errors.has('Descrição')">{{descricaoCharNumber}}/330</span>
-							<ErroSpan v-if="errors.has('Descrição')">{{ errors.first('Descrição') }}</ErroSpan>
-						</td>
-					</tr> -->
 				</table>
 			</form>
 
@@ -83,7 +62,6 @@
 
 <script>
 import ErroSpan from '../components/ErroSpan.vue'
-// import URLnova from '../components/URLnova.vue'
 import SelecionarEtapas from '../components/SelecionarEtapas.vue'
 import SelecionarSubEtapa from '../components/SelecionarSubEtapa.vue'
 import Fonte from '../components/Fonte.vue'
@@ -104,8 +82,7 @@ export default {
 					descricao: ''
 				}
 			},
-			disabledNome: true,
-			// disabledDescricao: true
+			disabledNome: true
 		}
 	},
 	props:{
@@ -128,7 +105,6 @@ export default {
 			arquivos: state => state.arquivos,
 			fetchError: state => state.error,
 			fechaBox:  state => state.box
-
 		}),
 
 		arquivoClicado: {
@@ -139,11 +115,9 @@ export default {
 				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO', arquivo)
 			}
 		},
-		// fetchError(){ return this.$store.state.arquivos.error },
-		// fechaBox() { return this.$store.state.arquivos.box },
 		nomeCharNumber() {return this.action.toChange.nome.length },
 		descricaoCharNumber() {return this.action.toChange.descricao.length },
-		disabled() { 
+		disabled() {
 			if(this.disabledNome) { return true } 
 			else { return false }
 		}

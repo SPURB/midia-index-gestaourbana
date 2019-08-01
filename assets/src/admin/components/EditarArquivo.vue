@@ -40,6 +40,7 @@
 					<Fonte :idArquivo="arquivoClicado.id" :novoArquivo="false"></Fonte>
 				</table>
 			</form>
+
 			<div class="actions">
 				<SalvarCancelar
 					:tipo="'cancelar'"
@@ -70,7 +71,6 @@
 import { mapState } from 'vuex'
 import ErroSpan from '../components/ErroSpan.vue'
 import URL from '../components/URL.vue'
-import URLnova from '../components/URLnova.vue'
 import SalvarCancelar from '../components/SalvarCancelar.vue'
 import SelecionarEtapas from '../components/SelecionarEtapas.vue'
 import SelecionarSubEtapa from '../components/SelecionarSubEtapa.vue'
@@ -88,7 +88,6 @@ export default {
 	components: {
 		ErroSpan,
 		URL,
-		URLnova,
 		SalvarCancelar,
 		SelecionarEtapas,
 		SelecionarSubEtapa,

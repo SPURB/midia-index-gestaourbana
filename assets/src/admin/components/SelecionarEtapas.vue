@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 export default {
 	name: 'SelecionarEtapas',
 	props: {
@@ -25,9 +25,15 @@ export default {
 		estaEtapa: {
 			get() { return this.etapas.find(etapa => etapa.id === this.idEtapa) },
 			set(etapa) {
-				console.log(`atualizar arquivos ${this.arquivos.map(arquivo => arquivo.id)}. Nome nova etapa: ${etapa.nome}, id nova etapa: ${etapa.id}`)
+				// console.log(`atualizar arquivos ${this.arquivos.map(arquivo => arquivo.id)}. Nome nova etapa: ${etapa.nome}, id nova etapa: ${etapa.id}`)
+				this.LIST_UPDATES(this.arquivos.map(arquivo => arquivo.id))
 			}
 		}
+	},
+	methods: {
+		...mapMutations('arquivos', [
+			'LIST_UPDATES'
+		])
 	}
 }
 </script>
