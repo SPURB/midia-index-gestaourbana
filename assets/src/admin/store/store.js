@@ -138,7 +138,12 @@ let store = new Vuex.Store({
 			commit('SET_FECHING_STATUS', true)
 			api.get('projetos')
 				.then(response => commit('SET_PROJETOS', response))
-				.catch(error => commit('SET_ERROR', error))
+				.catch(error => { 
+					commit('SET_ERROR', error) 
+					api.get('projetos')
+					.then(res => res)
+					.catch(err => err)
+				})
 				.then(() => commit('SET_FECHING_STATUS', false))
 				.finally (() => dispatch('wordpress/getNames'))
 		},

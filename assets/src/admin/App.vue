@@ -1,7 +1,5 @@
 <template>
 	<div id="vue-backend-app">
-		<meta name="referrer" content="origin">
-
 		<router-view/>
 		<div ref="luz" class="luz" :class="{ apagada: LUZ_TOGGLE }"></div>
 	</div>

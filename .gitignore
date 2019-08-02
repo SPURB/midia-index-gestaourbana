@@ -36,6 +36,8 @@ testem.log
 config.json
 config-hecio.json
 config-163.json
+config.homolog.json
+config.producao.json
 
 # Compiled source #
 ###################
