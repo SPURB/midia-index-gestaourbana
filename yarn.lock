@@ -777,6 +777,11 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+"@spurb/fechadura@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@spurb/fechadura/-/fechadura-1.0.1.tgz#e18a4d0958276e6accf6b3e1cc7964a05babe6db"
+  integrity sha512-wqU4R1xYsX1ErsJjhsGxlKCbG+4JGf5mxKEt0jT4RIZ495itc7iUlggth8Wuf6L74iniAr6WnxY3keQh2ls/9g==
+
 "@types/q@^1.5.1":
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"

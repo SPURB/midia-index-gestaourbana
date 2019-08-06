@@ -7,6 +7,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const config = require( './config.json' );
 // const config = require( './config.homolog.json' );
+// const config = require( './config.163.json' );
 
 // Naming and path settings
 const appName = 'admin.min.js';

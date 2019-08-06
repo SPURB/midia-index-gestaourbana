@@ -1,4 +1,6 @@
 import api from '../../utils/api'
+// import apiAdmin from '../../utils/apiAdmin'
+
 const state = {
 	fetching: false,
 	arquivos: [],
@@ -44,7 +46,7 @@ const actions = {
 			descricao: novoArquivo.descricao, 
 			autor: rootGetters.wordpress.userSettings.uid
 		}
-		api.post('/arquivos', output)
+		apiAdmin.post('/arquivos', output)
 			.then(response => { 
 				commit('SET_RESPONSE', { postResponse: response.data } )
 			})

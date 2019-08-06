@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import ui from './modulos/ui'
 import api from '../utils/api'
+
+import apiAdmin from '../utils/apiAdmin'
+
 import etapas from './modulos/etapas'
 import subetapas from './modulos/subetapas'
 import arquivos from './modulos/arquivos'
@@ -158,7 +161,7 @@ let store = new Vuex.Store({
 		},
 		postNovoProjeto: (state, projeto ) => {
 			state.commit('SET_FECHING_STATUS', true)
-			api.post('/projetos', projeto)
+			apiAdmin.post('/projetos', projeto)
 				.then(response => state.commit('SET_PROJETO', response))
 				.catch(error => state.commit('SET_ERROR', error))
 				.then(() => state.commit('SET_FECHING_STATUS', false)
@@ -166,7 +169,7 @@ let store = new Vuex.Store({
 		},
 		putProjeto: ( { dispatch, state, commit } ) => {
 			commit('SET_FECHING_STATUS', false)
-			api.put('/projetos/' + state.projeto.id, { nome: state.projeto.nome })
+			apiAdmin.put('/projetos/' + state.projeto.id, { nome: state.projeto.nome })
 				.then(response => {
 					dispatch('etapas/putEtapas')
 					commit('SET_PROJETO', response)
