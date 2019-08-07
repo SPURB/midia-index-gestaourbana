@@ -28,8 +28,10 @@ const actions = {
 	getArquivos: ({ state, commit, getters, rootState }) => {
 		commit('FETCH_STATUS', true)
 		commit('RESET_ARQUIVOS')
-		api.get(`/arquivos/?id_projeto=${rootState.projeto.id}`)
-			.then(res => commit('SET_ARQUIVOS', res.data[0]))
+		api.get(`/arquivos/?idProjeto=${rootState.projeto.id}`)
+			.then(res => {
+				commit('SET_ARQUIVOS', res.data)
+			})
 			.catch(error => commit('SET_ERROR', error))
 			.finally(() => commit('FETCH_STATUS', false))
 	},
@@ -103,11 +105,11 @@ const mutations = {
 	SET_ARQUIVOS: (state, arquivos) => { 
 		state.arquivos = arquivos.map(arquivo => {
 			arquivo.id = parseInt(arquivo.id)
-			arquivo.id_etapa = parseInt(arquivo.id_etapa)
-			arquivo.id_projeto = parseInt(arquivo.id_projeto)
-			arquivo.id_subetapa = parseInt(arquivo.id_subetapa)
+			arquivo.idEtapa = parseInt(arquivo.idEtapa)
+			arquivo.idProjeto = parseInt(arquivo.idProjeto)
+			arquivo.idSubEtapa = parseInt(arquivo.idSubEtapa)
 			arquivo.posicao = parseInt(arquivo.posicao)
-			arquivo.id_extensao = parseInt(arquivo.id_extensao)
+			arquivo.idExtensao = parseInt(arquivo.idExtensao)
 			return arquivo
 		})
 	},

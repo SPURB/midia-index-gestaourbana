@@ -94,7 +94,7 @@ export default {
 	},
 	computed: {
 		etapasFiltradas () {
-			const ids = this.arquivos.map(arquivo => arquivo.id_etapa)
+			const ids = this.arquivos.map(arquivo => arquivo.idEtapa)
 			const uniqueids = [...new Set(ids)]
 			return uniqueids.map(id => this.etapas.find(etapa => etapa.id === id))
 		},

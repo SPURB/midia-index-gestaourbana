@@ -78,7 +78,7 @@ export default {
 		},
 		idExtensao () { 
 			if(this.idArquivo){
-				return this.arquivos.find(arquivo => arquivo.id === this.idArquivo).id_extensao 
+				return this.arquivos.find(arquivo => arquivo.id === this.idArquivo).idExtensao
 			}
 			else { return 0 }
 		},

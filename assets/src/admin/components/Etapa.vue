@@ -36,7 +36,7 @@
 						class="tablerow" 
 						:key="index">
 						<td>{{ displayData(arquivo.atualizacao) }}</td>
-						<td>{{ displaySubetapa(arquivo.id_subetapa) }}</td>
+						<td>{{ displaySubetapa(arquivo.idSubEtapa) }}</td>
 						<td><a 
 								@click="abreEditArquivoBox(arquivo)"
 								:id="arquivo.id"
@@ -120,7 +120,7 @@ export default {
 			get () {
 				return this.$store.state.arquivos.arquivos
 					.filter(arquivo => {
-						if(arquivo.id_etapa === this.idEtapa) return arquivo
+						if(arquivo.idEtapa === this.idEtapa) return arquivo
 					})
 					.sort((arquivoA, arquivoB) => arquivoA.posicao - arquivoB.posicao)
 			},
@@ -163,7 +163,7 @@ export default {
 			}
 		},
 		editBox(status) {
-			if (this.idEtapa === this.clickedArquivo.id_etapa) this.editarArquivo = status
+			if (this.idEtapa === this.clickedArquivo.idEtapa) this.editarArquivo = status
 			else this.editarArquivo = false
 		},
 		box (status) {
@@ -210,7 +210,7 @@ export default {
 			if(arquivo.itemNovo === true){
 				this.$store.dispatch('infoProjeto/getNovoArquivo', { idArquivo: arquivo.id })
 			}
-			this.$store.commit('etapas/SET_ETAPA', arquivo.id_etapa)
+			this.$store.commit('etapas/SET_ETAPA', arquivo.idEtapa)
 			this.$store.commit('ui/LUZ_TOGGLE')
 			this.$store.commit('arquivos/ABRE_EDIT_BOX', arquivo.id)
 		}

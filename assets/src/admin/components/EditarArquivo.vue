@@ -33,7 +33,7 @@
 							</div>
 							<div class="dropdown-selector">
 								<label for="SelecionarSubEtapas">Sub etapa</label>
-								<SelecionarSubEtapa :idArquivo="arquivoClicado.id" :idSubEtapa="arquivoClicado.id_subetapa"></SelecionarSubEtapa>
+								<SelecionarSubEtapa :idArquivo="arquivoClicado.id" :idSubEtapa="arquivoClicado.idSubEtapa"></SelecionarSubEtapa>
 							</div>
 						</td>
 					</tr>
