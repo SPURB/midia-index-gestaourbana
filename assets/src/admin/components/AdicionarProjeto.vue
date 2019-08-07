@@ -60,6 +60,8 @@ export default {
 			serverError: state => state.serverError
 		}),
 
+		...mapGetters(['dataFormatada']),
+
 		projetosFiltrados () {
 			return this.projetos.filter(projeto => projeto.nome.toLowerCase().indexOf(this.nomeProjeto.toLowerCase()) >= 0)
 		},
@@ -92,6 +94,7 @@ export default {
 				idEtapa: 0,
 				piu: 0,
 				ativo: 1,
+				atualizacao: this.dataFormatada,
 				wordpressUserId: this.uid
 			})
 		},

@@ -31,8 +31,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
-div.Modal {
+<style lang="scss" scoped>
+.Modal {
 	box-sizing: border-box;
 	position: fixed;
 	top: 50px;
@@ -48,7 +48,7 @@ div.Modal {
 
 	&.fechado { display: none; }
 
-	div.modal-cont {
+	.modal-cont {
 		display: flex;
 		flex-flow: row nowrap;
 		align-items: stretch;
@@ -68,7 +68,7 @@ div.Modal {
 			80% { transform: translateY(0); background-color: #FFF; }
 		}
 
-		div.modal-txt {
+		.modal-txt {
 			padding: 12px 16px;
 
 			h4 {
@@ -80,7 +80,7 @@ div.Modal {
 			}
 		}
 
-		div.modal-ok {
+		.modal-ok {
 			button {
 				width: 40px;
 				height: 100%;
@@ -92,9 +92,9 @@ div.Modal {
 		}
 	}
 
-	&.sucesso > div.modal-cont { border-top-color: #219653; h4 { color: #219653; } }
-	&.erro > div.modal-cont { border-top-color: #FE4C4C; h4 { color: #FE4C4C; } }
-	&.atencao > div.modal-cont { border-top-color: #FFCC00; h4 { color: #FFCC00; } }
+	&.sucesso >	.modal-cont { border-top-color: #219653; h4 { color: #219653; } }
+	&.erro >	.modal-cont { border-top-color: #FE4C4C; h4 { color: #FE4C4C; } }
+	&.atencao > .modal-cont { border-top-color: #FFCC00; h4 { color: #FFCC00; } }
 
 	&.componente {
 		align-items: center;
@@ -102,5 +102,6 @@ div.Modal {
 	}
 
 	&:active > div.modal-cont { background-color: #898989; }
+	&:hover { cursor: pointer }
 }
 </style>

@@ -61,7 +61,8 @@
 
 		<Modal class="sucesso" v-if="fetchSucceded" >
 			<template slot="header">Sucesso!</template>
-			<template slot="msg">Projeto atualizado com sucesso.</template>
+			<template slot="msg" v-if="noFiles">Projeto criado com sucesso.</template>
+			<template slot="msg" v-else>Projeto atualizado com sucesso.</template>
 		</Modal>
 
 		<AdicionarEtapa v-if="abreAdicionarEtapa" :projeto="projeto" :etapasExistentes="etapasFiltradasIds"></AdicionarEtapa>
@@ -133,6 +134,8 @@ export default {
 			}
 			else { return false }
 		},
+
+		noFiles () { return !this.arquivos.length },
 
 		errorProjeto (){ return this.serverError },
 

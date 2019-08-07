@@ -45,7 +45,7 @@ const actions = {
 		const output = {
 			nome: novoArquivo.nome,
 			idEtapa: state.clickedIdEtapa,
-			descricao: novoArquivo.descricao, 
+			descricao: novoArquivo.descricao,
 			autor: rootGetters.wordpress.userSettings.uid
 		}
 		apiAdmin.post('/arquivos', output)

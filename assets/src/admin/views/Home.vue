@@ -33,7 +33,7 @@
 				<td>
 					<div class="switchCont" @click="ATIVA_TOGGLER(projeto.id)">
 						<div :class="ocultoClass(projeto.ativo)">
-							<span v-if="projeto.ativo == 1">Disponível</span>
+							<span v-if="projeto.ativo === 1">Disponível</span>
 							<span v-else>Oculto</span>
 						</div>
 					</div>
