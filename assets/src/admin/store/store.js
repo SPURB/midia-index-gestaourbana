@@ -2,9 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import ui from './modulos/ui'
 import api from '../utils/api'
-
 import apiAdmin from '../utils/apiAdmin'
-
 import etapas from './modulos/etapas'
 import subetapas from './modulos/subetapas'
 import arquivos from './modulos/arquivos'
@@ -75,7 +73,7 @@ let store = new Vuex.Store({
 				}
 			})
 		},
-		SET_ERROR: (state, error) => { state.serverError = error.response.data },
+		SET_ERROR: (state, error) => { state.serverError = error },
 		RESET_ERROR: state => { state.serverError = false },
 		SET_FECHING_STATUS: (state, status) => { state.fetching = status },
 		RESET_PROJETOS: (state) => { 
@@ -100,15 +98,13 @@ let store = new Vuex.Store({
 		SET_PROJETOS: (state, response) => {
 			state.projetos = response.data.map(index => {
 				index.id = parseInt(index.id)
-				if(index.ativo === null){
+				if(index.ativo === null || index.ativo === 'null' || index.ativo === 'NULL'){
 					index.ativo = 0
 				}
 				index.ativo = parseInt(index.ativo)
-
 				index.idEtapa = parseInt(index.idEtapa)
 				index.wordpressUserId = parseInt(index.wordpressUserId)
 				index.piu = parseInt(index.piu)
-
 				index.alterado = false
 				return index
 			})
@@ -140,15 +136,11 @@ let store = new Vuex.Store({
 		fetchProjetos: ({ dispatch, state, commit }) => {
 			commit('SET_FECHING_STATUS', true)
 			api.get('projetos')
-				.then(response => commit('SET_PROJETOS', response))
-				.catch(error => { 
-					commit('SET_ERROR', error) 
-					api.get('projetos')
-					.then(res => res)
-					.catch(err => err)
-				})
-				.then(() => commit('SET_FECHING_STATUS', false))
-				.finally (() => dispatch('wordpress/getNames'))
+				.then(response => {commit('SET_PROJETOS', response)})
+				.catch(error => commit('SET_ERROR', error))
+				.then(() => dispatch('wordpress/getNames'))
+				.finally (() => commit('SET_FECHING_STATUS', false))
+
 		},
 		fetchInfoProjeto: ( state, id ) => {
 			if(parseInt(id)) {
@@ -168,14 +160,14 @@ let store = new Vuex.Store({
 			)
 		},
 		putProjeto: ( { dispatch, state, commit } ) => {
-			commit('SET_FECHING_STATUS', false)
 			apiAdmin.put('/projetos/' + state.projeto.id, { nome: state.projeto.nome })
 				.then(response => {
+					commit('SET_FECHING_STATUS', true)
 					dispatch('etapas/putEtapas')
 					commit('SET_PROJETO', response)
 				})
 				.catch(error => commit('SET_ERROR', error))
-				.then(() => commit('SET_FECHING_STATUS', false))
+				.finally (() => commit('SET_FECHING_STATUS', false))
 		}
 	}
 })

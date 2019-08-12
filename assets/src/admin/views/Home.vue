@@ -7,7 +7,7 @@
 		</section>
 		<section class="buscaprojeto">
 			<input type="text" placeholder="Pesquisar..." v-model="busca">
-			<button @click="abreNovoProjeto()">+ Adicionar projeto</button>
+			<button @click="ABRE_NOVO_PROJETO">+ Adicionar projeto</button>
 		</section>
 		<table>
 			<thead>
@@ -42,36 +42,42 @@
 		</table>
 		<AdicionarProjeto v-if="abreAddProjetoBox"></AdicionarProjeto>
 		<section class="SalvarCancelar">
-			<SalvarCancelar 
-				:tipo="'cancelar'"
+			<BtnCancelar
 				:texto="'Cancelar'"
+				:fetching='fetching'
 				:disabledState="!projetosAlterados"
-				:commitName="'RESET_PROJETOS'">
-			</SalvarCancelar>
-			<SalvarCancelar 
-				:tipo="'salvar'"
+				v-on:btn-action="cancelar"
+			></BtnCancelar>
+
+			<BtnSalvar
 				:texto="'Salvar disponibilidade de arquivos'"
+				:fetching='fetching'
 				:disabledState="!projetosAlterados"
-				:action="{
-					name: 'statusProjetos/put',
-					toChange: idsProjetosAlterados
-				}">
-			</SalvarCancelar>
+				v-on:btn-action="salvar"
+			></BtnSalvar>
+			<!-- 
+				name: 'statusProjetos/put',
+				toChange: idsProjetosAlterados 
+			-->
 		</section>
 	</div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 import AdicionarProjeto from '../components/AdicionarProjeto.vue'
-import SalvarCancelar from '../components/SalvarCancelar.vue'
+// import SalvarCancelar from '../components/SalvarCancelar.vue'
+import BtnSalvar from '../components/BtnSalvar.vue'
+import BtnCancelar from '../components/BtnCancelar.vue'
 import trataSlug from '../mixins/trataSlug'
 
 export default {
 	name: 'Home',
 	components: {
 		AdicionarProjeto,
-		SalvarCancelar
+		// SalvarCancelar,
+		BtnSalvar,
+		BtnCancelar
 	},
 	mixins:[ trataSlug ],
 	data(){
@@ -115,6 +121,14 @@ export default {
 	},
 
 	methods:{
+		...mapActions('statusProjetos',['put']),
+
+		...mapMutations(['RESET_PROJETOS']),
+
+		salvar(action) { this.put(this.idsProjetosAlterados)},
+
+		cancelar(action){this.RESET_PROJETOS()},
+
 		wpUsername(id) {
 			const user = this.names.find(name => name.id === id)
 			if (this.names && id && user)  {
@@ -142,7 +156,7 @@ export default {
 		ATIVA_TOGGLER(incomeId) { 
 			this.$store.commit('ATIVA_TOGGLER', incomeId) 
 		},
-		abreNovoProjeto() {
+		ABRE_NOVO_PROJETO() {
 			this.$store.commit('ui/ABRE_PROJETO_BOX')
 			this.$store.commit('ui/LUZ_TOGGLE')
 		}

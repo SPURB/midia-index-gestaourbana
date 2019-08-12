@@ -12,7 +12,7 @@
 
 export default {
 	name: "SalvarCancelar",
-	props:{ 
+	props:{
 		tipo:{
 			required: true,
 			type: String, 
@@ -64,7 +64,7 @@ export default {
 					'putProjeto' 
 				].indexOf(valido) !== -1
 			},
-			toChange:{ 
+			toChange:{
 				required: true
 			}
 		},
@@ -128,7 +128,7 @@ export default {
 		&:hover { opacity: 0.85 }
 		&.disabled {
 			background-color: grey;
-			opacity: .4;
+			opacity: 0.4;
 			-moz-user-select: none;
 			user-select: none;
 			cursor: not-allowed;

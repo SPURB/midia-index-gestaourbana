@@ -1,0 +1,29 @@
+.btn {
+	width: 100%;
+	a {
+		text-decoration: none;
+		margin: 0;
+		font-family: inherit;
+		font-size: large;
+		border: 0;
+		padding: 20px 32px;
+		border-radius: 2px;
+		cursor: pointer;
+		color: #FFF;
+		box-shadow: inset 0 -2px 2px rgba(0, 0, 0, .24);
+		position: relative;
+		overflow: hidden;
+		transition: opacity ease-in-out .2s;
+		// &.cancelar { float: left; background-color: #FE4C4C; }
+		// &.salvar { float: right; background-color: #219653; }
+		&:hover { opacity: 0.85 }
+		&.disabled {
+			background-color: grey;
+			opacity: .4;
+			-moz-user-select: none;
+			user-select: none;
+			cursor: not-allowed;
+			pointer-events: none;
+		}
+	}
+}
