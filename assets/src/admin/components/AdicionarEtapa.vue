@@ -21,7 +21,8 @@
 					</fieldset>
 				</form>
 				<p class="mensagem-erro" v-if="message">{{ message }}</p>
-				<p class="mensagem-erro" v-if="serverError">{{ serverError }}</p>
+				<p class="mensagem-erro" v-else-if="etapasError">{{ etapasError }}</p>
+				<!-- <p v-else>Sucesso</p> -->
 				<ul class="lista">
 					<li class="lista--item" v-for="(etapa, index) in etapasFiltradas" :key="index">
 						<button :class="addBotaoClass(etapa.id)" @click="seleciona(etapa)">{{ etapa.nome }}</button>
@@ -33,10 +34,10 @@
 					class="cancelar"
 					@click="fechar"
 					>Cancelar</button>
-				<button 
+				<button
 					:disabled="disabled"
 					class="adicionar"
-					@click="criar">Adicionar</button>
+					@click="cria">Criar etapa</button>
 			</div>
 		</div>
 	</div>
@@ -67,10 +68,11 @@ export default {
 	},
 	computed: {
 		...mapState('etapas', {
-			error: state => state.error,
-			serverError: state => state.error,
-			etapas: state => state.etapas
+			etapasError: state => state.error,
+			etapas: state => state.etapas,
+			etapasFetching: state => state.fetching
 		}),
+
 		etapasFiltradas () {
 			return this.etapas.filter(etapa =>etapa.nome.toLowerCase().indexOf(this.novaEtapaInput.toLowerCase()) >= 0)
 		},
@@ -111,35 +113,25 @@ export default {
 			this.DISPLAY(false)
 			this.LUZ_TOGGLE()
 		},
-		criar() {
+		cria () {
 			this.postNovaEtapa({
 				idProjeto: this.projeto.id,
 				nome: this.novaEtapaInput
 			})
 		},
 		seleciona (etapa) {
-			const found = this.etapasExistentes.find(etapaId => etapaId === etapa.id)
-
-			if (found){
-				console.log(etapa.id)
-			}
-			else {
-				console.log('create '+ etapa.id)
 				this.ADD_ARQUIVO({
 					atualizacao: this.dataFormatada,
-					fonte:"",
+					fonte:"Gestão Urbana",
 					id: 0,
-					id_etapa: etapa.id,
-					id_extensao:0,
-					id_projeto: this.projeto.id,
-					id_subetapa:0,
-					nome: "Novo Arquivo",
+					idEtapa: etapa.id,
+					idExtensao: 0,
+					idProjeto: this.projeto.id,
+					idSubetapa: 0,
+					nome: "Edite este novo Arquivo",
 					posicao: 1,
 				})
 				this.fechar()
-				// this.ABRE_BOX()
-				// this.SET_ID_ETAPA({idEtapa: etapa.id})
-			}
 		},
 		addBotaoClass(id) {
 			if(this.etapasExistentes.find(etapaId => etapaId === id)) return 'botao botao--existente'

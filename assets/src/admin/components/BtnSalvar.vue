@@ -25,8 +25,6 @@ export default {
 			type: Boolean,
 			deafault: true
 		},
-	},
-	methods:{
 	}
 }
 </script>

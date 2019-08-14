@@ -7,7 +7,8 @@ const state = {
 	urlsNovas:[{}],
 	urlsAlteradas:[],
 	response: false,
-	error: false
+	error: false,
+	// updatedUrl: '',
 }
 
 const getters = {
@@ -96,7 +97,11 @@ const mutations = {
 	RESET_ALL: (state) => { 
 		state.urlsNovas = [{}] 
 		state.urlsAlteradas = [] 
-	}
+	},
+	// UPDATE_URL: (state, updatedUrl) => {
+	// 	console.log(updatedUrl)
+	// 	state.updatedUrl = updatedUrl
+	// }
 }
 
 export default {

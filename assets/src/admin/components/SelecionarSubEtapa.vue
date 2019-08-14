@@ -21,7 +21,7 @@ export default {
 		...mapState('subetapas', {
 			subetapas: state => state.subetapas
 		}),
-		estaSubEtapa: { 
+		estaSubEtapa: {
 			get() { return this.subetapas.find(subetapa => subetapa.id === this.idSubEtapa) },
 			set(subetapa) {
 				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO', {

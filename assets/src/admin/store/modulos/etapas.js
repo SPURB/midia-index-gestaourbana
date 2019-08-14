@@ -1,12 +1,17 @@
 import api from '../../utils/api'
+import apiAdmin from '../../utils/apiAdmin'
+
 const state = { 
 	etapas: [],
-	idEtapa: undefined, // será definido quando criar a etapa
-	error: false,
 	addEtapaBox: false,
 	response: false,
 	etapaNomeMutated: false,
+
 	etapasAlteradas: [],
+
+	idEtapa: false, // será definido quando criar a etapa
+	error: false,
+	fetching: false,
 
 	serverResponse: false
 }
@@ -34,7 +39,7 @@ const actions = {
 		commit('SET_FECHING_STATUS', true,  { root: true })
 		rootState.projeto.etapas.forEach( index => {
 			if(index.updated) {
-				api.put('/etapas/' + index.id, { 
+				apiAdmin.put('/etapas/' + index.id, { 
 					nome: index.nome
 				})
 					.then(response => {
@@ -58,7 +63,7 @@ const actions = {
 		
 		console.log(output)
 
-		api.post('/etapas', output)
+		apiAdmin.post('/etapas', output)
 			.then(response => {
 				commit('SET_ETAPA', response.data )
 				commit('ui/LUZ_TOGGLE', null, { root: true })
@@ -67,7 +72,7 @@ const actions = {
 			.catch(error => commit('SET_ERROR', error))
 			.finally(() =>commit('SET_FECHING_STATUS', false, { root: true }))
 	},
-	getNovaEtapa:({ state, commit, getters, rootState }, idNovaEtapa) => {
+	getNovaEtapa:({ state, commit, getters }, idNovaEtapa) => {
 		commit('SET_FECHING_STATUS', true, { root: true })
 		api.get('/etapas/'+idNovaEtapa)
 			.then(response => {
@@ -75,7 +80,6 @@ const actions = {
 				novaEtapa.id = parseInt(novaEtapa.id)
 				novaEtapa.idProjeto = parseInt(novaEtapa.idProjeto)
 				novaEtapa.arquivos = []
-				// commit('UPDATE_ETAPAS', novaEtapa, { root: true })
 			})
 			.catch(error => commit('SET_ERROR', error))
 			.finally(() => commit('SET_FECHING_STATUS', false, { root: true }))

@@ -10,29 +10,33 @@ const state = {
 	error: false,
 	errors: [],
 	clickedIdEtapa: undefined,
-	clieckedArquivoId: undefined,
+	clickedArquivoId: undefined,
 	updates: [],
+	update: {}
 	// create: []
 }
 
 const getters = {
 	arquivoClicado: (state) => {
-		if(state.clieckedArquivoId) {
-			return state.arquivos.find(arquivo => parseInt(arquivo.id) === state.clieckedArquivoId)
-		}
-		else return undefined
+		return state.arquivos.find(arquivo => arquivo.id === state.clickedArquivoId)
 	}
 }
 
 const actions = {
+	updateArquivo: ({state, commit}, arquivo) => {
+		console.log(arquivo)
+	},
 	getArquivos: ({ state, commit, getters, rootState }) => {
 		commit('FETCH_STATUS', true)
 		commit('RESET_ARQUIVOS')
 		api.get(`/arquivos/?idProjeto=${rootState.projeto.id}`)
 			.then(res => {
-				commit('SET_ARQUIVOS', res.data)
+				if (res.status === 200) commit('SET_ARQUIVOS', res.data)
 			})
-			.catch(error => commit('SET_ERROR', error))
+			.catch(error => { 
+				console.error(error)
+				commit('SET_ERROR', error)
+			})
 			.finally(() => commit('FETCH_STATUS', false))
 	},
 
@@ -95,14 +99,14 @@ const mutations = {
 
 	ABRE_EDIT_BOX: (state, id) => {
 		state.editBox = !state.editBox
-		state.clieckedArquivoId = id
+		state.clickedArquivoId = id
 	},
 	ABRE_BOX:(state) => { state.box = !state.box },
 	SET_RESPONSE: (state, resposeNovoIdEtapa) => { state.response = resposeNovoIdEtapa.postResponse },
 	SET_ERROR: (state, response) => { state.error = response },
 	SET_ID_ETAPA: (state, id) => { state.clickedIdEtapa = id.idEtapa },
 	RESET_RESPONSE: (state) => { state.response = false },
-	SET_ARQUIVOS: (state, arquivos) => { 
+	SET_ARQUIVOS: (state, arquivos) => {
 		state.arquivos = arquivos.map(arquivo => {
 			arquivo.id = parseInt(arquivo.id)
 			arquivo.idEtapa = parseInt(arquivo.idEtapa)
@@ -114,16 +118,17 @@ const mutations = {
 		})
 	},
 	RESET_ARQUIVOS: (state) => state.arquivos = [],
-	FETCH_STATUS: (state, isFetching) => state.fetching = !state.fetching,
-	UPDATE_ARQUIVO_CLICADO: (state, arquivos) => {
-		console.log(arquivos)
+	FETCH_STATUS: (state) => state.fetching = !state.fetching,
+	UPDATE_ARQUIVO_CLICADO: (state, arquivo) => {
+		console.log(arquivo)
+		state.update = arquivo
 	},
 	ADD_ARQUIVO: (state, arquivo) => {
 		state.arquivos.push(arquivo)
 	},
 	LIST_UPDATES: (state, updates) => {
 		if (updates.length) updates.forEach(update => state.updates.push(update))
-		state.updates = [...new Set(state.updates)] 
+		state.updates = [...new Set(state.updates)]
 	}
 }
 

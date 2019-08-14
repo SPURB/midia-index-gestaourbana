@@ -57,7 +57,7 @@
 			></BtnSalvar>
 			<!-- 
 				name: 'statusProjetos/put',
-				toChange: idsProjetosAlterados 
+				toChange: idsProjetosAlterados
 			-->
 		</section>
 	</div>

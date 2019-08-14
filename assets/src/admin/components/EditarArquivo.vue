@@ -16,13 +16,17 @@
 								ref="nome"
 								id="nome"
 								name="Nome público"
-								v-model="arquivoClicado.nome"
+								v-model='nome'
+								:placeholder="arquivoClicado.nome"
 								v-validate="'required|max:330'">
 								<span v-if="!errors.has('Nome público')">{{nomeCharNumber}}/330</span>
 								<ErroSpan v-if="errors.has('Nome público')">{{ errors.first('Nome público') }}</ErroSpan>
 						</td>
 					</tr>
-					<URL :idArquivo="arquivoClicado.id" :idEtapa="idEtapa"></URL>
+					<!-- <URL :idArquivo="arquivoClicado.id" :idEtapa="idEtapa"></URL> -->
+					<URL :idArquivo="arquivoClicado.id" :idEtapa="idEtapa" v-on:url="salvarUrl"></URL>
+
+									<!-- v-on:btn-action="salvar" -->
 
 					<tr>
 						<td></td>
@@ -33,7 +37,7 @@
 							</div>
 							<div class="dropdown-selector">
 								<label for="SelecionarSubEtapas">Sub etapa</label>
-								<SelecionarSubEtapa :idArquivo="arquivoClicado.id" :idSubEtapa="arquivoClicado.idSubEtapa"></SelecionarSubEtapa>
+								<SelecionarSubEtapa :idArquivo="arquivoClicado.id" :idSubEtapa="getSubEtapaId(arquivoClicado.idSubEtapa)"></SelecionarSubEtapa>
 							</div>
 						</td>
 					</tr>
@@ -68,7 +72,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import ErroSpan from '../components/ErroSpan.vue'
 import URL from '../components/URL.vue'
 import SalvarCancelar from '../components/SalvarCancelar.vue'
@@ -79,6 +83,15 @@ import { ptBr, validator } from '../mixins/formValidation'
 
 export default {
 	name: 'EditarArquivo',
+	data() {
+		return {
+			nome: '',
+			url:'',
+			etapa: 0,
+			subetapa: 0,
+			fonte: ''
+		}
+	},
 	props:{
 		idEtapa: {
 			type: Number,
@@ -98,8 +111,11 @@ export default {
 		...mapState('arquivos', {
 			arquivos: state => state.arquivos,
 			fetchError: state => state.fetchError,
-			fechaBox: state => state.editBox,
-			clieckedArquivoId: state => state.clieckedArquivoId
+			fechaBox: state => state.editBox
+		}),
+
+		...mapGetters('arquivos', {
+			arquivoClicado: 'arquivoClicado'
 		}),
 
 		enabled() {
@@ -108,20 +124,28 @@ export default {
 			return formHaveErrors + formTouched > 0 // true + false  1 -> true 
 		},
 
-		arquivoClicado: {
-			get(){
-				return this.arquivos.find(arquivo => arquivo.id === this.clieckedArquivoId)
-			},
-			set(arquivo) {
-				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO', arquivo)
-			}
-		},
+		// arquivoClicado: {
+		// 	get(){
+		// 		return this.$store.getters['arquivos/arquivoClicado']
+		// 	},
+		// 	set(arquivo) {
+		// 		console.log(arquivo)
+		// 		this.$store.dispatch('arquivos/UPDATE_ARQUIVO_CLICADO', arquivo)
+		// 	}
+		// },
 		nomeCharNumber() {return this.arquivoClicado.nome.length }
 		
 	},
 	watch:{
 		fetchError(status){ status ? console.log('errrou') : null },
-	}
+	},
+	methods: {
+		salvarUrl(s) { console.log((s)) },
+		getSubEtapaId (id) { return id ? id : 0 }
+	},
+	// created () {
+	// 	this.nome = this.arquivoClicado.nome
+	// }
 }
 </script>
 

@@ -1,7 +1,7 @@
-// import api from '../../utils/api'
 import apiAdmin from '../../utils/apiAdmin'
 const state = { 
 	response: undefined,
+	// success: ,
 	error: false
 }
 
@@ -21,7 +21,8 @@ const actions = {
 
 		apiAdmin.put('/projetos', output)
 			.then(response => {
-				commit('SET_ETAPA', response.data )
+				// console.log(`Sucesso! Atualizados ${response.config.data}`)
+				commit('SET_ETAPA', response.data)
 				commit('RESET_PROJETOS_AFTER_UPDATE', false, { root: true })
 			})
 			.catch(error => commit('SET_PROJETOS_ERROR', error))
@@ -31,7 +32,8 @@ const actions = {
 
 const mutations = {
 	SET_ETAPA: (state, response) => { state.response = response },
-	SET_PROJETOS_ERROR: state => { state.error = !state.error }
+	SET_PROJETOS_ERROR: state => { state.error = !state.error },
+	// SET_PROJETOS_SUCCESS_MESSAGE: (state, message) => state.success = message
 }
 
 export default {

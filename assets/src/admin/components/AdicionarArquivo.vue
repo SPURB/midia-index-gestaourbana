@@ -109,7 +109,7 @@ export default {
 
 		arquivoClicado: {
 			get(){
-				return this.arquivos.find(arquivo => arquivo.id === this.clieckedArquivoId)
+				return this.arquivos.find(arquivo => arquivo.id === this.clickedArquivoId)
 			},
 			set(arquivo) {
 				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO', arquivo)

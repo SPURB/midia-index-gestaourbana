@@ -70,7 +70,7 @@ export default {
 				else return 'Inclua a url do arquivo'
 			},
 			set (url) {
-				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO',{
+				this.$store.commit('arquivos/UPDATE_ARQUIVO_CLICADO', {
 					url: url,
 					idArquivo: this.idArquivo
 				})

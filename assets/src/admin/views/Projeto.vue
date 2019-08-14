@@ -1,6 +1,6 @@
 <template>
 	<div class="Projeto">
-		<h1>Arquivos GU</h1>
+		<h1>Indexador de arquivos do Gestão Urbana | {{ projetoNome }}</h1>
 		<section class="cabecalho">
 			<p>A partir desta tela, você consegue acessar e editar as informações dos arquivos de cada projeto.</p>
 			<p>Cada linha corresponde a um arquivo com formatos variados (PDF, DOC, KMZ...).</p>
@@ -32,18 +32,20 @@
 		</section>
 
 		<section class="acoes">
-			<SalvarCancelar
-				:tipo="'cancelar'"
+			<BtnCancelar
 				:texto="'Cancelar'"
+				:fetching='fetching'
 				:disabledState="false"
-				:commitName="'RESET_PROJETO'">
-			</SalvarCancelar>
-			<SalvarCancelar
-				:tipo="'salvar'"
+				@btn-action="cancelar"
+			></BtnCancelar>
+
+			<BtnSalvar
 				:texto="'Salvar'"
+				:fetching='fetching'
 				:disabledState="statusBotao"
-				:action="action">
-			</SalvarCancelar>
+				@btn-action="putProjeto"
+			></BtnSalvar>
+			
 		</section>
 
 		<Modal class="erro" v-if='errorEtapas'>
@@ -52,7 +54,7 @@
 		</Modal>
 		<Modal class="erro" v-if="errorProjeto" >
 			<template slot="header">Erro ao alterar projeto!</template>
-			<template slot="msg">{{ errorProjeto.response.data }}</template>
+			<template slot="msg">{{ errorProjeto }}</template>
 		</Modal>
 		<Modal class="erro" v-if="errorArquivos > 0" >
 			<template slot="header">Erro ao alterar ordenação de arquivos!</template>
@@ -61,8 +63,7 @@
 
 		<Modal class="sucesso" v-if="fetchSucceded" >
 			<template slot="header">Sucesso!</template>
-			<template slot="msg" v-if="noFiles">Projeto criado com sucesso.</template>
-			<template slot="msg" v-else>Projeto atualizado com sucesso.</template>
+			<template slot="msg">Projeto atualizado com sucesso.</template>
 		</Modal>
 
 		<AdicionarEtapa v-if="abreAdicionarEtapa" :projeto="projeto" :etapasExistentes="etapasFiltradasIds"></AdicionarEtapa>
@@ -70,12 +71,13 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import { ptBr, validator } from '../mixins/formValidation'
 import Etapa from '../components/Etapa.vue'
 import AdicionarEtapa from '../components/AdicionarEtapa.vue'
 import Modal from '../components/Modal.vue'
-import SalvarCancelar from '../components/SalvarCancelar.vue'
+import BtnCancelar from '../components/BtnCancelar.vue'
+import BtnSalvar from '../components/BtnSalvar.vue'
 import ErroSpan from '../components/ErroSpan.vue'
 import trataSlug from '../mixins/trataSlug'
 
@@ -85,13 +87,17 @@ export default {
 	data() {
 		return {
 			busca: '', 
-			action: {
-				name: 'putProjeto',
-				toChange: {}
-			}, 
 			statusBotao: true,
 			fetchError: false,
 		}
+	},
+	components: {
+		Etapa,
+		AdicionarEtapa,
+		Modal,
+		BtnCancelar,
+		BtnSalvar,
+		ErroSpan
 	},
 	computed: {
 		etapasFiltradas () {
@@ -103,6 +109,7 @@ export default {
 		etapasFiltradasIds() { return this.etapasFiltradas.map(etapa => etapa.id) },
 
 		...mapState({
+			fetching: state => state.fetching,
 			projeto: state => state.projeto,
 			serverResponse: state => state.serverResponse,
 			serverError: state => state.serverError
@@ -123,25 +130,22 @@ export default {
 			arquivos: state => state.arquivos
 		}),
 
-		fetchSucceded(){
-			if(	this.serverResponse !== false &&
-				this.serverError === false ){
+		fetchSucceded (){
+			if (this.serverResponse && !this.serverError){
 				return true
 			}
-			else if( this.errorEtapasMessage !== false &&
-			 		 this.errorEtapas === false){
+			else if (this.errorEtapasMessage && !this.errorEtapas){
 				return true
 			}
 			else { return false }
 		},
 
-		noFiles () { return !this.arquivos.length },
-
+		noFiles () { !this.arquivos.length },
 		errorProjeto (){ return this.serverError },
 
 		projetoNome: {
-			get(){ return this.$store.state.projeto.nome },
-			set(value) { this.$store.commit('UPDATE_PROJETO_NOME',  value )}
+			get(){ return this.projeto.nome },
+			set(value) { this.UPDATE_PROJETO_NOME(value) }
 		},
 
 		untouchedNome(){
@@ -152,7 +156,7 @@ export default {
 		},
 	},
 	watch: {
-		projeto(projetoIsSet) {
+		projeto (projetoIsSet) {
 			if (projetoIsSet) {
 				this.getArquivos()
 			}
@@ -167,24 +171,19 @@ export default {
 			if (value !== undefined && value){ this.$store.dispatch('arquivos/fetchNovoArquivo', { id: value }) }
 		}
 	},
-	components: {
-		Etapa,
-		AdicionarEtapa,
-		Modal,
-		SalvarCancelar,
-		ErroSpan
-	},
 	created () {
 		this.getEtapas()
 		this.setTiposDeArquivos()
 		this.getSubEtapas()
 	},
 	methods: {
-		insereEtapa() {
-			this.$store.commit('etapas/DISPLAY', true)
-			this.$store.commit('ui/LUZ_TOGGLE')
-		},
-
+		...mapMutations([
+			'RESET_PROJETOS',
+			'UPDATE_PROJETO_NOME'
+		]),
+		...mapMutations('ui', ['LUZ_TOGGLE']),
+		...mapMutations('etapas', ['DISPLAY']),
+		...mapActions(['putProjeto']),
 		...mapActions('etapas', [
 			'getEtapas',
 			'getNovaEtapa'
@@ -193,14 +192,23 @@ export default {
 		...mapActions('subetapas', [
 			'getSubEtapas'
 		]),
-
 		...mapActions('arquivos', [
 			'getArquivos'
 		]),
-
 		...mapActions('urls', [
 			'setTiposDeArquivos'
-		])
+		]),
+
+		insereEtapa() {
+			this.DISPLAY(true)
+			this.LUZ_TOGGLE()
+		},
+
+		cancelar(){
+			this.RESET_PROJETOS()
+			this.$router.push({ path:'/' })
+		},
+
 	},
 }
 </script>

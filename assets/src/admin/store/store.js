@@ -126,7 +126,8 @@ let store = new Vuex.Store({
 			state.arquivoClicado = etapas[indexEtapas].arquivos[indexArquivos]
 		},
 		UPDATE_PROJETO_NOME: (state, projetoAlterado ) => {  state.projeto.nome = projetoAlterado },
-		UPDATE_ARQUIVOS: (state, arquivo) => { 
+		UPDATE_ARQUIVOS: (state, arquivo) => {
+
 			const index = state.projeto.etapas.findIndex(i => i.id === arquivo.idEtapa )
 			arquivo.itemNovo = true
 			state.projeto.etapas[index].arquivos.push(arquivo)
@@ -163,11 +164,13 @@ let store = new Vuex.Store({
 			apiAdmin.put('/projetos/' + state.projeto.id, { nome: state.projeto.nome })
 				.then(response => {
 					commit('SET_FECHING_STATUS', true)
-					dispatch('etapas/putEtapas')
 					commit('SET_PROJETO', response)
 				})
-				.catch(error => commit('SET_ERROR', error))
-				.finally (() => commit('SET_FECHING_STATUS', false))
+				.catch(error => {
+					commit('SET_ERROR', error) })
+				.finally (() => {
+					commit('SET_FECHING_STATUS', false)
+				})
 		}
 	}
 })
